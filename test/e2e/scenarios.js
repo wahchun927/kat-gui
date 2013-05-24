@@ -29,7 +29,7 @@ describe('ViTech provided tests for index loaded partials', function() {
       expect(browser().location().url()).toBe("/quests");
       //You can select all the text from all h5 or any other html element
       expect(element('#myCarousel .ng-scope:nth-child(1) .ng-binding').text()).
-        toMatch("Incorrect Title");//"The Spy Who Coded"
+        toMatch("The Spy Who Coded");//"The Spy Who Coded"
       if (pauseAll) pause();
   });
 

@@ -1,5 +1,4 @@
-'use strict';
-
+/*
 describe('play_game_simulator tests', function() {
   var pauseAll = true;
   //You can load the runner with runner.html?pauseAll=true to see each page after each test.
@@ -124,6 +123,6 @@ it('Should find the ajax-loaded items from InterfacesController.', function() {
   });
 
 });
- 
+*/
 
 
