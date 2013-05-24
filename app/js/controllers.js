@@ -138,19 +138,34 @@ function PathController($scope,$resource,$cookieStore,$location){
 		{ 
 			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
 				alert("level "+$scope.path_progress.details[i].pathorder);
-				$scope.create_prac($scope.path_progress.details[i].id,num);
+				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
 			}
 		}
 	};
 	
-	$scope.create_prac = function(level,numProblems){
+	$scope.create_prac = function(level,numProblems,lvlnum){
+		for (var i=0;i<$scope.path_progress.details.length;i++)
+		{ 
+			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+				$scope.nextLvlNum = $scope.path_progress.details[i].pathorder;
+				break;
+			}
+		}
+		
+		if(lvlnum<=$scope.nextLvlNum)
+		{
 		$cookieStore.put("name", level);
 		$cookieStore.put("num", numProblems);
 		$cookieStore.put("type", "practiceGame");
 		window.location.href = "normal_play_page.html";
-	}
+		}
+		else{
+			alert("Please clear previous level problems to unlock level!");
+		}
+	};
 	
+
 	$scope.firstLoad=function(paid){
 		$cookieStore.put("pid", paid);
 		$location.path("practice");
