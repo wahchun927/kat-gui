@@ -690,7 +690,7 @@ function GameController($scope,$resource,$cookieStore,$location){
         //initialization: 
         $scope.autoCheck="yes"; //make autocheck available when page load
         $scope.notCompile = 'false'; //hide not compile warning before the game loaded
-        $scope.advancedCheck = "false";
+        $scope.advancedCheck = "no";
         if($cookieStore.get("name")){
           $scope.qid = $cookieStore.get("name").id; //retrieve quest id from Storyboard page
         }
