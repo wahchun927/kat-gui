@@ -30,7 +30,7 @@
                     </h6></p>                                                     
                     <div align="right" ng-controller="PlayerController">                          
 				  <a ng-show="player.nickname" class="btn btn-primary" href="#quests">Gotta try a Quest!</a>
-                  <a ng-show="!player.nickname" class="btn btn-primary" type="button" href="#loginAlert" data-toggle="modal">Gotta try a Quest!</a>
+                  <a ng-show="!player.nickname" class="btn btn-primary" type="button" data-target="#loginAlert" data-toggle="modal">Gotta try a Quest!</a>
 					</div>                          
                   </div>                         
                 </div>                      
@@ -62,13 +62,13 @@
             <div id = "mediumComment" class = "tabbable">                      
               <ul id="myTab" class="nav nav-tabs">                        
                 <li class="active">
-                <a href="#home" data-toggle="tab">Tony, Singapore</a>
+                <a data-target="#home" data-toggle="tab">Tony, Singapore</a>
                 </li>                        
                 <li>
-                <a href="#profile" data-toggle="tab">Dravid, Singapore</a>
+                <a data-target="#profile" data-toggle="tab">Dravid, Singapore</a>
                 </li>                        
                 <li>
-                <a href="#messages" data-toggle="tab">Dave, Singapore</a>
+                <a data-target="#messages" data-toggle="tab">Dave, Singapore</a>
                 </li>                      
               </ul>                      
               <div class="tab-content" style="font-family:verdana">                        
