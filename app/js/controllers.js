@@ -133,6 +133,17 @@ function PathController($scope,$resource,$cookieStore,$location){
 		});	
 	};
 	
+	$scope.continuePath = function(num){
+		for (var i=0;i<$scope.path_progress.details.length;i++)
+		{ 
+			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+				alert("level "+$scope.path_progress.details[i].pathorder);
+				$scope.create_prac($scope.path_progress.details[i].id,num);
+				break;
+			}
+		}
+	};
+	
 	$scope.create_prac = function(level,numProblems){
 		$cookieStore.put("name", level);
 		$cookieStore.put("num", numProblems);
