@@ -1,4 +1,4 @@
-
+/*
 describe('Chris-provided controller tests', function() {
   var pauseAll = true;
   //You can load the runner with runner.html?pauseAll=true to see each page after each test.
@@ -17,7 +17,7 @@ describe('Chris-provided controller tests', function() {
   });
 
 
-/*
+
   it('Should find the ajax-loaded items from InterfacesController.', function() {
     //browser().navigateTo('../../app/controllertest.html');
     //you can also just select by DIV order in the page but this can easily break.
@@ -93,8 +93,8 @@ describe('Chris-provided controller tests', function() {
     
     if (pauseAll) pause();
   });
-*/
+
 });
 
-
+*/
 
