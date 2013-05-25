@@ -936,7 +936,7 @@ function GameController($scope,$resource,$cookieStore,$location){
           //alert("permutation="+$scope.permutation);
           //Update the solution with the permutations of lines.
           $scope.permutation = "";
-          $scope.permutated_lines = "";
+          $scope.permutation_lines = "";
 
           for (var i = 0; i < $scope.source.length; i++) {
             //alert(parseInt($scope.permutation[i]));
@@ -1000,6 +1000,9 @@ function GameController($scope,$resource,$cookieStore,$location){
                 //}
               }
             }
+          }
+          else {
+            alert("please select one game mode to play the game!");
           }
         };
 
