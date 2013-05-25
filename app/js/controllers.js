@@ -235,6 +235,17 @@ function ProblemController($scope,$resource){
         //$scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID});
         $scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID, "details":1});
     };
+
+    $scope.get_contributed_problems = function(){
+        $scope.ContributedProblemsModel = $resource('/jsonapi/contributed_problems');
+          
+          $scope.ContributedProblemsModel.query({}, function(response){
+            $scope.contributed_problems = response;
+            //alert("There are "+$scope.contributed_problems.length+" contributed problems being under review.")
+          });
+    }
+
+
 }
 
 
