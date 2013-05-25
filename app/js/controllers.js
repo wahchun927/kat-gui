@@ -958,32 +958,7 @@ function GameController($scope,$resource,$cookieStore,$location){
           var autocheck = $scope.autoCheck;
           var advancedcheck = $scope.advancedCheck;
 
-          if(autocheck=="yes" && advancedcheck == "no"){
-              if(nonErrorResult){
-                $scope.notCompile = 'false';
-                $scope.solution_check_result = nonErrorResult;
-                $scope.ner = nonErrorResult;
-                
-                //If the solution passes, then call verify for the solution to progress in the game. 
-                if(nonErrorResult.solved){
-                  //$scope.check_solution_for_game();
-                  $('#pop_info_Pane').modal('show');
-                  $scope.source = [];
-                  //if($scope.solvedProblems == $scope.game.numProblems){
-                    //document.getElementById("endVideo").style.visibility="visible";
-                    //$('#endVideo').trigger('click');
-                  //}
-                }
-                else{
-                  $('#pop_info_Pane2').modal('show');
-                }
-              }
-              else{
-                $scope.notCompile = 'true';
-              }
-          }
-          else if(advancedcheck == "yes"){
-            $scope.notCompile = 'false';
+          if(autocheck=="yes"){
             if(nonErrorResult){
               $scope.notCompile = 'false';
               $scope.solution_check_result = nonErrorResult;
@@ -991,19 +966,23 @@ function GameController($scope,$resource,$cookieStore,$location){
               
               //If the solution passes, then call verify for the solution to progress in the game. 
               if(nonErrorResult.solved){
-                //$('#pop_info_Pane').modal('show');
-                $scope.check_solution_for_game();
+                //$scope.check_solution_for_game();
+                $('#pop_info_Pane').modal('show');
                 $scope.source = [];
                 //if($scope.solvedProblems == $scope.game.numProblems){
                   //document.getElementById("endVideo").style.visibility="visible";
                   //$('#endVideo').trigger('click');
                 //}
               }
+              else{
+                $('#pop_info_Pane2').modal('show');
+              }
+            }
+            else{
+              $scope.notCompile = 'true';
             }
           }
-          else {
-            alert("please select one game mode to play the game!");
-          }
+          
         };
 
         $scope.goStoryBoard = function(){
