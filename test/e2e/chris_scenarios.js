@@ -1,52 +1,24 @@
 /*
-describe('play_game_simulator tests', function() {
-  var pauseAll = true;
-  //You can load the runner with runner.html?pauseAll=true to see each page after each test.
-  pauseAll = window.location.search.replace( "?pauseAll=", "" );
-  
-  //You can reload a page before every test if desired.
-  //This can slow testing down but make test much more consistent.
-  //beforeEach(function() {
-  //  browser().navigateTo('../../app/controllertest.html');
-  //});
-
-  it('Should --Under construction --', function() {
-    browser().navigateTo('../../app/client/play_game_simulator.html');
-    
-    //You can select by any element and then a name/value pair on that element. 
-    //expect(element('li[name="questcount"]').text()).
-    //    toMatch("Started Quests: 2");
-
-    //expect(element('li[name="currentquest"]').text()).
-    //    toMatch("Current Quest: ");
-
-    if (pauseAll) pause();
-  });
-});
-
 describe('Chris-provided controller tests', function() {
   var pauseAll = true;
   //You can load the runner with runner.html?pauseAll=true to see each page after each test.
   pauseAll = window.location.search.replace( "?pauseAll=", "" );
-  
-  //You can reload a page before every test if desired.
-  //This can slow testing down but make test much more consistent.
-  //beforeEach(function() {
-  //  browser().navigateTo('../../app/controllertest.html');
-  //});
-
-  
+ 
   it('Should find the ajax-loaded items from PlayerController.', function() {
-    //You don't have to reload the page unless you need to reset the values
-    //browser().navigateTo('../../app/controllertest.html');
-    //you can also just select by DIV order in the page but this can easily break.
-    //expect(element(':nth-child(4) .ng-binding').text()).
-    //    toMatch("Player nickname: Ruijun");
+    browser().navigateTo('../../app/client/contribution.html');
+  
+    expect(element('span').text()).
+        toMatch("Ruijun");
 
-    if (pauseAll) pause();
+    element('.ng-binding:nth-child(1) input').click();
+    element('input[value="verify example solution with public and private tests"]').click();
+    element('input[value="Accept contribution"]').click();
+        
   });
 
-it('Should find the ajax-loaded items from InterfacesController.', function() {
+
+
+  it('Should find the ajax-loaded items from InterfacesController.', function() {
     //browser().navigateTo('../../app/controllertest.html');
     //you can also just select by DIV order in the page but this can easily break.
     expect(element('p').text()).
@@ -123,6 +95,6 @@ it('Should find the ajax-loaded items from InterfacesController.', function() {
   });
 
 });
-*/
 
+*/
 
