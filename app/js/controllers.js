@@ -913,10 +913,13 @@ function GameController($scope,$resource,$cookieStore,$location){
         //This will result in the game proceeding. 
 
         $scope.check_permutation = function() {
-          //$scope.permutation
-          //$scope.tests
-          //alert("permutation="+$scope.permutation);
-          //Update the solution with the permutations of lines.
+          $scope.permutation = "";
+          $scope.permutation_lines = "";
+          for (var i = 0; i < $scope.source.length; i++) {
+            //alert(parseInt($scope.permutation[i]));
+            $scope.permutation += $scope.source[parseInt(i)].id.toString();
+          }
+
           $scope.permutation_lines = "";
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.permutation.length; i++) {
