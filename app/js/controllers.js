@@ -716,7 +716,6 @@ function GameController($scope,$resource,$cookieStore,$location){
         //initialization: 
         $scope.autoCheck="yes"; //make autocheck available when page load
         $scope.notCompile = 'false'; //hide not compile warning before the game loaded
-        $scope.advancedCheck = "no";
         if($cookieStore.get("name")){
           $scope.qid = $cookieStore.get("name").id; //retrieve quest id from Storyboard page
         }
@@ -863,6 +862,7 @@ function GameController($scope,$resource,$cookieStore,$location){
           if ($scope.remaining_problems.length>1){
             $scope.skip_problem_count += 1;
             $scope.move_to_next_unsolved_problem();
+            $scope.assign_id();
           }
           if($scope.source.length != 0){
             $scope.source = [];
@@ -885,8 +885,8 @@ function GameController($scope,$resource,$cookieStore,$location){
               if($scope.solution_check_result.last_solved){
                 //If you hardcode to the game, this will automatically advance the game to the next problem. 
                 $scope.fetch($scope.game.gameID);
-                $scope.assign_id();
                 $scope.update_quest();
+                $scope.assign_id();
               }
           });
         };
@@ -902,13 +902,6 @@ function GameController($scope,$resource,$cookieStore,$location){
         //This will result in the game proceeding. 
 
         $scope.check_permutation = function() {
-          $scope.permutation = "";
-          $scope.permutation_lines = "";
-          for (var i = 0; i < $scope.source.length; i++) {
-            //alert(parseInt($scope.permutation[i]));
-            $scope.permutation += $scope.source[parseInt(i)].id.toString();
-          }
-
           $scope.permutation_lines = "";
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.permutation.length; i++) {
@@ -965,7 +958,6 @@ function GameController($scope,$resource,$cookieStore,$location){
           
           var nonErrorResult = $scope.game.problems.problems[$scope.current_problem_index].nonErrorResults[$scope.permutation];
           var autocheck = $scope.autoCheck;
-          var advancedcheck = $scope.advancedCheck;
 
           if(autocheck=="yes"){
             if(nonErrorResult){
