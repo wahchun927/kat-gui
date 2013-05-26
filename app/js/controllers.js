@@ -919,14 +919,20 @@ function GameController($scope,$resource,$cookieStore,$location){
           
           var nonErrorResult = $scope.game.problems.problems[$scope.current_problem_index].nonErrorResults[$scope.permutation];
           if(nonErrorResult){
-        
+            $scope.notCompile = 'false';
             $scope.solution_check_result = nonErrorResult;
             $scope.ner = nonErrorResult;
             //If the solution passes, then call verify for the solution to progress in the game. 
             if(nonErrorResult.solved){
-              $scope.check_solution_for_game();
-              //alert("All solved. Checking solution for game."+nonErrorResult.solved);
+              $('#pop_info_Pane').modal('show');
+              $scope.source = [];
             }
+            else{
+              $('#pop_info_Pane2').modal('show');
+            }
+          }
+          else{
+            $scope.notCompile = 'true';
           }
         };
 
