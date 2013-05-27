@@ -235,6 +235,17 @@ function ProblemController($scope,$resource){
         //$scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID});
         $scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID, "details":1});
     };
+
+    $scope.get_contributed_problems = function(){
+        $scope.ContributedProblemsModel = $resource('/jsonapi/contributed_problems');
+          
+          $scope.ContributedProblemsModel.query({}, function(response){
+            $scope.contributed_problems = response;
+            //alert("There are "+$scope.contributed_problems.length+" contributed problems being under review.")
+          });
+    }
+
+
 }
 
 
@@ -309,7 +320,7 @@ function NormalGameController($scope,$resource,$cookieStore){
           $scope.NewQuestGame.get({'questID':questID}, function(response){
               $scope.game = response;
               $scope.fetch($scope.game.gameID);
-              $scope.update_remaining_problems();
+              //$scope.update_remaining_problems();
               $scope.update_quest();
               //alert("reply for create quest game in game model");
               //Update the parent game model by calling game fetch method. 
@@ -1305,8 +1316,9 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $scope.questID = $cookieStore.get("name").id;//retrieve quest id from Storyboard page
     }
     $scope.storyid = 14611860;
-    $scope.pathDes = 2473247;
-    $scope.difficulty = "easy";
+    $scope.difficulty = "Drag-n-Drop";
+    $scope.pathDes = 10030;
+
     //Create quest
     $scope.create_quest = function(storyID,pathID,difficulty){
 /*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);

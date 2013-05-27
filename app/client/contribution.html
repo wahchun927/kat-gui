@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
 <head>
-<title>Controller Usage Examples</title>
+<title>Contribution Page</title>
 
 <style type='text/css'>
  .ace-container {
@@ -12,10 +12,12 @@
 
 </head>
 
-<body>
-  <h3>This page will simulate all the different ways to start games.</h3>
+<body ng-controller="PlayerController">
+  <h3>On this page you can review the current SingPath problems and recommend new ones.</h3>
+  Current Player: <span ng-bind="player.nickname">***</span>
   Todo:
   <ul>
+    <li>Show contributed problems ready awaiting review <b>TBD</b></li>
     <li>Show contribution requests - <b>TBD</b></li>
     <li>Show path select for contribution - <b>TBD</b></li>
     <li>Show problemset select - <b>TBD</b></li>
@@ -30,6 +32,7 @@
     <li>Let players +1 the proposed problem. - <b>TBD</b> </li> 
     <li>Enable the admin to accept and copy the problem at proposed location- <b>TBD</b></li>
     <li>Show contributed problems pending approval inline with existing problems.</li>
+    <li>Show the current player's contribution badges. 
   </ul>
 
   <div ng-controller="PathController" ng-init="list();pathID=10030;get_player_progress();">
@@ -43,8 +46,8 @@
       
     </div>
 
-  <div ng-controller="ProblemsetController" ng-init="problemsetID=11021;" >
-      <input type="submit" value="Update Levels in Selector" ng-click="get_problemsets($parent.pathID);"><br>
+  <div ng-controller="ProblemsetController" ng-init="problemsetID=11021;get_problemsets($parent.pathID);" >
+      <input type="submit" value="List Levels for the selected Path" ng-click="get_problemsets($parent.pathID);"><br>
       <div ng-show="problemsets">
         Problemset <select ng-model="problemsetID" ng-options="item.id as item.name for item in problemsets.problemsets"></select>
 
@@ -52,16 +55,129 @@
 
       </div>
 
-      <div ng-controller="ProblemController">    
+      <div ng-controller="ProblemController" ng-init="problemsetID=$parent.problemsetID;get_problems();">    
           <input type="submit" value="list problems" ng-click="problemsetID=$parent.problemsetID;get_problems();">
           <br>
         
         Show problem descriptions 
         <input type="checkbox" ng-model="showdescription">
+        <br>
 
+        There are <span ng-bind="contributed_problems.length">0</span> Contributed Problems. Detail shown for problems from this level<br>
+            
+        <ol>
+          <li ng-repeat="problem in contributed_problems">
+            {{problem.name}} ProblemsetID ({{problem.problemsetID}}) <br>
+            <font color="green" ng-show="showdescription">{{problem.description}}</font>
+            
+            <!--<div ng-show="problem.problemsetID==$parent.problemsetID" ng-controller="NewProblemController">-->
+            
+            <div ng-controller="NewProblemController">
+              
+              <select ng-model="language" ng-options="item.language as item.urlName for item in supported_langugages"></select><br>
+              
+              <input name="newproblemname" type="text" size="40" ng-model="problem.name">Name<br>
+              <textarea ng-model="problem.description" rows="5" cols="80"></textarea>Description<br>
+              <input type="text" ng-model="problem.recommended_order">Recommended Order<br>
+              Examples<br>
+              <ace-editor ng-model="problem.examples"></ace-editor><br>
+              
+              Tests  <input type="submit" value="verify {{language}} code" ng-click="verify()">
+              <br>
+              <table>
+                <tr>
+                  <td>
+                    <ace-editor ng-model="problem.tests"></ace-editor><br>
+                  </td>
+                  <td>
+                    <div ng-show="result.errors">
+                      Errors: {{result.errors}}
+                    </div>
+                    Is Solved: <b>{{result.solved}}</b><br>
+                    <table border=1 bgcolor=#FFFFFF>
+                      <tr>   
+                          <th>Called</th>
+                          <th>Expected</th>
+                          <th>Recieved</th>
+                          <th>Correct</th>    
+                      </tr>
+                      <tr ng-repeat="line in result.results">
+                          <td>{{line.call}}</td>
+                          <td>{{line.expected}}</td>
+                          <td>{{line.received}}</td>
+                          <td ng-show="line.correct" bgcolor=#00FF00>{{line.correct}}</td>
+                          <td ng-show="!line.correct" bgcolor=#FF0000>{{line.correct}}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <!--<textarea ng-model="problem.tests" rows="5" cols="80"></textarea>-->
+              
+              Private Tests  <input type="submit" value="verify {{language}} code with private tests" ng-click="verify_private()">
+
+                <br>
+              <table>
+                <tr>
+                  <td>              
+                      <ace-editor ng-model="problem.privatetests"></ace-editor><br>
+                  </td>
+                  <td>
+                    <div ng-show="privateresult.errors">
+                      Errors: {{privateresult.errors}}
+                    </div>
+                    Is Solved: <b>{{privateresult.solved}}</b><br>
+                    <table border=1 bgcolor=#FFFFFF>
+                    <tr>   
+                      <th>Called</th>
+                      <th>Expected</th>
+                      <th>Recieved</th>
+                      <th>Correct</th>    
+                    </tr>
+                    <tr ng-repeat="line in privateresult.results">
+                      <td>{{line.call}}</td>
+                      <td>{{line.expected}}</td>
+                      <td>{{line.received}}</td>
+                      <td ng-show="line.correct" bgcolor=#00FF00>{{line.correct}}</td>
+                      <td ng-show="!line.correct" bgcolor=#FF0000>{{line.correct}}</td>      
+                  </tr>
+                </table>
+                  </td>
+                </tr>
+              </table>
+              
+              Skeleton Code<br>
+              <ace-editor ng-model="problem.skeleton"></ace-editor><br>
+              
+              Solution<br>
+              <ace-editor ng-model="problem.solution"></ace-editor><br>
+              
+              <br>
+              <input name="verifybutton" type="submit" value="verify example solution with public and private tests" ng-click="verify();verify_private();">
+
+              <div ng-show="privateresult.solved&&result.solved&&player.isAdmin">
+               <input type="submit" value="Accept contribution" ng-click="accept_contribution()">
+                
+              
+              </div>
+              <div ng-hide="privateresult.solved&&result.solved">
+               <b>Waiting for the admin to approve this problem.</b>
+              </div>
+              
+              <br>
+        
+            </div>
+          
+          </li>
+        </ol>
+
+        
+
+        <br>
+        <br>
         <ol>
           <li ng-repeat="problem in problems.problems">
-            {{problem.name}} ({{problem.id}}) <input type="submit" value="insert problem after this one" ng-click="problems.problems.splice($index+1, 0, {'name':'New awesome problem','description':'Explain the problem here.','newproblem':true,'recommended_order':$index+2});"><br>
+            {{problem.name}} ({{problem.id}}) <input type="submit" value="insert a new problem after this one" ng-click="problems.problems.splice($index+1, 0, {'name':'New awesome problem','description':'Explain the problem here.','newproblem':true,'recommended_order':$index+2});"><br>
             <font color="green" ng-show="showdescription">{{problem.description}}</font>
             
             <div ng-show="problem.newproblem" ng-controller="NewProblemController" ng-init="load_defaults(problem)">
@@ -107,6 +223,7 @@
               <!--<textarea ng-model="problem.tests" rows="5" cols="80"></textarea>-->
               
               Private Tests  <input type="submit" value="verify {{language}} code with private tests" ng-click="verify_private()">
+
                 <br>
               <table>
                 <tr>
@@ -144,7 +261,8 @@
               <ace-editor ng-model="problem.solution"></ace-editor><br>
               
               <br>
-            
+              <input type="submit" value="verify example solution with public and private tests" ng-click="verify();verify_private();">
+
               <div ng-show="privateresult.solved&&result.solved">
                <input type="submit" value="Submit problem" ng-click="submit_contribution()">
                Press submit to submit your problem for review. 
@@ -162,6 +280,16 @@
         </ol>
         <div ng-controller="ContributionController">
           These are currently the most needed problems. You get a contribution badge for contributing any of these problems.<br>
+          <hr>
+          Current contributed problems 
+          <ol>
+            <li ng-repeat="problem in contributed_problems">
+              {{problem.name}}, {{problem.description}}, {{problem}}
+            </li>
+          </ol>        
+          
+
+          <hr>
           Needed {{needed}}<br>
           <table>
             <tr>
@@ -179,51 +307,8 @@
       </div> <!-- problem -->
     </div> <!-- problemset -->
   <div><!-- path -->
-  <div ng-controller="PlayerController">
-   Player Controller
-   <ul>
-    <li>Player nickname: {{player.nickname}}</li>
-   </ul>
-  </div>
 
-
-  <div ng-controller="InterfaceController">
-   Interfaces Controller
-   <p>Interfaces Count = {{interfaces.interfaces.length}}</p>
-   Available Languages:
-    <ul>
-      <li ng-repeat="interface in interfaces.interfaces">
-          {{interface.name}}
-      </li>
-    </ul>
-  </div>
-
-  <div ng-controller="ProblemController" ng-init="problemsetID=11021;get_progress();get_problems();">
-    
-    Problems in problemset 11021 with progress ({{progress.currentPlayerProgress}}/{{progress.problemsInProblemset}})
-
-    <ol>
-      <li ng-repeat="problem in problems.problems">
-        {{problem.name}} ({{problem.id}}) <font color="green" ng-show="problem.solved">solved</font>
-      </li>
-    </ol>
-
-  </div>
-
-<!-- Nest the PathController DIV in the GameController DIV to lauch games -->
-
-  <div ng-controller="ProblemsetController" ng-init="get_problemsets(10030);">
-    Problemsets for path 10030: 
-    <ul>
-      <li ng-repeat="level in problemsets.problemsets">
-        {{level.name}} ({{level.id}}) <input type="submit" value="Play Game On Level" ng-click="create_problemset_game(level.id,3)">
-      </li>
-    </ul>
-    
-  </div>
-  
-
-<script src="../lib/angular/angular.min.js"></script>
+<script src="../lib/angular/angular.js"></script>
 <script src="../lib/angular/angular-resource.min.js"></script>
 <script src="../js/jquery.min.js"></script>
 <script src="ace.js" type="text/javascript" charset="utf-8"></script>

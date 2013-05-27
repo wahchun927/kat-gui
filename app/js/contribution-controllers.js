@@ -89,6 +89,22 @@ function NewProblemController($scope,$resource,$cookieStore){
                 });  
     };
 
+    $scope.accept_contribution = function(){
+          $scope.AcceptContribution = $resource('/jsonapi/accept_contribution');
+          
+          var data = {"name":$scope.problem.name,
+                      "problemsetID": $scope.problem.problemsetID};
+
+          var theContribution = new $scope.AcceptContribution(data);
+          
+          theContribution.$save(
+                function(response){
+                    $scope.contribution_result = response;
+                    $scope.$parent.get_contributed_problems();
+                    $scope.$parent.get_problems();
+                }); 
+    };
+
     $scope.submit_contribution = function(){
           
           $scope.status = "Submitting new problem.";
@@ -96,16 +112,13 @@ function NewProblemController($scope,$resource,$cookieStore){
           $scope.Contribution = $resource('/jsonapi/new_problem_contribution');
           
           var contribution = new $scope.Contribution($scope.problem);
-          $scope.contribution = contribution.$save(); 
-
-          /*
-          $scope.VerifierModel.get({'language':$scope.language,
-                                    'jsonrequest':jsonrequest},
-                function(response) { 
-                  $scope.privateresult = response;
-                   $scope.status = "Ready"
+          contribution.$save(
+                function(response){
+                    $scope.contribution = response;
+                    $scope.$parent.get_contributed_problems();
+                    $scope.$parent.get_problems();
                 }); 
-          */ 
+ 
     };
     
 }
@@ -116,7 +129,8 @@ function ContributionController($scope,$resource,$cookieStore){
     var new_need = {'language':'Python', 
                     'description':'More problems needed',
                     'pathID':10030,
-                    'problemsetID':11021}
+                    'problemsetID':11021,
+                    'level':1}
 
     $scope.needed.push(new_need);
     $scope.needed.push(new_need);
@@ -142,13 +156,15 @@ function ContributionController($scope,$resource,$cookieStore){
         $scope.$parent.get_problems();
     }
 
+
     $scope.get_needed_problems = function(gameID){
         $scope.NeededModel = $resource('/jsonapi/needed_problems');
           
           $scope.NeededModel.get({}, function(response){
             $scope.needed = response;
           });
-        };
+    }
+    
 
 		//$scope.get_needed_problems();
 }
