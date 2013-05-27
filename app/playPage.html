@@ -284,7 +284,7 @@
         <!-- /.container -->    
       </div>
 
-      <a id="video" class="fancybox fancybox.iframe" style="display:none" href="http://www.youtube.com/embed/LL-9dh31lO8?enablejsapi=1&wmode=opaque">1</a>
+      <a id="video" class="fancybox fancybox.iframe" style="display:none" href=""></a>
 
       <div ng-controller="GameController" id="dndGame">
         <table width=100%>
@@ -294,9 +294,9 @@
                       <h4>Current Question</h4> 
                     </div>  
                     <font face="verdana" size="3">
-                      Current Problem: {{current_problem_index+1}} | ID: {{game.problems.problems[current_problem_index].id}} | Name: {{game.problems.problems[current_problem_index].name}}<br>Description: {{game.problems.problems[current_problem_index].description}}
+                       Name: {{game.problems.problems[current_problem_index].name}}<br>
+                       Description: {{game.problems.problems[current_problem_index].description}}
                       <div class="pull-right">
-                      <a href="#" id="example" class="btn btn-info" rel="popover" data-content="{{game.problems.problems[current_problem_index].examples}}" data-original-title="Example for {{game.problems.problems[current_problem_index].name}}">see example</a>
                       </div>
                     </font>
                 </td>
@@ -309,9 +309,6 @@
                     </p>
                     <p>
                         <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;Skip&nbsp;&nbsp;</button>
-                    </p>
-                    <p>
-                        <button class="btn btn-primary" ng-click="check_permutation()">Submit</button>
                     </p>
                     <p>
                         <button class="btn btn-primary" ng-click="goStoryBoard()">StoryBoard</button>
@@ -330,7 +327,7 @@
                     <li class="tabspacing active">
                       <a href="#t1" data-toggle="tab">Solution</a>
                     </li>
-                    &nbsp;&nbsp;&nbsp;&nbsp;autocheck: {{autoCheck}}
+                    <button class="btn btn-primary pull-right" ng-click="check_permutation()" ng-hide="autoCheck">&nbsp;&nbsp;Run&nbsp;&nbsp;</button>
                   </ul>
                   <div  class="tab-content">
                     <div class="tab-pane fade in active" id="t1" style="height:320px;">
@@ -340,8 +337,9 @@
                                 <ol style="list-style: none;" id="single"
                                     dnd-between-list="line_outcome.origional,target"
                                     ng-class="{&#39;minimalList&#39;:modelEmpty()}" class="ui-sortable">
-                                      <li style="text-align: left; padding-left:5em" class="alert alert-info nomargin ng-scope ng-binding"
-                                        ng-repeat="line in line_outcome.origional">{{line.content}}</li>
+                                      <li style="text-align: left; padding-left:5em" class="alert alert-info nomargin ng-scope ng-binding" ng-repeat="line in line_outcome.origional">
+                                        {{line.content}}
+                                      </li>
                                 </ol>
                               </div>
                                   </td>
@@ -359,12 +357,11 @@
                       <a href="#t3" data-toggle="tab">Answer</a>
                     </li>
                     <div align="right">
-                    <form class="form-inline" style="align:right">
+                      <form class="form-inline" style="align:right">
                         <span class="label label-warning" ng-show="notCompile"><h6>Not Compilable, Please Try Again!</h6></span>&nbsp;&nbsp;
                         <label class="checkbox">
                         <input type="checkbox" ng-model="autoCheck" ng-true-value="yes" ng-false-value="no">Auto Check</label>&nbsp;
-                        <label class="checkbox">
-                        <input type="checkbox" ng-model="advancedCheck" ng-true-value="yes" ng-false-value="no">Auto Advance</label>&nbsp;</form>
+                      </form>
                     </div>
                   </ul>
                   <div  class="tab-content">
@@ -373,12 +370,11 @@
                           <div class="ng-scope" id="list2">
                             <ol style="list-style: none;" id="target" dnd-between-list="source,single"
                                 ng-class="{&#39;minimalList&#39;:sourceEmpty()}" class="ui-sortable">
-                                 <li style="text-align: center;" class="alert alert-info nomargin ng-scope ng-binding"
-                                        ng-repeat="line in source">{{line.content}}
+                                 <li style="text-align: left; padding-left:5em" class="alert alert-info nomargin ng-scope ng-binding" ng-repeat="line in source">
+                                   {{line.content}}
                                  </li>
                             </ol>
-                          </div>
-                            
+                          </div>         
                         </div>   
                     </div>
                   </div>

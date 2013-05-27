@@ -119,20 +119,6 @@ li{ list-style:none; }
 					</div>
 				</div>	
 			</div>
-			<div class="item">
-				<!-- Three columns of text below the carousel -->
-				<div class="container">
-					<div class="row" >
-						<div class="span4" ng-repeat="path in paths.paths | startFrom:6 | limitTo:3">
-							<label class="radio">
-								<input style="visibility:hidden" type="Submit" ng-click="update_path_progress(path.id)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-								<input class="well"type="image" ng-src="../assets/img/path-logo/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
-								<h6>{{path.name}}</h6>
-							</label>
-						</div>
-					</div>
-				</div>	
-			</div>
 		</div> 
 		<a class="left carousel-control" data-target="#myCarousel" data-slide="prev">&lsaquo;</a>
 		<a class="right carousel-control" data-target="#myCarousel" data-slide="next">&rsaquo;</a>
@@ -235,11 +221,11 @@ li{ list-style:none; }
 						</td></tr>
 						<tr><td>
 							</br>
-							<div align="center"><button class="btn btn-primary" ng-click="create_prac(lvl,5)"><h5>Continue Level {{lvlName}}</h5></button></div>
+							<div align="center"><button class="btn btn-primary" ng-click="create_prac(lvl,5,lvlName)"><h5>Continue Level {{lvlName}}</h5></button></div>
 						</td></tr>
 						<tr><td>
 							</br>
-							<div align="center"><button class="btn btn-primary"><h5>Resolve Level {{lvlName}}</h5></button></div>
+							<div align="center"><button class="btn btn-primary" ng-click="continuePath(5);"><h5>Resolve Level {{lvlName}}</h5></button></div>
 						</td></tr>
 					</table>
 				</div>
