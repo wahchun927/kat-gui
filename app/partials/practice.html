@@ -129,7 +129,6 @@ li{ list-style:none; }
 		<a class="right carousel-control" data-target="#myCarousel" data-slide="next">&rsaquo;</a>
 	</div>
 	<!-- /.carousel -->
-	test{{path_progress.details[0].id}}
 	<div class="container marketing" >
 		<!-- Three columns of text below the carousel -->
 		<div class="row-fluid">
@@ -140,12 +139,12 @@ li{ list-style:none; }
 					<div class = "tabbable">                      
 					  <ul id="myTab" class="nav nav-tabs">                        
 						<li id="path1" class="tabspacing active">
-						<a  data-target="#path" data-toggle="tab">Path</a>
+						<a  data-target="#path" data-toggle="tab">{{path_progress.path.name}} Path</a>
 						</li>                        
 						<li id="level1" class="tabspacing">
-						<a  data-target="#level" data-toggle="tab">Level</a>
+						<a  data-target="#level" data-toggle="tab">Level {{lvlName}}</a>
 						</li>                                          
-					  </ul>                      
+					  </ul>           					  
 					  <div class="tab-content" style="font-family:verdana">                        
 						<div class="tab-pane fade in active" id="path">
 							<div style="height:220px;overflow:auto">
