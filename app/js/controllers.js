@@ -1318,6 +1318,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     $scope.storyid = 14611860;
     $scope.difficulty = "Drag-n-Drop";
     $scope.pathDes = 10030;
+
     //Create quest
     $scope.create_quest = function(storyID,pathID,difficulty){
 /*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);
