@@ -320,7 +320,7 @@ function NormalGameController($scope,$resource,$cookieStore){
           $scope.NewQuestGame.get({'questID':questID}, function(response){
               $scope.game = response;
               $scope.fetch($scope.game.gameID);
-              $scope.update_remaining_problems();
+              //$scope.update_remaining_problems();
               $scope.update_quest();
               //alert("reply for create quest game in game model");
               //Update the parent game model by calling game fetch method. 
