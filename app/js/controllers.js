@@ -259,7 +259,17 @@ function ChallengeController($scope,$resource,$location){
 
         $scope.goToStory=function()
         {
+          $location.path("challengeCreator");
+
+        };
+        $scope.goToChallengeSummary=function()
+        {
           $location.path("challenges");
+
+        };
+        $scope.goToChallengeD=function()
+        {
+          $location.path("challengedetails");
 
         };
 }
