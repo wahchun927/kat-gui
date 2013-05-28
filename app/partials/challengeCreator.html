@@ -71,14 +71,14 @@
 
 </style>
 <br>
-<div class="container" id="largeProfile" style="position:relative;">
+<div class="container" id="largeProfile" style="position:relative;" >
     <div class="row-fluid">
         <div class="span12 well bs-docs-example" id="challengeDescription">
             <br>
             Either you can create a quest challenge, badge challenge or habit challenge to get the individual or group to get engaged in practicing programming languages or developing development skills. It can be either via invitation or open challenge.
         </div>
     </div>
-    <div class="row-fluid" ng-init="challenge='badgeChallenge'">
+    <div class="row-fluid" ng-init="challenge='badgeChallenge'" ng-controller="PlayerController">
         <div class="span6 well" >
             <div style="border-top: solid white; border-bottom: solid white;">
                 <h4 align="center">Challenge Details</h4>
@@ -300,10 +300,7 @@
                     
 
                 </table>
-        </div>
-
-        
-
+        </div>  
         <br>
         <br>
         <div class="span6 well" id="challengeDate">
@@ -323,13 +320,13 @@
 
                 </table>
         </div>
-        <div class="span6 well" id="finish">
+        <div class="span6 well" id="finish" ng-controller="ChallengeController">
             <div style="border-top: solid white; border-bottom: solid white;">
                 <h4 align="center">Finished</h4>
             </div> 
             <br>
             <p>Once you have selected the appropriate action to follow your challenge and who it is attended to reach please hit the submit button to make it live attract those people</p>
-            <input type="button" class="btn btn-primary" value="Submit">
+            <input type="button" class="btn btn-primary" value="Submit" ng-click="goToChallengeSummary()">
         </div> 
 
     </div>
