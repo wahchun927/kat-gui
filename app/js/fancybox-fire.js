@@ -6,7 +6,7 @@ function onPlayerReady(event) {
 // Fires when the player's state changes.
 function onPlayerStateChange(event) {
     // Go to the next video after the current one is finished playing
-    if (event.data == 0 && ($('.fancybox').length == 1 || event.target.o.videoData.video_id == "LOCKED")) {
+    if ((event.data == 0 && $('.fancybox').length == 1) || event.target.o.videoData.video_id == "") {
         $.fancybox.close();
     }
 
