@@ -320,7 +320,7 @@ function NormalGameController($scope,$resource,$cookieStore){
           $scope.NewQuestGame.get({'questID':questID}, function(response){
               $scope.game = response;
               $scope.fetch($scope.game.gameID);
-              $scope.update_remaining_problems();
+              //$scope.update_remaining_problems();
               $scope.update_quest();
               //alert("reply for create quest game in game model");
               //Update the parent game model by calling game fetch method. 
@@ -794,9 +794,7 @@ function GameController($scope,$resource,$cookieStore,$location){
           $scope.NewQuestGame.get({'questID':questID}, function(response){
               $scope.game = response;
               $scope.fetch($scope.game.gameID);
-              $scope.update_remaining_problems();
               $scope.update_quest();
-              $scope.assign_id();
               //alert("reply for create quest game in game model");
               //Update the parent game model by calling game fetch method. 
           });
@@ -861,6 +859,7 @@ function GameController($scope,$resource,$cookieStore,$location){
             $scope.current_problem_index = $scope.game.problemIDs.indexOf($scope.current_problem);
             $scope.solution = $scope.game.problems.problems[$scope.current_problem_index].skeleton;
             $scope.solution_check_result = null;
+            $scope.assign_id();
           }else{
             $scope.current_problem=null;
             $scope.current_problem_index = null;
@@ -870,6 +869,7 @@ function GameController($scope,$resource,$cookieStore,$location){
         }
 
         $scope.skip_problem = function(){
+          $scope.notCompile = 'false';
           if ($scope.remaining_problems.length>1){
             $scope.skip_problem_count += 1;
             $scope.move_to_next_unsolved_problem();
@@ -897,7 +897,6 @@ function GameController($scope,$resource,$cookieStore,$location){
                 //If you hardcode to the game, this will automatically advance the game to the next problem. 
                 $scope.fetch($scope.game.gameID);
                 $scope.update_quest();
-                $scope.assign_id();
               }
           });
         };
@@ -1316,8 +1315,9 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $scope.questID = $cookieStore.get("name").id;//retrieve quest id from Storyboard page
     }
     $scope.storyid = 14611860;
-    $scope.pathDes = 2473247;
-    $scope.difficulty = "easy";
+    $scope.difficulty = "Drag-n-Drop";
+    $scope.pathDes = 10030;
+
     //Create quest
     $scope.create_quest = function(storyID,pathID,difficulty){
 /*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);
