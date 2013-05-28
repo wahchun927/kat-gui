@@ -11,6 +11,7 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
 	$routeProvider.when('/challengedetails', {templateUrl: 'partials/challengedetails.html', controller: IndexController});
 	$routeProvider.when('/ranking', {templateUrl: 'partials/ranking.html', controller: IndexController});
 	$routeProvider.when('/registration', {templateUrl: 'partials/registration.html', controller: IndexController});
+    $routeProvider.when('/challengeCreator', {templateUrl: 'partials/challengeCreator.html', controller: IndexController});
     $routeProvider.otherwise({redirectTo: '/home'});
 }]);
 
