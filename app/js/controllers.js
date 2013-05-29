@@ -272,6 +272,11 @@ function ChallengeController($scope,$resource,$location){
           $location.path("challengedetails");
 
         };
+        $scope.goToRegistration=function()
+        {
+          $location.path("registration");
+
+        };
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
