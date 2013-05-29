@@ -259,7 +259,17 @@ function ChallengeController($scope,$resource,$location){
 
         $scope.goToStory=function()
         {
+          $location.path("challengeCreator");
+
+        };
+        $scope.goToChallengeSummary=function()
+        {
           $location.path("challenges");
+
+        };
+        $scope.goToChallengeD=function()
+        {
+          $location.path("challengedetails");
 
         };
 }
@@ -932,6 +942,7 @@ function GameController($scope,$resource,$cookieStore,$location){
             if(nonErrorResult.solved){
               $('#pop_info_Pane').modal('show');
               $scope.source = [];
+              $scope.check_solution_for_game();
             }
             else{
               $('#pop_info_Pane2').modal('show');
@@ -980,6 +991,7 @@ function GameController($scope,$resource,$cookieStore,$location){
                 //$scope.check_solution_for_game();
                 $('#pop_info_Pane').modal('show');
                 $scope.source = [];
+                $scope.check_solution_for_game();
                 //if($scope.solvedProblems == $scope.game.numProblems){
                   //document.getElementById("endVideo").style.visibility="visible";
                   //$('#endVideo').trigger('click');
