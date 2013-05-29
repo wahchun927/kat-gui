@@ -55,8 +55,9 @@
     th.qc1, td.qc1{width:25%;}
     th.qc2, td.qc2{width:10%;}
     th.qc3, td.qc3{width:25%;}
-    th.qc4, td.qc4{width:20%;}
-    th.qc5, td.qc5{width:20%;}
+    th.qc4, td.qc4{width:15%;}
+    th.qc5, td.qc5{width:15%;}
+    th.qc6, td.qc6{width:10%;}
 
     th.q1, td.q1{width:15%;}
     th.q2, td.q2{width:10%;}
@@ -82,12 +83,8 @@
 <div class="container" id="largeProfile" style="position:relative;">
     <!-- Three columns of text below the carousel -->
     <div class="row-fluid">
-        <div class="span12">
-
-
-            
-            <!-- End of Profile Information and Create button -->
-            <div class="span12">
+        <div class="span12" ng-controller="QuestController">
+            <div class="span12" ng-controller="ChallengeController">
                 <br>
                 <br>
                 <!-- Tab for Quest,Path and Challenges-->
@@ -103,14 +100,11 @@
                   <div class="tab-content" id="top-content">
                     <div class="tab-pane" id="t1" ng-controller="QuestController">
                         <ul class="nav nav-tabs">
-                            <li class="tabspacing-inner active">
-                              <a data-target="#t11" data-toggle="tab">iChallenged</a>
+                            <li class="tabspacing active">
+                              <a data-target="#t11" data-toggle="tab">Accepted Challenges</a>
                             </li>
-                            <li class="tabspacing-inner">
-                              <a data-target="#t12" data-toggle="tab"> Quest Challenges (Inivitation) </a>
-                            </li>  
-                            <li class="tabspacing-inner">
-                              <a data-target="#t13" data-toggle="tab"> Open Challenges (normal) </a>
+                            <li class="tabspacing">
+                              <a data-target="#t12" data-toggle="tab"> Open Challenges</a>
                             </li> 
                         </ul>
                         <div class="tab-content well" id="inner-content">
@@ -179,6 +173,7 @@
                                                     <th class="qc3">Needed</th>
                                                     <th class="qc4">Start Date</th>
                                                     <th class="qc5">End Date</th>
+                                                    <th class="qc6">Register</th>
 
                                                 </tr>                                   
                                         </table> 
@@ -192,22 +187,59 @@
                                                                         <td class="qc2"><input type="image" ng-src="img/challenge/sg_on.png"/></td>
                                                                         <td class="qc3">"The Spy Who Coded"</td>
                                                                         <td class="qc4"> 2013/06/13</td>
-                                                                        <td class="qc5"> 2013/07/12</td>                       
+                                                                        <td class="qc5"> 2013/07/12</td>
+                                                                        <td class="qc6"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>                       
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="qc1">World Full of Fuss</td>
                                                                         <td class="qc2"><input type="image" ng-src="img/challenge/sg_on.png"/></td>
                                                                         <td class="qc3">"Mission without Vision"</td>
                                                                         <td class="qc4"> 2013/05/11</td>
-                                                                        <td class="qc5"> 2013/06/08</td>                       
+                                                                        <td class="qc5"> 2013/06/08</td>
+                                                                        <td class="qc6"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>
+
                                                                     </tr>  
                                                                     <tr>
                                                                         <td class="qc1">Hustle the Nestle!</td>
                                                                         <td class="qc2"><input type="image" ng-src="img/challenge/sg_on.png"/></td>
                                                                         <td class="qc3">"Mission without Vision"</td>
                                                                         <td class="qc4"> 2013/06/15</td>
-                                                                        <td class="qc5"> 2013/07/28</td>                       
-                                                                    </tr>       
+                                                                        <td class="qc5"> 2013/07/28</td> 
+                                                                        <td class="qc6"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>                      
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="qc1">You have to try it to get it!</td>
+                                                                        <td class="qc2"><input type="image" ng-src="img/challenge/sg_on.png"/></td>
+                                                                        <td class="qc3"><input type="image" ng-src="img/challenge/p007_on.png"/></td>
+                                                                        <td class="qc4"> 2013/05/22</td>
+                                                                        <td class="qc5"> 2013/06/12</td>
+                                                                        <td class="qc6"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>                       
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="qc1">Round without bound!</td>
+                                                                        <td class="qc2"><input type="image" ng-src="img/challenge/sg_on.png"/></td>
+                                                                        <td class="qc3"><input type="image" ng-src="img/challenge/p005_on.png"/><input type="image" ng-src="img/challenge/js001_on.png"/></td>
+                                                                        <td class="qc4"> 2013/06/09</td>
+                                                                        <td class="qc5"> 2013/07/08</td> 
+                                                                        <td class="qc6"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>                      
+                                                                    </tr>      
+                                                                    <tr>
+                                                                        <td class="qc1">Hail without toil</td>
+                                                                        <td class="qc2"><input type="image" ng-src="img/challenge/sg_on.png"/></td>
+                                                                        <td class="qc3"><input type="image" ng-src="img/challenge/j001_on.png"/></td>
+                                                                        <td class="qc4"> 2013/06/14</td>
+                                                                        <td class="qc5"> 2013/07/10</td> 
+                                                                        <td class="qc6"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>                      
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="qc1">Blow without Sound!</td>
+                                                                        <td class="qc2"><input type="image" ng-src="img/challenge/sg_on.png"/></td>
+                                                                        <td class="qc3"><input type="image" ng-src="img/challenge/a008_on.png"/></td>
+                                                                        <td class="qc4"> 2013/05/11</td>
+                                                                        <td class="qc5"> 2013/08/18</td>
+                                                                        <td class="qc6"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>
+
+                                                                    </tr>           
                                                             </table>
                                                     </div>
                                                 </div>
@@ -271,10 +303,10 @@
                     <div class="tab-pane active" id="t2" ng-controller="QuestController">
                         <ul class="nav nav-tabs">
                             <li class="tabspacing active">
-                              <a data-target="#t21" data-toggle="tab">Quest Challenges (shared) </a>
+                              <a data-target="#t21" data-toggle="tab">Challenges I've Made</a>
                             </li>
                             <li class="tabspacing">
-                              <a data-target="#t22" data-toggle="tab"> Open Challenges </a>
+                              <a data-target="#t22" data-toggle="tab">Challenges others Made</a>
                             </li>  
                         </ul>
                         <div class="tab-content well"  ng-controller="PlayerController">
