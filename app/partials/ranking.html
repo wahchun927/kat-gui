@@ -1,0 +1,249 @@
+</br>
+<style>
+    .table td, .table th {
+        border: none;
+		text-align:center;
+    }
+    .table tbody tr:hover td,
+    .table tbody tr:hover th {
+      background-color: #2E2E2E;
+    }
+    
+    
+    .fRight{
+        float:right;
+    }
+
+    .tabspacing{
+        width:16.666%;
+		text-align:center;
+    }
+	.innerTabspacing{
+		width:50%;
+		text-align:center;
+	}
+	.crTabspacing{
+		width:100%;
+		text-align:center;
+	}
+    tbody{
+        overflow:auto;  
+    }
+	
+	td {
+		text-align: center;
+		vertical-align: center;
+	}
+	
+    th.a1, td.a1{width:10%;}
+    th.a2, td.a2{width:30%;}
+    th.a3, td.a3{width:20%;}
+    th.a4, td.a4{width:20%;}
+	th.a5, td.a5{width:20%;}
+    
+
+    th.r1, td.r1{width:20%;}
+    th.r2, td.r2{width:10%;}
+    th.r3, td.r3{width:15%;}
+    th.r4, td.r4{width:15%;}
+    th.r5, td.r5{width:15%;}
+	th.r6, td.r6{width:25%;}
+	
+    th.u1, td.u1{width:20%;}
+    th.u2, td.u2{width:10%;}
+    th.u3, td.u3{width:15%;}
+    th.u4, td.u4{width:25%;}
+    th.u5, td.u5{width:15%;}
+	
+	th.cr1, td.cr1{width:10%;}
+    th.cr2, td.cr2{width:20%;}
+    th.cr3, td.cr3{width:70%;}
+	
+
+
+</style>
+
+
+<div class ="container">
+	<div class="row-fluid">
+		<div class="span12">
+		
+			<!-- Path Ranking-->
+			<div class="span8 well well-small" align="center">
+				<div class="tabbable well"> <!-- Only required for left/right tabs -->
+					<ul class="nav nav-tabs">
+						<li class="tabspacing active"><a data-target="#tab1" data-toggle="tab">All</a></li>
+						<li class="tabspacing"><a data-target="#tab2" data-toggle="tab">Java</a></li>
+						<li class="tabspacing"><a data-target="#tab3" data-toggle="tab">Python</a></li>
+						<li class="tabspacing"><a data-target="#tab4" data-toggle="tab">R</a></li>
+						<li class="tabspacing"><a data-target=="#tab5" data-toggle="tab">Ruby</a></li>
+						<li class="tabspacing"><a data-target="#tab6" data-toggle="tab">Javascript</a></li>
+					</ul>
+						  <div class="tab-content">
+							<!--All-->
+							<div class="tab-pane active" id="tab1">
+								<div class="tabbable well"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="innerTabspacing active"><a data-target="#tab1sg" data-toggle="tab">Singapore</a></li>
+										<li class="innerTabspacing"><a data-target="#tab1world" data-toggle="tab">World</a></li>								
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active" id="tab1sg">
+											<div style="overflow-x:hidden">
+												<table class="table table-condensed">
+													<tr style="border-top: solid white; border-bottom: solid white;">
+														<th class="a1">Rank</th>
+														<th class="a2">Agent</th>
+														<th class="a3">Location</th>
+														<th class="a4">Badge</th>
+														<th class="a5">Solved</th>
+													</tr>  
+												</table> 
+												<table class="table table-hover">
+													<tr>
+														<td class="a1">1</td>
+														<td class="a2">Jack in the box</td>
+														<td class="a3">Sg</td>
+														<th class="a4">Java9</th>
+														<td class="a5">256</td>
+													<tr>
+														<td class="a1">2</td>
+														<td class="a2">Jennifer</td>
+														<td class="a3">Sg</td>
+														<th class="a4">Ruby6</th>
+														<td class="a5">200</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+										
+										<div class="tab-pane" id="tab1world">
+											<div style="overflow-x:hidden">
+												<table class="table table-condensed">
+													<tr style="border-top: solid white; border-bottom: solid white;">
+														<th class="a1">Rank</th>
+														<th class="a2">Agent</th>
+														<th class="a3">Location</th>
+														<th class="a4">Badge</th>
+														<th class="a5">Solved</th>
+													</tr>  
+												</table> 
+												<table class="table table-hover">
+													<tr>
+														<td class="a1">1</td>
+														<td class="a2">Mick</td>
+														<td class="a3">USA</td>
+														<td class="a4">Java20</td>
+														<td class="a5">256</td>
+													<tr>
+														<td class="a1">2</td>
+														<td class="a2">Jennifer</td>
+														<td class="a3">Sg</td>
+														<td class="a4">Python19</td>
+														<td class="a5">200</td>
+													</tr>
+												</table>
+											</div>	
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+							 
+							<!--Java-->
+							<div class="tab-pane" id="tab2">
+								<div class="tabbable well"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="innerTabspacing active"><a data-target="#tab2" data-toggle="tab">Singapore</a></li>
+										<li class="innerTabspacing"><a data-target="#tab2" data-toggle="tab">World</a></li>								
+									</ul>
+								</div>
+							
+							</div>
+							
+							<!--Python-->
+							<div class="tab-pane" id="tab3">
+								<div class="tabbable well"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="innerTabspacing active"><a data-target="#tab3" data-toggle="tab">Singapore</a></li>
+										<li class="innerTabspacing"><a data-target="#tab3" data-toggle="tab">World</a></li>								
+									</ul>
+								</div>
+							</div>
+							
+							<!--R-->
+							<div class="tab-pane" id="tab4">
+								<div class="tabbable well"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="innerTabspacing active"><a data-target="#tab4" data-toggle="tab">Singapore</a></li>
+										<li class="innerTabspacing"><a data-target="#tab4" data-toggle="tab">World</a></li>								
+									</ul>
+								</div>
+							</div>
+							
+							<!--Ruby-->
+							<div class="tab-pane" id="tab5">
+								<div class="tabbable well"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="innerTabspacing active"><a data-target="#tab5" data-toggle="tab">Singapore</a></li>
+										<li class="innerTabspacing"><a data-target="#tab5" data-toggle="tab">World</a></li>								
+									</ul>
+								</div>
+							</div>
+							
+							<!--Javascript-->
+							<div class="tab-pane" id="tab6">
+								<div class="tabbable well"> <!-- Only required for left/right tabs -->
+									<ul class="nav nav-tabs">
+										<li class="innerTabspacing active"><a data-target="#tab6" data-toggle="tab">Singapore</a></li>
+										<li class="innerTabspacing"><a data-target="#tab6" data-toggle="tab">World</a></li>								
+									</ul>
+								</div>
+							</div>
+							
+						  </div>
+				</div>
+			</div>
+			
+			<!--Country Ranking-->
+			<div class="span4 well well-small" align="center">
+				<div class="tabbable well"> <!-- Only required for left/right tabs -->
+				  <ul class="nav nav-tabs">
+					<li class="crTabspacing active"><a data-target="#tab1" data-toggle="tab">Country Ranking</a></li>
+				  </ul>
+				  <div class="tab-content">
+					<div class="tab-pane active" id="tab1">
+						<div style="overflow-x:hidden">
+							<table class="table table-condensed">
+								<tr style="border-top: solid white; border-bottom: solid white;">
+									<th class="cr1">Rank</th>
+									<th class="cr2">Country</th>
+									<th class="cr3">Number of Users</th>						
+								</tr>  
+							</table> 
+							<table class="table table-hover">
+								<tr>
+									<td class="cr1">1</td>
+									<td class="cr2">Sg</td>
+									<td class="cr3">2604</td>
+									
+								<tr>
+									<td class="cr1">2</td>
+									<td class="cr2">USA</td>
+									<td class="cr3">2119</td>
+									
+								</tr>
+							</table>
+						</div>
+					</div>
+				  </div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+				
+<script>
+
+</script>
