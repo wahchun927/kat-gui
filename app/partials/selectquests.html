@@ -159,7 +159,7 @@ input:hover{
     <div class="row-fluid">
 		<div class="span12">
             <div class="span4 lead well well-small" align="center">
-				<div id="gradient1"><h4>#2. Select a Level</h4></div> 
+				<div id="gradient1"><h4>#2. Select Difficulty</h4></div> 
 				<hr>
 				<div style="height:220px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
 					<span ng-repeat="item in levels">
@@ -173,7 +173,7 @@ input:hover{
             </div>
 			    <!-- select path for non-drag n drop-game -->
 			<div class="span4 lead well well-small" align="center" ng-hide="difficulty=='Drag-n-Drop'">
-				<div><h4>#3. Select a Path</h4></div>	
+				<div><h4>#3. Select a Language</h4></div>	
 				<hr>
 				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
 					<div  ng-repeat="item in paths.paths"  id="paths">
@@ -186,7 +186,7 @@ input:hover{
 			</div>
 			    <!-- select path for drag n drop-game -->					
 			<div class="span4 lead well well-small" align="center" ng-show="difficulty=='Drag-n-Drop'">
-				<div><h4>#3. Select a Path</h4></div>	
+				<div><h4>#3. Select a Language</h4></div>	
 				<hr>
 				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
 					<div  ng-repeat="item in mobile_paths"  id="paths">
@@ -303,7 +303,7 @@ input:hover{
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="span4 lead well well-small" align="center">
-					<div id="gradient1"><h4>#2. Select a Level</h4></div> 
+					<div id="gradient1"><h4>#2. Select Difficulty</h4></div> 
 					<hr>
 					<div style="height:220px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
 						<span ng-repeat="item in levels">
@@ -317,7 +317,7 @@ input:hover{
 				</div>
 					<!-- select path for non-drag n drop-game -->
 				<div class="span6 lead well well-small" align="center" ng-hide="difficulty=='Drag-n-Drop'">
-					<div><h4>#3. Select a Path</h4></div>	
+					<div><h4>#3. Select a Language</h4></div>	
 					<hr>
 					<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
 						<div  ng-repeat="item in paths.paths"  id="paths">
@@ -330,7 +330,7 @@ input:hover{
 				</div>
 					<!-- select path for drag n drop-game -->					
 				<div class="span6 lead well well-small" align="center" ng-show="difficulty=='Drag-n-Drop'">
-					<div><h4>#3. Select a Path</h4></div>	
+					<div><h4>#3. Select a Language</h4></div>	
 					<hr>
 					<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
 						<div  ng-repeat="item in mobile_paths"  id="paths">
