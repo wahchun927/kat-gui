@@ -1041,7 +1041,6 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         //initialization: 
         $scope.autoCheck="yes"; //make autocheck available when page load
         $scope.notCompile = 'false'; //hide not compile warning before the game loaded
-        $scope.advancedCheck = "false";
         if($cookieStore.get("name")){
           $scope.qid = $cookieStore.get("name").id; //retrieve quest id from Storyboard page
         }
@@ -1092,6 +1091,37 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
           });
         };
 
+        $scope.create_path_game = function(pathID,numProblems){
+          $scope.CreateGameModel = $resource('/jsonapi/create_game/pathID/:pathID/numProblems/:numProblems');
+          //alert(pathID+" "+numProblems);
+          $scope.CreateGameModel.get({"pathID":pathID,"numProblems":numProblems}, function(response){
+            $scope.game = response;
+            $scope.update_remaining_problems();
+          });
+        };
+
+        $scope.create_quest_game = function(questID){
+          $scope.CreateGameModel = $resource('/jsonapi/create_quest_game/:questID');
+          //alert("Creating quest game for quest "+questID);
+
+          $scope.NewQuestGame = $resource('/jsonapi/create_quest_game/:questID');
+          $scope.NewQuestGame.get({'questID':questID}, function(response){
+              $scope.game = response;
+              $scope.fetch($scope.game.gameID);
+              $scope.update_quest();
+              //alert("reply for create quest game in game model");
+              //Update the parent game model by calling game fetch method. 
+          });
+          /*
+          $scope.CreateGameModel.get({}, function(response){
+
+            $scope.game = response;
+            //Fetch the game from game ID. 
+            $scope.fetch($scope.game.gameID);
+            $scope.update_remaining_problems();
+          });
+          */
+        };
 
         $scope.create_problemset_game = function(problemsetID,numProblems){
           $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
@@ -1143,6 +1173,7 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
             $scope.current_problem_index = $scope.game.problemIDs.indexOf($scope.current_problem);
             $scope.solution = $scope.game.problems.problems[$scope.current_problem_index].skeleton;
             $scope.solution_check_result = null;
+            $scope.assign_id();
           }else{
             $scope.current_problem=null;
             $scope.current_problem_index = null;
@@ -1152,9 +1183,11 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         }
 
         $scope.skip_problem = function(){
+          $scope.notCompile = 'false';
           if ($scope.remaining_problems.length>1){
             $scope.skip_problem_count += 1;
             $scope.move_to_next_unsolved_problem();
+            $scope.assign_id();
           }
           if($scope.source.length != 0){
             $scope.source = [];
@@ -1177,7 +1210,6 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
               if($scope.solution_check_result.last_solved){
                 //If you hardcode to the game, this will automatically advance the game to the next problem. 
                 $scope.fetch($scope.game.gameID);
-                $scope.assign_id();
                 $scope.update_quest();
               }
           });
@@ -1194,10 +1226,6 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         //This will result in the game proceeding. 
 
         $scope.check_permutation = function() {
-          //$scope.permutation
-          //$scope.tests
-          //alert("permutation="+$scope.permutation);
-          //Update the solution with the permutations of lines.
           $scope.permutation_lines = "";
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.permutation.length; i++) {
@@ -1211,14 +1239,21 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
           
           var nonErrorResult = $scope.game.problems.problems[$scope.current_problem_index].nonErrorResults[$scope.permutation];
           if(nonErrorResult){
-        
+            $scope.notCompile = 'false';
             $scope.solution_check_result = nonErrorResult;
             $scope.ner = nonErrorResult;
             //If the solution passes, then call verify for the solution to progress in the game. 
             if(nonErrorResult.solved){
+              $('#pop_info_Pane').modal('show');
+              $scope.source = [];
               $scope.check_solution_for_game();
-              //alert("All solved. Checking solution for game."+nonErrorResult.solved);
             }
+            else{
+              $('#pop_info_Pane2').modal('show');
+            }
+          }
+          else{
+            $scope.notCompile = 'true';
           }
         };
 
@@ -1228,7 +1263,7 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
           //alert("permutation="+$scope.permutation);
           //Update the solution with the permutations of lines.
           $scope.permutation = "";
-          $scope.permutated_lines = "";
+          $scope.permutation_lines = "";
 
           for (var i = 0; i < $scope.source.length; i++) {
             //alert(parseInt($scope.permutation[i]));
@@ -1248,34 +1283,8 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
           
           var nonErrorResult = $scope.game.problems.problems[$scope.current_problem_index].nonErrorResults[$scope.permutation];
           var autocheck = $scope.autoCheck;
-          var advancedcheck = $scope.advancedCheck;
 
           if(autocheck=="yes"){
-              if(nonErrorResult){
-                $scope.notCompile = 'false';
-                $scope.solution_check_result = nonErrorResult;
-                $scope.ner = nonErrorResult;
-                
-                //If the solution passes, then call verify for the solution to progress in the game. 
-                if(nonErrorResult.solved){
-                  //$scope.check_solution_for_game();
-                  $('#pop_info_Pane').modal('show');
-                  $scope.source = [];
-                  //if($scope.solvedProblems == $scope.game.numProblems){
-                    //document.getElementById("endVideo").style.visibility="visible";
-                    //$('#endVideo').trigger('click');
-                  //}
-                }
-                else{
-                  $('#pop_info_Pane2').modal('show');
-                }
-              }
-              else{
-                $scope.notCompile = 'true';
-              }
-          }
-          else if(autocheck=="no" && advancedcheck == "yes"){
-            $scope.notCompile = 'false';
             if(nonErrorResult){
               $scope.notCompile = 'false';
               $scope.solution_check_result = nonErrorResult;
@@ -1283,16 +1292,28 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
               
               //If the solution passes, then call verify for the solution to progress in the game. 
               if(nonErrorResult.solved){
-                //$('#pop_info_Pane').modal('show');
-                $scope.check_solution_for_game();
+                //$scope.check_solution_for_game();
+                $('#pop_info_Pane').modal('show');
                 $scope.source = [];
+                $scope.check_solution_for_game();
                 //if($scope.solvedProblems == $scope.game.numProblems){
                   //document.getElementById("endVideo").style.visibility="visible";
                   //$('#endVideo').trigger('click');
                 //}
               }
+              else{
+                $('#pop_info_Pane2').modal('show');
+              }
+            }
+            else{
+              $scope.notCompile = 'true';
             }
           }
+          
+        };
+
+        $scope.goStoryBoard = function(){
+          window.location = "index.html#/storyboard";
         };
         
         $scope.update_quest = function() {
@@ -1307,8 +1328,6 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         $scope.create_quest_game($scope.qid);
         //$scope.fetch(1798);
 }
-
-
 
 function JsonRecordController($scope,$resource){
         $scope.fetch = function(){
