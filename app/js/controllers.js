@@ -1532,6 +1532,16 @@ function StoryController($scope,$resource,$cookieStore,$location){
       $location.path("story");
 
     };
+	
+	$scope.addQuestColor=function(){
+    
+		$('#myCarousel input:image').click(function() {
+      $('#myCarousel input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+	
 }
 
 //Test story controller. Normally use GenericController
