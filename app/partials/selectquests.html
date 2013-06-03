@@ -106,7 +106,7 @@ input:hover{
 							
 								<div class="span4"  ng-repeat="story in stories | limitTo:3">
 									<label class="radio">
-									<input type="radio" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+									<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 									<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg"/>
 									
 									<br>
@@ -124,7 +124,7 @@ input:hover{
 							<div class="span4" ng-repeat="story in stories | startFrom:3 | limitTo:3">
 								<label class="radio">
 						
-								<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg">
 								<br>
 								<h4>{{story.name}}</h4S>
@@ -139,7 +139,7 @@ input:hover{
 				<div class="row">
 					<div class="span4" ng-repeat="story in stories | startFrom:6 | limitTo:3">
 						<label class="radio">
-						<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+						<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 						<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg">
 						<br>
 						<h4>{{story.name}}</h4>
@@ -172,26 +172,26 @@ input:hover{
 				</div>
             </div>
 			    <!-- select path for non-drag n drop-game -->
-			<div class="span4 lead well well-small" align="center" ng-hide="difficulty=='Drag-n-Drop'">
+			<div class="span4 lead well well-small" align="center" ng-hide="difficulty=='Drag-n-Drop'" id="paths">
 				<div><h4>#3. Select a Language</h4></div>	
 				<hr>
 				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-					<div  ng-repeat="item in paths.paths"  id="paths">
+					<div  ng-repeat="item in paths.paths" >
 						<label>
-							<input type="radio" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.id}}" id="path">
-							<input  on-click="changeborder()" class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
+							<input type="radio" ng-click="addColor()" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.id}}" id="path">
+							<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 						</label>		
 					</div>
 				</div>				
 			</div>
 			    <!-- select path for drag n drop-game -->					
-			<div class="span4 lead well well-small" align="center" ng-show="difficulty=='Drag-n-Drop'">
+			<div class="span4 lead well well-small" align="center" ng-show="difficulty=='Drag-n-Drop'" id="paths">
 				<div><h4>#3. Select a Language</h4></div>	
 				<hr>
 				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-					<div  ng-repeat="item in mobile_paths"  id="paths">
+					<div  ng-repeat="item in mobile_paths" >
 						<label>
-							<input type="radio" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.path_id}}" id="path">
+							<input type="radio" ng-click="addColor()" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.path_id}}" id="path">
 							<input  on-click="changeborder()" class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 						</label>
 					</div>
@@ -249,7 +249,7 @@ input:hover{
 							
 								<div class="span4"  ng-repeat="story in stories | limitTo:3">
 									<label class="radio">
-									<input type="radio" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+									<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 									<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall"/>
 									
 									<br>
@@ -267,7 +267,7 @@ input:hover{
 							<div class="span4" ng-repeat="story in stories | startFrom:3 | limitTo:3">
 								<label class="radio">
 						
-								<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall">
 								<br>
 								<h4>{{story.name}}</h4S>
@@ -282,7 +282,7 @@ input:hover{
 				<div class="row">
 					<div class="span4" ng-repeat="story in stories | startFrom:6 | limitTo:3">
 						<label class="radio">
-						<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+						<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 						<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall">
 						<br>
 						<h4>{{story.name}}</h4>
@@ -316,27 +316,27 @@ input:hover{
 					</div>
 				</div>
 					<!-- select path for non-drag n drop-game -->
-				<div class="span6 lead well well-small" align="center" ng-hide="difficulty=='Drag-n-Drop'">
+				<div class="span6 lead well well-small" align="center" ng-hide="difficulty=='Drag-n-Drop'" id="pathsSmall">
 					<div><h4>#3. Select a Language</h4></div>	
 					<hr>
 					<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-						<div  ng-repeat="item in paths.paths"  id="paths">
+						<div  ng-repeat="item in paths.paths"  >
 							<label>
-								<input type="radio" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.id}}" id="path">
-								<input  on-click="changeborder()" class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
+								<input type="radio" ng-click="addColor()"  ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.id}}" id="path">
+								<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
 							</label>		
 						</div>
 					</div>				
 				</div>
 					<!-- select path for drag n drop-game -->					
-				<div class="span6 lead well well-small" align="center" ng-show="difficulty=='Drag-n-Drop'">
+				<div class="span6 lead well well-small" align="center" ng-show="difficulty=='Drag-n-Drop'" id="pathsSmall">
 					<div><h4>#3. Select a Language</h4></div>	
 					<hr>
 					<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-						<div  ng-repeat="item in mobile_paths"  id="paths">
+						<div  ng-repeat="item in mobile_paths">
 							<label>
-								<input type="radio" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.path_id}}" id="path">
-								<input  on-click="changeborder()" class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
+								<input type="radio" ng-click="addColor()" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.path_id}}" id="path">
+								<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
 							</label>
 						</div>
 					</div>				

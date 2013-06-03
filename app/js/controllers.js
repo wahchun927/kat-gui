@@ -52,6 +52,34 @@ function PlayerController($scope,$resource,$location){
 			}
 		};
 		
+		$scope.checkPracticeLogin = function(){
+			if($scope.player.nickname){
+				$location.path("practice");
+				firstLoad(paths.paths[2].id);
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
+		$scope.checkChallengesLogin = function(){
+			if($scope.player.nickname){
+				$location.path("challenges");
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
+		$scope.checkRankingLogin = function(){
+			if($scope.player.nickname){
+				$location.path("ranking");
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
 		$scope.checkProfileLogin = function(){
 			if($scope.player.nickname){
 				$location.path("profile");
@@ -117,6 +145,32 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
+
+
+// this method add background color to the selected images 
+  $scope.addColor=function(){
+    
+    $('#myCarousel input:image').click(function() {
+      $('#myCarousel input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+		
+	$('#myCarouselSmall input:image').click(function() {
+      $('#myCarouselSmall input:image').removeClass('selected');   
+      $(this).addClass('selected');      
+    });
+	
+	$('#paths input:image').click(function() {
+      $('#paths input:image').removeClass('selected');   
+      $(this).addClass('selected');      
+    });
+	
+	$('#pathsSmall input:image').click(function() {
+      $('#pathsSmall input:image').removeClass('selected');   
+      $(this).addClass('selected');      
+    });
+  }
 	
 	
 	$scope.setButton=function(name,problemID){
@@ -1493,6 +1547,31 @@ function StoryController($scope,$resource,$cookieStore,$location){
       $location.path("story");
 
     };
+	
+	$scope.addQuestColor=function(){
+    
+		$('#myCarousel input:image').click(function() {
+		  $('#myCarousel input:image').removeClass('selected');   
+		  $(this).addClass('selected');
+      
+    });
+	
+	$scope.addQuestColor=function(){
+    
+		$('#myCarousel input:image').click(function() {
+		  $('#myCarousel input:image').removeClass('selected');   
+		  $(this).addClass('selected');
+		}
+		
+		$('#myCarouselSmall input:image').click(function() {
+		  $('#myCarouselSmall input:image').removeClass('selected');   
+		  $(this).addClass('selected');
+		}
+      
+    });
+	
+  }
+	
 }
 
 //Test story controller. Normally use GenericController
