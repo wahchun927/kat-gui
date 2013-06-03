@@ -106,7 +106,7 @@ input:hover{
 							
 								<div class="span4"  ng-repeat="story in stories | limitTo:3">
 									<label class="radio">
-									<input type="radio" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+									<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 									<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg"/>
 									
 									<br>
@@ -124,7 +124,7 @@ input:hover{
 							<div class="span4" ng-repeat="story in stories | startFrom:3 | limitTo:3">
 								<label class="radio">
 						
-								<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg">
 								<br>
 								<h4>{{story.name}}</h4S>
@@ -139,7 +139,7 @@ input:hover{
 				<div class="row">
 					<div class="span4" ng-repeat="story in stories | startFrom:6 | limitTo:3">
 						<label class="radio">
-						<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+						<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 						<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg">
 						<br>
 						<h4>{{story.name}}</h4>
@@ -249,7 +249,7 @@ input:hover{
 							
 								<div class="span4"  ng-repeat="story in stories | limitTo:3">
 									<label class="radio">
-									<input type="radio" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+									<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 									<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall"/>
 									
 									<br>
@@ -267,7 +267,7 @@ input:hover{
 							<div class="span4" ng-repeat="story in stories | startFrom:3 | limitTo:3">
 								<label class="radio">
 						
-								<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall">
 								<br>
 								<h4>{{story.name}}</h4S>
@@ -282,7 +282,7 @@ input:hover{
 				<div class="row">
 					<div class="span4" ng-repeat="story in stories | startFrom:6 | limitTo:3">
 						<label class="radio">
-						<input type="radio" name="optionsRadios" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+						<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 						<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall">
 						<br>
 						<h4>{{story.name}}</h4>
