@@ -141,36 +141,11 @@ function InterfaceController($scope,$resource){
 
 function PathController($scope,$resource,$cookieStore,$location){
     $scope.paths = $resource('/jsonapi/get_game_paths').get();
+	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.mobile_paths = null;
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
-
-
-// this method add background color to the selected images 
-  $scope.addColor=function(){
-    
-    $('#myCarousel input:image').click(function() {
-      $('#myCarousel input:image').removeClass('selected');   
-      $(this).addClass('selected');
-      
-    });
-		
-	$('#myCarouselSmall input:image').click(function() {
-      $('#myCarouselSmall input:image').removeClass('selected');   
-      $(this).addClass('selected');      
-    });
-	
-	$('#paths input:image').click(function() {
-      $('#paths input:image').removeClass('selected');   
-      $(this).addClass('selected');      
-    });
-	
-	$('#pathsSmall input:image').click(function() {
-      $('#pathsSmall input:image').removeClass('selected');   
-      $(this).addClass('selected');      
-    });
-  }
 	
 	
 	$scope.setButton=function(name,problemID){
@@ -185,6 +160,44 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
 		$scope.problems = response;
 		});	
+	};
+	
+	$scope.changePath = function (difficulty, pathName){
+		if(difficulty=="Drag-n-Drop"){
+			$scope.changeDifficulty(difficulty,pathName);
+		}
+		else{
+			$scope.changeDifficulty(difficulty,"Beginner "+pathName);
+		}
+	};
+	
+	//change the difficulty level as well as the path level detail table
+	$scope.changeDifficulty = function(difficulty,pathName){
+		if(difficulty=="Drag-n-Drop"){
+			for(var i=0; i<$scope.mobile_paths.length;i++){
+				var a = " " + pathName;
+				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+				if(a == b){
+					$scope.update_path_progress($scope.mobile_paths[i].path_id);
+					break;
+				}
+			}
+		}
+		else{
+			for(var i=0; i<$scope.paths.paths.length;i++){
+				var a = " " + pathName.trim().substring(9);;
+				var b = " " + $scope.paths.paths[i].name.trim();
+				alert(a+" "+b);
+				alert(a==b);
+				if(a == b){
+					alert(a+" "+b);
+					$scope.update_path_progress($scope.paths.paths[i].id);
+					break;
+				}
+			}
+			alert("normal");
+		}
+		//update_path_progress(pat)
 	};
 	
 	$scope.continuePath = function(num){
