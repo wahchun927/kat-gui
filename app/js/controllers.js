@@ -52,6 +52,34 @@ function PlayerController($scope,$resource,$location){
 			}
 		};
 		
+		$scope.checkPracticeLogin = function(){
+			if($scope.player.nickname){
+				$location.path("practice");
+				firstLoad(paths.paths[2].id);
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
+		$scope.checkChallengesLogin = function(){
+			if($scope.player.nickname){
+				$location.path("challenges");
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
+		$scope.checkRankingLogin = function(){
+			if($scope.player.nickname){
+				$location.path("ranking");
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
 		$scope.checkProfileLogin = function(){
 			if($scope.player.nickname){
 				$location.path("profile");
