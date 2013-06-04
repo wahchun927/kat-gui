@@ -1410,7 +1410,8 @@ function JsonRecordController($scope,$resource){
 
 //The quest controller returns a players quests or specific quest
 function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
-
+	$scope.paths = $resource('/jsonapi/get_game_paths').get();
+	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.quests = new Array();
     $scope.changeRoute = 'normal_play_page.html';
     $scope.name = $cookieStore.get("name");
@@ -1422,7 +1423,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     $scope.pathDes = 10030;
 
     //Create quest
-    $scope.create_quest = function(storyID,pathID,difficulty){
+    $scope.create_quest = function(storyID,pathName,difficulty){
 /*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);
       $scope.SaveResource = $resource('/jsonapi/rest/quest', 
                     {}, 
@@ -1444,12 +1445,33 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
         $location.search('questID',response.id).path('storyboard')
         $scope.list();
       }); */
+	  
       $scope.$watch('location.search()', function() {
         $scope.target = ($location.search()).target;
       }, true);
       $scope.newQuest = {}
         $scope.newQuest.storyID = storyID;
-        $scope.newQuest.pathID = pathID;
+		
+		if(difficulty=="Drag-n-Drop"){
+			for(var i=0; i<$scope.mobile_paths.length;i++){
+				var a = " " + pathName;
+				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+				if(a == b){
+					$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
+					break;
+				}
+			}
+		}
+		else{
+			for(var i=0; i<$scope.paths.paths.length;i++){
+				var a = " " + pathName.trim();
+				var b = " " + $scope.paths.paths[i].name.trim();
+				if(a == b){
+					$scope.newQuest.pathID = $scope.paths.paths[i].id;
+					break;
+				}
+			}
+		}
         $scope.newQuest.difficulty = difficulty;
 
         $scope.NewQuest = $resource('/jsonapi/quest');
