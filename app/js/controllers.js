@@ -1561,29 +1561,29 @@ function StoryController($scope,$resource,$cookieStore,$location){
 
     };
 	
-	$scope.addQuestColor=function(){
+	// $scope.addQuestColor=function(){
     
-		$('#myCarousel input:image').click(function() {
-		  $('#myCarousel input:image').removeClass('selected');   
-		  $(this).addClass('selected');
+		// $('#myCarousel input:image').click(function() {
+		  // $('#myCarousel input:image').removeClass('selected');   
+		  // $(this).addClass('selected');
       
-    });
+    // });
 	
-	$scope.addQuestColor=function(){
+	// $scope.addQuestColor=function(){
     
-		$('#myCarousel input:image').click(function() {
-		  $('#myCarousel input:image').removeClass('selected');   
-		  $(this).addClass('selected');
-		}
+		// $('#myCarousel input:image').click(function() {
+		  // $('#myCarousel input:image').removeClass('selected');   
+		  // $(this).addClass('selected');
+		// }
 		
-		$('#myCarouselSmall input:image').click(function() {
-		  $('#myCarouselSmall input:image').removeClass('selected');   
-		  $(this).addClass('selected');
-		}
+		// $('#myCarouselSmall input:image').click(function() {
+		  // $('#myCarouselSmall input:image').removeClass('selected');   
+		  // $(this).addClass('selected');
+		// }
       
-    });
+    // });
 	
-  }
+  //}
 	
 }
 
