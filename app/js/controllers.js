@@ -146,6 +146,23 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
+
+  // this method add background color to the selected images 
+  $scope.practiceSelection=function(){
+    $('#myCarousel input:image').click(function() {
+      $('#myCarousel input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+
+  $scope.pathSelection=function(){
+    $('#paths input:image').click(function() {
+      $('#paths input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
 	
 	
 	$scope.setButton=function(name,problemID){
@@ -1582,6 +1599,15 @@ function StoryController($scope,$resource,$cookieStore,$location){
       $location.path("story");
 
     };
+
+    // this method add background color to the selected images 
+    $scope.addQuestColor=function(){
+      $('#myCarousel input:image').click(function() {
+        $('#myCarousel input:image').removeClass('selected');   
+        $(this).addClass('selected');
+        
+      });
+    }
 	
 	// $scope.addQuestColor=function(){
     
