@@ -102,7 +102,7 @@ li{ list-style:none; }
 					<div class="row" >
 						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3">
 							<label class="radio">
-							<input style="visibility:hidden" type="radio" ng-click="update_path_progress(path.id);addColor()" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+							<input style="visibility:hidden" type="Submit" ng-click="changePath(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 							<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 							<h6>{{path.name}}</h6>
 							</label>
@@ -116,7 +116,7 @@ li{ list-style:none; }
 					<div class="row" >
 						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3">
 							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="update_path_progress(path.id);addColor()" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+								<input style="visibility:hidden" type="Submit" ng-click="changePath(difficulty,path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 								<h6>{{path.name}}</h6>
 							</label>
@@ -128,14 +128,29 @@ li{ list-style:none; }
 		<a class="left carousel-control" data-target="#myCarousel" data-slide="prev">&lsaquo;</a>
 		<a class="right carousel-control" data-target="#myCarousel" data-slide="next">&rsaquo;</a>
 	</div>
+	{{pathid}}
 	<!-- /.carousel -->
 	<div class="container marketing" >
 		<!-- Three columns of text below the carousel -->
 		<div class="row-fluid">
 			<div class="span12">
+			
+				<div class="span4 lead well well-small" align="center">
+					<div id="gradient1"><h4>#2. Select a difficulty Level</h4></div> 
+					<hr>
+					<div style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
+						<span ng-repeat="item in levels">
+							<label class="radio">
+							<input style="visibility:hidden" type="radio" ng-model="$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
+							<button type="button" ng-click = "changeDifficulty(item.name,path_progress.path.name)" class="btn btn-primary" style="height: 33px; width: 200px"  btn-radio="{{item.name}}">{{item.name}}
+							</button></br></br>
+							</label>
+						</span>	
+					</div>
+				</div>
 				<!--display the level, topic name & progress of the player when the path is selected by the player-->
 				<div class="span6 well well-small" ng-model="$parent.pathName" >
-					<div align="center" ><h4>#2. Select a Path Level!</h4></div>
+					<div align="center" ><h4>#3. Select a Path Level!</h4></div>
 					<div class = "tabbable">                      
 					  <ul id="myTab" class="nav nav-tabs">                        
 						<li id="path1" class="tabspacing active">
@@ -201,22 +216,8 @@ li{ list-style:none; }
 						</div> 								
 					 </div>   
 					</div>					
-
 				</div>
 						
-				<div class="span4 lead well well-small" align="center">
-					<div id="gradient1"><h4>#3. Select a difficulty Level</h4></div> 
-					<hr>
-					<div style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
-						<span ng-repeat="item in levels">
-							<label class="radio">
-							<input style="visibility:hidden" type="radio" ng-model="$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
-							<button type="button" class="btn btn-primary" style="height: 33px; width: 200px"  btn-radio="{{item.name}}">{{item.name}}
-							</button></br></br>
-							</label>
-						</span>	
-					</div>
-				</div>
 				<!-- /.span4 -->
 				<div class="span2"  align = "center">
 					<tt>difficulty: {{difficulty}}</tt>
