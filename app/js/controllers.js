@@ -52,6 +52,34 @@ function PlayerController($scope,$resource,$location){
 			}
 		};
 		
+		$scope.checkPracticeLogin = function(){
+			if($scope.player.nickname){
+				$location.path("practice");
+				firstLoad(paths.paths[2].id);
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
+		$scope.checkChallengesLogin = function(){
+			if($scope.player.nickname){
+				$location.path("challenges");
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
+		$scope.checkRankingLogin = function(){
+			if($scope.player.nickname){
+				$location.path("ranking");
+			}
+			else{
+				alert("Please login with FaceBook or Google Account first!");
+			}
+		};
+		
 		$scope.checkProfileLogin = function(){
 			if($scope.player.nickname){
 				$location.path("profile");
@@ -113,10 +141,28 @@ function InterfaceController($scope,$resource){
 
 function PathController($scope,$resource,$cookieStore,$location){
     $scope.paths = $resource('/jsonapi/get_game_paths').get();
+	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.mobile_paths = null;
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
+
+  // this method add background color to the selected images 
+  $scope.practiceSelection=function(){
+    $('#myCarousel input:image').click(function() {
+      $('#myCarousel input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+
+  $scope.pathSelection=function(){
+    $('#paths input:image').click(function() {
+      $('#paths input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
 	
 	
 	$scope.setButton=function(name,problemID){
@@ -131,6 +177,44 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
 		$scope.problems = response;
 		});	
+	};
+	
+	$scope.changePath = function (difficulty, pathName){
+		if(difficulty=="Drag-n-Drop"){
+			$scope.changeDifficulty(difficulty,pathName);
+		}
+		else{
+			$scope.changeDifficulty(difficulty,"Beginner "+pathName);
+		}
+	};
+	
+	//change the difficulty level as well as the path level detail table
+	$scope.changeDifficulty = function(difficulty,pathName){
+		if(difficulty=="Drag-n-Drop"){
+			for(var i=0; i<$scope.mobile_paths.length;i++){
+				var a = " " + pathName;
+				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+				if(a == b){
+					$scope.update_path_progress($scope.mobile_paths[i].path_id);
+					break;
+				}
+			}
+		}
+		else{
+			for(var i=0; i<$scope.paths.paths.length;i++){
+				var a = " " + pathName.trim().substring(9);;
+				var b = " " + $scope.paths.paths[i].name.trim();
+				alert(a+" "+b);
+				alert(a==b);
+				if(a == b){
+					alert(a+" "+b);
+					$scope.update_path_progress($scope.paths.paths[i].id);
+					break;
+				}
+			}
+			alert("normal");
+		}
+		//update_path_progress(pat)
 	};
 	
 	$scope.continuePath = function(num){
@@ -1343,7 +1427,8 @@ function JsonRecordController($scope,$resource){
 
 //The quest controller returns a players quests or specific quest
 function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
-
+	$scope.paths = $resource('/jsonapi/get_game_paths').get();
+	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.quests = new Array();
     $scope.changeRoute = 'normal_play_page.html';
     $scope.name = $cookieStore.get("name");
@@ -1355,7 +1440,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     $scope.pathDes = 10030;
 
     //Create quest
-    $scope.create_quest = function(storyID,pathID,difficulty){
+    $scope.create_quest = function(storyID,pathName,difficulty){
 /*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);
       $scope.SaveResource = $resource('/jsonapi/rest/quest', 
                     {}, 
@@ -1377,12 +1462,33 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
         $location.search('questID',response.id).path('storyboard')
         $scope.list();
       }); */
+	  
       $scope.$watch('location.search()', function() {
         $scope.target = ($location.search()).target;
       }, true);
       $scope.newQuest = {}
         $scope.newQuest.storyID = storyID;
-        $scope.newQuest.pathID = pathID;
+		
+		if(difficulty=="Drag-n-Drop"){
+			for(var i=0; i<$scope.mobile_paths.length;i++){
+				var a = " " + pathName;
+				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+				if(a == b){
+					$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
+					break;
+				}
+			}
+		}
+		else{
+			for(var i=0; i<$scope.paths.paths.length;i++){
+				var a = " " + pathName.trim();
+				var b = " " + $scope.paths.paths[i].name.trim();
+				if(a == b){
+					$scope.newQuest.pathID = $scope.paths.paths[i].id;
+					break;
+				}
+			}
+		}
         $scope.newQuest.difficulty = difficulty;
 
         $scope.NewQuest = $resource('/jsonapi/quest');
@@ -1493,6 +1599,40 @@ function StoryController($scope,$resource,$cookieStore,$location){
       $location.path("story");
 
     };
+
+    // this method add background color to the selected images 
+    $scope.addQuestColor=function(){
+      $('#myCarousel input:image').click(function() {
+        $('#myCarousel input:image').removeClass('selected');   
+        $(this).addClass('selected');
+        
+      });
+    }
+	
+	// $scope.addQuestColor=function(){
+    
+		// $('#myCarousel input:image').click(function() {
+		  // $('#myCarousel input:image').removeClass('selected');   
+		  // $(this).addClass('selected');
+      
+    // });
+	
+	// $scope.addQuestColor=function(){
+    
+		// $('#myCarousel input:image').click(function() {
+		  // $('#myCarousel input:image').removeClass('selected');   
+		  // $(this).addClass('selected');
+		// }
+		
+		// $('#myCarouselSmall input:image').click(function() {
+		  // $('#myCarouselSmall input:image').removeClass('selected');   
+		  // $(this).addClass('selected');
+		// }
+      
+    // });
+	
+  //}
+	
 }
 
 //Test story controller. Normally use GenericController
