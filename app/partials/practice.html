@@ -23,11 +23,6 @@ display:inline;
     cursor: pointer;
 }
 
-.input_hidden {
-    position: absolute;
-    left: -9999px;
-}
-
 #pathImg{
 
 width:100px;
@@ -35,13 +30,8 @@ height:100px;
 
 }
 
-.input_hidden {
-    position: absolute;
-    left: -9999px;
-}
-
 .selected {
-    background-color: #ccc;
+    background-color: #C0C0C0;
 }
 
 #paths input {
@@ -100,11 +90,11 @@ li{ list-style:none; }
 				<!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row" >
-						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3">
+						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelection()">
 							<label class="radio">
-							<input style="visibility:hidden" type="Submit" ng-click="changePath(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
-							<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
-							<h6>{{path.name}}</h6>
+								<input style="visibility:hidden" type="radio" ng-click="changePath(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
+								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+								<h6>{{path.name}}</h6>
 							</label>
 						</div>
 					</div>
@@ -114,9 +104,9 @@ li{ list-style:none; }
 				<!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row" >
-						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3">
+						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="practiceSelection()">
 							<label class="radio">
-								<input style="visibility:hidden" type="Submit" ng-click="changePath(difficulty,path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
+								<input style="visibility:hidden" type="radio" ng-click="changePath(difficulty,path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 								<h6>{{path.name}}</h6>
 							</label>

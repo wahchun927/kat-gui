@@ -23,11 +23,6 @@
     cursor: pointer;
 }
 
-.input_hidden {
-    position: absolute;
-    left: -9999px;
-}
-
 #pathImg{
 	width:100px;
 	height:100px;
@@ -38,13 +33,9 @@
 	height:70px;
 
 }
-.input_hidden {
-    position: absolute;
-    left: -9999px;
-}
 
 .selected {
-    background-color: #ccc;
+    background-color: #C0C0C0;
 }
 
 #paths input {
@@ -104,9 +95,9 @@ input:hover{
 					<div class="container">
 						<div class="row" >
 							
-								<div class="span4"  ng-repeat="story in stories | limitTo:3">
+								<div class="span4"  ng-repeat="story in stories | limitTo:3" ng-init="addQuestColor()">
 									<label class="radio">
-									<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+									<input type="radio" style="visibility:hidden" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 									<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg"/>
 									
 									<br>
@@ -121,10 +112,10 @@ input:hover{
                 <!-- Three columns of text below the carousel -->
 					<div class="container">
 						<div class="row" >
-							<div class="span4" ng-repeat="story in stories | startFrom:3 | limitTo:3">
+							<div class="span4" ng-repeat="story in stories | startFrom:3 | limitTo:3" ng-init="addQuestColor()">
 								<label class="radio">
 						
-								<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input type="radio" style="visibility:hidden" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg">
 								<br>
 								<h4>{{story.name}}</h4S>
@@ -137,9 +128,9 @@ input:hover{
             <!-- Three columns of text below the carousel -->
 			<div class="container">
 				<div class="row">
-					<div class="span4" ng-repeat="story in stories | startFrom:6 | limitTo:3">
+					<div class="span4" ng-repeat="story in stories | startFrom:6 | limitTo:3" ng-click="addQuestColor()">
 						<label class="radio">
-						<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+						<input type="radio" style="visibility:hidden" name="optionsRadios"  ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 						<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg">
 						<br>
 						<h4>{{story.name}}</h4>
@@ -172,28 +163,15 @@ input:hover{
 				</div>
             </div>
 			    <!-- select path for non-drag n drop-game -->
-			<div class="span4 lead well well-small" align="center" ng-hide="difficulty=='Drag-n-Drop'" id="paths">
+			<div class="span4 lead well well-small" align="center" id="paths">
 				<div><h4>#3. Select a Language</h4></div>	
 				<hr>
 				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-					<div  ng-repeat="item in paths.paths" >
+					<div  ng-repeat="item in paths.paths" ng-init="pathSelection()" >
 						<label>
-							<input type="radio" ng-click="addColor()" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.id}}" id="path">
+							<input type="radio" style="visibility:hidden" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.name}}" id="path">
 							<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 						</label>		
-					</div>
-				</div>				
-			</div>
-			    <!-- select path for drag n drop-game -->					
-			<div class="span4 lead well well-small" align="center" ng-show="difficulty=='Drag-n-Drop'" id="paths">
-				<div><h4>#3. Select a Language</h4></div>	
-				<hr>
-				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-					<div  ng-repeat="item in mobile_paths" >
-						<label>
-							<input type="radio" ng-click="addColor()" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.path_id}}" id="path">
-							<input  on-click="changeborder()" class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
-						</label>
 					</div>
 				</div>				
 			</div>
