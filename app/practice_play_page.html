@@ -289,16 +289,17 @@
 
       <a id="video" class="fancybox fancybox.iframe" style="display:none" href=""></a>
 
-      <div ng-controller="GameController" id="dndGame">
+      <div ng-controller="PracticeDnDController" id="dndGame">
         <table width=100%>
             <tr>
                 <td width=94% class="well well-small">
                     <div>
-                      <h4>Current Question</h4> 
+                      <h4>Current Practice Question</h4> 
                     </div>  
                     <font face="verdana" size="3">
                        Name: {{game.problems.problems[current_problem_index].name}}<br>
                        Description: {{game.problems.problems[current_problem_index].description}}
+					   {{problems_progress.currentPlayerProgress}}of{{problems_progress.problemsInProblemset}}
                       <div class="pull-right">
                       </div>
                     </font>
@@ -312,9 +313,6 @@
                     </p>
                     <p>
                         <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;Skip&nbsp;&nbsp;</button>
-                    </p>
-                    <p>
-                        <button class="btn btn-primary" ng-click="goStoryBoard()">StoryBoard</button>
                     </p>
                 </td>
             </tr>
