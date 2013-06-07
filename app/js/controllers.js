@@ -1117,7 +1117,7 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         if($cookieStore.get("name")){
           $scope.LevelID = $cookieStore.get("name"); //retrieve quest id from Storyboard page
         }
-        
+
         if($cookieStore.get("num")){
           $scope.numProblems = $cookieStore.get("num"); //retrieve quest id from Storyboard page
         }
@@ -1235,13 +1235,12 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
 
         $scope.skip_problem = function(){
           $scope.notCompile = 'false';
+          if($scope.source.length != 0){
+            $scope.source = [];
+          }
           if ($scope.remaining_problems.length>1){
             $scope.skip_problem_count += 1;
             $scope.move_to_next_unsolved_problem();
-            $scope.assign_id();
-          }
-          if($scope.source.length != 0){
-            $scope.source = [];
           }
         }
 
@@ -1393,8 +1392,8 @@ function JsonRecordController($scope,$resource){
 
 //The quest controller returns a players quests or specific quest
 function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
-	$scope.paths = $resource('/jsonapi/get_game_paths').get();
-	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+  	$scope.paths = $resource('/jsonapi/get_game_paths').get();
+  	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.quests = new Array();
     $scope.changeRoute = 'normal_play_page.html';
     $scope.name = $cookieStore.get("name");
@@ -1433,40 +1432,41 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
         $scope.target = ($location.search()).target;
       }, true);
       $scope.newQuest = {}
-        $scope.newQuest.storyID = storyID;
+      $scope.newQuest.storyID = storyID;
 		
-		if(difficulty=="Drag-n-Drop"){
-			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
-				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-				if(a == b){
-					$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
-					break;
-				}
-			}
-		}
-		else{
-			for(var i=0; i<$scope.paths.paths.length;i++){
-				var a = " " + pathName.trim();
-				var b = " " + $scope.paths.paths[i].name.trim();
-				if(a == b){
-					$scope.newQuest.pathID = $scope.paths.paths[i].id;
-					break;
-				}
-			}
-		}
-        $scope.newQuest.difficulty = difficulty;
+  		if(difficulty=="Drag-n-Drop"){
+  			for(var i=0; i<$scope.mobile_paths.length;i++){
+  				var a = " " + pathName;
+  				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+  				if(a == b){
+  					$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
+  					break;
+  				}
+  			}
+  		}
+  		else{
+  			for(var i=0; i<$scope.paths.paths.length;i++){
+  				var a = " " + pathName.trim();
+  				var b = " " + $scope.paths.paths[i].name.trim();
+  				if(a == b){
+  					$scope.newQuest.pathID = $scope.paths.paths[i].id;
+  					break;
+  				}
+  			}
+  		}
+      $scope.newQuest.difficulty = difficulty;
 
-        $scope.NewQuest = $resource('/jsonapi/quest');
-        var new_quest = new $scope.NewQuest($scope.newQuest);
-        new_quest.$save(function(response){
-          $scope.quest = response;
-          $cookieStore.put("name", response);
-		  $cookieStore.put("type", "questGame");
-          $scope.list();
-          $location.path('storyboard');
-        });
-      };
+      $scope.NewQuest = $resource('/jsonapi/quest');
+      var new_quest = new $scope.NewQuest($scope.newQuest);
+      
+      new_quest.$save(function(response){
+        $scope.quest = response;
+        $cookieStore.put("name", response);
+  	    $cookieStore.put("type", "questGame");
+        $scope.list();
+        $location.path('storyboard');
+      });
+    };
 
     $scope.QuestModel = $resource('/jsonapi/quest/:id');
     
