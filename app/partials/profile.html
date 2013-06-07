@@ -30,15 +30,17 @@
         overflow:auto;  
     }
 
+    th.a, td.a {text-align: left;}
+
     th.c1, td.c1{width:20%;}
     th.c2, td.c2{width:50%;}
     th.c3, td.c3{width:30%;}
 
-    th.d1, td.d1{width:40%;}
-    th.d2, td.d2{width:10%;}
-    th.d3, td.d3{width:10%;}
-    th.d4, td.d4{width:20%;}
-    th.d5, td.d5{width:20%;}
+    th.d1, td.d1{width:30%;text-align:center;}
+    th.d2, td.d2{width:15%;text-align:center;}
+    th.d3, td.d3{width:15%;text-align:center;}
+    th.d4, td.d4{width:20%;text-align:center;}
+    th.d5, td.d5{width:20%;text-align:center;}
 
     th.q1, td.q1{width:20%;}
     th.q2, td.q2{width:10%;}
@@ -130,37 +132,37 @@
                               <tr >  
                                
                                 <ng-model="python" ng-init="python='10030'"> 
-                                <td>Python</td>
-                                <td ng-repeat="(key,value) in playerBadges.badges|filter:python">
+                                <td class="a">Python</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:python">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>  
                               <tr> 
                                  
                                 <ng-model="bPython" ng-init="bPython='6920762'">
-                                <td>Beginner Python</td> 
-                                <td ng-repeat="badge in playerBadges.badges|filter:bPython">
+                                <td class="a">Beginner Python</td> 
+                                <td class="a" ng-repeat="badge in playerBadges.badges|filter:bPython">
                                     <img ng-src="http://www.singpath.com{{badge.imageURL}}">
                                 </td> 
                               </tr> 
                               <tr >
                                 <ng-model="ruby" ng-init="ruby='2462233'"> 
-                                <td>Ruby</td>
-                                <td ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
+                                <td class="a">Ruby</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>
                               <tr >  
                                 <ng-model="javaScript" ng-init="javaScript='2473247'"> 
-                                <td> JavaScript</td>
+                                <td class="a"> JavaScript</td>
                                 <td ng-repeat="(key,value) in playerBadges.badges|filter:javaScript">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>
                               <tr > 
                                 <ng-model="java" ng-init="java='2243213'"> 
-                                <td> Java</td>
-                                <td ng-repeat="(key,value) in playerBadges.badges|filter:java">
+                                <td class="a"> Java</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:java">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>
@@ -194,7 +196,7 @@
                       <div width="400px"style=" width:98.2%; height:30px;" ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
                             <table class="table table-condensed">
                                     <tr>
-                                        <th class="c1">Name</th>
+                                        <th class="c1">Quest Name</th>
                                         <th class="c2">myProgress</th>
                                         <th class="c3">Take the leap</th>
                                     </tr>                                   
@@ -237,7 +239,6 @@
                             </table> 
                         </div>
                         <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
-                                
                                     <div ng-controller="QuestController">
                                         <div ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
                                                 <table class="table table-hover">
@@ -264,7 +265,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="t3">
-                      <div width="400px"style="width:98.2%; height:30px;align:left;">
+                      <div width="400px"style="width:98.2%; height:30px;">
                             <table class="table table-condensed">
                                     <tr>
                                         <th class="d1">Name</th>
@@ -442,6 +443,8 @@
     <!-- Three columns of text below the carousel -->
     <div class="row-fluid">
         <div class="span12">
+
+
             <div class="span2">
                 <!-- Profile Information -->
                     <br>
@@ -461,7 +464,7 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input class="img-rounded" type="image" src="../assets/img/examples/p1.jpg" alt="" height="60px">
+                                                <image ng-src="{{player.gravatar}}"; width = 60px; height= 60px;/>
                                                 <br>
                                             </td>
                                         </tr>
@@ -478,7 +481,7 @@
                                             <td>About Me: {{player.description}}</td>
                                         </tr>
                                         <tr>
-                                            <td><a class="btn-small btn-danger pull-right" href="#contact">Edit Profile</a>
+                                            <td><button class="btn-small btn-danger pull-right" ng-click="show_panel()">Edit Profile</button>
                                                 </p>
                                             </td>
                                         </tr>
@@ -508,37 +511,37 @@
                               <tr >  
                                
                                 <ng-model="python" ng-init="python='10030'"> 
-                                <td>Python</td>
-                                <td ng-repeat="(key,value) in playerBadges.badges|filter:python">
+                                <td class="a">Python</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:python">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>  
                               <tr> 
                                  
                                 <ng-model="bPython" ng-init="bPython='6920762'">
-                                <td>Beginner Python</td> 
-                                <td ng-repeat="badge in playerBadges.badges|filter:bPython">
+                                <td class="a">Beginner Python</td> 
+                                <td class="a" ng-repeat="badge in playerBadges.badges|filter:bPython">
                                     <img ng-src="http://www.singpath.com{{badge.imageURL}}">
                                 </td> 
                               </tr> 
                               <tr >
                                 <ng-model="ruby" ng-init="ruby='2462233'"> 
-                                <td>Ruby</td>
-                                <td ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
+                                <td class="a">Ruby</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>
                               <tr >  
                                 <ng-model="javaScript" ng-init="javaScript='2473247'"> 
-                                <td> JavaScript</td>
+                                <td class="a"> JavaScript</td>
                                 <td ng-repeat="(key,value) in playerBadges.badges|filter:javaScript">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>
                               <tr > 
                                 <ng-model="java" ng-init="java='2243213'"> 
-                                <td> Java</td>
-                                <td ng-repeat="(key,value) in playerBadges.badges|filter:java">
+                                <td class="a"> Java</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:java">
                                  <img ng-src="http://www.singpath.com{{value.imageURL}}">
                                 </td> 
                               </tr>
@@ -547,17 +550,20 @@
                             </tbody>  
                         </table>
                       </div>
+                      
+
                    
                 </div>
                 <br>
            
+
                 <!-- Tab for Quest,Path and Challenges-->
                 <div class="tabbable well">
                   <ul class="nav nav-tabs">
-                    <li class="tabspacing">
+                    <li class="tabspacing active">
                       <a data-target="#t1" data-toggle="tab">Quest</a>
                     </li>
-                    <li class="tabspacing active">
+                    <li class="tabspacing">
                       <a data-target="#t2" data-toggle="tab">Path</a>
                     </li>
                     <li class="tabspacing">
@@ -565,15 +571,12 @@
                     </li>    
                   </ul>
                   <div class="tab-content well">
-                    <div class="tab-pane" id="t1" ng-controller="QuestController">
-                      <div width="400px"style=" width:98.2%; height:30px;overflow-x:hidden" ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
+                    <div class="tab-pane active" id="t1" ng-controller="QuestController">
+                      <div width="400px"style=" width:98.2%; height:30px;" ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
                             <table class="table table-condensed">
                                     <tr>
-                                        <th class="c1">
-                                            <a data-target="" ng-click="predicate = 'name'; reverse=false">Name</a>
-                                        (<a ng-click="predicate = '-name'; reverse=false">^</a>)
-                                        </th>
-                                        <th class="c2">myProgressss</th>
+                                        <th class="c1">Quest Name</th>
+                                        <th class="c2">myProgress</th>
                                         <th class="c3">Take the leap</th>
                                     </tr>                                   
                             </table> 
@@ -582,7 +585,7 @@
                                     <div>
                                         <div>
                                                 <table class="table table-hover">
-                                                        <tr ng-repeat="quest in quests | orderBy:predicate:reverse" ng-init="count(0);">
+                                                        <tr ng-repeat="quest in quests | orderBy:'numSolved':true" ng-init="count(0);">
                                                            
                                                             <td>
                                                               {{quest.name}}
@@ -595,7 +598,7 @@
                                                                     <div class="bar" style="width:{{count = (quest.numSolved/quest.numProblems)*100 |number:0}}%"></div>
                                                                 </div>
                                                             </td>
-                                                            <td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
+                                                            <td class="c3"><button align="center" class="btn btn-info" ng-click="loadUnfinshed(quest)">Resume!</button>
                                                             </td>                                 
                                                         </tr>
                                                              
@@ -604,7 +607,7 @@
                                     </div>
                         </div>
                     </div>
-                    <div class="tab-pane active" id="t2">
+                    <div class="tab-pane" id="t2">
                       <div width="400px"style="width:98.2%; height:30px">
                             <table class="table table-condensed">
                                     <tr>
@@ -615,7 +618,6 @@
                             </table> 
                         </div>
                         <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
-                                
                                     <div ng-controller="QuestController">
                                         <div ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
                                                 <table class="table table-hover">
@@ -642,7 +644,7 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="t3">
-                       <div width="400px"style="width:98.2%; height:30px;align:left;">
+                      <div width="400px"style="width:98.2%; height:30px;">
                             <table class="table table-condensed">
                                     <tr>
                                         <th class="d1">Name</th>
@@ -650,6 +652,7 @@
                                         <th class="d3">Needed</th>
                                         <th class="d4">Start Date</th>
                                         <th class="d5">End Date</th>
+
                                     </tr>                                   
                             </table> 
                         </div>
@@ -676,11 +679,142 @@
                 </div>
 
                 <!-- End of Quest,Path and Challenges tables-->
+                <br>
+
+                <!-- Tab for Create Challenges and Stories -->
+                <div class="tabbable well" align="center">
+                  <ul class="nav nav-tabs">
+                    <li class="tabspacing-create active">
+                      <a data-target="#tt1" data-toggle="tab">Challenges I've Made</a>
+                    </li>
+                    <li class="tabspacing-create">
+                      <a data-target="#tt2" data-toggle="tab">Stories I've Created</a>
+                    </li>  
+                  </ul>
+                  <div class="tab-content well">
+                    <div class="tab-pane active" id="tt1" ng-controller="ChallengeController">
+                      <div width="400px"style=" width:98.2%; height:30px;">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="q1">Name</th>
+                                        <th class="q2">Location</th>
+                                        <th class="q3">Share</th>
+                                        <th class="q4">Publish</th>
+                                        <th class="q5">Start Date</th>
+                                        <th class="q6">End Date</th>
+                                        <th class="q7">Edit</th>
+                                        <th class="q8">Stats</th>
+
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr>
+                                                            <td class="q1">Quest Challenge 1</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="q1">Catch Me If You Can!</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="q1">Chase if You do!</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                             
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div align="right">
+                            <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tt2" align="center" ng-controller="StoryController">
+                      <div width="400px"style="width:98.2%; height:30px">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="s1">Name</th>
+                                        <th class="s2">No of videos</th>
+                                        <th class="s3">Total Time</th>
+                                        <th class="s4">Status</th>
+                                        <th class="s5">Statistics</th>
+                                        <th class="s6">Review</th>
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
+                                
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr>
+                                                            <td class="s1">Reach For the Sky</td>
+                                                            <td class="s2">5</td>
+                                                            <td class="s3">6:56</td>
+                                                            <td class="s4">SAVED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="s1">Vision with Hesitation!</td>
+                                                            <td class="s2">5</td>
+                                                            <td class="s3">8:20</td>
+                                                            <td class="s4">PUBLISHED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="s1">Mission Miserable!</td>
+                                                            <td class="s2">4</td>
+                                                            <td class="s3">4:30</td>
+                                                            <td class="s4">PUBLISHED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                                    <div align="right">
+                                        <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+                                    </div>
+                    </div>
+                  </div>
+                </div>
             </div>
             <!-- End of span9 Badges table-->
+            
           
         </div><!--End of .span12-->
-    </div><!-- /.row -->  
+    </div><!-- /.row -->
 </div><!-- End of container which contains 'smallProfile' -->
 <div class="modal fade" id="edit_profile" style="display:none" ng-controller="PlayerController">
   <div class="modal-header">

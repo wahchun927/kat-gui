@@ -244,7 +244,7 @@ li{ list-style:none; }
 				<!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row" >
-						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3">
+						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelectionSmall()">
 							<label class="radio">
 							<input style="visibility:hidden" type="Submit" ng-click="update_path_progress(path.id)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 							<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>
@@ -258,7 +258,7 @@ li{ list-style:none; }
 				<!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row" >
-						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3">
+						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="practiceSelectionSmall()">
 							<label class="radio">
 								<input style="visibility:hidden" type="Submit" ng-click="update_path_progress(path.id)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>

@@ -86,7 +86,7 @@ input:hover{
 		 <div>&nbsp;</div>
 		 
   
-<div ng-controller="StoryController" ng-init="list();$parent.storyID=14611860;">
+<div ng-controller="StoryController" ng-init="list();">
 <div id="myCarousel" class="carousel slide" >
     <div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
 
@@ -228,7 +228,7 @@ input:hover{
 							
 								<div class="span4"  ng-repeat="story in stories | limitTo:3">
 									<label class="radio">
-									<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+									<input type="radio" name="optionsRadios" ng-click="addQuestColorSmall()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 									<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall"/>
 									
 									<br>
@@ -246,7 +246,7 @@ input:hover{
 							<div class="span4" ng-repeat="story in stories | startFrom:3 | limitTo:3">
 								<label class="radio">
 						
-								<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input type="radio" name="optionsRadios" ng-click="addQuestColorSmall()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall">
 								<br>
 								<h4>{{story.name}}</h4S>
@@ -261,7 +261,7 @@ input:hover{
 				<div class="row">
 					<div class="span4" ng-repeat="story in stories | startFrom:6 | limitTo:3">
 						<label class="radio">
-						<input type="radio" name="optionsRadios" ng-click="addQuestColor()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+						<input type="radio" name="optionsRadios" ng-click="addQuestColorSmall()" ng-model="$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 						<input class="well" type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall">
 						<br>
 						<h4>{{story.name}}</h4>
@@ -299,7 +299,7 @@ input:hover{
 					<div><h4>#3. Select a Language</h4></div>	
 					<hr>
 					<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-						<div  ng-repeat="item in paths.paths"  >
+						<div  ng-repeat="item in paths.paths"   ng-init="pathSelection()" >
 							<label>
 								<input type="radio" ng-click="addColor()"  ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.id}}" id="path">
 								<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
@@ -313,7 +313,7 @@ input:hover{
 					<div><h4>#3. Select a Language</h4></div>	
 					<hr>
 					<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-						<div  ng-repeat="item in mobile_paths">
+						<div  ng-repeat="item in mobile_paths"  ng-init="pathSelection()" >
 							<label>
 								<input type="radio" ng-click="addColor()" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.path_id}}" id="path">
 								<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
