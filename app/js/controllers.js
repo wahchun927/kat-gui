@@ -1422,9 +1422,8 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     if($cookieStore.get("name")){
       $scope.questID = $cookieStore.get("name").id;//retrieve quest id from Storyboard page
     }
-    $scope.storyid = 14611860;
     $scope.difficulty = "Drag-n-Drop";
-    $scope.pathDes = 10030;
+    $scope.pathDes = "Python";
 
     //Create quest
     $scope.create_quest = function(storyID,pathName,difficulty){
@@ -1572,11 +1571,12 @@ function StoryController($scope,$resource,$cookieStore,$location){
   $scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
-    
+    var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
           $scope.StoryModel.query({}, function(response){
               $scope.stories = response;
+			  $scope.$parent.storyid = $scope.stories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
           });
     };
