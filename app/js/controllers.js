@@ -36,7 +36,7 @@ function Ctrl($scope) {
 }
 
 function PlayerController($scope,$resource,$location,$cookieStore){
-		$scope.paths = $resource('/jsonapi/get_game_paths').get();
+		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
         $scope.player = $resource('/jsonapi/player').get(); 
 
 		$scope.firstLoad=function(paid){
@@ -151,7 +151,6 @@ function InterfaceController($scope,$resource){
 function PathController($scope,$resource,$cookieStore,$location){
     $scope.paths = $resource('/jsonapi/get_game_paths').get();
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-    $scope.mobile_paths = null;
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
