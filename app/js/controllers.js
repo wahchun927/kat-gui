@@ -185,6 +185,14 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
   }
+
+  $scope.pathSelectionSmall=function(){
+    $('#pathsSmall input:image').click(function() {
+      $('#pathsSmall input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
 	
 	
 	$scope.setButton=function(name,problemID){
