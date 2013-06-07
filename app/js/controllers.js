@@ -1227,13 +1227,23 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
               $scope.remaining_problems.push($scope.game.problemIDs[i]);
             }
           }
-    		  if($scope.problems_progress.problemsInProblemset==$scope.problems_progress.currentPlayerProgress){
-    				alert("Congratulation! You have completed this level!");
-    				window.location.href="index.html#/practice";
-    			}
-    			else{
-    					$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-    			}
+		  
+				$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+
+				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+				$scope.problems_progress = response;
+				});
+		  
+				if($scope.remaining_problems.length==0){
+					alert("Current level Progress: " + ($scope.problems_progress.currentPlayerProgress+1) + " of " + $scope.problems_progress.problemsInProblemset);
+					if($scope.problems_progress.problemsInProblemset-$scope.problems_progress.currentPlayerProgress==1){
+						alert("Congratulation! You have completed this level!");
+						window.location.href="index.html#/practice";
+					}
+					else{
+							$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+					}
+				}
           //Update the current problem index based on remaining problems and items skipped. 
           $scope.move_to_next_unsolved_problem();
         };
