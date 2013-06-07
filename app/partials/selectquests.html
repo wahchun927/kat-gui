@@ -171,6 +171,7 @@ input:hover{
 						<label>
 							<input type="radio" style="visibility:hidden" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.name}}" id="path">
 							<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
+							<h4>{{item.name}}</h4>
 						</label>		
 					</div>
 				</div>				
@@ -302,6 +303,7 @@ input:hover{
 							<label>
 								<input type="radio" ng-click="addColor()"  ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.id}}" id="path">
 								<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
+								<h4>{{item.name}}</h4>
 							</label>		
 						</div>
 					</div>				
@@ -315,6 +317,7 @@ input:hover{
 							<label>
 								<input type="radio" ng-click="addColor()" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.path_id}}" id="path">
 								<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
+								<h4>{{item.name}}</h4>
 							</label>
 						</div>
 					</div>				
