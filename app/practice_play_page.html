@@ -295,7 +295,7 @@
         <br>
 		<table width=100%>
             <tr>
-                <td width=94% class="well well-small">
+                <td width=88% class="well well-small">
                     <div>
                       <h4>Current Practice Question</h4> 
                     </div>  
@@ -306,18 +306,18 @@
                       </div>
                     </font>
                 </td>
-                <td width=3%></td>
-                <td>
+				<td width=2%></td>
+                <td width=10% align="center">
                     <p>
                         Game progress 
-                        <br>
+						<br>
+					</p>
+					<p>
                         <span ng-bind="game.numSolvedProblems"></span> of <span ng-bind="game.numProblems"></span>
                     </p>
+
                     <p>
                         <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;Skip&nbsp;&nbsp;</button>
-                    </p>
-                    <p>
-                        <button class="btn btn-primary" ng-click="goStoryBoard()">StoryBoard</button>
                     </p>
                 </td>
             </tr>

@@ -36,7 +36,7 @@ function Ctrl($scope) {
 }
 
 function PlayerController($scope,$resource,$location,$cookieStore){
-		$scope.paths = $resource('/jsonapi/get_game_paths').get();
+		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
         $scope.player = $resource('/jsonapi/player').get(); 
 
 		$scope.firstLoad=function(paid){
@@ -151,7 +151,6 @@ function InterfaceController($scope,$resource){
 function PathController($scope,$resource,$cookieStore,$location){
     $scope.paths = $resource('/jsonapi/get_game_paths').get();
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-    $scope.mobile_paths = null;
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
@@ -181,6 +180,14 @@ function PathController($scope,$resource,$cookieStore,$location){
   $scope.pathSelection=function(){
     $('#paths input:image').click(function() {
       $('#paths input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+
+  $scope.pathSelectionSmall=function(){
+    $('#pathsSmall input:image').click(function() {
+      $('#pathsSmall input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
@@ -1219,13 +1226,23 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
               $scope.remaining_problems.push($scope.game.problemIDs[i]);
             }
           }
-    		  if($scope.problems_progress.problemsInProblemset==$scope.problems_progress.currentPlayerProgress){
-    				alert("Congratulation! You have completed this level!");
-    				window.location.href="index.html#/practice";
-    			}
-    			else{
-    					$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-    			}
+		  
+				$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+
+				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+				$scope.problems_progress = response;
+				});
+		  
+				if($scope.remaining_problems.length==0){
+					alert("Current level Progress: " + ($scope.problems_progress.currentPlayerProgress+1) + " of " + $scope.problems_progress.problemsInProblemset);
+					if($scope.problems_progress.problemsInProblemset-$scope.problems_progress.currentPlayerProgress==1){
+						alert("Congratulation! You have completed this level!");
+						window.location.href="index.html#/practice";
+					}
+					else{
+							$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+					}
+				}
           //Update the current problem index based on remaining problems and items skipped. 
           $scope.move_to_next_unsolved_problem();
         };
