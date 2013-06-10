@@ -248,7 +248,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.continuePath = function(num){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>=$scope.path_progress.details[i].currentPlayerProgress){
 				alert("level "+$scope.path_progress.details[i].pathorder);
 				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
@@ -259,8 +259,12 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.create_prac = function(level,numProblems,lvlnum){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>=$scope.path_progress.details[i].currentPlayerProgress){
 				$scope.nextLvlNum = $scope.path_progress.details[i].pathorder;
+				break;
+			}
+			else if(i==($scope.path_progress.details.length-1)){
+				$scope.nextLvlNum = i+1;
 				break;
 			}
 		}
@@ -721,7 +725,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
           if($scope.remaining_problems.length == 0){
 				
-				if($scope.problems_progress.problemsInProblemset==$scope.problems_progress.currentPlayerProgress){
+				if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
 					alert("congrats!");
 					window.location.href="index.html#/practice";
 				}
@@ -1235,7 +1239,7 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
 		  
 				if($scope.remaining_problems.length==0){
 					alert("Current level Progress: " + ($scope.problems_progress.currentPlayerProgress+1) + " of " + $scope.problems_progress.problemsInProblemset);
-					if($scope.problems_progress.problemsInProblemset-$scope.problems_progress.currentPlayerProgress==1){
+					if($scope.problems_progress.problemsInProblemset-$scope.problems_progress.currentPlayerProgress<=1){
 						alert("Congratulation! You have completed this level!");
 						window.location.href="index.html#/practice";
 					}

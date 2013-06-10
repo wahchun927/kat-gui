@@ -118,7 +118,6 @@ li{ list-style:none; }
 		<a class="left carousel-control" data-target="#myCarousel" data-slide="prev">&lsaquo;</a>
 		<a class="right carousel-control" data-target="#myCarousel" data-slide="next">&rsaquo;</a>
 	</div>
-	{{pathid}}
 	<!-- /.carousel -->
 	<div class="container marketing" >
 		<!-- Three columns of text below the carousel -->
@@ -178,7 +177,7 @@ li{ list-style:none; }
 										<div class="span2">
 											{{v.currentPlayerProgress}}/{{v.problemsInProblemset}}
 										</div>
-										<div class="span2 container" ng-show="v.currentPlayerProgress==v.problemsInProblemset">
+										<div class="span2 container" ng-show="v.currentPlayerProgress>=v.problemsInProblemset">
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004;
 										</div>
 									</div>
@@ -198,6 +197,7 @@ li{ list-style:none; }
 										{{prob.name}}
 										</div>
 										<div class="span2 container" ng-show="prob.solved">
+										
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004;
 										</div>
 									</div>
@@ -210,8 +210,6 @@ li{ list-style:none; }
 						
 				<!-- /.span4 -->
 				<div class="span2"  align = "center">
-					<tt>difficulty: {{difficulty}}</tt>
-					<tt>result: {{lvl}}</tt>
 					<table align="center">
 						<tr><td align="center">
 							</br></br>
