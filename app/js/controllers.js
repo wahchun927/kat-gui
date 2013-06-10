@@ -1712,9 +1712,13 @@ function TournamentController($scope,$resource,$http){
 
 function RankController($scope,$resource,$cookieStore,$location){
 	//fetch the list of rankers based in the path selected by user
-	//$scope.get_path_ranks = function(pathId){
-        //$scope.pathRank = $resource('/jsonapi/ranking/:pathid');
-   // };
+	$scope.get_path_ranks = function(pathId){
+        $scope.pathRank = $resource('/jsonapi/ranking/:pathid');
+		
+		$scope.pathRank.get({"pathId":pathId}, function(response){
+            $scope.ranking[pathId] = response;
+        });
+    };
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
