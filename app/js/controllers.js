@@ -154,11 +154,9 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
-  $scope.player_progress = null;
+  
+  $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
-  $scope.get_player_progress = function(){
-        $scope.player_progress = $resource('/jsonapi/get_player_progress').get();
-    };
 
   // this method add background color to the selected images 
   $scope.practiceSelection=function(){
