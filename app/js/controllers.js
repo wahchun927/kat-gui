@@ -36,7 +36,7 @@ function Ctrl($scope) {
 }
 
 function PlayerController($scope,$resource,$location,$cookieStore){
-		$scope.paths = $resource('/jsonapi/get_game_paths').get();
+		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
         $scope.player = $resource('/jsonapi/player').get(); 
 
 		$scope.firstLoad=function(paid){
@@ -151,10 +151,14 @@ function InterfaceController($scope,$resource){
 function PathController($scope,$resource,$cookieStore,$location){
     $scope.paths = $resource('/jsonapi/get_game_paths').get();
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-    $scope.mobile_paths = null;
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
+  $scope.player_progress = null;
+
+  $scope.get_player_progress = function(){
+        $scope.player_progress = $resource('/jsonapi/get_player_progress').get();
+    };
 
   // this method add background color to the selected images 
   $scope.practiceSelection=function(){
@@ -165,9 +169,25 @@ function PathController($scope,$resource,$cookieStore,$location){
     });
   }
 
+  $scope.practiceSelectionSmall=function(){
+    $('#myCarouselSmall input:image').click(function() {
+      $('#myCarouselSmall input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+
   $scope.pathSelection=function(){
     $('#paths input:image').click(function() {
       $('#paths input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+
+  $scope.pathSelectionSmall=function(){
+    $('#pathsSmall input:image').click(function() {
+      $('#pathsSmall input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
@@ -228,7 +248,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.continuePath = function(num){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>=$scope.path_progress.details[i].currentPlayerProgress){
 				alert("level "+$scope.path_progress.details[i].pathorder);
 				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
@@ -239,8 +259,12 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.create_prac = function(level,numProblems,lvlnum){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>=$scope.path_progress.details[i].currentPlayerProgress){
 				$scope.nextLvlNum = $scope.path_progress.details[i].pathorder;
+				break;
+			}
+			else if(i==($scope.path_progress.details.length-1)){
+				$scope.nextLvlNum = i+1;
 				break;
 			}
 		}
@@ -701,7 +725,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
           if($scope.remaining_problems.length == 0){
 				
-				if($scope.problems_progress.problemsInProblemset==$scope.problems_progress.currentPlayerProgress){
+				if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
 					alert("congrats!");
 					window.location.href="index.html#/practice";
 				}
@@ -1206,13 +1230,23 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
               $scope.remaining_problems.push($scope.game.problemIDs[i]);
             }
           }
-    		  if($scope.problems_progress.problemsInProblemset==$scope.problems_progress.currentPlayerProgress){
-    				alert("Congratulation! You have completed this level!");
-    				window.location.href="index.html#/practice";
-    			}
-    			else{
-    					$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-    			}
+		  
+				$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+
+				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+				$scope.problems_progress = response;
+				});
+		  
+				if($scope.remaining_problems.length==0){
+					alert("Current level Progress: " + ($scope.problems_progress.currentPlayerProgress) + " of " + $scope.problems_progress.problemsInProblemset);
+					if($scope.problems_progress.problemsInProblemset-$scope.problems_progress.currentPlayerProgress<=1){
+						alert("Congratulation! You have completed this level!");
+						window.location.href="index.html#/practice";
+					}
+					else{
+							$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+					}
+				}
           //Update the current problem index based on remaining problems and items skipped. 
           $scope.move_to_next_unsolved_problem();
         };
@@ -1260,7 +1294,12 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
               if($scope.solution_check_result.last_solved){
                 //If you hardcode to the game, this will automatically advance the game to the next problem. 
                 $scope.fetch($scope.game.gameID);
-                $scope.update_quest();
+
+				$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+
+				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+				$scope.problems_progress = response;
+				});
               }
           });
         };
@@ -1295,6 +1334,13 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
             //If the solution passes, then call verify for the solution to progress in the game. 
             if(nonErrorResult.solved){
               $('#pop_info_Pane').modal('show');
+			  
+			  $scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+
+			  $scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+		      $scope.problems_progress = response;
+			  }); 
+			 
               $scope.source = [];
               $scope.check_solution_for_game();
             }
@@ -1400,9 +1446,8 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     if($cookieStore.get("name")){
       $scope.questID = $cookieStore.get("name").id;//retrieve quest id from Storyboard page
     }
-    $scope.storyid = 14611860;
     $scope.difficulty = "Drag-n-Drop";
-    $scope.pathDes = 10030;
+    $scope.pathDes = "Python";
 
     //Create quest
     $scope.create_quest = function(storyID,pathName,difficulty){
@@ -1551,11 +1596,12 @@ function StoryController($scope,$resource,$cookieStore,$location){
   $scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
-    
+    var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
           $scope.StoryModel.query({}, function(response){
               $scope.stories = response;
+			  $scope.$parent.storyid = $scope.stories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
           });
     };
@@ -1570,6 +1616,15 @@ function StoryController($scope,$resource,$cookieStore,$location){
     $scope.addQuestColor=function(){
       $('#myCarousel input:image').click(function() {
         $('#myCarousel input:image').removeClass('selected');   
+        $(this).addClass('selected');
+        
+      });
+    }
+
+    // this method add background color to the selected images 
+    $scope.addQuestColorSmall=function(){
+      $('#myCarouselSmall input:image').click(function() {
+        $('#myCarouselSmall input:image').removeClass('selected');   
         $(this).addClass('selected');
         
       });
