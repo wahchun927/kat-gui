@@ -154,11 +154,8 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.abc = $cookieStore.get("pid");
     $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
-  $scope.player_progress = null;
-
-  $scope.get_player_progress = function(){
-        $scope.player_progress = $resource('/jsonapi/get_player_progress').get();
-    };
+  
+  $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
   // this method add background color to the selected images 
   $scope.practiceSelection=function(){
@@ -192,8 +189,15 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
   }
-	
-	
+	//rank
+  $scope.pathSelectRank=function(){
+    $('#myCarouselRank input:image').click(function() {
+      $('#myCarouselRank input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
 	
 		$scope.lvlName = name;
@@ -207,6 +211,35 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$scope.problems = response;
 		});	
 	};
+	
+	
+	//resume game from profile page
+    $scope.resumePracticeGame=function(pathid,pathname,num){
+		$scope.path_progress = null;
+		$cookieStore.put("pid", pathid);
+        $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+        //Including details=1 returns the nested problemset progress.
+        $scope.PathModel.get({"pathID":pathid,"details":1}, function(response){
+            $scope.path_progress = response;
+			if(pathname.substring(0,9).trim()=="Beginner"){
+				$scope.difficulty = "Drag-n-Drop";
+			}
+			else{
+				$scope.difficulty = "Easy";
+			}
+			for (var i=0;i<$scope.path_progress.details.length;i++)
+			{ 
+				if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
+					alert("level "+$scope.path_progress.details[i].pathorder);
+					$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
+					break;
+				}
+			}
+        });
+
+	}
+	
 	
 	$scope.changePath = function (difficulty, pathName){
 		if(difficulty=="Drag-n-Drop"){
@@ -248,7 +281,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.continuePath = function(num){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset>=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
 				alert("level "+$scope.path_progress.details[i].pathorder);
 				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
@@ -259,7 +292,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.create_prac = function(level,numProblems,lvlnum){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset>=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
 				$scope.nextLvlNum = $scope.path_progress.details[i].pathorder;
 				break;
 			}
@@ -1709,4 +1742,21 @@ function TournamentController($scope,$resource,$http){
           //    $scope.tournaments = response;
           //});
     };  
+}
+
+
+function RankController($scope,$resource,$cookieStore,$location){
+	//fetch the list of rankers based in the path selected by user
+	$scope.get_path_ranks = function(pathId){
+        $scope.pathRank = $resource('/jsonapi/ranking/:pathid');
+		
+		$scope.pathRank.get({"pathId":pathId}, function(response){
+            $scope.ranking[pathId] = response;
+        });
+    };
+	
+	//fetch countries rank based	
+	$scope.get_country_ranks = function(){
+        $scope.countryRank = $resource('/jsonapi/country_ranking maxRank=300').get();
+    };
 }
