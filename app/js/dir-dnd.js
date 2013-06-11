@@ -74,16 +74,18 @@ myApp.directive('dndBetweenList', function($parse) {
         },true);
 
         scope.$watch('quest.videos', function() {
-            var numOfUnlocked = 0;
-            for(var i=0;i<scope.quest.videos.length;i++){
-                if(scope.quest.videos[i] != "LOCKED"){
-                   numOfUnlocked++;
+            if(scope.quest){
+                var numOfUnlocked = 0;
+                for(var i=0;i<scope.quest.videos.length;i++){
+                    if(scope.quest.videos[i] != "LOCKED"){
+                       numOfUnlocked++;
+                    }
                 }
+                if(numOfUnlocked > videos && args[0] == 'source'){
+                    angular.element("#dndGame").scope().play_unlocked_video(numOfUnlocked - 1);
+                }
+                videos = numOfUnlocked;
             }
-            if(numOfUnlocked > videos && args[0] == 'source'){
-                angular.element("#dndGame").scope().play_unlocked_video(numOfUnlocked - 1);
-            }
-            videos = numOfUnlocked;
         },true);
 
         // use jquery to make the element sortable (dnd). This is called
