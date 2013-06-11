@@ -189,7 +189,14 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
   }
-	
+	//rank
+  $scope.pathSelectRank=function(){
+    $('#myCarouselRank input:image').click(function() {
+      $('#myCarouselRank input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
 	
