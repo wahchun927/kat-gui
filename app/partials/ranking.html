@@ -1,88 +1,184 @@
-</br>
+<br>
+<p><p>
 <style>
-    .table td, .table th {
-        border: none;
-		text-align:center;
-    }
-    .table tbody tr:hover td,
-    .table tbody tr:hover th {
-      background-color: #2E2E2E;
-    }
-    
-    
-    .fRight{
-        float:right;
-    }
 
-    .tabspacing{
-        width:16.666%;
-		text-align:center;
-    }
-	.innerTabspacing{
-		width:50%;
-		text-align:center;
-	}
-	.crTabspacing{
-		width:100%;
-		text-align:center;
-	}
-    tbody{
-        overflow:auto;  
-    }
-	
-	td {
-		text-align: center;
-		vertical-align: center;
-	}
-	
-    th.a1, td.a1{width:10%;}
-    th.a2, td.a2{width:30%;}
-    th.a3, td.a3{width:20%;}
-    th.a4, td.a4{width:20%;}
-	th.a5, td.a5{width:20%;}
+.radio{
+    text-align: center;	
+}
+
+#radButton{
+display:inline;
+}
+
+#pathImg label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+#paths {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.input_hidden {
+    position: absolute;
+    left: -9999px;
+}
+
+#pathImg{
+
+width:50px;
+height:50px;
+
+}
+
+.input_hidden {
+    position: absolute;
+    left: -9999px;
+}
+
+.selected {
+    background-color: #C0C0C0;
+}
+
+#paths input {
+    display: inline-block;
+    cursor: pointer;
+}
+
+input:hover{
+
+ background-color: 	#C0C0C0;
+}
+
+#paths input img {
+
+    padding: 3px;
     
+}
 
-    th.r1, td.r1{width:20%;}
-    th.r2, td.r2{width:10%;}
-    th.r3, td.r3{width:15%;}
-    th.r4, td.r4{width:15%;}
-    th.r5, td.r5{width:15%;}
-	th.r6, td.r6{width:25%;}
-	
-    th.u1, td.u1{width:20%;}
-    th.u2, td.u2{width:10%;}
-    th.u3, td.u3{width:15%;}
-    th.u4, td.u4{width:25%;}
-    th.u5, td.u5{width:15%;}
-	
-	th.cr1, td.cr1{width:10%;}
-    th.cr2, td.cr2{width:20%;}
-    th.cr3, td.cr3{width:70%;}
-	
+<!--small-->
 
+#pathImgSmall{
+
+width:70px;
+height:70px;
+
+}
+
+
+#smallDifficulty{
+height: 30px;
+width: 100px;
+border-radius: 3px;
+}
+
+#largeDifficulty{
+height: 40px;
+width: 170px;
+border-radius: 3px;
+}
+
+li{ list-style:none; }
+
+.tabspacing{
+    width:50%;
+	text-align:center;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 40%;
+  left: 15px;
+  width: 30px;
+  height: 30px;
+  margin-top: -30px;
+  font-size: 40px;
+  font-weight: 100;
+  line-height: 20px;
+  color: #ffffff;
+  text-align: center;
+  background: #222222;
+  border: 3px solid #ffffff;
+  -webkit-border-radius: 23px;
+     -moz-border-radius: 23px;
+          border-radius: 23px;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+
+.crTabspacing{
+	width:100%;
+	text-align:center;
+}
+
+.innerTabspacing{
+	width:50%;
+	text-align:center;
+}
+
+th.a1, td.a1{width:10%;}
+th.a2, td.a2{width:30%;}
+th.a3, td.a3{width:20%;}
+th.a4, td.a4{width:20%;}
+th.a5, td.a5{width:20%;}
+
+th.cr1, td.cr1{width:10%;}
+th.cr2, td.cr2{width:20%;}
+th.cr3, td.cr3{width:70%;}
 
 </style>
 
-
-<div class ="container">
-	<div class="row-fluid">
-		<div class="span12">
-		
-			<!-- Path Ranking-->
-			<div class="span8 well well-small" align="center">
-				<div class="tabbable well"> <!-- Only required for left/right tabs -->
-					<ul class="nav nav-tabs">
-						<li class="tabspacing active"><a data-target="#tab1" data-toggle="tab">All</a></li>
-						<li class="tabspacing"><a data-target="#tab2" data-toggle="tab">Java</a></li>
-						<li class="tabspacing"><a data-target="#tab3" data-toggle="tab">Python</a></li>
-						<li class="tabspacing"><a data-target="#tab4" data-toggle="tab">R</a></li>
-						<li class="tabspacing"><a data-target=="#tab5" data-toggle="tab">Ruby</a></li>
-						<li class="tabspacing"><a data-target="#tab6" data-toggle="tab">Javascript</a></li>
-					</ul>
-						  <div class="tab-content">
-							<!--All-->
+	<div class="container" >
+	
+		<div class="row-fluid">
+			<div class="span12">
+				<!-- Carousel for Path -->
+				<div class="span9 well">
+					<div class="row-fluid">
+						<div class="span12" ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
+							<div id="myCarouselRank" class="carousel slide">
+								<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
+									<div class="item active">
+										<!-- Three columns of text below the carousel -->
+									
+										<div class="span12">
+											<div class="row" >
+												<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="pathSelectRank()">
+													<label class="radio">
+													<input style="visibility:hidden" type="radio" ng-click="addColor()" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+													<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+													<h6>{{path.name}}</h6>
+													</label>
+												</div>
+											</div>
+										</div>	
+									</div>
+									<div class="item">
+										<!-- Three columns of text below the carousel -->
+										
+										<div class="span12">
+											<div class="row" >
+												<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="pathSelectRank()">
+													<label class="radio">
+														<input style="visibility:hidden" type="radio" ng-click="addColor()" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+														<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+														<h6>{{path.name}}</h6>
+													</label>
+												</div>
+											</div>
+										</div>	
+									</div>
+								</div> 
+								<a class="left carousel-control" data-target="#myCarouselRank" data-slide="prev">&lsaquo;</a>
+								<a class="right carousel-control" data-target="#myCarouselRank" data-slide="next">&rsaquo;</a>
+							</div>
+						<div class="row-fluid">
+						<div class="span12">
+							<!-- SG & WORLD-->
 							<div class="tab-pane active" id="tab1">
-								<div class="tabbable well"> <!-- Only required for left/right tabs -->
+								<div class="tabbable well well-small"> <!-- Only required for left/right tabs -->
 									<ul class="nav nav-tabs">
 										<li class="innerTabspacing active"><a data-target="#tab1sg" data-toggle="tab">Singapore</a></li>
 										<li class="innerTabspacing"><a data-target="#tab1world" data-toggle="tab">World</a></li>								
@@ -114,6 +210,34 @@
 														<td class="a5">200</td>
 													</tr>
 												</table>
+												
+											
+												<div ng-controller="RankController" ng-init="get_path_ranks({{path.id}})">
+                                                <table class="table table-hover">
+                                                    <tr ng-repeat="rank in path_ranks.ranks" ng-init="count(0);">                                                         
+														<td> <!--rank-->																
+														  {{rank.name}}                                                        
+														</td>
+														<td class="c2"> <!--name-->
+															
+															{{path.solvedProblems}}/{{path.problemsInPath}}
+															<div class="progress progress-success">
+																<div class="bar" style="width:{{count = (path.solvedProblems/path.problemsInPath)*100 |number:0}}%"></div>
+															</div>
+														</td> <!--country-->
+														<td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
+														</td>   
+														</td> <!--badge-->
+														<td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
+														</td> 
+														</td> <!--solved-->
+														<td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
+														</td> 
+                                                    </tr>
+                                                             
+                                                </table>
+												</div>
+                                  
 											</div>
 										</div>
 										
@@ -150,65 +274,17 @@
 									
 								</div>
 							</div>
-							 
-							<!--Java-->
-							<div class="tab-pane" id="tab2">
-								<div class="tabbable well"> <!-- Only required for left/right tabs -->
-									<ul class="nav nav-tabs">
-										<li class="innerTabspacing active"><a data-target="#tab2" data-toggle="tab">Singapore</a></li>
-										<li class="innerTabspacing"><a data-target="#tab2" data-toggle="tab">World</a></li>								
-									</ul>
-								</div>
-							
-							</div>
-							
-							<!--Python-->
-							<div class="tab-pane" id="tab3">
-								<div class="tabbable well"> <!-- Only required for left/right tabs -->
-									<ul class="nav nav-tabs">
-										<li class="innerTabspacing active"><a data-target="#tab3" data-toggle="tab">Singapore</a></li>
-										<li class="innerTabspacing"><a data-target="#tab3" data-toggle="tab">World</a></li>								
-									</ul>
-								</div>
-							</div>
-							
-							<!--R-->
-							<div class="tab-pane" id="tab4">
-								<div class="tabbable well"> <!-- Only required for left/right tabs -->
-									<ul class="nav nav-tabs">
-										<li class="innerTabspacing active"><a data-target="#tab4" data-toggle="tab">Singapore</a></li>
-										<li class="innerTabspacing"><a data-target="#tab4" data-toggle="tab">World</a></li>								
-									</ul>
-								</div>
-							</div>
-							
-							<!--Ruby-->
-							<div class="tab-pane" id="tab5">
-								<div class="tabbable well"> <!-- Only required for left/right tabs -->
-									<ul class="nav nav-tabs">
-										<li class="innerTabspacing active"><a data-target="#tab5" data-toggle="tab">Singapore</a></li>
-										<li class="innerTabspacing"><a data-target="#tab5" data-toggle="tab">World</a></li>								
-									</ul>
-								</div>
-							</div>
-							
-							<!--Javascript-->
-							<div class="tab-pane" id="tab6">
-								<div class="tabbable well"> <!-- Only required for left/right tabs -->
-									<ul class="nav nav-tabs">
-										<li class="innerTabspacing active"><a data-target="#tab6" data-toggle="tab">Singapore</a></li>
-										<li class="innerTabspacing"><a data-target="#tab6" data-toggle="tab">World</a></li>								
-									</ul>
-								</div>
-							</div>
-							
-						  </div>
+						
+						</div>						
+						</div>
+						</div>
+					</div>					
+									
 				</div>
-			</div>
-			
-			<!--Country Ranking-->
-			<div class="span4 well well-small" align="center">
-				<div class="tabbable well"> <!-- Only required for left/right tabs -->
+				<!-- Country Ranking -->
+				<div class="span3 well well-small" align="center">
+					
+				<div class="tabbable"> <!-- Only required for left/right tabs -->
 				  <ul class="nav nav-tabs">
 					<li class="crTabspacing active"><a data-target="#tab1" data-toggle="tab">Country Ranking</a></li>
 				  </ul>
@@ -222,28 +298,33 @@
 									<th class="cr3">Number of Users</th>						
 								</tr>  
 							</table> 
-							<table class="table table-hover">
-								<tr>
-									<td class="cr1">1</td>
-									<td class="cr2">Sg</td>
-									<td class="cr3">2604</td>
+							
+							<table class="table table-hover" ng-controller="RankController" ng-init="get_country_ranks();" >
+									<tr ng-repeat="ranking in countryRank.rankings">
+									   
+										<td>
+											{{ranking.rank}}
 									
-								<tr>
-									<td class="cr1">2</td>
-									<td class="cr2">USA</td>
-									<td class="cr3">2119</td>
-									
-								</tr>
+										</td>
+										<td> 
+											<div ng-src={{ranking.flagUrl}}></div>
+											{{ranking.countryName}}											
+										</td>
+										<td>
+											{{ranking.player_num}}
+										</td>                                 
+									</tr>
+										 
 							</table>
-						</div>
+                              
+				
 					</div>
 				  </div>
+				
+				</div>
+				</div>
+				</div>
 				
 			</div>
 		</div>
 	</div>
-</div>
-				
-<script>
-
-</script>

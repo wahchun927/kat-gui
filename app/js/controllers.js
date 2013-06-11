@@ -157,7 +157,6 @@ function PathController($scope,$resource,$cookieStore,$location){
   
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
-
   // this method add background color to the selected images 
   $scope.practiceSelection=function(){
     $('#myCarousel input:image').click(function() {
@@ -190,8 +189,15 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
   }
-	
-	
+	//rank
+  $scope.pathSelectRank=function(){
+    $('#myCarouselRank input:image').click(function() {
+      $('#myCarouselRank input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
+	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
 	
 		$scope.lvlName = name;
@@ -205,6 +211,35 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$scope.problems = response;
 		});	
 	};
+	
+	
+	//resume game from profile page
+    $scope.resumePracticeGame=function(pathid,pathname,num){
+		$scope.path_progress = null;
+		$cookieStore.put("pid", pathid);
+        $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+        //Including details=1 returns the nested problemset progress.
+        $scope.PathModel.get({"pathID":pathid,"details":1}, function(response){
+            $scope.path_progress = response;
+			if(pathname.substring(0,9).trim()=="Beginner"){
+				$scope.difficulty = "Drag-n-Drop";
+			}
+			else{
+				$scope.difficulty = "Easy";
+			}
+			for (var i=0;i<$scope.path_progress.details.length;i++)
+			{ 
+				if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
+					alert("level "+$scope.path_progress.details[i].pathorder);
+					$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
+					break;
+				}
+			}
+        });
+
+	}
+	
 	
 	$scope.changePath = function (difficulty, pathName){
 		if(difficulty=="Drag-n-Drop"){
@@ -246,7 +281,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.continuePath = function(num){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
 				alert("level "+$scope.path_progress.details[i].pathorder);
 				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
@@ -257,8 +292,12 @@ function PathController($scope,$resource,$cookieStore,$location){
 	$scope.create_prac = function(level,numProblems,lvlnum){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
-			if($scope.path_progress.details[i].problemsInProblemset!=$scope.path_progress.details[i].currentPlayerProgress){
+			if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
 				$scope.nextLvlNum = $scope.path_progress.details[i].pathorder;
+				break;
+			}
+			else if(i==($scope.path_progress.details.length-1)){
+				$scope.nextLvlNum = i+1;
 				break;
 			}
 		}
@@ -719,7 +758,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
           if($scope.remaining_problems.length == 0){
 				
-				if($scope.problems_progress.problemsInProblemset==$scope.problems_progress.currentPlayerProgress){
+				if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
 					alert("congrats!");
 					window.location.href="index.html#/practice";
 				}
@@ -1232,8 +1271,8 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
 				});
 		  
 				if($scope.remaining_problems.length==0){
-					alert("Current level Progress: " + ($scope.problems_progress.currentPlayerProgress+1) + " of " + $scope.problems_progress.problemsInProblemset);
-					if($scope.problems_progress.problemsInProblemset-$scope.problems_progress.currentPlayerProgress==1){
+					alert("Current level Progress: " + ($scope.problems_progress.currentPlayerProgress) + " of " + $scope.problems_progress.problemsInProblemset);
+					if($scope.problems_progress.problemsInProblemset-$scope.problems_progress.currentPlayerProgress<=1){
 						alert("Congratulation! You have completed this level!");
 						window.location.href="index.html#/practice";
 					}
@@ -1288,7 +1327,12 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
               if($scope.solution_check_result.last_solved){
                 //If you hardcode to the game, this will automatically advance the game to the next problem. 
                 $scope.fetch($scope.game.gameID);
-                $scope.update_quest();
+
+				$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+
+				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+				$scope.problems_progress = response;
+				});
               }
           });
         };
@@ -1323,6 +1367,13 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
             //If the solution passes, then call verify for the solution to progress in the game. 
             if(nonErrorResult.solved){
               $('#pop_info_Pane').modal('show');
+			  
+			  $scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+
+			  $scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+		      $scope.problems_progress = response;
+			  }); 
+			 
               $scope.source = [];
               $scope.check_solution_for_game();
             }
@@ -1691,4 +1742,21 @@ function TournamentController($scope,$resource,$http){
           //    $scope.tournaments = response;
           //});
     };  
+}
+
+
+function RankController($scope,$resource,$cookieStore,$location){
+	//fetch the list of rankers based in the path selected by user
+	$scope.get_path_ranks = function(pathId){
+        $scope.pathRank = $resource('/jsonapi/ranking/:pathid');
+		
+		$scope.pathRank.get({"pathId":pathId}, function(response){
+            $scope.ranking[pathId] = response;
+        });
+    };
+	
+	//fetch countries rank based	
+	$scope.get_country_ranks = function(){
+        $scope.countryRank = $resource('/jsonapi/country_ranking maxRank=300').get();
+    };
 }
