@@ -1756,7 +1756,7 @@ function RankController($scope,$resource,$cookieStore,$location){
             $scope.rankingSG = response;
         });
 		
-        $scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathID');
+        $scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId');
 		
 		$scope.pathRankModel2.get({"pathId":pathId}, function(response){
             $scope.rankingGlobal = response;
