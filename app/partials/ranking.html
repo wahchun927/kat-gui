@@ -147,7 +147,7 @@ th.cr3, td.cr3{width:70%;}
 											<div class="row" >
 												<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="pathSelectRank()">
 													<label class="radio">
-													<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)"ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+													<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 													<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 													<h6>{{path.name}}</h6>
 													</label>
@@ -163,7 +163,7 @@ th.cr3, td.cr3{width:70%;}
 											<div class="row" >
 												<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="pathSelectRank()">
 													<label class="radio">
-														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 														<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 														<h6>{{path.name}}</h6>
 													</label>
@@ -195,27 +195,25 @@ th.cr3, td.cr3{width:70%;}
 														<th class="a4">Badge</th>
 														<th class="a5">Solved</th>
 													</tr>  
-												</table> 
-												<table class="table table-hover" ng-controller="RankController" >
-														<tr ng-repeat="ranking in rankingSG.rankings">
+														<tr style="border-top: solid white; border-bottom: solid white;" ng-repeat="ranking in rankingSG.rankings">
 														   
-															<td>
+															<td class="a1">
 																{{ranking.rank}}
 														
 															</td>
-															<td>
+															<td class="a2">
 																<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 													
 																{{ranking.nickname}}
 														
 															</td>
-															<td> 
+															<td class="a3"> 
 																<image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>	
 															</td>
-															<td> 
+															<td class="a4"> 
 																<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
 															</td>
-															<td>
+															<td class="a5">
 																{{ranking.solved_num}}
 															</td>                                 
 														</tr>	 
@@ -223,8 +221,6 @@ th.cr3, td.cr3{width:70%;}
 												                                 
 											</div>
 										</div>
-										{{rankingGlobal}}
-										{{rankingSG}}
 										<div class="tab-pane" id="tab1world">
 											<div style="overflow-x:hidden">
 												<table class="table table-condensed">
@@ -235,8 +231,6 @@ th.cr3, td.cr3{width:70%;}
 														<th class="a4">Badge</th>
 														<th class="a5">Solved</th>
 													</tr>  
-												</table> 
-												<table>
 												<tr ng-repeat="ranking in rankingGlobal.rankings">														   
 													<td>
 														{{ranking.rank}}
