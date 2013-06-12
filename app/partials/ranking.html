@@ -195,25 +195,25 @@ th.cr3, td.cr3{width:70%;}
 														<th class="a4">Badge</th>
 														<th class="a5">Solved</th>
 													</tr>  
-														<tr style="border-top: solid white; border-bottom: solid white;" ng-repeat="ranking in rankingSG.rankings">
+														<tr ng-repeat="ranking in rankingSG.rankings">
 														   
-															<td class="a1">
+															<td>
 																{{ranking.rank}}
 														
 															</td>
-															<td class="a2">
+															<td>
 																<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 													
 																{{ranking.nickname}}
 														
 															</td>
-															<td class="a3"> 
+															<td> 
 																<image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>	
 															</td>
-															<td class="a4"> 
+															<td> 
 																<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
 															</td>
-															<td class="a5">
+															<td>
 																{{ranking.solved_num}}
 															</td>                                 
 														</tr>	 
