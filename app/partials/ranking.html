@@ -130,7 +130,7 @@ th.cr3, td.cr3{width:70%;}
 
 </style>
 
-	<div class="container" >
+	<div class="container" ng-controller = "RankController">
 	
 		<div class="row-fluid">
 			<div class="span12">
@@ -147,7 +147,7 @@ th.cr3, td.cr3{width:70%;}
 											<div class="row" >
 												<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="pathSelectRank()">
 													<label class="radio">
-													<input style="visibility:hidden" type="radio" ng-click="addColor()" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+													<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 													<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 													<h6>{{path.name}}</h6>
 													</label>
@@ -155,6 +155,7 @@ th.cr3, td.cr3{width:70%;}
 											</div>
 										</div>	
 									</div>
+									{{pathid}}
 									<div class="item">
 										<!-- Three columns of text below the carousel -->
 										
@@ -162,7 +163,7 @@ th.cr3, td.cr3{width:70%;}
 											<div class="row" >
 												<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="pathSelectRank()">
 													<label class="radio">
-														<input style="visibility:hidden" type="radio" ng-click="addColor()" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 														<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 														<h6>{{path.name}}</h6>
 													</label>
@@ -194,53 +195,32 @@ th.cr3, td.cr3{width:70%;}
 														<th class="a4">Badge</th>
 														<th class="a5">Solved</th>
 													</tr>  
-												</table> 
-												<table class="table table-hover">
-													<tr>
-														<td class="a1">1</td>
-														<td class="a2">Jack in the box</td>
-														<td class="a3">Sg</td>
-														<th class="a4">Java9</th>
-														<td class="a5">256</td>
-													<tr>
-														<td class="a1">2</td>
-														<td class="a2">Jennifer</td>
-														<td class="a3">Sg</td>
-														<th class="a4">Ruby6</th>
-														<td class="a5">200</td>
-													</tr>
+														<tr ng-repeat="ranking in rankingSG.rankings">
+														   
+															<td>
+																{{ranking.rank}}
+														
+															</td>
+															<td>
+																<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
+													
+																{{ranking.nickname}}
+														
+															</td>
+															<td> 
+																<image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>	
+															</td>
+															<td> 
+																<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
+															</td>
+															<td>
+																{{ranking.solved_num}}
+															</td>                                 
+														</tr>	 
 												</table>
-												
-											
-												<div ng-controller="RankController" ng-init="get_path_ranks({{path.id}})">
-                                                <table class="table table-hover">
-                                                    <tr ng-repeat="rank in path_ranks.ranks" ng-init="count(0);">                                                         
-														<td> <!--rank-->																
-														  {{rank.name}}                                                        
-														</td>
-														<td class="c2"> <!--name-->
-															
-															{{path.solvedProblems}}/{{path.problemsInPath}}
-															<div class="progress progress-success">
-																<div class="bar" style="width:{{count = (path.solvedProblems/path.problemsInPath)*100 |number:0}}%"></div>
-															</div>
-														</td> <!--country-->
-														<td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
-														</td>   
-														</td> <!--badge-->
-														<td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
-														</td> 
-														</td> <!--solved-->
-														<td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
-														</td> 
-                                                    </tr>
-                                                             
-                                                </table>
-												</div>
-                                  
+												                                 
 											</div>
 										</div>
-										
 										<div class="tab-pane" id="tab1world">
 											<div style="overflow-x:hidden">
 												<table class="table table-condensed">
@@ -251,22 +231,29 @@ th.cr3, td.cr3{width:70%;}
 														<th class="a4">Badge</th>
 														<th class="a5">Solved</th>
 													</tr>  
+												<tr ng-repeat="ranking in rankingGlobal.rankings">														   
+													<td>
+														{{ranking.rank}}
+												
+													</td>
+													<td>
+														<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
+											
+														{{ranking.nickname}}
+												
+													</td>
+													<td> 
+														<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
+													</td>
+													<td> 
+														<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
+													</td>
+													<td>
+														{{ranking.solved_num}}
+													</td>                                 
+												</tr>	
 												</table> 
-												<table class="table table-hover">
-													<tr>
-														<td class="a1">1</td>
-														<td class="a2">Mick</td>
-														<td class="a3">USA</td>
-														<td class="a4">Java20</td>
-														<td class="a5">256</td>
-													<tr>
-														<td class="a1">2</td>
-														<td class="a2">Jennifer</td>
-														<td class="a3">Sg</td>
-														<td class="a4">Python19</td>
-														<td class="a5">200</td>
-													</tr>
-												</table>
+												
 											</div>	
 										</div>
 										
@@ -307,7 +294,7 @@ th.cr3, td.cr3{width:70%;}
 									
 										</td>
 										<td> 
-											<div ng-src={{ranking.flagUrl}}></div>
+											<image ng-src="{{ranking.flagUrl}}"/>
 											{{ranking.countryName}}											
 										</td>
 										<td>
