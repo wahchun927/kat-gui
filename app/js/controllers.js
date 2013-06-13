@@ -1747,12 +1747,19 @@ function TournamentController($scope,$resource,$http){
 
 
 function RankController($scope,$resource,$cookieStore,$location){
-	//fetch the list of rankers based in the path selected by user
+
+	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
-        $scope.pathRank = $resource('/jsonapi/ranking/:pathid');
+        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathID&countryCode=SG');
 		
-		$scope.pathRank.get({"pathId":pathId}, function(response){
-            $scope.ranking[pathId] = response;
+		$scope.pathRankModel1.get({"pathId":pathId}, function(response){
+            $scope.rankingSG = response;
+        });
+		
+        $scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId');
+		
+		$scope.pathRankModel2.get({"pathId":pathId}, function(response){
+            $scope.rankingGlobal = response;
         });
     };
 	
