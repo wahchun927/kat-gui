@@ -927,7 +927,9 @@ function GameController($scope,$resource,$cookieStore,$location){
           $scope.permutation_lines = {origional: []};
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.game.problems.problems[$scope.current_problem_index].lines.length; i++) {
+            if($scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)].replace(/[ \t\r]+/g,"") != ""){
               $scope.permutation_lines.origional.push({"content": $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)],"id": (i+1)});
+            }
           }
           $scope.line_outcome = $scope.permutation_lines;
         }
@@ -993,6 +995,9 @@ function GameController($scope,$resource,$cookieStore,$location){
             if($scope.game.solvedProblemIDs.indexOf($scope.game.problemIDs[i])<0){
               $scope.remaining_problems.push($scope.game.problemIDs[i]);
             }
+          }
+          if($scope.remaining_problems.length == 0){
+            $scope.create_quest_game($scope.qid);
           }
           //Update the current problem index based on remaining problems and items skipped. 
           $scope.move_to_next_unsolved_problem();
