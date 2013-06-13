@@ -98,50 +98,49 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 			}
 		};
 		
-        $scope.update_player_profile = function($event){  
-      
-            var data = {"nickname":$scope.player.nickname,
-                        "professional":$scope.player.professional,
-                        "about":$scope.player.about,
-                        "gender":$scope.player.gender};
+    $scope.update_player_profile = function($event){  
+  
+        var data = {"nickname":$scope.player.nickname,
+                    "professional":$scope.player.professional,
+                    "about":$scope.player.about,
+                    "gender":$scope.player.gender};
 
-            $scope.UpdateProfile = $resource('/jsonapi/update_player_profile');
-            var item = new $scope.UpdateProfile(data);
-            $scope.item = item.$save(); 
-        };
-            
-        $scope.log_event = function($event){  
+        $scope.UpdateProfile = $resource('/jsonapi/update_player_profile');
+        var item = new $scope.UpdateProfile(data);
+        $scope.item = item.$save(); 
+    };
+        
+    $scope.log_event = function($event){  
 
-            var result = $location.absUrl().split("/");
-            var page = result[result.length-1];
-            if($event.target.innerText){
-              page = page + "_" + $event.target.innerText;        
-            }    
-            $scope.Log = $resource('/jsonapi/log_event');
-            var item = new $scope.Log({"page": page});
-            $scope.item = item.$save(); 
-        };        
+        var result = $location.absUrl().split("/");
+        var page = result[result.length-1];
+        if($event.target.innerText){
+          page = page + "_" + $event.target.innerText;        
+        }    
+        $scope.Log = $resource('/jsonapi/log_event');
+        var item = new $scope.Log({"page": page});
+        $scope.item = item.$save(); 
+    };        
         
-        $scope.dismissModal = function(){
-          $('#loginAlert').modal('hide')
-        };
-        
-        $scope.show_panel = function(){
-          $('#edit_profile').modal('show')
-        };
-        
-        $scope.logout=function(){
-            
-            $resource('/sign_out').get({}, function(response){
-                $scope.logoutresponse = response;
-                $scope.player = $resource('/jsonapi/player').get();
-                //{"error": "No player logged in"}
-                if ($scope.player.error){
-                  $scope.abc = 'true';
-                  $scope.def = 'false';
-                }
-            });
-        };     
+    $scope.dismissModal = function(){
+      $('#loginAlert').modal('hide')
+    };
+    
+    $scope.show_panel = function(){
+      $('#edit_profile').modal('show')
+    };
+    
+    $scope.logout=function(){    
+        $resource('/sign_out').get({}, function(response){
+            $scope.logoutresponse = response;
+            $scope.player = $resource('/jsonapi/player').get();
+            //{"error": "No player logged in"}
+            if ($scope.player.error){
+              $scope.abc = 'true';
+              $scope.def = 'false';
+            }
+        });
+    };     
 }
 
 function InterfaceController($scope,$resource){
@@ -149,10 +148,10 @@ function InterfaceController($scope,$resource){
 }
 
 function PathController($scope,$resource,$cookieStore,$location){
-    $scope.paths = $resource('/jsonapi/get_game_paths').get();
+  $scope.paths = $resource('/jsonapi/get_game_paths').get();
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 	$scope.abc = $cookieStore.get("pid");
-    $scope.difficulty = "Drag-n-Drop";
+  $scope.difficulty = "Drag-n-Drop";
 	$scope.lvlName = 1;
   
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
@@ -398,33 +397,33 @@ function ProblemController($scope,$resource){
 
 
 function BadgeController($scope,$resource){
-        $scope.playerBadges = $resource('/jsonapi/badges_for_current_player').get();
+    $scope.playerBadges = $resource('/jsonapi/badges_for_current_player').get();
 }
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location){
-        $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
+    $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
 
-        $scope.goToStory=function()
-        {
-          $location.path("challengeCreator");
+    $scope.goToStory=function()
+    {
+      $location.path("challengeCreator");
 
-        };
-        $scope.goToChallengeSummary=function()
-        {
-          $location.path("challenges");
+    };
+    $scope.goToChallengeSummary=function()
+    {
+      $location.path("challenges");
 
-        };
-        $scope.goToChallengeD=function()
-        {
-          $location.path("challengedetails");
+    };
+    $scope.goToChallengeD=function()
+    {
+      $location.path("challengedetails");
 
-        };
-        $scope.goToRegistration=function()
-        {
-          $location.path("registration");
+    };
+    $scope.goToRegistration=function()
+    {
+      $location.path("registration");
 
-        };
+    };
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
@@ -919,7 +918,9 @@ function GameController($scope,$resource,$cookieStore,$location){
         }
 
         $scope.modelEmpty = function() {
-          return $scope.line_outcome.origional.length == 0;
+          if($scope.line_outcome.origional){
+            return $scope.line_outcome.origional.length == 0;
+          }
         }
 
         $scope.assign_id = function() {
@@ -1746,12 +1747,19 @@ function TournamentController($scope,$resource,$http){
 
 
 function RankController($scope,$resource,$cookieStore,$location){
-	//fetch the list of rankers based in the path selected by user
+
+	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
-        $scope.pathRank = $resource('/jsonapi/ranking/:pathid');
+        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathID&countryCode=SG');
 		
-		$scope.pathRank.get({"pathId":pathId}, function(response){
-            $scope.ranking[pathId] = response;
+		$scope.pathRankModel1.get({"pathId":pathId}, function(response){
+            $scope.rankingSG = response;
+        });
+		
+        $scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId');
+		
+		$scope.pathRankModel2.get({"pathId":pathId}, function(response){
+            $scope.rankingGlobal = response;
         });
     };
 	
