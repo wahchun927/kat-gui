@@ -1669,29 +1669,30 @@ function StoryController($scope,$resource,$cookieStore,$location){
       });
     }
 	
-	// $scope.addQuestColor=function(){
-    
-		// $('#myCarousel input:image').click(function() {
-		  // $('#myCarousel input:image').removeClass('selected');   
-		  // $(this).addClass('selected');
-      
-    // });
-	
-	// $scope.addQuestColor=function(){
-    
-		// $('#myCarousel input:image').click(function() {
-		  // $('#myCarousel input:image').removeClass('selected');   
-		  // $(this).addClass('selected');
-		// }
+  
+	//1. Load all stories created by user 
+
+	//2. Edit an exiting story
+
+	//3. Playback an existing story
+
+	//4. View statistics on existing story
+
+	//5. Create a new Story
+
+	   ////record title, description, video url
+	   
+	   //// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
+	   
+	   ////Enable reordering of rows under sequence column, & save the order	   
+	      
+	   ////set story image as that of the first video thumbnail
+	   
+	//6. If user is admin, enable publish(yes|no)
+
+		////if admin made saved a story/edited a story, enable the "Publish" button
 		
-		// $('#myCarouselSmall input:image').click(function() {
-		  // $('#myCarouselSmall input:image').removeClass('selected');   
-		  // $(this).addClass('selected');
-		// }
-      
-    // });
-	
-  //}
+		////if user clicks publish, set published value to true, disable publish button to "Pubished"
 	
 }
 
