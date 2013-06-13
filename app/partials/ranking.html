@@ -124,9 +124,14 @@ th.a3, td.a3{width:20%;}
 th.a4, td.a4{width:20%;}
 th.a5, td.a5{width:20%;}
 
-th.cr1, td.cr1{width:10%;}
-th.cr2, td.cr2{width:20%;}
-th.cr3, td.cr3{width:70%;}
+th.cr1, td.cr1{width:05%; }
+th.cr2, td.cr2{width:65%;}
+th.cr3, td.cr3{width:30%; }
+
+td.cr_rank{width:05%; text-align:center;}
+td.cr_pic{width:05%; text-align:right;}
+td.cr_countryname{width:60%; text-align:left;}
+td.cr_playernumber{width:30%; text-align:center;}
 
 </style>
 
@@ -289,15 +294,16 @@ th.cr3, td.cr3{width:70%;}
 							<table class="table table-hover" ng-controller="RankController" ng-init="get_country_ranks();" >
 									<tr ng-repeat="ranking in countryRank.rankings">
 									   
-										<td>
+										<td class="cr_rank">
 											{{ranking.rank}}
-									
 										</td>
-										<td> 
+										<td class="cr_pic"> 
 											<image ng-src="{{ranking.flagUrl}}"/>
-											{{ranking.countryName}}											
 										</td>
-										<td>
+										<td class="cr_countryname"> 
+											{{ranking.countryName}}					
+										</td>										
+										<td class="cr_playernumber">
 											{{ranking.player_num}}
 										</td>                                 
 									</tr>
