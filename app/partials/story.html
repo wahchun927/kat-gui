@@ -31,8 +31,8 @@
     th.c2, td.c2{width:20%;}
     th.c3, td.c3{width:20%;}
     th.c4, td.c4{width:20%;}
-    th.c5, td.c5{width:10%;}
-    th.c6, td.c6{width:10%;}
+    th.c5, td.c5{width:20%;}
+    
 
     th.d1, td.d1{width:40%;}
     th.d2, td.d2{width:10%;}
@@ -46,6 +46,7 @@
     th.v4, td.v4{width:20%;}
     th.v5, td.v5{width:10%;}
     th.v6, td.v6{width:10%;}
+	
 
 
 </style>
@@ -59,14 +60,14 @@
 				<!--2 tabs-->
 			  <ul class="nav nav-tabs">
 				<li class="tabspacing active">
-				  <a data-target="#t1" data-toggle="tab">Current Stories</a>
+				  <a data-target="#tab1current" data-toggle="tab">Current Stories</a>
 				</li>
 				<li class="tabspacing">
-				  <a data-target="#t2" data-toggle="tab">Create Stories</a>
+				  <a data-target="#tab2create" data-toggle="tab">Create Stories</a>
 				</li>	   
 			  </ul>
 			  <div class="tab-content well">
-				<div class="tab-pane active" id="t1">
+				<div class="tab-pane active" id="tab1current">
 				  <div style="overflow-x:hidden">
 						<table class="table table-condensed">
 								<tr style="border-top: solid white; border-bottom: solid white;">
@@ -74,8 +75,8 @@
 									<th class="c2">Number of Videos</th>
 									<th class="c3">Total Time</th>
 									<th class="c4">Status</th>
-									<th class="c5">Statistics</th>
-									<th class="c6">Review</th>
+									<th class="c5">Review</th>
+								
 								</tr>  
 						</table> 
 						<div>
@@ -84,61 +85,57 @@
 										<td class="c1">The Spy Who Coded</td>
 										<td class="c2">12</td>
 										<td class="c3">50:00</td>
-										<td class="c4">Saved</td>
-										<td class="c5">Statistics</td>
-										<td class="c6"><input type = "radio"
-											 name = "review"
-											 value = "selected"
-											 checked = "checked" /> 
-										</td>      
+										<td class="c4"><span class="label label-success">Saved</span></td>
+										<td class="c5"> <div class="btn-group">
+														<button class="btn btn-success">Playback</button>
+														<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
+														<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
+														</div>
+										</td>
+										     
 									</tr>
 									<tr>
 										<td class="c1">Tricorder Meltdown</td>
 										<td class="c2">7</td>
 										<td class="c3">21:00</td>
 										<td class="c4">Published</td>
-										<td class="c5">Statistics</td>
-										<td class="c6"><input type = "radio"
-											 name = "review"
-											 value = "selected"
-											 checked = "checked" /> 
-										</td>      
+										<td class="c5"> <div class="btn-group">
+														<button class="btn btn-success">Playback</button>
+														<button class="btn btn-warning">Stats</button>
+														<button class="btn btn-danger">Edit</button>
+														</div>
+										</td> 
 									</tr>
 									<tr>
 										<td class="c1">Texas Whirlwind</td>
 										<td class="c2">6</td>
 										<td class="c3">19:00</td>
 										<td class="c4">Published</td>
-										<td class="c5">Statistics</td>
-										<td class="c6"><input type = "radio"
-											 name = "review"
-											 value = "selected"
-											 checked = "checked" /> 
-										</td>      
-									</tr>
+										<td class="c5"> <div class="btn-group">
+														<button class="btn btn-success">Playback</button>
+														<button class="btn btn-warning">Stats</button>
+														<button class="btn btn-danger">Edit</button>
+														</div>
+										</td>
 									<tr>
 										<td class="c1">Avengers</td>
 										<td class="c2">10</td>
 										<td class="c3">20:32</td>
 										<td class="c4">Published</td>
-										<td class="c5">Statistics</td>
-										<td class="c6"><input type = "radio"
-											 name = "review"
-											 value = "selected"
-											 checked = "checked" /> 
-										</td>      
-									</tr>
+										<td class="c5"> <div class="btn-group">
+														<button class="btn btn-success">Playback</button>
+														<button class="btn btn-warning">Stats</button>
+														<button class="btn btn-danger">Edit</button>
+														</div>
+										</td>
 									
 							</table> 
-							<div align="right">
-							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" >Playback</button> </br></br>
-							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;">Edit</button> 
-							</div>
+							
 						</div>
 				  </div>
 					
 				</div>
-				<div class="tab-pane" id="t2">
+				<div class="tab-pane" id="tab2create">
 				<!--add story title & videos-->
 				<div class="row-fluid">
 					<div class="span12">
@@ -155,6 +152,21 @@
 						
 					</div>
 				</div>
+				<div class="row-fluid">
+					<div class="span12">
+					<!--Story Title-->
+					
+						<div class="span2">
+							
+								<p>Story Description :</p>						
+							
+						</div>
+						<div class="span10">
+							 <textarea class="span8" rows="3"></textarea>
+						</div>
+						
+					</div>
+				</div>
 					<!--Videos-->
 					<div class="row-fluid">
 						<div class="span12">
@@ -163,14 +175,7 @@
 							</div>
 						
 							<div class="span10">
-							
-								
-								<input class="span8" type="text" placeholder="input youtube link">											
-								</br>
-								<input class="span8" type="text" placeholder="https://www.youtube.com/watch?v=QASVU1kFJJY">						  
-								</br>
-								<input class="span8" type="text" placeholder="https://www.youtube.com/watch?v=Qi_TXCEIMy0">
-								</br>
+															
 								<div class="input-append">
 									<input class="span8" id="appendedInputButtons" type="text" placeholder="https://www.youtube.com/watch?v=ERf7qcilFE4">
 
