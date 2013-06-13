@@ -195,6 +195,14 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
+	
+	$scope.pathSelectRankSmall=function(){
+    $('#myCarouselRankSmall input:image').click(function() {
+      $('#myCarouselRankSmall input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
   }
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
