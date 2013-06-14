@@ -195,6 +195,14 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
+	
+	$scope.pathSelectRankSmall=function(){
+    $('#myCarouselRankSmall input:image').click(function() {
+      $('#myCarouselRankSmall input:image').removeClass('selected');   
+      $(this).addClass('selected');
+      
+    });
+  }
   }
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
@@ -1767,7 +1775,26 @@ function RankController($scope,$resource,$cookieStore,$location){
 		$scope.pathRankModel2.get({"pathId":pathId}, function(response){
             $scope.rankingGlobal = response;
         });
+		
+		if(pathId==null){
+
+			$scope.pathRankModelAllSg = $resource('jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
+			
+			$scope.pathRankModelAllSg.get(function(response){
+				$scope.rankingAllSg = response;
+			});
+			
+			$scope.pathRankModelAllGlobal = $resource('jsonapi/worldwide_ranking?maxRank=25');
+			
+			$scope.pathRankModelAllGlobal.get(function(response){
+				$scope.rankingAllGlobal = response;
+			});
+				
+
+		}
     };
+	
+	
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
