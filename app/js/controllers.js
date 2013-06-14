@@ -1775,7 +1775,26 @@ function RankController($scope,$resource,$cookieStore,$location){
 		$scope.pathRankModel2.get({"pathId":pathId}, function(response){
             $scope.rankingGlobal = response;
         });
+		
+		if(pathId==null){
+
+			$scope.pathRankModelAllSg = $resource('jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
+			
+			$scope.pathRankModelAllSg.get(function(response){
+				$scope.rankingAllSg = response;
+			});
+			
+			$scope.pathRankModelAllGlobal = $resource('jsonapi/worldwide_ranking?maxRank=25');
+			
+			$scope.pathRankModelAllGlobal.get(function(response){
+				$scope.rankingAllGlobal = response;
+			});
+				
+
+		}
     };
+	
+	
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
