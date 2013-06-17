@@ -198,14 +198,15 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-	
-	$scope.pathSelectRankSmall=function(){
+		
+  }
+  
+  $scope.pathSelectRankSmall=function(){
     $('#myCarouselRankSmall input:image').click(function() {
       $('#myCarouselRankSmall input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
-  }
   }
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
@@ -213,6 +214,20 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$scope.lvlName = name;
 		
 		$('#myTab a:last').tab('show');
+			
+		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
+
+		//Including details=1 returns the nested problemset progress.
+		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
+		$scope.problems = response;
+		});	
+	};
+	
+	$scope.setButton1=function(name,problemID){
+	
+		$scope.lvlName = name;
+		
+		$('#myTab1 a:last').tab('show');
 			
 		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
 
@@ -260,6 +275,15 @@ function PathController($scope,$resource,$cookieStore,$location){
 		}
 	};
 	
+	$scope.changePath1 = function (difficulty, pathName){
+		if(difficulty=="Drag-n-Drop"){
+			$scope.changeDifficulty1(difficulty,pathName);
+		}
+		else{
+			$scope.changeDifficulty1(difficulty,"Beginner "+pathName);
+		}
+	};
+	
 	//change the difficulty level as well as the path level detail table
 	$scope.changeDifficulty = function(difficulty,pathName){
 		if(difficulty=="Drag-n-Drop"){
@@ -281,6 +305,34 @@ function PathController($scope,$resource,$cookieStore,$location){
 				if(a == b){
 					//alert(a+" "+b);
 					$scope.update_path_progress($scope.paths.paths[i].id);
+					break;
+				}
+			}
+		}
+		//update_path_progress(pat)
+	};
+	
+		//change the difficulty level as well as the path level detail table
+	$scope.changeDifficulty1 = function(difficulty,pathName){
+		if(difficulty=="Drag-n-Drop"){
+			for(var i=0; i<$scope.mobile_paths.length;i++){
+				var a = " " + pathName;
+				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+				if(a == b){
+					$scope.update_path_progress1($scope.mobile_paths[i].path_id);
+					break;
+				}
+			}
+		}
+		else{
+			for(var i=0; i<$scope.paths.paths.length;i++){
+				var a = " " + pathName.trim().substring(9);;
+				var b = " " + $scope.paths.paths[i].name.trim();
+				//alert(a+" "+b);
+				//alert(a==b);
+				if(a == b){
+					//alert(a+" "+b);
+					$scope.update_path_progress1($scope.paths.paths[i].id);
 					break;
 				}
 			}
@@ -317,6 +369,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			$cookieStore.put("name", level);
 			$cookieStore.put("num", numProblems);
 			$cookieStore.put("type", "practiceGame");
+			$cookieStore.put("level", lvlnum);
 			if($scope.difficulty == "Drag-n-Drop"){
 				window.location.href = "practice_play_page.html";
 			}
@@ -361,6 +414,17 @@ function PathController($scope,$resource,$cookieStore,$location){
             $scope.path_progress = response;
         });
 		$('#myTab a:first').tab('show');
+        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+    }; 
+	
+    $scope.update_path_progress1 = function(pathID){
+        $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+        //Including details=1 returns the nested problemset progress.
+        $scope.PathModel.get({"pathID":pathID,"details":1}, function(response){
+            $scope.path_progress = response;
+        });
+		$('#myTab1 a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 }
@@ -716,6 +780,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
         }
         if($cookieStore.get("type")){
           $scope.gameType = $cookieStore.get("type"); //retrieve quest id from Storyboard page
+        }
+        if($cookieStore.get("level")){
+          $scope.levelNumber = $cookieStore.get("level"); //retrieve quest id from Storyboard page
         }
 	
     		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
@@ -1195,7 +1262,9 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         if($cookieStore.get("num")){
           $scope.numProblems = $cookieStore.get("num"); //retrieve quest id from Storyboard page
         }
-	
+        if($cookieStore.get("level")){
+          $scope.levelNumber = $cookieStore.get("level"); //retrieve quest id from Storyboard page
+        }	
     		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
 
     		$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
