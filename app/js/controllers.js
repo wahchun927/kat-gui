@@ -173,12 +173,15 @@ function PathController($scope,$resource,$cookieStore,$location){
     });
   }
 
-  $scope.pathSelection=function(){
+  $scope.pathSelection=function(checker){
     $('#paths input:image').click(function() {
       $('#paths input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
+    if(checker){
+      $('#paths input:image').click();
+    }
   }
 
   $scope.pathSelectionSmall=function(){
@@ -314,6 +317,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			$cookieStore.put("name", level);
 			$cookieStore.put("num", numProblems);
 			$cookieStore.put("type", "practiceGame");
+			$cookieStore.put("level", lvlnum);
 			if($scope.difficulty == "Drag-n-Drop"){
 				window.location.href = "practice_play_page.html";
 			}
@@ -714,6 +718,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
         if($cookieStore.get("type")){
           $scope.gameType = $cookieStore.get("type"); //retrieve quest id from Storyboard page
         }
+        if($cookieStore.get("level")){
+          $scope.levelNumber = $cookieStore.get("level"); //retrieve quest id from Storyboard page
+        }
 	
     		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
 
@@ -935,9 +942,9 @@ function GameController($scope,$resource,$cookieStore,$location){
           $scope.permutation_lines = {origional: []};
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.game.problems.problems[$scope.current_problem_index].lines.length; i++) {
-            if($scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)].replace(/[ \t\r]+/g,"") != ""){
-              $scope.permutation_lines.origional.push({"content": $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)],"id": (i+1)});
-            }
+            var temp = $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)];
+            temp = temp.split(' ').join('\u00a0');
+            $scope.permutation_lines.origional.push({"content": temp,"id": (i+1)});
           }
           $scope.line_outcome = $scope.permutation_lines;
         }
@@ -1192,7 +1199,9 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         if($cookieStore.get("num")){
           $scope.numProblems = $cookieStore.get("num"); //retrieve quest id from Storyboard page
         }
-	
+        if($cookieStore.get("level")){
+          $scope.levelNumber = $cookieStore.get("level"); //retrieve quest id from Storyboard page
+        }	
     		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
 
     		$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
@@ -1242,10 +1251,12 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
           $scope.permutation_lines = {origional: []};
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.game.problems.problems[$scope.current_problem_index].lines.length; i++) {
-              $scope.permutation_lines.origional.push({"content": $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)],"id": (i+1)});
+            var temp = $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)];
+            temp = temp.split(' ').join('\u00a0');
+            $scope.permutation_lines.origional.push({"content": temp,"id": (i+1)});
           }
           $scope.line_outcome = $scope.permutation_lines;
-        };
+        }
 
         $scope.create_resolve_problemset_game = function(problemsetID){
           $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/resolve');
@@ -1627,6 +1638,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $('#video').trigger('click');
     };
 
+    $scope.addDefaultLevel=function(checker){
+      if(checker){
+        $('#levels button:button').click();  
+      }
+    }
+
     $scope.$watch('name', function() {
       if($scope.name && $scope.name.difficulty == "Drag-n-Drop"){
         $scope.changeRoute = "playPage.html";
@@ -1660,12 +1677,14 @@ function StoryController($scope,$resource,$cookieStore,$location){
     };
 
     // this method add background color to the selected images 
-    $scope.addQuestColor=function(){
+    $scope.addQuestColor=function(checker){
       $('#myCarousel input:image').click(function() {
-        $('#myCarousel input:image').removeClass('selected');   
-        $(this).addClass('selected');
-        
+        $('#myCarousel input:image').removeClass('selected');
+        $(this).addClass('selected');     
       });
+      if(checker){
+        $('#myCarousel input:image').click();
+      }
     }
 
     // this method add background color to the selected images 

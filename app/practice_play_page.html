@@ -299,11 +299,11 @@
                     <div>
                       <h4>Current Practice Question</h4> 
                     </div>  
-                    <font face="verdana" size="3">
-                       Name: {{game.problems.problems[current_problem_index].name}}<br>
-                       Description: {{game.problems.problems[current_problem_index].description}}
-                      <div class="pull-right">
-                      </div>
+                        <font face="verdana" size="3">
+                            &nbsp;&nbsp;Level: <span ng-bind="levelNumber"></span>
+                            <br>
+                            &nbsp;&nbsp;Name: <span ng-bind="game.problems.problems[current_problem_index].name"></span>
+                            <br>&nbsp;&nbsp;Description: <span ng-bind="game.problems.problems[current_problem_index].description"></span>
                     </font>
                 </td>
 				<td width=2%></td>
@@ -475,6 +475,7 @@
     <script src="assets/js/bootstrap-modal.js"></script>
     <script src="assets/js/bootstrap-tooltip.js"></script>
     <script src="assets/js/bootstrap-popover.js"></script>
+    <script src="assets/js/bootstrap-collapse.js"></script>
     <script type='text/javascript' src="http://twitter.github.com/bootstrap/assets/js/bootstrap-alert.js"></script>
   </body>
 </html>
