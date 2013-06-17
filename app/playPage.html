@@ -2,7 +2,7 @@
 <html ng-app="myApp" class="ng-scope">
   <head>
     <meta charset="utf-8">
-    <title>View Quest</title>
+    <title>Drag and Drop Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -299,12 +299,10 @@
                     <div>
                       <h4>Current Question</h4> 
                     </div>  
-                    <font face="verdana" size="3">
-                       Name: {{game.problems.problems[current_problem_index].name}}<br>
-                       Description: {{game.problems.problems[current_problem_index].description}}
-                      <div class="pull-right">
-                      </div>
-                    </font>
+                        <font face="verdana" size="3">
+                            &nbsp;&nbsp;Name: <span ng-bind="game.problems.problems[current_problem_index].name"></span>
+                            <br>&nbsp;&nbsp;Description: <span ng-bind="game.problems.problems[current_problem_index].description"></span>
+						</font>
                 </td>
                 <td width=3%></td>
                 <td>

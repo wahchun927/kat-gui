@@ -198,14 +198,15 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-	
-	$scope.pathSelectRankSmall=function(){
+		
+  }
+  
+  $scope.pathSelectRankSmall=function(){
     $('#myCarouselRankSmall input:image').click(function() {
       $('#myCarouselRankSmall input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
-  }
   }
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
@@ -317,6 +318,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			$cookieStore.put("name", level);
 			$cookieStore.put("num", numProblems);
 			$cookieStore.put("type", "practiceGame");
+			$cookieStore.put("level", lvlnum);
 			if($scope.difficulty == "Drag-n-Drop"){
 				window.location.href = "practice_play_page.html";
 			}
@@ -716,6 +718,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
         }
         if($cookieStore.get("type")){
           $scope.gameType = $cookieStore.get("type"); //retrieve quest id from Storyboard page
+        }
+        if($cookieStore.get("level")){
+          $scope.levelNumber = $cookieStore.get("level"); //retrieve quest id from Storyboard page
         }
 	
     		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
@@ -1195,7 +1200,9 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         if($cookieStore.get("num")){
           $scope.numProblems = $cookieStore.get("num"); //retrieve quest id from Storyboard page
         }
-	
+        if($cookieStore.get("level")){
+          $scope.levelNumber = $cookieStore.get("level"); //retrieve quest id from Storyboard page
+        }	
     		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
 
     		$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
