@@ -208,6 +208,20 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
   }
+  
+  
+	$scope.setDefaultButton=function(name,problemID){
+	
+		$scope.lvlName = name;
+			
+		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
+
+		//Including details=1 returns the nested problemset progress.
+		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
+		$scope.problems = response;
+		});	
+	};
+	
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
 	
@@ -1844,9 +1858,28 @@ function TournamentController($scope,$resource,$http){
 
 function RankController($scope,$resource,$cookieStore,$location){
 
+	
+
 	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
-        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathID&countryCode=SG');
+	
+		if(pathId=='AllLanguages'){
+
+			$scope.pathRankModelAllSg = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
+			
+			$scope.pathRankModelAllSg.get(function(response){
+				$scope.rankingAllSg = response;
+			});
+			
+			$scope.pathRankModelAllGlobal = $resource('/jsonapi/worldwide_ranking?maxRank=25');
+			
+			$scope.pathRankModelAllGlobal.get(function(response){
+				$scope.rankingAllGlobal = response;
+			});
+				
+		}
+		else{
+        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=SG');
 		
 		$scope.pathRankModel1.get({"pathId":pathId}, function(response){
             $scope.rankingSG = response;
@@ -1858,22 +1891,9 @@ function RankController($scope,$resource,$cookieStore,$location){
             $scope.rankingGlobal = response;
         });
 		
-		if(pathId==null){
-
-			$scope.pathRankModelAllSg = $resource('jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
-			
-			$scope.pathRankModelAllSg.get(function(response){
-				$scope.rankingAllSg = response;
-			});
-			
-			$scope.pathRankModelAllGlobal = $resource('jsonapi/worldwide_ranking?maxRank=25');
-			
-			$scope.pathRankModelAllGlobal.get(function(response){
-				$scope.rankingAllGlobal = response;
-			});
-				
-
 		}
+		
+		
     };
 	
 	
