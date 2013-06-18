@@ -49,9 +49,9 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 			}
 		};
 		
-    $scope.login=function(){
-  
-    }; 
+	    $scope.login=function(){
+	  
+	    }; 
 		
 		$scope.checkQuestLogin = function(){
 			if($scope.player.nickname){
@@ -220,7 +220,7 @@ function PathController($scope,$resource,$cookieStore,$location){
   
   
 	$scope.setDefaultButton=function(name,problemID){
-	
+
 		$scope.lvlName = name;
 			
 		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
@@ -1774,12 +1774,15 @@ function StoryController($scope,$resource,$cookieStore,$location){
     }
 
     // this method add background color to the selected images 
-    $scope.addQuestColorSmall=function(){
+    $scope.addQuestColorSmall=function(checker){
       $('#myCarouselSmall input:image').click(function() {
         $('#myCarouselSmall input:image').removeClass('selected');   
         $(this).addClass('selected');
         
       });
+      if(checker){
+        $('#myCarousel input:image').click();
+      }
     }
 	
   

@@ -243,7 +243,7 @@ li{ list-style:none; }
 				<!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row" >
-						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelectionSmall()">
+						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelectionSmall($index)">
 							<label class="radio">
 								<input style="visibility:hidden" type="radio" ng-click="changePath1(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="smallPathImg"/>
