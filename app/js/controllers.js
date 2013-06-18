@@ -198,21 +198,50 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-	
-	$scope.pathSelectRankSmall=function(){
+		
+  }
+  
+  $scope.pathSelectRankSmall=function(){
     $('#myCarouselRankSmall input:image').click(function() {
       $('#myCarouselRankSmall input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
   }
-  }
+  
+  
+	$scope.setDefaultButton=function(name,problemID){
+	
+		$scope.lvlName = name;
+			
+		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
+
+		//Including details=1 returns the nested problemset progress.
+		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
+		$scope.problems = response;
+		});	
+	};
+	
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
 	
 		$scope.lvlName = name;
 		
 		$('#myTab a:last').tab('show');
+			
+		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
+
+		//Including details=1 returns the nested problemset progress.
+		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
+		$scope.problems = response;
+		});	
+	};
+	
+	$scope.setButton1=function(name,problemID){
+	
+		$scope.lvlName = name;
+		
+		$('#myTab1 a:last').tab('show');
 			
 		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
 
@@ -260,6 +289,15 @@ function PathController($scope,$resource,$cookieStore,$location){
 		}
 	};
 	
+	$scope.changePath1 = function (difficulty, pathName){
+		if(difficulty=="Drag-n-Drop"){
+			$scope.changeDifficulty1(difficulty,pathName);
+		}
+		else{
+			$scope.changeDifficulty1(difficulty,"Beginner "+pathName);
+		}
+	};
+	
 	//change the difficulty level as well as the path level detail table
 	$scope.changeDifficulty = function(difficulty,pathName){
 		if(difficulty=="Drag-n-Drop"){
@@ -281,6 +319,34 @@ function PathController($scope,$resource,$cookieStore,$location){
 				if(a == b){
 					//alert(a+" "+b);
 					$scope.update_path_progress($scope.paths.paths[i].id);
+					break;
+				}
+			}
+		}
+		//update_path_progress(pat)
+	};
+	
+		//change the difficulty level as well as the path level detail table
+	$scope.changeDifficulty1 = function(difficulty,pathName){
+		if(difficulty=="Drag-n-Drop"){
+			for(var i=0; i<$scope.mobile_paths.length;i++){
+				var a = " " + pathName;
+				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+				if(a == b){
+					$scope.update_path_progress1($scope.mobile_paths[i].path_id);
+					break;
+				}
+			}
+		}
+		else{
+			for(var i=0; i<$scope.paths.paths.length;i++){
+				var a = " " + pathName.trim().substring(9);;
+				var b = " " + $scope.paths.paths[i].name.trim();
+				//alert(a+" "+b);
+				//alert(a==b);
+				if(a == b){
+					//alert(a+" "+b);
+					$scope.update_path_progress1($scope.paths.paths[i].id);
 					break;
 				}
 			}
@@ -362,6 +428,17 @@ function PathController($scope,$resource,$cookieStore,$location){
             $scope.path_progress = response;
         });
 		$('#myTab a:first').tab('show');
+        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+    }; 
+	
+    $scope.update_path_progress1 = function(pathID){
+        $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+        //Including details=1 returns the nested problemset progress.
+        $scope.PathModel.get({"pathID":pathID,"details":1}, function(response){
+            $scope.path_progress = response;
+        });
+		$('#myTab1 a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 }
@@ -1781,9 +1858,28 @@ function TournamentController($scope,$resource,$http){
 
 function RankController($scope,$resource,$cookieStore,$location){
 
+	
+
 	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
-        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathID&countryCode=SG');
+	
+		if(pathId=='AllLanguages'){
+
+			$scope.pathRankModelAllSg = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
+			
+			$scope.pathRankModelAllSg.get(function(response){
+				$scope.rankingAllSg = response;
+			});
+			
+			$scope.pathRankModelAllGlobal = $resource('/jsonapi/worldwide_ranking?maxRank=25');
+			
+			$scope.pathRankModelAllGlobal.get(function(response){
+				$scope.rankingAllGlobal = response;
+			});
+				
+		}
+		else{
+        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=SG');
 		
 		$scope.pathRankModel1.get({"pathId":pathId}, function(response){
             $scope.rankingSG = response;
@@ -1795,22 +1891,9 @@ function RankController($scope,$resource,$cookieStore,$location){
             $scope.rankingGlobal = response;
         });
 		
-		if(pathId==null){
-
-			$scope.pathRankModelAllSg = $resource('jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
-			
-			$scope.pathRankModelAllSg.get(function(response){
-				$scope.rankingAllSg = response;
-			});
-			
-			$scope.pathRankModelAllGlobal = $resource('jsonapi/worldwide_ranking?maxRank=25');
-			
-			$scope.pathRankModelAllGlobal.get(function(response){
-				$scope.rankingAllGlobal = response;
-			});
-				
-
 		}
+		
+		
     };
 	
 	

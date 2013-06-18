@@ -134,7 +134,7 @@ input:hover{
 				<div><h4>#3. Select a Language</h4></div>	
 				<hr>
 				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-					<div  ng-repeat="item in paths.paths" ng-init="pathSelection($third)" >
+					<div  ng-repeat="item in paths.paths" ng-init="pathSelection($first)" >
 						<label>
 							<input type="radio" style="visibility:hidden" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.name}}" id="path">
 							<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
@@ -161,10 +161,6 @@ input:hover{
 				<!-- </form> -->
 				
 				</div>
-				</td></tr>
-				<tr><td>
-				</br>
-					<div align="center"><button class="btn btn-primary" onClick="window.location.href='http://www.singpath.com/'"><h5>Revert to Classic</h5></button></div>
 				</td></tr>
 				</table>
 			</div>
@@ -257,11 +253,7 @@ input:hover{
 					<!-- </form> -->
 					
 					</div>
-					</td></tr>
-					<tr><td>
-					</br>
-						<div align="center"><button class="btn btn-primary" onClick="window.location.href='http://www.singpath.com/'"><h5>Revert to Classic</h5></button></div>
-					</td></tr>
+					</td></tr>					
 					</table>
 				</div>
 			<!-- /.span4 -->

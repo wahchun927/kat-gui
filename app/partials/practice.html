@@ -153,25 +153,25 @@ li{ list-style:none; }
 					  <div class="tab-content" style="font-family:verdana">                        
 						<div class="tab-pane fade in active" id="path">
 							<div style="height:220px;overflow:auto">
-								<div class="span12" align="center" style="font-size:12px;">
-									<div class="span4 pull-left">Level#</div>
-									<div class="span4 pull-left">Description</div>
+								<div class="span12" style="font-size:12px;">
+									<div align = "center" class="span3 pull-left">Level#</div>
+									<div class="span5 pull-left">Description</div>
 									<div class="span2 pull-left">Progress</div>
 									<div class="span2 pull-left">Solved</div>
 								</div>
-								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id">
+								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id;setDefaultButton(path_progress.details[0].pathorder,path_progress.details[0].id)">
 								<div class="row-fluid">
-									<div class="span12" align="center" style="font-size:12px;">
+									<div class="span12" style="font-size:12px;">
 										
-										<div class="span4">
+										<div class="span3">
 											<label class="radio pull-left">
 												<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.$parent.lvl" name="pathLevel" value="{{v.id}}"/ >
 											<button type="button" class="btn btn-primary span3" ng-click="setButton(v.pathorder,v.id)" style="height: 30px; width: 100%"  btn-radio="{{v.name}}">
-												Level {{v.pathorder}}
+												Level {{$index+1}}
 											</button> 											
 											</label>
 										</div>
-										<div class="span4">
+										<div class="span5">
 											{{v.description}}
 										</div>
 										
@@ -245,7 +245,7 @@ li{ list-style:none; }
 					<div class="row" >
 						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelectionSmall()">
 							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="changePath(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
+								<input style="visibility:hidden" type="radio" ng-click="changePath1(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="smallPathImg"/>
 								<h6>{{path.name}}</h6>
 							</label>
@@ -259,7 +259,7 @@ li{ list-style:none; }
 					<div class="row" >
 						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="practiceSelectionSmall()">
 							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="changePath(difficulty,path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
+								<input style="visibility:hidden" type="radio" ng-click="changePath1(difficulty,path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="smallPathImg"/>
 								<h6>{{path.name}}</h6>
 							</label>
@@ -294,16 +294,16 @@ li{ list-style:none; }
 				<div class="span7 well well-small" ng-model="$parent.pathName" >
 					<div align="center" ><h5>#3. Select a Path Level!</h5></div>
 					<div class = "tabbable">                      
-					  <ul id="myTab" class="nav nav-tabs">                        
+					  <ul id="myTab1" class="nav nav-tabs">                        
 						<li id="path1" class="tabspacing active">
-						<a  data-target="#path" data-toggle="tab">{{path_progress.path.name}} Path</a>
+						<a  data-target="#path1" data-toggle="tab">{{path_progress.path.name}} Path</a>
 						</li>                        
 						<li id="level1" class="tabspacing">
-						<a  data-target="#level" data-toggle="tab">Level {{lvlName}}</a>
+						<a  data-target="#level1" data-toggle="tab">Level {{lvlName}}</a>
 						</li>                                          
 					  </ul>           					  
 					  <div class="tab-content" style="font-family:verdana">                        
-						<div class="tab-pane fade in active" id="path">
+						<div class="tab-pane fade in active" id="path1">
 							<div style="height:220px;overflow:auto">
 								<div class="span12" align="center" style="font-size:12px;">
 									<div class="span4 pull-left">Level#</div>
@@ -311,14 +311,13 @@ li{ list-style:none; }
 									<div class="span2 pull-left">Progress</div>
 									<div class="span2 pull-left">Solved</div>
 								</div>
-								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id">
+								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id;setDefaultButton(path_progress.details[0].pathorder,path_progress.details[0].id)">
 								<div class="row-fluid">
-									<div class="span12" align="center" style="font-size:12px;">
-										
+									<div class="span12" align="center" style="font-size:12px;" >
 										<div class="span4">
 											<label class="radio pull-left">
 												<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.$parent.lvl" name="pathLevel" value="{{v.id}}"/ >
-											<button type="button" class="btn btn-primary span3" ng-click="setButton(v.pathorder,v.id)" style="height: 30px; width: 100%"  btn-radio="{{v.name}}">
+											<button type="button" class="btn btn-primary span3" ng-click="setButton1(v.pathorder,v.id)" style="height: 30px; width: 100%"  btn-radio="{{v.name}}">
 												Level {{v.pathorder}}
 											</button> 											
 											</label>
@@ -338,7 +337,7 @@ li{ list-style:none; }
 								</li>		
 							</div>
 						</div>                        
-						<div class="tab-pane fade in " id="level" style="height:220px;overflow:auto">
+						<div class="tab-pane fade in " id="level" style="height:220px;overflow:auto" >
 							<div class="span12" style="font-size:12px;">
 								<div class="span5 pull-left" >Problem Name</div>
 								<div class="span2 pull-left">Solved</div>
@@ -395,11 +394,9 @@ li{ list-style:none; }
 	$('#myTab a:first').tab('show');
 	})
 
-
 	$(function () {
-	$('#myTabSmall a:first').tab('show');
+	$('#myTab1 a:first').tab('show');
 	})
-
 
 	$("#myCarousel")
 		.appendTo("#des");
