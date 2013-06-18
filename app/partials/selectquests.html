@@ -134,7 +134,7 @@ input:hover{
 				<div><h4>#3. Select a Language</h4></div>	
 				<hr>
 				<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-					<div  ng-repeat="item in paths.paths" ng-init="pathSelection($first)" >
+					<div  ng-repeat="item in paths.paths" ng-init="pathSelection($index)" >
 						<label>
 							<input type="radio" style="visibility:hidden" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.name}}" id="path">
 							<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
@@ -185,7 +185,7 @@ input:hover{
             <!-- Three columns of text below the carousel -->
 			<div class="container">
 				<div class="row" >
-					<div class="span4"  ng-repeat="story in stories | limitTo:3" ng-init="addQuestColorSmall()">
+					<div class="span4"  ng-repeat="story in stories | limitTo:3" ng-init="addQuestColorSmall($first)">
 						<label class="radio">
 							<input type="radio" style="visibility:hidden" name="optionsRadios" ng-click="addQuestColorSmall()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 							<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall"/>
@@ -225,7 +225,7 @@ input:hover{
 					<div><h4>#3. Select a Language</h4></div>	
 					<hr>
 					<div style="height:220px;overflow:auto" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-						<div  ng-repeat="item in paths.paths" ng-init="pathSelectionSmall()" >
+						<div  ng-repeat="item in paths.paths" ng-init="pathSelectionSmall($index)" >
 							<label>
 								<input type="radio" style="visibility:hidden" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.name}}" id="path">
 								<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >

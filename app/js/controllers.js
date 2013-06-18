@@ -49,9 +49,9 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 			}
 		};
 		
-    $scope.login=function(){
-  
-    }; 
+	    $scope.login=function(){
+	  
+	    }; 
 		
 		$scope.checkQuestLogin = function(){
 			if($scope.player.nickname){
@@ -157,20 +157,26 @@ function PathController($scope,$resource,$cookieStore,$location){
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
   // this method add background color to the selected images 
-  $scope.practiceSelection=function(){
+  $scope.practiceSelection=function(checker){
     $('#myCarousel input:image').click(function() {
       $('#myCarousel input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
+    if(checker == 2){
+      $('#myCarousel input:image').click();
+    }
   }
 
-  $scope.practiceSelectionSmall=function(){
+  $scope.practiceSelectionSmall=function(checker){
     $('#myCarouselSmall input:image').click(function() {
       $('#myCarouselSmall input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
+    if(checker == 2){
+      $('#myCarouselSmall input:image').click();
+    }
   }
 
   $scope.pathSelection=function(checker){
@@ -179,17 +185,20 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-    if(checker){
+    if(checker == 2){
       $('#paths input:image').click();
     }
   }
 
-  $scope.pathSelectionSmall=function(){
+  $scope.pathSelectionSmall=function(checker){
     $('#pathsSmall input:image').click(function() {
       $('#pathsSmall input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
+    if(checker == 2){
+      $('#pathsSmall input:image').click();
+    }
   }
 	//rank
   $scope.pathSelectRank=function(){
@@ -211,7 +220,7 @@ function PathController($scope,$resource,$cookieStore,$location){
   
   
 	$scope.setDefaultButton=function(name,problemID){
-	
+
 		$scope.lvlName = name;
 			
 		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
@@ -1765,12 +1774,15 @@ function StoryController($scope,$resource,$cookieStore,$location){
     }
 
     // this method add background color to the selected images 
-    $scope.addQuestColorSmall=function(){
+    $scope.addQuestColorSmall=function(checker){
       $('#myCarouselSmall input:image').click(function() {
         $('#myCarouselSmall input:image').removeClass('selected');   
         $(this).addClass('selected');
         
       });
+      if(checker){
+        $('#myCarousel input:image').click();
+      }
     }
 	
   
