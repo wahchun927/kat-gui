@@ -159,7 +159,7 @@ li{ list-style:none; }
 									<div class="span2 pull-left">Progress</div>
 									<div class="span2 pull-left">Solved</div>
 								</div>
-								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id">
+								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id;setDefaultButton(path_progress.details[0].pathorder,path_progress.details[0].id)">
 								<div class="row-fluid">
 									<div class="span12" style="font-size:12px;">
 										
@@ -296,14 +296,14 @@ li{ list-style:none; }
 					<div class = "tabbable">                      
 					  <ul id="myTab1" class="nav nav-tabs">                        
 						<li id="path1" class="tabspacing active">
-						<a  data-target="#path" data-toggle="tab">{{path_progress.path.name}} Path</a>
+						<a  data-target="#path1" data-toggle="tab">{{path_progress.path.name}} Path</a>
 						</li>                        
 						<li id="level1" class="tabspacing">
-						<a  data-target="#level" data-toggle="tab">Level {{lvlName}}</a>
+						<a  data-target="#level1" data-toggle="tab">Level {{lvlName}}</a>
 						</li>                                          
 					  </ul>           					  
 					  <div class="tab-content" style="font-family:verdana">                        
-						<div class="tab-pane fade in active" id="path">
+						<div class="tab-pane fade in active" id="path1">
 							<div style="height:220px;overflow:auto">
 								<div class="span12" align="center" style="font-size:12px;">
 									<div class="span4 pull-left">Level#</div>
@@ -311,10 +311,9 @@ li{ list-style:none; }
 									<div class="span2 pull-left">Progress</div>
 									<div class="span2 pull-left">Solved</div>
 								</div>
-								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id">
+								<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id;setDefaultButton(path_progress.details[0].pathorder,path_progress.details[0].id)">
 								<div class="row-fluid">
-									<div class="span12" align="center" style="font-size:12px;">
-										
+									<div class="span12" align="center" style="font-size:12px;" >
 										<div class="span4">
 											<label class="radio pull-left">
 												<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.$parent.lvl" name="pathLevel" value="{{v.id}}"/ >
@@ -338,7 +337,7 @@ li{ list-style:none; }
 								</li>		
 							</div>
 						</div>                        
-						<div class="tab-pane fade in " id="level" style="height:220px;overflow:auto">
+						<div class="tab-pane fade in " id="level" style="height:220px;overflow:auto" >
 							<div class="span12" style="font-size:12px;">
 								<div class="span5 pull-left" >Problem Name</div>
 								<div class="span2 pull-left">Solved</div>

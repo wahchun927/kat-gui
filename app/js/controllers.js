@@ -208,6 +208,20 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
   }
+  
+  
+	$scope.setDefaultButton=function(name,problemID){
+	
+		$scope.lvlName = name;
+			
+		$scope.lvlModel = $resource('/jsonapi/problems/:problemID');
+
+		//Including details=1 returns the nested problemset progress.
+		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
+		$scope.problems = response;
+		});	
+	};
+	
 	//assign the level number to the buttons
 	$scope.setButton=function(name,problemID){
 	
