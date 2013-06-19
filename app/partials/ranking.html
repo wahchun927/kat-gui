@@ -183,7 +183,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										
 										<div class="span12">
 											<div class="row" >
-												<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="pathSelectRank()">
+												<div class="span4" ng-repeat="path in paths.paths| startFrom:2 | limitTo:3" ng-init="pathSelectRank()">
 													<label class="radio">
 														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 														<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
@@ -379,7 +379,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						
 						<div class="span12">
 							<div class="row" >
-								<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="pathSelectRankSmall()">
+								<div class="span4" ng-repeat="path in paths.paths| startFrom:2 | limitTo:3" ng-init="pathSelectRankSmall()">
 									<label class="radio">
 										<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 										<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>
