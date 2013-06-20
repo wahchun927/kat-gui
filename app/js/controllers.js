@@ -1026,11 +1026,17 @@ function GameController($scope,$resource,$cookieStore,$location){
 
         $scope.assign_id = function() {
           $scope.permutation_lines = {origional: []};
+          var contained = [];
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.game.problems.problems[$scope.current_problem_index].lines.length; i++) {
-            var temp = $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)];
+          	var j = parseInt($scope.game.problems.problems[$scope.current_problem_index].lines.length * Math.random()); 
+          	while(contained.indexOf(j) != -1){
+          		j = parseInt($scope.game.problems.problems[$scope.current_problem_index].lines.length * Math.random()); 
+          	}
+            contained.push(j);
+          	var temp = $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(j)];
             temp = temp.split(' ').join('\u00a0');
-            $scope.permutation_lines.origional.push({"content": temp,"id": (i+1)});
+            $scope.permutation_lines.origional.push({"content": temp,"id": (j+1)});
           }
           $scope.line_outcome = $scope.permutation_lines;
         }
@@ -1335,11 +1341,17 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
 
         $scope.assign_id = function() {
           $scope.permutation_lines = {origional: []};
+          var contained = [];
           //Loop through the permutation and add all of the lines of code
           for (var i = 0; i < $scope.game.problems.problems[$scope.current_problem_index].lines.length; i++) {
-            var temp = $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(i)];
+          	var j = parseInt($scope.game.problems.problems[$scope.current_problem_index].lines.length * Math.random()); 
+          	while(contained.indexOf(j) != -1){
+          		j = parseInt($scope.game.problems.problems[$scope.current_problem_index].lines.length * Math.random()); 
+          	}
+            contained.push(j);
+          	var temp = $scope.game.problems.problems[$scope.current_problem_index].lines[parseInt(j)];
             temp = temp.split(' ').join('\u00a0');
-            $scope.permutation_lines.origional.push({"content": temp,"id": (i+1)});
+            $scope.permutation_lines.origional.push({"content": temp,"id": (j+1)});
           }
           $scope.line_outcome = $scope.permutation_lines;
         }
