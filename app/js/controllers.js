@@ -1730,6 +1730,13 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       }
     }
 
+    $scope.addDefaultLevelSmall=function(checker){
+      if(checker){
+        $('#levelsmall button:button').click();  
+        $('#levelsmall button:button').click();  
+      }
+    }
+
     $scope.$watch('name', function() {
       if($scope.name && $scope.name.difficulty == "Drag-n-Drop"){
         $scope.changeRoute = "playPage.html";
@@ -1781,7 +1788,7 @@ function StoryController($scope,$resource,$cookieStore,$location){
         
       });
       if(checker){
-        $('#myCarousel input:image').click();
+        $('#myCarouselSmall input:image').click();
       }
     }
 	
