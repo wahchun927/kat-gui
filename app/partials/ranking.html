@@ -1,6 +1,7 @@
 <br>
-<p><p>
+<p></p>
 <style>
+
 
 .radio{
     text-align: center;	
@@ -34,8 +35,8 @@ height:70px;
 
 #pathImgSmall{
 
-width:70px;
-height:70px;
+width:60px;
+height:60px;
 
 }
 
@@ -60,11 +61,41 @@ input:hover{
 
 #paths input img {
 
-    padding: 3px;
+    padding: 0px;
     
 }
 
+#CountryRankingListLarge{
 
+height:300px;
+overflow:auto
+}
+
+#UserCountryRankListLarge{
+height:120px;
+overflow:auto
+}
+
+#GlobalRankListLarge{
+height:120px;
+overflow:auto
+}
+
+#CountryRankingListSmall{
+
+height:310px;
+overflow:auto
+}
+
+#UserCountryRankListSmall{
+height:120px;
+overflow:auto
+}
+
+#GlobalRankListSmall{
+height:120px;
+overflow:auto
+}
 
 li{ list-style:none; }
 
@@ -79,7 +110,7 @@ li{ list-style:none; }
   left: 15px;
   width: 30px;
   height: 30px;
-  margin-top: -30px;
+  margin-top: -10px;
   font-size: 40px;
   font-weight: 100;
   line-height: 20px;
@@ -149,7 +180,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 		<div class="row-fluid">
 			<div class="span12">
 				<!-- Carousel for Path -->
-				<div class="span9 well">
+				<div class="span9 well well-small">
 					<div class="row-fluid">
 						<div class="span12" ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
 							<div id="myCarouselRank" class="carousel slide">
@@ -163,14 +194,14 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 												<div class="span4"  ng-init="pathSelectRank()">
 													<label class="radio">
 													<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
-													<input class="well"type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
+													<input class="well well-small" type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
 													<h6>All</h6>
 													</label>
 												</div>
 												<div class="span4"  ng-repeat="path in paths.paths | limitTo:2" ng-init="pathSelectRank()">
 													<label class="radio">
 													<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-													<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+													<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 													<h6>{{path.name}}</h6>
 													</label>
 												</div>
@@ -183,10 +214,10 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										
 										<div class="span12">
 											<div class="row" >
-												<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="pathSelectRank()">
+												<div class="span4" ng-repeat="path in paths.paths| startFrom:2 | limitTo:3" ng-init="pathSelectRank()">
 													<label class="radio">
 														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-														<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+														<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 														<h6>{{path.name}}</h6>
 													</label>
 												</div>
@@ -200,7 +231,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						<div class="row-fluid">
 						<div class="span12">
 							<!-- SG & WORLD-->
-							<div class="tab-pane active" id="tab1">
+							<div class="tab-pane active" id="rankListLarge">
 								<div class="tabbable well well-small"> 
 									<ul class="nav nav-tabs">
 										<li class="innerTabspacing active"><a data-target="#tab1sg" data-toggle="tab">Singapore</a></li>
@@ -209,7 +240,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 									<!--Sg Ranking-->
 									<div class="tab-content">
 										<div class="tab-pane active" id="tab1sg">
-											<div style="overflow-x:hidden">
+											<div>
 												<table class="table table-condensed">
 													<tr style="border-top: solid white; border-bottom: solid white;">
 														<th class="Rank">Rank</th>
@@ -218,6 +249,9 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														<th class="Badge">Badge</th>
 														<th class="Solved">Solved</th>
 													</tr>  
+												</table>
+												<div id="UserCountryRankListLarge">
+												<table>
 														<tr ng-repeat="ranking in rankingSG.rankings">
 														   
 															<td class="RankList">
@@ -241,12 +275,13 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 															</td>                                 
 														</tr>	 
 												</table>
-												                                 
+												</div>                               
 											</div>
 										</div>
-										<!--Global Ranking-->
+									
+									<!--Global Ranking-->
 										<div class="tab-pane" id="tab1world">
-											<div style="overflow-x:hidden">
+											<div>
 												<table class="table table-condensed">
 													<tr style="border-top: solid white; border-bottom: solid white;">
 														<th class="Rank">Rank</th>
@@ -254,7 +289,10 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														<th class="Location">Location</th>
 														<th class="Badge">Badge</th>
 														<th class="Solved">Solved</th>
-													</tr>  
+													</tr>
+												</table>
+												<div id="GlobalRankListLarge">
+												<table>
 												<tr ng-repeat="ranking in rankingGlobal.rankings">														   
 													<td class="RankList">
 														{{ranking.rank}}
@@ -276,32 +314,32 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														{{ranking.solved_num}}
 													</td>                                 
 												</tr>	
-												</table> 
-												
-											</div>	
-										</div>
+												</table> 												
+												</div>	
+											</div>
 										
+										</div>
+									
 									</div>
-									
 								</div>
-							</div>
 						
-						</div>						
+							</div>						
 						</div>
 						</div>
-					</div>					
+						</div>					
 									
+					</div>
 				</div>
 				<!-- Country Ranking -->
 				<div class="span3 well well-small" align="center">
 					
 				<div class="tabbable"> 
 				  <ul class="nav nav-tabs">
-					<li class="crTabspacing active"><a data-target="#tab1" data-toggle="tab">Country Ranking</a></li>
+					<li class="crTabspacing active"><a data-target="CountryRankingLarge" data-toggle="tab">Country Ranking</a></li>
 				  </ul>
 				  <div class="tab-content">
-					<div class="tab-pane active" id="tab1">
-						<div style="overflow-x:hidden">
+					<div class="tab-pane active" id="CountryRankingLarge">
+						<div>
 							<table class="table table-condensed">
 								<tr style="border-top: solid white; border-bottom: solid white;">
 									<th class="crRank">Rank</th>
@@ -309,8 +347,8 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 									<th class="crUsers">Number of Users</th>						
 								</tr>  
 							</table> 
-							
-							<table class="table table-hover" ng-controller="RankController" ng-init="get_country_ranks();" >
+							<div id="CountryRankingListLarge" >
+							<table class="table" ng-controller="RankController" ng-init="get_country_ranks();" style="height:10px;" >
 									<tr ng-repeat="ranking in countryRank.rankings">
 									   
 										<td class="cr_rank">
@@ -328,6 +366,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 									</tr>
 										 
 							</table>
+							</div>
                               
 				
 					</div>
@@ -335,10 +374,10 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 				
 				</div>
 				</div>
-				</div>
-				
+				</div>						
+			
 			</div>
-		</div>
+		</div>	
 	</div>
 </div>
 
@@ -358,16 +397,16 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 								<div class="span4"  ng-init="pathSelectRankSmall()">
 									<label class="radio">
 									<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks('AllLanguages')" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
-									<input class="well"type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImgSmall"/>
-									<h6>All</h6>
+									<input class="well well-small"type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImgSmall"/>
+									<p>All</p>
 									</label>
 								</div>
 								
 								<div class="span4"  ng-repeat="path in paths.paths | limitTo:2" ng-init="pathSelectRankSmall()">
 									<label class="radio">
 									<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-									<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>
-									<h6>{{path.name}}</h6>
+									<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>
+									<p>{{path.name}}</p>
 									</label>
 								</div>
 							</div>
@@ -379,11 +418,11 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						
 						<div class="span12">
 							<div class="row" >
-								<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="pathSelectRankSmall()">
+								<div class="span4" ng-repeat="path in paths.paths| startFrom:2 | limitTo:3" ng-init="pathSelectRankSmall()">
 									<label class="radio">
 										<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 										<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>
-										<h6>{{path.name}}</h6>
+										<p>{{path.name}}</p>
 									</label>
 								</div>
 							</div>
@@ -405,7 +444,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						<!--Sg Ranking-->
 						<div class="tab-content">
 							<div class="tab-pane active" id="tab1sgSmall">
-								<div style="overflow-x:hidden">
+								<div >
 									<table class="table table-condensed">
 										<tr style="border-top: solid white; border-bottom: solid white;">
 											<th class="Rank">Rank</th>
@@ -414,6 +453,9 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 											<th class="Badge">Badge</th>
 											<th class="Solved">Solved</th>
 										</tr>  
+									</table>
+									<div id="UserCountryRankListSmall">
+										<table>
 											<tr ng-repeat="ranking in rankingSG.rankings">
 											   
 												<td class="RankList">
@@ -436,13 +478,14 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 													{{ranking.solved_num}}
 												</td>                                 
 											</tr>	 
-									</table>
+										</table>
+									</div>
 																	 
 								</div>
 							</div>
 							<!--Global Ranking-->
 							<div class="tab-pane" id="tab1worldSmall">
-								<div style="overflow-x:hidden">
+								<div>
 									<table class="table table-condensed">
 										<tr style="border-top: solid white; border-bottom: solid white;">
 											<th class="Rank">Rank</th>
@@ -450,8 +493,12 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 											<th class="Location">Location</th>
 											<th class="Badge">Badge</th>
 											<th class="Solved">Solved</th>
-										</tr>  
-									<tr ng-repeat="ranking in rankingGlobal.rankings">														   
+										</tr>
+									</table>
+									<div id="GlobalRankListSmall">
+									<table>
+										
+										<tr ng-repeat="ranking in rankingGlobal.rankings">														   
 										<td class="RankList">
 											{{ranking.rank}}
 									
@@ -473,6 +520,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										</td>                                 
 									</tr>	
 									</table> 
+									</div>
 									
 								</div>	
 							</div>
@@ -486,21 +534,21 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 			</div>
 		</div>
 		
-		<br>
+		
 		
 		<div>
 		
-			<div class="accordion well well-small" id="countryRankingSmall">
+			<div class="accordion well well-small" id="CountryRankingSmallAccordion">
 				<div class="accordion-group">
 				<div class="accordion-heading">
-				<a class="accordion-toggle" data-toggle="collapse" data-parent="#countryRankingSmall" data-target="#collapseOne">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#CountryRankingSmall" data-target="#collapseOne">
 				Country Ranking
 				</a>
 				</div>
 				<div id="collapseOne" class="accordion-body collapse">
 				<div class="accordion-inner">
-					<div style="overflow-x:hidden">
-						<div style="overflow-x:hidden" id="smallCountryRanking">
+					<div>
+						<div id="CountryRankingSmall">
 							<table class="table table-condensed">
 								<tr style="border-top: solid white; border-bottom: solid white;">
 									<th class="cr1small">Rank</th>
@@ -508,7 +556,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 									<th class="cr3small">Number of Users</th>						
 								</tr>  
 							</table> 
-							
+							<div id="CountryRankingListSmall">
 							<table class="table table-hover" ng-controller="RankController" ng-init="get_country_ranks();" >
 									<tr ng-repeat="ranking in countryRank.rankings">
 									   
@@ -527,9 +575,10 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 									</tr>
 										 
 							</table>
+							</div>
 									  
 						
-							</div>
+						</div>
 														
 					</div>	
 				</div>
