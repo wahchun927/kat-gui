@@ -290,6 +290,8 @@ function PathController($scope,$resource,$cookieStore,$location){
 	
 	
 	$scope.changePath = function (difficulty, pathName){
+		alert(pathName);
+		alert(difficulty);
 		if(difficulty=="Drag-n-Drop"){
 			$scope.changeDifficulty(difficulty,pathName);
 		}
@@ -392,7 +394,9 @@ function PathController($scope,$resource,$cookieStore,$location){
 			$cookieStore.put("name", level);
 			$cookieStore.put("num", numProblems);
 			$cookieStore.put("type", "practiceGame");
-			$cookieStore.put("level", lvlnum);
+			$cookieStore.put("level", lvlnum);		
+			$cookieStore.put("gameDifficulty", $scope.difficulty);			
+			$cookieStore.put("nameOfPath", $scope.path_progress.path.name);				
 			if($scope.difficulty == "Drag-n-Drop"){
 				window.location.href = "practice_play_page.html";
 			}
@@ -428,7 +432,8 @@ function PathController($scope,$resource,$cookieStore,$location){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     };
     $scope.get_mobile_paths();
-
+	
+	//update path progress for 14 inch window size
     $scope.update_path_progress = function(pathID){
         $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
@@ -439,7 +444,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$('#myTab a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
-	
+	//update path progress for small window size
     $scope.update_path_progress1 = function(pathID){
         $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
