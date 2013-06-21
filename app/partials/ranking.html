@@ -150,21 +150,21 @@ th.Badge{width:20%; text-align:center;}
 th.Solved{width:20%; text-align:center;}
 
 
-th.RankList{width:10%; text-align:center;}
-th.AgentList{width:30%; text-align:Left;}
-th.LocationList{width:20%; text-align:center;}
-th.BadgeList{width:20%; text-align:center;}
-th.SolvedList{width:20%; text-align:center;}
+td.RankList{width:10%; text-align:center;}
+td.AgentList{width:30%; text-align:Left;}
+td.LocationList{width:20%; text-align:center;}
+td.BadgeList{width:20%; text-align:center;}
+td.SolvedList{width:20%; text-align:center;}
 
 <!--country ranks-->
 th.crRank{width:05%; text-align:center; }
 th.crCountry{width:65%; text-align:center;}
 th.crUsers{width:30%; text-align:center;}
 
-td.cr_rank{width:05%; text-align:center;}
-td.cr_pic{width:05%; text-align:right;}
-td.cr_countryname{width:60%; text-align:left;}
-td.cr_playernumber{width:30%; text-align:center;}
+td.crRankList{width:05%; text-align:center;}
+td.crPicList{width:05%; text-align:right;}
+td.crCountrynameList{width:60%; text-align:left;}
+td.crPlayernumberList{width:30%; text-align:center;}
 
 td.crsmall_rank{width:05%; text-align:center;}
 td.crsmall_pic{width:20%; text-align:right;}
@@ -351,18 +351,18 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 							<table class="table" ng-controller="RankController" ng-init="get_country_ranks();" style="height:10px;" >
 									<tr ng-repeat="ranking in countryRank.rankings">
 									   
-										<td class="cr_rank">
+										<td class="crRankList">
 											{{ranking.rank}}
 										</td>
-										<td class="cr_pic"> 
+										<td class="crPicList"> 
 											<image ng-src="{{ranking.flagUrl}}"/>
 										</td>
-										<td class="cr_countryname"> 
+										<td class="crCountrynameList"> 
 											{{ranking.countryName}}					
 										</td>										
-										<td class="cr_playernumber">
+										<td class="crPlayernumberList">
 											{{ranking.player_num}}
-										</td>                                 
+										</td>                             
 									</tr>
 										 
 							</table>
