@@ -120,7 +120,7 @@ li{ list-style:none; }
 		<a class="right carousel-control" data-target="#myCarousel" data-slide="next">&rsaquo;</a>
 	</div>
 	<!-- /.carousel -->
-	<div class="container marketing" ng-controller="QuestController">
+	<div class="container marketing">
 		<!-- Three columns of text below the carousel -->
 		<div class="row-fluid">
 			<div class="span12">
@@ -128,10 +128,10 @@ li{ list-style:none; }
 				<div class="span4 lead well well-small" align="center">
 					<div id="gradient1"><h4>#2. Select a difficulty Level</h4></div> 
 					<hr>
-					<div id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
+					<div id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]" ng-controller="QuestController">					
 						<span ng-repeat="item in levels" ng-init="addDefaultLevel($first)">
 							<label class="radio">
-							<input style="visibility:hidden" type="radio" ng-model="$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
+							<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
 							<button type="button" ng-click = "changeDifficulty(item.name,path_progress.path.name)" class="btn btn-primary" style="height: 33px; width: 200px"  btn-radio="{{item.name}}">{{item.name}}
 							</button></br></br>
 							</label>
@@ -272,7 +272,7 @@ li{ list-style:none; }
 		<a class="right carousel-control" data-target="#myCarouselSmall" data-slide="next">&rsaquo;</a>
 	</div>
 	<!-- /.carousel -->
-	<div class="container marketing" >
+	<div class="container marketing">
 		<!-- Three columns of text below the carousel -->
 		<div class="row-fluid">
 			<div class="span12">
@@ -280,10 +280,10 @@ li{ list-style:none; }
 				<div class="span3 lead well well-small" align="center">
 					<div id="gradient1"><H5>#2. Select a difficulty Level</H5></div> 
 					<hr>
-					<div style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
-						<span ng-repeat="item in levels">
+					<div id="levelsmall" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]" ng-controller="QuestController">					
+						<span ng-repeat="item in levels" ng-init="addDefaultLevelSmall($first)">
 							<label class="radio">
-							<input style="visibility:hidden" type="radio" ng-model="$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
+							<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
 							<button type="button" ng-click = "changeDifficulty(item.name,path_progress.path.name)" class="btn btn-primary" style="height: 25px; width: 120px"  btn-radio="{{item.name}}">{{item.name}}
 							</button></br></br>
 							</label>
