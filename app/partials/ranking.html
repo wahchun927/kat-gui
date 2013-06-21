@@ -151,7 +151,8 @@ th.Solved{width:20%; text-align:center;}
 
 
 td.RankList{width:10%; text-align:center;}
-td.AgentList{width:30%; text-align:Left;}
+td.AgentList{width:10%; text-align:right;}
+td.AgentNicknameList{width:20%; text-align:left;}
 td.LocationList{width:20%; text-align:center;}
 td.BadgeList{width:20%; text-align:center;}
 td.SolvedList{width:20%; text-align:center;}
@@ -251,7 +252,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 													</tr>  
 												</table>
 												<div id="UserCountryRankListLarge">
-												<table>
+												<table class="table table-condensed">
 														<tr ng-repeat="ranking in rankingSG.rankings">
 														   
 															<td class="RankList">
@@ -260,9 +261,9 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 															</td>
 															<td class="AgentList">
 																<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
-													
-																{{ranking.nickname}}
-														
+															</td>
+															<td class="AgentNicknameList">													
+																{{ranking.nickname}}														
 															</td>
 															<td class="LocationList"> 
 																<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
@@ -292,17 +293,16 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 													</tr>
 												</table>
 												<div id="GlobalRankListLarge">
-												<table>
+												<table class="table table-condensed">
 												<tr ng-repeat="ranking in rankingGlobal.rankings">														   
 													<td class="RankList">
-														{{ranking.rank}}
-												
+														{{ranking.rank}}												
 													</td>
 													<td class="AgentList">
 														<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
-											
-														{{ranking.nickname}}
-												
+													</td>
+													<td class="AgentNicknameList">													
+														{{ranking.nickname}}														
 													</td>
 													<td class="LocationList"> 
 														<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
@@ -348,7 +348,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 								</tr>  
 							</table> 
 							<div id="CountryRankingListLarge" >
-							<table class="table" ng-controller="RankController" ng-init="get_country_ranks();" style="height:10px;" >
+							<table class="table table-condensed" ng-controller="RankController" ng-init="get_country_ranks();" style="height:10px;" >
 									<tr ng-repeat="ranking in countryRank.rankings">
 									   
 										<td class="crRankList">
@@ -455,7 +455,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										</tr>  
 									</table>
 									<div id="UserCountryRankListSmall">
-										<table>
+										<table class="table table-condensed">
 											<tr ng-repeat="ranking in rankingSG.rankings">
 											   
 												<td class="RankList">
@@ -464,10 +464,10 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 												</td>
 												<td class="AgentList">
 													<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
-										
-													{{ranking.nickname}}
-											
 												</td>
+												<td class="AgentNicknameList">													
+													{{ranking.nickname}}														
+												</td>>
 												<td class="LocationList"> 
 													<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
 												</td>
@@ -496,7 +496,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										</tr>
 									</table>
 									<div id="GlobalRankListSmall">
-									<table>
+									<table class="table table-condensed">
 										
 										<tr ng-repeat="ranking in rankingGlobal.rankings">														   
 										<td class="RankList">
@@ -505,9 +505,9 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										</td>
 										<td class="AgentList">
 											<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
-								
-											{{ranking.nickname}}
-									
+										</td>
+										<td class="AgentNicknameList">													
+											{{ranking.nickname}}														
 										</td>
 										<td class="LocationList"> 
 											<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
@@ -557,7 +557,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 								</tr>  
 							</table> 
 							<div id="CountryRankingListSmall">
-							<table class="table table-hover" ng-controller="RankController" ng-init="get_country_ranks();" >
+							<table class="table table-condensed" ng-controller="RankController" ng-init="get_country_ranks();" >
 									<tr ng-repeat="ranking in countryRank.rankings">
 									   
 										<td class="crsmall_rank">
