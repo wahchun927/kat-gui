@@ -28,8 +28,8 @@ display:inline;
 
 #pathImg{
 
-width:70px;
-height:70px;
+width:80px;
+height:80px;
 
 }
 
@@ -179,33 +179,36 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 	<div class="container" ng-controller = "RankController">
 	
 		<div class="row-fluid">
-			<div class="span12">
+			<div class="span12" >
 				<!-- Carousel for Path -->
 				<div class="span9 well well-small">
 					<div class="row-fluid">
-						<div class="span12" ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
+						<div class="span12" ng-controller="PathController" ng-init="list();$parent.pathID=10030;" >
 							<div id="myCarouselRank" class="carousel slide">
 								<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
 									<div class="item active">
 										<!-- Three columns of text below the carousel -->
 									
 										<div class="span12">
-											<div class="row" >
+											<div class="row">
 												<!--all languages-->
-												<div class="span4"  ng-init="pathSelectRank()">
+												<div class="span1"> </div>
+												<div class="span2"  ng-init="pathSelectRank()"  >
 													<label class="radio">
 													<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
 													<input class="well well-small" type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
 													<h6>All</h6>
 													</label>
 												</div>
-												<div class="span4"  ng-repeat="path in paths.paths | limitTo:2" ng-init="pathSelectRank()">
+												<div class="span2"  ng-repeat="path in paths.paths | limitTo:4" ng-init="pathSelectRank()" >
 													<label class="radio">
 													<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 													<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 													<h6>{{path.name}}</h6>
 													</label>
 												</div>
+												<div class="span1"> </div>
+												
 											</div>
 										</div>	
 									</div>
@@ -215,7 +218,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										
 										<div class="span12">
 											<div class="row" >
-												<div class="span4" ng-repeat="path in paths.paths| startFrom:2 | limitTo:3" ng-init="pathSelectRank()">
+												<div class="span4" ng-repeat="path in paths.paths| startFrom:4 | limitTo:5" ng-init="pathSelectRank()">
 													<label class="radio">
 														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 														<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
@@ -253,28 +256,27 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 												</table>
 												<div id="UserCountryRankListLarge">
 												<table class="table table-condensed">
-														<tr ng-repeat="ranking in rankingSG.rankings">
-														   
-															<td class="RankList">
-																{{ranking.rank}}
-														
-															</td>
-															<td class="AgentList">
-																<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
-															</td>
-															<td class="AgentNicknameList">													
-																{{ranking.nickname}}														
-															</td>
-															<td class="LocationList"> 
-																<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
-															</td>
-															<td class="BadgeList"> 
-																<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
-															</td>
-															<td class="SolvedList">
-																{{ranking.solved_num}}
-															</td>                                 
-														</tr>	 
+													<tr ng-repeat="ranking in rankingSG.rankings">
+														<td class="RankList">
+															{{ranking.rank}}											
+														</td>
+														<td class="AgentList">
+															<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
+														</td>
+														<td class="AgentNicknameList">													
+															{{ranking.nickname}}														
+														</td>
+														<td class="LocationList"> 
+															<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
+														</td>
+														<td class="BadgeList"> 
+															<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
+														</td>
+														<td class="SolvedList">
+															{{ranking.solved_num}}
+														</td> 
+															                          
+													</tr>	 
 												</table>
 												</div>                               
 											</div>
@@ -294,26 +296,26 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 												</table>
 												<div id="GlobalRankListLarge">
 												<table class="table table-condensed">
-												<tr ng-repeat="ranking in rankingGlobal.rankings">														   
-													<td class="RankList">
-														{{ranking.rank}}												
-													</td>
-													<td class="AgentList">
-														<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
-													</td>
-													<td class="AgentNicknameList">													
-														{{ranking.nickname}}														
-													</td>
-													<td class="LocationList"> 
-														<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
-													</td>
-													<td class="BadgeList"> 
-														<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
-													</td>
-													<td class="SolvedList">
-														{{ranking.solved_num}}
-													</td>                                 
-												</tr>	
+													<tr ng-repeat="ranking in rankingGlobal.rankings">														   
+														<td class="RankList">
+														{{ranking.rank}}											
+														</td>
+														<td class="AgentList">
+															<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
+														</td>
+														<td class="AgentNicknameList">													
+															{{ranking.nickname}}														
+														</td>
+														<td class="LocationList"> 
+															<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
+														</td>
+														<td class="BadgeList"> 
+															<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
+														</td>
+														<td class="SolvedList">
+															{{ranking.solved_num}}
+														</td>                              
+													</tr>	
 												</table> 												
 												</div>	
 											</div>
@@ -392,23 +394,26 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						<!-- Three columns of text below the carousel -->
 					
 						<div class="span12">
-							<div class="row" >
-							`<!-- all paths-->
-								<div class="span4"  ng-init="pathSelectRankSmall()">
+							<div class="row">
+							<!--all languages-->
+								<div class="span"> &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; </div>
+								<div class="span2"  ng-init="pathSelectRank()">
+									<label class="radio">									
+									<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
+									<input  type="image" ng-src="img/language/AllLanguages.png"  alt="" id="pathImg"/>
+									<h6>All</h6>
+									</label>
+								</div>
+								<div class="span2"  ng-repeat="path in paths.paths | limitTo:4" ng-init="pathSelectRank()" >
 									<label class="radio">
-									<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks('AllLanguages')" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
-									<input class="well well-small"type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImgSmall"/>
-									<p>All</p>
+									<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+									<input type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+									<h6>{{path.name}}</h6>
 									</label>
 								</div>
 								
-								<div class="span4"  ng-repeat="path in paths.paths | limitTo:2" ng-init="pathSelectRankSmall()">
-									<label class="radio">
-									<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-									<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>
-									<p>{{path.name}}</p>
-									</label>
-								</div>
+							
+							
 							</div>
 						</div>	
 					</div>
@@ -457,17 +462,15 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 									<div id="UserCountryRankListSmall">
 										<table class="table table-condensed">
 											<tr ng-repeat="ranking in rankingSG.rankings">
-											   
 												<td class="RankList">
-													{{ranking.rank}}
-											
+													{{ranking.rank}}											
 												</td>
 												<td class="AgentList">
 													<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 												</td>
 												<td class="AgentNicknameList">													
 													{{ranking.nickname}}														
-												</td>>
+												</td>
 												<td class="LocationList"> 
 													<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
 												</td>
@@ -476,7 +479,8 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 												</td>
 												<td class="SolvedList">
 													{{ranking.solved_num}}
-												</td>                                 
+												</td> 
+																			  
 											</tr>	 
 										</table>
 									</div>
@@ -494,31 +498,29 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 											<th class="Badge">Badge</th>
 											<th class="Solved">Solved</th>
 										</tr>
-									</table>
+									</table class="table table-condensed">
 									<div id="GlobalRankListSmall">
-									<table class="table table-condensed">
-										
+									<table>
 										<tr ng-repeat="ranking in rankingGlobal.rankings">														   
-										<td class="RankList">
-											{{ranking.rank}}
-									
-										</td>
-										<td class="AgentList">
-											<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
-										</td>
-										<td class="AgentNicknameList">													
-											{{ranking.nickname}}														
-										</td>
-										<td class="LocationList"> 
-											<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
-										</td>
-										<td class="BadgeList"> 
-											<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
-										</td>
-										<td class="SolvedList">
-											{{ranking.solved_num}}
-										</td>                                 
-									</tr>	
+											<td class="RankList">
+											{{ranking.rank}}											
+											</td>
+											<td class="AgentList">
+												<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
+											</td>
+											<td class="AgentNicknameList">													
+												{{ranking.nickname}}														
+											</td>
+											<td class="LocationList"> 
+												<image ng-src="{{ranking.playerCountry.flagUrl}}"; width = 30px; height= 30px;/>	
+											</td>
+											<td class="BadgeList"> 
+												<image ng-src="{{ranking.badge.url}}"; width = 30px; height= 30px;/>									
+											</td>
+											<td class="SolvedList">
+												{{ranking.solved_num}}
+											</td>                              
+										</tr>
 									</table> 
 									</div>
 									
