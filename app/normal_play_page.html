@@ -23,6 +23,15 @@
                 font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
                 color: black;
             }
+
+            .progess-inner {
+             
+              margin-bottom: 5px;
+              background-color: #171718;
+              border-color: black;
+              text-align: right;
+
+            }
             .img-polaroid {
                 height:215px;
             }
@@ -561,6 +570,19 @@
                 <a id="video_pop" class="fancybox fancybox.iframe" href="" style="display:none"></a>
 
                 <br>
+                <div class="row-fluid">
+                    <div class="span12 progess-inner">
+                        <div class="span2" style="vertical-align: middle;line-height:4em">
+                             Quest Progress: 
+                        </div>
+                        <div class="span9" align="center">
+                            {{quest.numSolved}}/{{quest.numProblems}}  
+                            <div class="progress progress-success">
+                                <div class="bar" style="width:{{count = (quest.numSolved/quest.numProblems)*100 |number:0}}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row-fluid">
                     
                         <div class="span10 well">
