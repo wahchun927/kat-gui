@@ -673,8 +673,12 @@
                         <div  width=94% style="text-align: left;">
                             <h4>&nbsp;Current Practice Question</h4>
                                <font face="verdana" size="3">
+                                  &nbsp;&nbsp;Path Name: <span ng-bind="nameOfPath"></span>
+                                    <br>
                                   &nbsp;&nbsp;Level: <span ng-bind="levelNumber"></span>
                                     <br>
+                                  &nbsp;&nbsp;Difficulty: <span ng-bind="gameDifficulty"></span>
+                                    <br>								
                                   &nbsp;&nbsp;Name: <span ng-bind="game.problems.problems[current_problem_index].name"></span>
                                     <br>&nbsp;&nbsp;Description: <span ng-bind="game.problems.problems[current_problem_index].description"></span>
                                 </font>
