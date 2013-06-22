@@ -22,6 +22,16 @@
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <style>
+    #loading {    
+      position: absolute;
+      z-index: 1000;
+      width: 160px;
+      height: 24px;
+      background: url(loading.gif) no-repeat;
+      cursor: wait;
+      left: 50%;
+      margin-left: -80px;                
+    }
     .well{
       background-color: transparent;
     }
@@ -293,7 +303,7 @@
 
       <div ng-controller="GameController" id="dndGame">
         <br>
-		<table width=100%>
+		      <table width=100%>
             <tr>
                 <td width=94% class="well well-small">
                     <div>
@@ -302,27 +312,32 @@
                         <font face="verdana" size="3">
                             &nbsp;&nbsp;Name: <span ng-bind="game.problems.problems[current_problem_index].name"></span>
                             <br>&nbsp;&nbsp;Description: <span ng-bind="game.problems.problems[current_problem_index].description"></span>
-						</font>
-                </td>
-                <td width=3%></td>
-                <td>
-                    <p>
-                        Game progress 
-                        <br>
-                        <span ng-bind="game.numSolvedProblems"></span> of <span ng-bind="game.numProblems"></span>
-                    </p>
-                    <p>
-                        <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;Skip&nbsp;&nbsp;</button>
-                    </p>
-                    <p>
-                        <button class="btn btn-primary" ng-click="goStoryBoard()">StoryBoard</button>
-                    </p>
-                </td>
+            						</font>
+                  </td>
+                  <td width=3%></td>
+                  <td>
+                      <p>
+                          Game progress 
+                          <br>
+                          <span ng-bind="game.numSolvedProblems"></span> of <span ng-bind="game.numProblems"></span>
+                      </p>
+                      <p>
+                          <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;Skip&nbsp;&nbsp;</button>
+                      </p>
+                      <p>
+                          <button class="btn btn-primary" ng-click="goStoryBoard()">StoryBoard</button>
+                      </p>
+                  </td>
             </tr>
-        </table>
+          </table>
         <br>
 
-        <div class="row-fluid">
+        <div id="loading" display="none">
+          <!-- this is the loading gif -->
+          <img src="img/loading.gif">
+        </div>
+
+        <div class="row-fluid" id="content">
           <div class="span12" id="gametable">
             <div class="span6 well">
                 <!-- Tab for Choice-->
