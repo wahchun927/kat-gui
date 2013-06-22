@@ -73,6 +73,17 @@ myApp.directive('dndBetweenList', function($parse) {
             }
         },true);
 
+        scope.$watch('source + line_outcome.origional', function() {
+            if(scope.line_outcome.origional.length != 0){
+                $('#content').show();
+                $('#loading').hide();
+            };
+            if(scope.source.length == 0 && scope.line_outcome.origional.length == 0){
+                $('#content').hide();
+                $('#loading').show();
+            };
+        },true);
+
         scope.$watch('quest.videos', function() {
             if(scope.quest){
                 var numOfUnlocked = 0;
