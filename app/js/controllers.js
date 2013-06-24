@@ -36,68 +36,68 @@ function Ctrl($scope) {
 }
 
 function PlayerController($scope,$resource,$location,$cookieStore){
-		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-        $scope.player = $resource('/jsonapi/player').get(); 
+	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+    $scope.player = $resource('/jsonapi/player').get(); 
 
-		$scope.firstLoad=function(paid){
-			if($scope.player.nickname){
-				$cookieStore.put("pid", paid);
-				$location.path("practice");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-	    $scope.login=function(){
-	  
-	    }; 
-		
-		$scope.checkQuestLogin = function(){
-			if($scope.player.nickname){
-				$location.path("quests");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkPracticeLogin = function(){
-			if($scope.player.nickname){
-				$location.path("practice");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkChallengesLogin = function(){
-			if($scope.player.nickname){
-				$location.path("challenges");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkRankingLogin = function(){
-			if($scope.player.nickname){
-				$location.path("ranking");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkProfileLogin = function(){
-			if($scope.player.nickname){
-				$location.path("profile");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
+	$scope.firstLoad=function(paid){
+		if($scope.player.nickname){
+			$cookieStore.put("pid", paid);
+			$location.path("practice");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+    $scope.login=function(){
+  
+    }; 
+	
+	$scope.checkQuestLogin = function(){
+		if($scope.player.nickname){
+			$location.path("quests");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkPracticeLogin = function(){
+		if($scope.player.nickname){
+			$location.path("practice");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkChallengesLogin = function(){
+		if($scope.player.nickname){
+			$location.path("challenges");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkRankingLogin = function(){
+		if($scope.player.nickname){
+			$location.path("ranking");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkProfileLogin = function(){
+		if($scope.player.nickname){
+			$location.path("profile");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
     $scope.update_player_profile = function($event){  
   
         var data = {"nickname":$scope.player.nickname,
@@ -109,7 +109,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
         var item = new $scope.UpdateProfile(data);
         $scope.item = item.$save(); 
     };
-        
+    
     $scope.log_event = function($event){  
 
         var result = $location.absUrl().split("/");
