@@ -1745,11 +1745,11 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
           $scope.name = response;
           $cookieStore.put("name", $scope.name);
           //window.location = "index.html#/storyboard";
-     });
+		});
     };
 
     $scope.playback = function(){
-      $('#video').trigger('click');
+		$('#video').trigger('click');
     };
 
     $scope.addDefaultLevel=function(checker){
@@ -1778,7 +1778,13 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 
 //Test story controller. Normally use GenericController
 function StoryController($scope,$resource,$cookieStore,$location){
-  $scope.name = $cookieStore.get("name");
+	$scope.arrayVideo = [];
+	$scope.videoURL = "";
+	$scope.addVideo=function(videoURL){
+		alert(videoURL.length);
+		$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
+	}
+	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
     var abc = 0;
