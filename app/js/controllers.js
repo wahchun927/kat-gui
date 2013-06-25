@@ -1905,45 +1905,55 @@ function TournamentController($scope,$resource,$http){
 
 function RankController($scope,$resource,$cookieStore,$location){
 
-	
 
 	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
-	
+		//ALL Languages
 		if(pathId=='AllLanguages'){
-
-			$scope.pathRankModelAllSg = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
 			
-			$scope.pathRankModelAllSg.get(function(response){
-				$scope.rankingAllSg = response;
+			// based on player's country
+			var data = {"countryCode":$scope.player.countryCode};
+			$scope.playerCountry = $resource('/jsonapi/player');
+			var nation = data.countryCode;
+			
+			$scope.pathRankModelAllSg = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:country');
+			
+			$scope.pathRankModel1.get({"country":nation}, function(response){
+				$scope.rankingUserCountry = response;
 			});
 			
+			//worldwide ranking
 			$scope.pathRankModelAllGlobal = $resource('/jsonapi/worldwide_ranking?maxRank=25');
 			
 			$scope.pathRankModelAllGlobal.get(function(response){
-				$scope.rankingAllGlobal = response;
+				$scope.rankingGlobal = response;
 			});
 				
 		}
+		//selected individual language
 		else{
-        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=SG');
-		
-		$scope.pathRankModel1.get({"pathId":pathId}, function(response){
-            $scope.rankingSG = response;
-        });
-		
-        $scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId');
-		
-		$scope.pathRankModel2.get({"pathId":pathId}, function(response){
-            $scope.rankingGlobal = response;
-        });
+			// based on player's country
+			var data = {"countryCode":$scope.player.countryCode};
+			$scope.playerCountry = $resource('/jsonapi/player');
+			var nation = data.countryCode;
+			
+			$scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=:country');
+			
+			$scope.pathRankModel1.get({"pathId":pathId,"country":nation}, function(response){
+				$scope.rankingUserCountry = response;
+			});
+			
+			//worldwide ranking
+			$scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId');
+			
+			$scope.pathRankModel2.get({"pathId":pathId}, function(response){
+				$scope.rankingGlobal = response;
+			});
 		
 		}
 		
 		
     };
-	
-	
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
