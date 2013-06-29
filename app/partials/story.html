@@ -142,7 +142,7 @@
 								<p>Story Title :</p>
 						</div>
 						<div class="span10">
-							<input class="span8" type="text" placeholder="Title"></p> 	
+							<input class="span8" type="text" ng-model="Title">{{Title}}</p> 	
 						</div>
 					</div>
 				</div>
@@ -153,7 +153,7 @@
 								<p>Story Description :</p>												
 						</div>
 						<div class="span10">
-							 <textarea class="span8" rows="3"></textarea>
+							 <textarea class="span8" rows="3" ng-model="description">{{description}}</textarea>
 						</div>				
 					</div>
 				</div>
@@ -172,7 +172,7 @@
 						</div>
 					</div>
 					</br>
-					{{arrayVideo}}
+					{{Videos}}{{Title}}{{description}}{{stories}}
 					<!--uploaded videos-->
 					<div class="row-fluid">
 						<div class="span12">
@@ -188,7 +188,7 @@
 							</table>
 							<table class="table table-hover" ng-repeat="item in arrayVideo">
 									<tr>
-										<td class="v1" style="text-align:center;">{{$index+1}}</td>
+										<td class="v1" style="text-align:center;"><input type="text" ng-model="sequence">{{$index+1}}</input></p></td>
 										<td class="v2">#1</td>
 										<td class="v3">{{item.url}}</td>
 										<td class="v4">2:03</td>
@@ -197,7 +197,7 @@
 									</tr>																
 							</table> 
 							<div align="right">
-							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;">Save</button>
+							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-click="create_story(arrayVideo,Title,description)">Save</button>
 							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;">Publish</button> 
 							</div>
 						</div>
