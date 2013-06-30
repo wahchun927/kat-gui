@@ -1745,11 +1745,11 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
           $scope.name = response;
           $cookieStore.put("name", $scope.name);
           //window.location = "index.html#/storyboard";
-     });
+		});
     };
 
     $scope.playback = function(){
-      $('#video').trigger('click');
+		$('#video').trigger('click');
     };
 
     $scope.addDefaultLevel=function(checker){
@@ -1778,7 +1778,22 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 
 //Test story controller. Normally use GenericController
 function StoryController($scope,$resource,$cookieStore,$location){
-  $scope.name = $cookieStore.get("name");
+	$scope.arrayVideo = [];
+	$scope.Videos = [];
+	$scope.newStoryID = "";
+	$scope.videoURL = "";
+	$scope.description="";
+	$scope.Title="";
+	$scope.addVideo=function(videoURL){
+		$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
+		$scope.Videos.push(videoURL.substring(31));
+	}
+	
+	$scope.deleteVideo=function(id){
+		$scope.arrayVideo.splice(id, 1);
+		$scope.Videos.splice(id, 1);
+	}
+	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
     var abc = 0;
@@ -1820,7 +1835,35 @@ function StoryController($scope,$resource,$cookieStore,$location){
       }
     }
 	
-  
+	// $scope.StoryModel = $resource('/jsonapi/story/:id');
+    
+    ////A method to fetch a generic model and id. 
+    
+    // $scope.fetch = function(id){
+      // $scope.story = $scope.StoryModel.get({'id':id});
+    // };
+
+    // $scope.list = function(){
+      // $scope.stories = $scope.storyModel.query();
+    // };
+
+	    //Create story
+    $scope.create_story = function(arrayVideo,title,des){
+	  
+      $scope.newStory = {}
+      $scope.newStory.name = title;
+  	  $scope.newStory.description = des;
+	  $scope.newStory.videos = $scope.Videos;
+      $scope.newStory.published = false;
+      $scope.NewStory = $resource('/jsonapi/story');
+      var new_story = new $scope.NewStory($scope.newStory);
+      
+      new_story.$save(function(response){
+        $scope.story = response;
+		alert(response.id);
+        $scope.newStoryID = response.id;
+      });
+    };
 	//1. Load all stories created by user 
 
 	//2. Edit an exiting story
