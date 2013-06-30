@@ -674,8 +674,7 @@
 		
 	});
 	
-  $('#myTab a').click(function (e) {
-    e.preventDefault();
+  $('#myTab a').click(function () {
     $(this).tab('show');
     if ($('.btn-navbar').is(":visible"))
       $('.btn-navbar').click();

@@ -65,8 +65,8 @@
 			  </ul>
 			  <div class="tab-content well">
 				<div class="tab-pane active" id="tab1current">
-				  <div style="overflow-x:hidden">
-						<table class="table table-condensed">
+				  <div style="overflow-x:hidden" ng-controller="StoryController">
+						<table class="table table-condensed" ng-init="list()">
 								<tr style="border-top: solid white; border-bottom: solid white;">
 									<th class="c1">Name</th>
 									<th class="c2">Number of Videos</th>
