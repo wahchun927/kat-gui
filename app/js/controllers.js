@@ -1788,6 +1788,11 @@ function StoryController($scope,$resource,$cookieStore,$location){
 		$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
 		$scope.Videos.push(videoURL.substring(31));
 	}
+	
+	$scope.deleteVideo=function(id){
+		$scope.arrayVideo.splice(id, 1);
+		$scope.Videos.splice(id, 1);
+	}
 	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
