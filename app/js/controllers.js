@@ -180,8 +180,8 @@ function PathController($scope,$resource,$cookieStore,$location){
   }
 
   $scope.pathSelection=function(checker){
-    $('#paths input:image').click(function() {
-      $('#paths input:image').removeClass('selected');   
+    $('#pathSel input:image').click(function() {
+      $('#pathSel input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
@@ -191,8 +191,8 @@ function PathController($scope,$resource,$cookieStore,$location){
   }
 
   $scope.pathSelectionSmall=function(checker){
-    $('#pathsSmall input:image').click(function() {
-      $('#pathsSmall input:image').removeClass('selected');   
+    $('#small-pathSel input:image').click(function() {
+      $('#small-pathSel input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
