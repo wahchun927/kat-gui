@@ -1782,8 +1782,9 @@ function StoryController($scope,$resource,$cookieStore,$location){
 	$scope.Videos = [];
 	$scope.newStoryID = "";
 	$scope.videoURL = "";
-	$scope.description="";
-	$scope.Title="";
+	$scope.description = "";
+	$scope.Title = "";
+	$scope.stories = "";
 	$scope.addVideo=function(videoURL){
 		$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
 		$scope.Videos.push(videoURL.substring(31));

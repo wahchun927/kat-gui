@@ -674,9 +674,9 @@
 		
 	});
 	
-  $('#myTab a').click(function () {
+  $('#myTab a').click(function (e) {
     $(this).tab('show');
-    if ($('.btn-navbar').is(":visible"))
+    if ($('.btn-navbar').is(":visible") && e.target.className != "dropdown-toggle")
       $('.btn-navbar').click();
   });
 	
