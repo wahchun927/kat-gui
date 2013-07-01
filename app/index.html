@@ -514,7 +514,7 @@
             <a class="brand" href="#home">SingPath</a>            
             <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->            
             <div class="nav-collapse collapse">              
-              <ul class="nav pull-right">   
+              <ul class="nav pull-right" id="myTab">   
                 <li>
                   <a type="button" ng-click="checkQuestLogin()">Quest</a>
                 </li>                
@@ -674,6 +674,11 @@
 		
 	});
 	
+  $('#myTab a').click(function () {
+    $(this).tab('show');
+    if ($('.btn-navbar').is(":visible"))
+      $('.btn-navbar').click();
+  });
 	
 });
 

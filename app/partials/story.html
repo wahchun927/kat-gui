@@ -48,7 +48,7 @@
     th.v6, td.v6{width:10%;}
 </style>
 
-<div class="container" id="largeProfile" style="position:relative;">
+<div class="container" id="largeProfile" style="position:relative;" ng-controller = "StoryController">
 	<br>
 	<br>
 	<div class="row">
@@ -65,8 +65,8 @@
 			  </ul>
 			  <div class="tab-content well">
 				<div class="tab-pane active" id="tab1current">
-				  <div style="overflow-x:hidden">
-						<table class="table table-condensed">
+				  <div style="overflow-x:hidden" ng-controller="StoryController">
+						<table class="table table-condensed" ng-init="list()">
 								<tr style="border-top: solid white; border-bottom: solid white;">
 									<th class="c1">Name</th>
 									<th class="c2">Number of Videos</th>
@@ -142,7 +142,7 @@
 								<p>Story Title :</p>
 						</div>
 						<div class="span10">
-							<input class="span8" type="text" placeholder="Title"></p> 	
+							<input class="span8" type="text" ng-model="Title">{{Title}}</p> 	
 						</div>
 					</div>
 				</div>
@@ -153,7 +153,7 @@
 								<p>Story Description :</p>												
 						</div>
 						<div class="span10">
-							 <textarea class="span8" rows="3"></textarea>
+							 <textarea class="span8" rows="3" ng-model="description">{{description}}</textarea>
 						</div>				
 					</div>
 				</div>
@@ -165,13 +165,14 @@
 							</div>
 							<div class="span10">															
 								<div class="input-append">
-									<input class="span8" id="appendedInputButtons" type="text" placeholder="https://www.youtube.com/watch?v=ERf7qcilFE4">
-									<button class="btn" type="button-primary">+</button>									
+									<input class="span8" id="appendedInputButtons" ng-model="videoURL" type="text"></input>
+									<button class="btn" type="button-primary" ng-click="addVideo(videoURL)">+</button>									
 								</div>													
 							</div> 
 						</div>
 					</div>
 					</br>
+					{{Videos}}{{Title}}{{description}}{{stories}}
 					<!--uploaded videos-->
 					<div class="row-fluid">
 						<div class="span12">
@@ -185,19 +186,18 @@
 									<th class="v6">Delete</th>
 								</tr>  
 							</table>
-							<table class="table table-hover">
+							<table class="table table-hover" ng-repeat="item in arrayVideo">
 									<tr>
-										<td class="v1" style="text-align:center;">1</td>
+										<td class="v1" style="text-align:center;"><input type="text" ng-model="sequence">{{$index+1}}</input></p></td>
 										<td class="v2">#1</td>
-										<td class="v3">https://www.youtube.com/watch?v=fxsk1e0QDgE</td>
+										<td class="v3">{{item.url}}</td>
 										<td class="v4">2:03</td>
-										<td class="v5"><iframe class="thumbnail" width="100" height="50" src="http://www.youtube.com/watch?v=qgiuBXT9LK4" frameborder="0" allowfullscreen>
-											</iframe></td>
-										<td class="v6"> <i class="icon-remove icon-white"></i></td>      
+										<td class="v5"><img ng-src="http://img.youtube.com/vi/{{item.code}}/1.jpg" id="standardFrame"></a></td>
+										<td class="v6"> <a type="button" class="icon-remove icon-white" ng-click="deleteVideo($index)"></a></td>   
 									</tr>																
 							</table> 
 							<div align="right">
-							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;">Save</button>
+							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-click="create_story(arrayVideo,Title,description)">Save</button>
 							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;">Publish</button> 
 							</div>
 						</div>

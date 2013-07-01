@@ -36,68 +36,68 @@ function Ctrl($scope) {
 }
 
 function PlayerController($scope,$resource,$location,$cookieStore){
-		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-        $scope.player = $resource('/jsonapi/player').get(); 
+	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+    $scope.player = $resource('/jsonapi/player').get(); 
 
-		$scope.firstLoad=function(paid){
-			if($scope.player.nickname){
-				$cookieStore.put("pid", paid);
-				$location.path("practice");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-	    $scope.login=function(){
-	  
-	    }; 
-		
-		$scope.checkQuestLogin = function(){
-			if($scope.player.nickname){
-				$location.path("quests");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkPracticeLogin = function(){
-			if($scope.player.nickname){
-				$location.path("practice");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkChallengesLogin = function(){
-			if($scope.player.nickname){
-				$location.path("challenges");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkRankingLogin = function(){
-			if($scope.player.nickname){
-				$location.path("ranking");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
-		$scope.checkProfileLogin = function(){
-			if($scope.player.nickname){
-				$location.path("profile");
-			}
-			else{
-				alert("Please login with FaceBook or Google Account first!");
-			}
-		};
-		
+	$scope.firstLoad=function(paid){
+		if($scope.player.nickname){
+			$cookieStore.put("pid", paid);
+			$location.path("practice");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+    $scope.login=function(){
+  
+    }; 
+	
+	$scope.checkQuestLogin = function(){
+		if($scope.player.nickname){
+			$location.path("quests");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkPracticeLogin = function(){
+		if($scope.player.nickname){
+			$location.path("practice");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkChallengesLogin = function(){
+		if($scope.player.nickname){
+			$location.path("challenges");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkRankingLogin = function(){
+		if($scope.player.nickname){
+			$location.path("ranking");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkProfileLogin = function(){
+		if($scope.player.nickname){
+			$location.path("profile");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
     $scope.update_player_profile = function($event){  
   
         var data = {"nickname":$scope.player.nickname,
@@ -109,7 +109,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
         var item = new $scope.UpdateProfile(data);
         $scope.item = item.$save(); 
     };
-        
+    
     $scope.log_event = function($event){  
 
         var result = $location.absUrl().split("/");
@@ -1745,11 +1745,11 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
           $scope.name = response;
           $cookieStore.put("name", $scope.name);
           //window.location = "index.html#/storyboard";
-     });
+		});
     };
 
     $scope.playback = function(){
-      $('#video').trigger('click');
+		$('#video').trigger('click');
     };
 
     $scope.addDefaultLevel=function(checker){
@@ -1778,7 +1778,22 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 
 //Test story controller. Normally use GenericController
 function StoryController($scope,$resource,$cookieStore,$location){
-  $scope.name = $cookieStore.get("name");
+	$scope.arrayVideo = [];
+	$scope.Videos = [];
+	$scope.newStoryID = "";
+	$scope.videoURL = "";
+	$scope.description="";
+	$scope.Title="";
+	$scope.addVideo=function(videoURL){
+		$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
+		$scope.Videos.push(videoURL.substring(31));
+	}
+	
+	$scope.deleteVideo=function(id){
+		$scope.arrayVideo.splice(id, 1);
+		$scope.Videos.splice(id, 1);
+	}
+	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
     var abc = 0;
@@ -1820,7 +1835,35 @@ function StoryController($scope,$resource,$cookieStore,$location){
       }
     }
 	
-  
+	// $scope.StoryModel = $resource('/jsonapi/story/:id');
+    
+    ////A method to fetch a generic model and id. 
+    
+    // $scope.fetch = function(id){
+      // $scope.story = $scope.StoryModel.get({'id':id});
+    // };
+
+    // $scope.list = function(){
+      // $scope.stories = $scope.storyModel.query();
+    // };
+
+	    //Create story
+    $scope.create_story = function(arrayVideo,title,des){
+	  
+      $scope.newStory = {}
+      $scope.newStory.name = title;
+  	  $scope.newStory.description = des;
+	  $scope.newStory.videos = $scope.Videos;
+      $scope.newStory.published = false;
+      $scope.NewStory = $resource('/jsonapi/story');
+      var new_story = new $scope.NewStory($scope.newStory);
+      
+      new_story.$save(function(response){
+        $scope.story = response;
+		alert(response.id);
+        $scope.newStoryID = response.id;
+      });
+    };
 	//1. Load all stories created by user 
 
 	//2. Edit an exiting story
@@ -1905,45 +1948,55 @@ function TournamentController($scope,$resource,$http){
 
 function RankController($scope,$resource,$cookieStore,$location){
 
-	
 
 	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
-	
+		//ALL Languages
 		if(pathId=='AllLanguages'){
-
-			$scope.pathRankModelAllSg = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=SG');
 			
-			$scope.pathRankModelAllSg.get(function(response){
-				$scope.rankingAllSg = response;
+			// based on player's country
+			var data = {"countryCode":$scope.player.countryCode};
+			$scope.playerCountry = $resource('/jsonapi/player');
+			var nation = data.countryCode;
+			
+			$scope.pathRankModelAllSg = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:country');
+			
+			$scope.pathRankModel1.get({"country":nation}, function(response){
+				$scope.rankingUserCountry = response;
 			});
 			
+			//worldwide ranking
 			$scope.pathRankModelAllGlobal = $resource('/jsonapi/worldwide_ranking?maxRank=25');
 			
 			$scope.pathRankModelAllGlobal.get(function(response){
-				$scope.rankingAllGlobal = response;
+				$scope.rankingGlobal = response;
 			});
 				
 		}
+		//selected individual language
 		else{
-        $scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=SG');
-		
-		$scope.pathRankModel1.get({"pathId":pathId}, function(response){
-            $scope.rankingSG = response;
-        });
-		
-        $scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId');
-		
-		$scope.pathRankModel2.get({"pathId":pathId}, function(response){
-            $scope.rankingGlobal = response;
-        });
+			// based on player's country
+			var data = {"countryCode":$scope.player.countryCode};
+			$scope.playerCountry = $resource('/jsonapi/player');
+			var nation = data.countryCode;
+			
+			$scope.pathRankModel1 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=:country');
+			
+			$scope.pathRankModel1.get({"pathId":pathId,"country":nation}, function(response){
+				$scope.rankingUserCountry = response;
+			});
+			
+			//worldwide ranking
+			$scope.pathRankModel2 = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId');
+			
+			$scope.pathRankModel2.get({"pathId":pathId}, function(response){
+				$scope.rankingGlobal = response;
+			});
 		
 		}
 		
 		
     };
-	
-	
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
