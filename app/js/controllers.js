@@ -180,8 +180,8 @@ function PathController($scope,$resource,$cookieStore,$location){
   }
 
   $scope.pathSelection=function(checker){
-    $('#paths input:image').click(function() {
-      $('#paths input:image').removeClass('selected');   
+    $('#pathSel input:image').click(function() {
+      $('#pathSel input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
@@ -191,8 +191,8 @@ function PathController($scope,$resource,$cookieStore,$location){
   }
 
   $scope.pathSelectionSmall=function(checker){
-    $('#pathsSmall input:image').click(function() {
-      $('#pathsSmall input:image').removeClass('selected');   
+    $('#small-pathSel input:image').click(function() {
+      $('#small-pathSel input:image').removeClass('selected');   
       $(this).addClass('selected');
       
     });
@@ -1779,10 +1779,20 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 //Test story controller. Normally use GenericController
 function StoryController($scope,$resource,$cookieStore,$location){
 	$scope.arrayVideo = [];
+	$scope.Videos = [];
+	$scope.newStoryID = "";
 	$scope.videoURL = "";
+	$scope.description = "";
+	$scope.Title = "";
+	$scope.stories = "";
 	$scope.addVideo=function(videoURL){
-		alert(videoURL.length);
 		$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
+		$scope.Videos.push(videoURL.substring(31));
+	}
+	
+	$scope.deleteVideo=function(id){
+		$scope.arrayVideo.splice(id, 1);
+		$scope.Videos.splice(id, 1);
 	}
 	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
@@ -1826,7 +1836,35 @@ function StoryController($scope,$resource,$cookieStore,$location){
       }
     }
 	
-  
+	// $scope.StoryModel = $resource('/jsonapi/story/:id');
+    
+    ////A method to fetch a generic model and id. 
+    
+    // $scope.fetch = function(id){
+      // $scope.story = $scope.StoryModel.get({'id':id});
+    // };
+
+    // $scope.list = function(){
+      // $scope.stories = $scope.storyModel.query();
+    // };
+
+	    //Create story
+    $scope.create_story = function(arrayVideo,title,des){
+	  
+      $scope.newStory = {}
+      $scope.newStory.name = title;
+  	  $scope.newStory.description = des;
+	  $scope.newStory.videos = $scope.Videos;
+      $scope.newStory.published = false;
+      $scope.NewStory = $resource('/jsonapi/story');
+      var new_story = new $scope.NewStory($scope.newStory);
+      
+      new_story.$save(function(response){
+        $scope.story = response;
+		alert(response.id);
+        $scope.newStoryID = response.id;
+      });
+    };
 	//1. Load all stories created by user 
 
 	//2. Edit an exiting story
