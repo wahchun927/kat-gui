@@ -137,24 +137,29 @@
 					<!--uploaded videos-->
 					<div class="row-fluid">
 						<div class="span12">
-							<table class="table table-condensed">
+							<table class="table table-condensed" align="center">
 								<tr style="border-top: solid white; border-bottom: solid white;">
-									<th class="v1">Sequence</th>
 									<th class="v2">Video Name</th>
 									<th class="v3">Location</th>
 									<th class="v4">Length</th>
 									<th class="v5">Thumbnail</th>
 									<th class="v6">Delete</th>
+									<th class="v1">Sequence</th>
 								</tr>  
 							</table>
-							<table class="table table-hover" ng-repeat="item in arrayVideo">
+							<table class="table table-hover" ng-repeat="item in arrayVideo" align="center">
 									<tr>
-										<td class="v1" style="text-align:center;"><input type="text" ng-model="sequence">{{$index+1}}</input></p></td>
-										<td class="v2">#1</td>
+										<td class="v2">#{{$index+1}}</td>
 										<td class="v3">{{item.url}}</td>
 										<td class="v4">2:03</td>
 										<td class="v5"><img ng-src="http://img.youtube.com/vi/{{item.code}}/1.jpg" id="standardFrame"></a></td>
 										<td class="v6"> <a type="button" class="icon-remove icon-white" ng-click="deleteVideo($index)"></a></td>   
+										<td class="v1">
+											<div class="btn-group btn-group-vertical">
+											  <button class="btn" style="font-weight:bold;" ng-click="moveUp($index)">&#923;</button>
+											  <button class="btn" style="font-weight:bold" ng-click="moveDown($index)">V</button>
+											</div>
+										</td>
 									</tr>																
 							</table> 
 							<div align="right">
