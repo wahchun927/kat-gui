@@ -1785,6 +1785,7 @@ function StoryController($scope,$resource,$cookieStore,$location){
 	$scope.description = "";
 	$scope.Title = "";
 	$scope.stories = "";
+	$scope.videos = "";
 
 	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
@@ -1794,6 +1795,7 @@ function StoryController($scope,$resource,$cookieStore,$location){
     $scope.list = function(){
           $scope.StoryModel.query({}, function(response){
               $scope.stories = response;
+              $scope.videos = $scope.stories[0].videos;
 			  $scope.$parent.storyid = $scope.stories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
           });
@@ -1926,6 +1928,11 @@ function StoryController($scope,$resource,$cookieStore,$location){
 			$scope.Videos[index] = tempVideos;
 		}
 	};
+
+	$scope.playback = function(index){
+      $scope.videos = $scope.stories[index].videos;
+      $('#video').trigger('click');
+    };
 }
 
 //Test story controller. Normally use GenericController
