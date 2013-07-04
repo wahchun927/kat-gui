@@ -586,10 +586,10 @@
   <div class="modal fade" id="loginAlert" >
     <div class="modal-header" style="color:black">
       <a class="close"  href="#" data-dismiss="modal">&times;</a>
-        <h3>Dear player!</h3>
+        <h3>Dear Agent!</h3>
     </div>
     <div class="modal-body" style="color:black">
-      <p style="font-color:black">You are currently not logged in. The quest will not be saved!</p>
+      <p style="font-color:black">You are currently not logged in. Loggin to embark on Quest or Practice a Language!</p>
     </div>
     <div class="modal-footer">
       <a ng-show="!player.nickname" class="janrainEngage" href="#"><button class="btn btn-primary" ng-click='dismissModal()'>Login</button></a>
@@ -674,9 +674,9 @@
 		
 	});
 	
-  $('#myTab a').click(function () {
+  $('#myTab a').click(function (e) {
     $(this).tab('show');
-    if ($('.btn-navbar').is(":visible"))
+    if ($('.btn-navbar').is(":visible") && e.target.className != "dropdown-toggle")
       $('.btn-navbar').click();
   });
 	

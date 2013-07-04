@@ -65,8 +65,8 @@
 			  </ul>
 			  <div class="tab-content well">
 				<div class="tab-pane active" id="tab1current">
-				  <div style="overflow-x:hidden" ng-controller="StoryController">
-						<table class="table table-condensed" ng-init="list()">
+				  <div style="overflow-x:hidden">
+						<table class="table table-condensed">
 								<tr style="border-top: solid white; border-bottom: solid white;">
 									<th class="c1">Name</th>
 									<th class="c2">Number of Videos</th>
@@ -76,56 +76,18 @@
 								</tr>  
 						</table> 
 						<div>
-							<table class="table table-hover">
-									<tr>
-										<td class="c1">The Spy Who Coded</td>
-										<td class="c2">12</td>
+							<table class="table table-hover" ng-init="list()">
+									<a ng-repeat="video in videos" id="video" class="fancybox fancybox.iframe" style="display:none" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
+									<tr ng-repeat="story in stories">
+										<td class="c1">{{story.name}}</td>
+										<td class="c2">{{story.videos.length}}</td>
 										<td class="c3">50:00</td>
 										<td class="c4"><span class="label label-success">Saved</span></td>
 										<td class="c5"> 
 											<div class="btn-group">
-												<button class="btn btn-success">Playback</button>
+												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
 												<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
 												<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="c1">Tricorder Meltdown</td>
-										<td class="c2">7</td>
-										<td class="c3">21:00</td>
-										<td class="c4">Published</td>
-										<td class="c5">
-											<div class="btn-group">
-												<button class="btn btn-success">Playback</button>
-												<button class="btn btn-warning">Stats</button>
-												<button class="btn btn-danger">Edit</button>
-											</div>
-										</td> 
-									</tr>
-									<tr>
-										<td class="c1">Texas Whirlwind</td>
-										<td class="c2">6</td>
-										<td class="c3">19:00</td>
-										<td class="c4">Published</td>
-										<td class="c5"> 
-											<div class="btn-group">
-												<button class="btn btn-success">Playback</button>
-												<button class="btn btn-warning">Stats</button>
-												<button class="btn btn-danger">Edit</button>
-											</div>
-										</td>
-									</tr>	
-									<tr>
-										<td class="c1">Avengers</td>
-										<td class="c2">10</td>
-										<td class="c3">20:32</td>
-										<td class="c4">Published</td>
-										<td class="c5"> 
-											<div class="btn-group">
-												<button class="btn btn-success">Playback</button>
-												<button class="btn btn-warning">Stats</button>
-												<button class="btn btn-danger">Edit</button>
 											</div>
 										</td>
 									</tr>
@@ -176,24 +138,29 @@
 					<!--uploaded videos-->
 					<div class="row-fluid">
 						<div class="span12">
-							<table class="table table-condensed">
+							<table class="table table-condensed" align="center">
 								<tr style="border-top: solid white; border-bottom: solid white;">
-									<th class="v1">Sequence</th>
 									<th class="v2">Video Name</th>
 									<th class="v3">Location</th>
 									<th class="v4">Length</th>
 									<th class="v5">Thumbnail</th>
 									<th class="v6">Delete</th>
+									<th class="v1">Sequence</th>
 								</tr>  
 							</table>
-							<table class="table table-hover" ng-repeat="item in arrayVideo">
+							<table class="table table-hover" ng-repeat="item in arrayVideo" align="center">
 									<tr>
-										<td class="v1" style="text-align:center;"><input type="text" ng-model="sequence">{{$index+1}}</input></p></td>
-										<td class="v2">#1</td>
+										<td class="v2">#{{$index+1}}</td>
 										<td class="v3">{{item.url}}</td>
 										<td class="v4">2:03</td>
 										<td class="v5"><img ng-src="http://img.youtube.com/vi/{{item.code}}/1.jpg" id="standardFrame"></a></td>
 										<td class="v6"> <a type="button" class="icon-remove icon-white" ng-click="deleteVideo($index)"></a></td>   
+										<td class="v1">
+											<div class="btn-group btn-group-vertical">
+											  <button class="btn" style="font-weight:bold;" ng-click="moveUp($index)">&#923;</button>
+											  <button class="btn" style="font-weight:bold" ng-click="moveDown($index)">V</button>
+											</div>
+										</td>
 									</tr>																
 							</table> 
 							<div align="right">

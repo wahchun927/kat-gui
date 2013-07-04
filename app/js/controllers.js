@@ -1782,17 +1782,11 @@ function StoryController($scope,$resource,$cookieStore,$location){
 	$scope.Videos = [];
 	$scope.newStoryID = "";
 	$scope.videoURL = "";
-	$scope.description="";
-	$scope.Title="";
-	$scope.addVideo=function(videoURL){
-		$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
-		$scope.Videos.push(videoURL.substring(31));
-	}
-	
-	$scope.deleteVideo=function(id){
-		$scope.arrayVideo.splice(id, 1);
-		$scope.Videos.splice(id, 1);
-	}
+	$scope.description = "";
+	$scope.Title = "";
+	$scope.stories = "";
+	$scope.videos = "";
+
 	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
@@ -1801,6 +1795,7 @@ function StoryController($scope,$resource,$cookieStore,$location){
     $scope.list = function(){
           $scope.StoryModel.query({}, function(response){
               $scope.stories = response;
+              $scope.videos = $scope.stories[0].videos;
 			  $scope.$parent.storyid = $scope.stories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
           });
@@ -1848,6 +1843,16 @@ function StoryController($scope,$resource,$cookieStore,$location){
     // };
 
 	    //Create story
+
+	//1. Load all stories created by user 
+
+	//2. Edit an exiting story
+
+	//3. Playback an existing story
+
+	//4. View statistics on existing story
+
+	//5. Create a new Story
     $scope.create_story = function(arrayVideo,title,des){
 	  
       $scope.newStory = {}
@@ -1864,16 +1869,6 @@ function StoryController($scope,$resource,$cookieStore,$location){
         $scope.newStoryID = response.id;
       });
     };
-	//1. Load all stories created by user 
-
-	//2. Edit an exiting story
-
-	//3. Playback an existing story
-
-	//4. View statistics on existing story
-
-	//5. Create a new Story
-
 	   ////record title, description, video url
 	   
 	   //// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
@@ -1888,6 +1883,56 @@ function StoryController($scope,$resource,$cookieStore,$location){
 		
 		////if user clicks publish, set published value to true, disable publish button to "Pubished"
 	
+	
+	
+	$scope.addVideo=function(videoURL){
+		//arrayVideo for display purpose
+		if(videoURL.length==42){
+			$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
+			//Videos for the purpose of story creation
+			$scope.Videos.push(videoURL.substring(31));
+			$scope.videoURL="";
+		}
+		else{
+			alert("Please put in a valid YouTube URL!");
+		}
+	}
+	
+	$scope.deleteVideo=function(id){
+		$scope.arrayVideo.splice(id, 1);
+		$scope.Videos.splice(id, 1);
+	}
+	
+	$scope.moveUp = function(index){
+		if (index!=0){
+			var tempArrayVideo = $scope.arrayVideo[index-1];
+			var tempVideos = $scope.Videos[index-1];
+			
+			$scope.arrayVideo[index-1] = $scope.arrayVideo[index];
+			$scope.Videos[index-1] = $scope.Videos[index];
+			
+			$scope.arrayVideo[index] = tempArrayVideo;
+			$scope.Videos[index] = tempVideos;
+		}
+	};
+	
+	$scope.moveDown = function(index){
+		if (index!=($scope.Videos.length-1)){
+			var tempArrayVideo = $scope.arrayVideo[index+1];
+			var tempVideos = $scope.Videos[index+1];
+			
+			$scope.arrayVideo[index+1] = $scope.arrayVideo[index];
+			$scope.Videos[index+1] = $scope.Videos[index];
+			
+			$scope.arrayVideo[index] = tempArrayVideo;
+			$scope.Videos[index] = tempVideos;
+		}
+	};
+
+	$scope.playback = function(index){
+      $scope.videos = $scope.stories[index].videos;
+      $('#video').trigger('click');
+    };
 }
 
 //Test story controller. Normally use GenericController
