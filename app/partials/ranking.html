@@ -212,20 +212,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										</div>	
 									</div>
 									
-									<div class="item">
-										
-										<div class="span12">
-											<div class="row" >
-												<div class="span4" ng-repeat="path in paths.paths| startFrom:4 | limitTo:5" ng-init="pathSelectRank()">
-													<label class="radio">
-														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-														<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
-														<h6>{{path.name}}</h6>
-													</label>
-												</div>
-											</div>
-										</div>	
-									</div>
+									
 								</div> 
 								<a class="left carousel-control" data-target="#myCarouselRank" data-slide="prev">&lsaquo;</a>
 								<a class="right carousel-control" data-target="#myCarouselRank" data-slide="next">&rsaquo;</a>
@@ -260,7 +247,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														<td class="RankList">
 															{{ranking.rank}}											
 														</td>
-														<td class="AgentList">
+														<td class="AgentList" ng-click="get_player_details(ranking.playerid)">
 															<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 														</td>
 														<td class="AgentNicknameList">													
@@ -300,7 +287,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														<td class="RankList">
 														{{ranking.rank}}											
 														</td>
-														<td class="AgentList">
+														<td class="AgentList" ng-click="get_player_details(ranking.playerid)">
 															<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 														</td>
 														<td class="AgentNicknameList">													
@@ -417,21 +404,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						</div>	
 					</div>
 					
-					<div class="item">
-						<!-- Three columns of text below the carousel -->
-						
-						<div class="span12">
-							<div class="row" >
-								<div class="span4" ng-repeat="path in paths.paths| startFrom:2 | limitTo:3" ng-init="pathSelectRankSmall()">
-									<label class="radio">
-										<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-										<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImgSmall"/>
-										<p>{{path.name}}</p>
-									</label>
-								</div>
-							</div>
-						</div>	
-					</div>
+					
 				</div> 
 				<a class="left carousel-control" data-target="#myCarouselRankSmall" data-slide="prev">&lsaquo;</a>
 				<a class="right carousel-control" data-target="#myCarouselRankSmall" data-slide="next">&rsaquo;</a>
@@ -464,7 +437,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 												<td class="RankList">
 													{{ranking.rank}}											
 												</td>
-												<td class="AgentList">
+												<td class="AgentList" ng-click="get_player_details(ranking.playerid)">
 													<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 												</td>
 												<td class="AgentNicknameList">													
@@ -504,7 +477,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 											<td class="RankList">
 											{{ranking.rank}}											
 											</td>
-											<td class="AgentList">
+											<td class="AgentList" ng-click="get_player_details(ranking.playerid)">
 												<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 											</td>
 											<td class="AgentNicknameList">													
@@ -590,5 +563,38 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="modal fade" ng-controller="RankController" id="playerDetails">
+    <div class="modal-header" style="color:black">
+      <a class="close"  href="#" data-dismiss="modal">&times;</a>
+        <h3> Agent <span ng-bind="ranking.nickname"></span> </h3>
+		
+		</span>
+    </div>
+	
+    <div class="modal-body" style="color:black">
+		<div class="row-fluid">
+		<div class="span12">
+			<div class="span3" >
+				<image ng-src="{{ranking.gravatar}}"; width = 200px; height= 200px;/> <br> <br> 
+				
+				<div style="text-align: center;text-transform:capitalize;"> male </div>
+								
+			</div>
+			
+			<div class="span9" style="overflow:auto">
+				
+				<div> About: {{player.about}}</div> <br>
+				<div> Location: <image ng-src="{{ranking.countryFlagURL}}"; width = 30px; height= 30px;/> &nbsp {{ranking.country}}  </div>  <br>
+				<div>Tags: <div ng-repeat="item in arrayTags"></div> </div> <br>
+				<div>Badges: <div ng-repeat="item in arrayBadges"></div> </div><br>
+			</div> 
+			
+		</div>
+		</div>
+	</div>
+	
+     
 </div>
 
