@@ -525,6 +525,53 @@ function ChallengeController($scope,$resource,$location){
       $location.path("registration");
 
     };
+	
+		//1. All Challenges Tab - load accepted challenges
+		
+	$scope.list_challenges= function(){
+		//alert("all c");
+        $scope.ListAllChallenges = $resource('/jsonapi/list_challenges').get();
+    };
+	
+	//2. All Challenges Tab - load accepted challenges
+		//if "_playerRegistered": true, add to array
+	/*
+	$scope.registered_challenges= function(){
+		//alert("all c");
+        $scope.RegisteredChallenges = $resource('/jsonapi/list_challenges').get();
+		var data={"_playerRegistered":$scope.RegisteredChallenges._playerRegistered};
+		var registered=data._playerRegistered;
+		var registeredChallengesArray=[];
+		
+		if (registered==true){
+			
+			$scope.registeredChallengesArray.push(RegisteredChallenges.challenges);
+		
+		}
+    };
+	*/
+		
+	
+	
+	//3. My Creation - Load Challenges I've Made
+	$scope.list_challenges_I_created= function(){
+		//alert("c i created");
+        $scope.ListChallengesICreated = $resource('/jsonapi/list_my_challenges').get();
+    };
+	
+	
+	//4. My Creation - Challenges others Made	
+	//3. Challengedetails.html - Load stats for each challenge
+			//3a. All players
+			//3b. Registered players
+			//3c. Responded players			
+	//4. Enable registering for challenge
+	//5. Create Habit Challenge
+	//6. Create Badge Challenge
+	//7. Create Quest Challenge
+	//8. Edit Challenges
+	
+	
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
@@ -2097,4 +2144,102 @@ function RankController($scope,$resource,$cookieStore,$location){
 	$scope.get_country_ranks = function(){
         $scope.countryRank = $resource('/jsonapi/country_ranking maxRank=300').get();
     };
+	
+	$scope.get_player_details = function(playerId){
+		
+		//alert("professional":$scope.playerNo.professional);
+		
+		$scope.selectedPlayer = $resource('/jsonapi/player/:playerId');
+		$('#playerDetails').modal('show');
+		
+		$scope.arrayTags = [];
+		$scope.arrayBadges = [];
+		arrayTags=player.tags;
+		arrayBadges=player.badges;
+				
+		var data={"professional":$scope.player.professional};
+		var pro=data.professional;
+		
+		
+		/*
+		if(pro=="1"){		
+			pro="professional";		
+		}
+		else{
+			pro="student";		
+		}
+		*/
+		//alert($scope.player.professional);
+		
+		
+		
+		/*
+		alert($scope.player.nickname);
+		
+		var data = {"nickname":$scope.player.nickname,
+                    "professional":$scope.player.professional,
+                    "about":$scope.player.about,
+                    "gender":$scope.player.gender,
+					"countryFlagURL":$scope.player.countryFlagURL,
+					"gravatar":$scope.player.gravatar,
+					"tags".$scope.player.tags,
+					"badges".$scope.player.badges
+					};
+											
+		var nickname = data.nickname;
+		var professional = data.professional;
+		var about= data.about;
+		var gender=  data.gender;
+		var countryFlagURL= data.countryFlagURL;
+		var gravatar= data.gravatar;
+		var tags= data.tags;
+		var badges= data.badges;
+		
+		$scope.player_details.get({"nickname":nickname,
+									"professional":professional,
+									"about":about,
+									"gender":gender,
+									"countryFlagURL":countryFlagURL,
+									"gravatar":gravatar;
+									"tags":tags;
+									"badges":badges}, function(response){
+			$scope.playerDetails= response;
+			$('#Agent_Profile').modal('show');
+		});
+		
+		*/   
+	
+	}
+	
+	//onclick of country flag display country's players' ranking for the selected path
+	
+	$scope.get_countrypath_ranks = function(pathId,countryCode){
+		alert(countryCode);
+		//ALL Languages
+		if(pathId=='AllLanguages'){
+			
+			
+			
+			$scope.pathRankModelAllCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:countryCode');
+			
+			$scope.pathRankModelAllCountry.get({"countryCode":countryCode}, function(response){
+				$scope.rankingCountry = response;
+			});		
+						
+		}
+		//selected individual language
+		else{
+						
+			$scope.pathRankModelPathCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=:countryCode');
+			
+			$scope.pathRankModelPathCountry.get({"pathId":pathId,"countryCode":countryCode}, function(response){
+				$scope.rankingPathCountry = response;
+			});
+						
+		}
+		
+		
+    };
+	
+	
 }
