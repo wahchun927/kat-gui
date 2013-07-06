@@ -620,6 +620,27 @@ function NormalGameController($scope,$resource,$cookieStore){
         Create Tournament Game.
         
         */
+
+        //To retrieve story information
+        $scope.$watch('quest.name', function() {
+
+        	// to retrieve the story name 
+        	var sName = $scope.quest.story;
+			$scope.get_Story = $resource('/jsonapi/story/:sName');
+			$scope.get_Story.get({"sName":sName}, function(response){
+				$scope.singleStory = response;
+				$scope.singleStoryDes = $scope.singleStory.description;
+			});
+
+			// to retrieve the path name
+        	var pName = $scope.quest.path;
+			$scope.get_pathName = $resource('/jsonapi/get_path_progress/:pName');
+			$scope.get_pathName.get({"pName":pName}, function(response){
+				$scope.singlePath = response;
+				$scope.singlePathName = $scope.singlePath.path.name;
+			});
+        	 
+        },true);
         
         $scope.fetch = function(gameID){
           $scope.GameModel = $resource('/jsonapi/game/:gameID');
@@ -1072,6 +1093,27 @@ function GameController($scope,$resource,$cookieStore,$location){
           });
           */
         };
+
+        //To retrieve story information
+        $scope.$watch('quest.name', function() {
+
+        	// to retrieve the story name 
+        	var sName = $scope.quest.story;
+			$scope.get_Story = $resource('/jsonapi/story/:sName');
+			$scope.get_Story.get({"sName":sName}, function(response){
+				$scope.singleStory = response;
+				$scope.singleStoryDes = $scope.singleStory.description;
+			});
+
+			// to retrieve the path name
+        	var pName = $scope.quest.path;
+			$scope.get_pathName = $resource('/jsonapi/get_path_progress/:pName');
+			$scope.get_pathName.get({"pName":pName}, function(response){
+				$scope.singlePath = response;
+				$scope.singlePathName = $scope.singlePath.path.name;
+			});
+        	 
+        },true);
 
         $scope.create_problemset_game = function(problemsetID,numProblems){
           $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
