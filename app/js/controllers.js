@@ -1918,7 +1918,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 			alert($scope.currentStoryID);
 
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-			$http.post('/jsonapi/story'+$scope.currentStoryID, {
+			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
 							description:$scope.newStory.description,
 							videos:$scope.newStory.videos,
