@@ -667,6 +667,27 @@ function NormalGameController($scope,$resource,$cookieStore){
         Create Tournament Game.
         
         */
+
+        //To retrieve story information
+        $scope.$watch('quest.name', function() {
+
+        	// to retrieve the story name 
+        	var sName = $scope.quest.story;
+			$scope.get_Story = $resource('/jsonapi/story/:sName');
+			$scope.get_Story.get({"sName":sName}, function(response){
+				$scope.singleStory = response;
+				$scope.singleStoryDes = $scope.singleStory.description;
+			});
+
+			// to retrieve the path name
+        	var pName = $scope.quest.path;
+			$scope.get_pathName = $resource('/jsonapi/get_path_progress/:pName');
+			$scope.get_pathName.get({"pName":pName}, function(response){
+				$scope.singlePath = response;
+				$scope.singlePathName = $scope.singlePath.path.name;
+			});
+        	 
+        },true);
         
         $scope.fetch = function(gameID){
           $scope.GameModel = $resource('/jsonapi/game/:gameID');
@@ -1119,6 +1140,27 @@ function GameController($scope,$resource,$cookieStore,$location){
           });
           */
         };
+
+        //To retrieve story information
+        $scope.$watch('quest.name', function() {
+
+        	// to retrieve the story name 
+        	var sName = $scope.quest.story;
+			$scope.get_Story = $resource('/jsonapi/story/:sName');
+			$scope.get_Story.get({"sName":sName}, function(response){
+				$scope.singleStory = response;
+				$scope.singleStoryDes = $scope.singleStory.description;
+			});
+
+			// to retrieve the path name
+        	var pName = $scope.quest.path;
+			$scope.get_pathName = $resource('/jsonapi/get_path_progress/:pName');
+			$scope.get_pathName.get({"pName":pName}, function(response){
+				$scope.singlePath = response;
+				$scope.singlePathName = $scope.singlePath.path.name;
+			});
+        	 
+        },true);
 
         $scope.create_problemset_game = function(problemsetID,numProblems){
           $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
@@ -1824,7 +1866,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 }
 
 //Test story controller. Normally use GenericController
-function StoryController($scope,$resource,$cookieStore,$location){
+function StoryController($scope,$resource,$cookieStore,$location,$http){
 	$scope.arrayVideo = [];
 	$scope.Videos = [];
 	$scope.newStoryID = "";
@@ -1833,7 +1875,8 @@ function StoryController($scope,$resource,$cookieStore,$location){
 	$scope.Title = "";
 	$scope.stories = "";
 	$scope.videos = "";
-
+	$scope.editOrCreate = "create";
+	
 	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
@@ -1848,80 +1891,134 @@ function StoryController($scope,$resource,$cookieStore,$location){
           });
     };
     //$scope.fetch_stories();
-    $scope.goToStory=function()
-    {
-      $location.path("story");
-
+    $scope.goToStory=function(){
+	
+		$location.path("story");
     };
 
     // this method add background color to the selected images 
     $scope.addQuestColor=function(checker){
-      $('#myCarousel input:image').click(function() {
-        $('#myCarousel input:image').removeClass('selected');
-        $(this).addClass('selected');     
-      });
-      if(checker){
-        $('#myCarousel input:image').click();
-      }
+		$('#myCarousel input:image').click(function() {
+		$('#myCarousel input:image').removeClass('selected');
+		$(this).addClass('selected');     
+			});
+		if(checker){
+			$('#myCarousel input:image').click();
+		}
     }
 
     // this method add background color to the selected images 
     $scope.addQuestColorSmall=function(checker){
-      $('#myCarouselSmall input:image').click(function() {
+		$('#myCarouselSmall input:image').click(function() {
         $('#myCarouselSmall input:image').removeClass('selected');   
         $(this).addClass('selected');
         
-      });
-      if(checker){
-        $('#myCarouselSmall input:image').click();
-      }
+		});
+		
+		if(checker){
+			$('#myCarouselSmall input:image').click();
+		}
     }
-	
-	// $scope.StoryModel = $resource('/jsonapi/story/:id');
-    
-    ////A method to fetch a generic model and id. 
-    
-    // $scope.fetch = function(id){
-      // $scope.story = $scope.StoryModel.get({'id':id});
-    // };
 
-    // $scope.list = function(){
-      // $scope.stories = $scope.storyModel.query();
-    // };
-
-	    //Create story
+	//Create story
 
 	//1. Load all stories created by user 
 
 	//2. Edit an exiting story
+		$scope.goToEditStory = function(storyID){
+		$('#tabCr').addClass('active');
+        $('#tabCu').removeClass('active');
+        $('#tab2create').addClass('active');
+        $('#tab1current').removeClass('active');
+			
+		$scope.storyModel = $resource('/jsonapi/story/:storyID');
 
+		$scope.storyModel.get({"storyID":storyID}, function(response){
+			$scope.currentStory = response;
+			$scope.description = response.description;
+			$scope.Title = response.name;
+			$scope.Videos = response.videos;
+			$cookieStore.put("editStory", response);
+			$scope.editOrCreate = "edit";
+		}); 
+	}
+	
 	//3. Playback an existing story
-
+	$scope.playback = function(index){
+		$scope.videos = $scope.stories[index].videos;
+		$('#video').trigger('click');
+    };
 	//4. View statistics on existing story
 
 	//5. Create a new Story
-    $scope.create_story = function(arrayVideo,title,des){
-	  
-      $scope.newStory = {}
+    $scope.create_story = function(title,des){
+	  alert(title+des);
+      $scope.newStory = {};
       $scope.newStory.name = title;
   	  $scope.newStory.description = des;
 	  $scope.newStory.videos = $scope.Videos;
       $scope.newStory.published = false;
-      $scope.NewStory = $resource('/jsonapi/story');
-      var new_story = new $scope.NewStory($scope.newStory);
+
       
-      new_story.$save(function(response){
-        $scope.story = response;
-		alert(response.id);
-        $scope.newStoryID = response.id;
-      });
+	  if($scope.editOrCreate == "edit"){
+			$scope.currentStoryID = $cookieStore.get("editStory").id;//retrieve quest id from Storyboard page
+			alert($scope.currentStoryID);
+
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+							name:$scope.newStory.name,
+							description:$scope.newStory.description,
+							videos:$scope.newStory.videos,
+							published:$scope.newStory.published
+			}).success(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			}).error(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			});
+		}
+		else{
+				$scope.NewStory = $resource('/jsonapi/story');
+				var new_story = new $scope.NewStory($scope.newStory);
+				new_story.$save(function(response){
+					$scope.story = response;
+					$scope.newStoryID = response.id;
+			});
+		}
+		window.location.reload();
     };
-	   ////record title, description, video url
-	   
-	   //// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
-	   
-	   ////Enable reordering of rows under sequence column, & save the order	   
-	      
+	
+		//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
+	   	$scope.addVideo=function(videoURL){
+			if(videoURL.length==42){
+				//Videos for the purpose of story creation
+				$scope.Videos.push(videoURL.substring(31));
+				$scope.videoURL="";
+			}
+			else{
+				alert("Please put in a valid YouTube URL!");
+			}
+		}
+		
+	    ////Enable reordering of rows under sequence column, & save the order	   
+		$scope.moveUp = function(index){
+			if (index!=0){
+				var tempVideos = $scope.Videos[index-1];
+				
+				$scope.Videos[index-1] = $scope.Videos[index];
+				
+				$scope.Videos[index] = tempVideos;
+			}
+		};
+		
+		$scope.moveDown = function(index){
+			if (index!=($scope.Videos.length-1)){
+				var tempVideos = $scope.Videos[index+1];
+				
+				$scope.Videos[index+1] = $scope.Videos[index];
+
+				$scope.Videos[index] = tempVideos;
+			}
+		};   
 	   ////set story image as that of the first video thumbnail
 	   
 	//6. If user is admin, enable publish(yes|no)
@@ -1930,56 +2027,9 @@ function StoryController($scope,$resource,$cookieStore,$location){
 		
 		////if user clicks publish, set published value to true, disable publish button to "Pubished"
 	
-	
-	
-	$scope.addVideo=function(videoURL){
-		//arrayVideo for display purpose
-		if(videoURL.length==42){
-			$scope.arrayVideo.push({url:videoURL,code:videoURL.substring(31)});
-			//Videos for the purpose of story creation
-			$scope.Videos.push(videoURL.substring(31));
-			$scope.videoURL="";
-		}
-		else{
-			alert("Please put in a valid YouTube URL!");
-		}
-	}
-	
 	$scope.deleteVideo=function(id){
-		$scope.arrayVideo.splice(id, 1);
 		$scope.Videos.splice(id, 1);
 	}
-	
-	$scope.moveUp = function(index){
-		if (index!=0){
-			var tempArrayVideo = $scope.arrayVideo[index-1];
-			var tempVideos = $scope.Videos[index-1];
-			
-			$scope.arrayVideo[index-1] = $scope.arrayVideo[index];
-			$scope.Videos[index-1] = $scope.Videos[index];
-			
-			$scope.arrayVideo[index] = tempArrayVideo;
-			$scope.Videos[index] = tempVideos;
-		}
-	};
-	
-	$scope.moveDown = function(index){
-		if (index!=($scope.Videos.length-1)){
-			var tempArrayVideo = $scope.arrayVideo[index+1];
-			var tempVideos = $scope.Videos[index+1];
-			
-			$scope.arrayVideo[index+1] = $scope.arrayVideo[index];
-			$scope.Videos[index+1] = $scope.Videos[index];
-			
-			$scope.arrayVideo[index] = tempArrayVideo;
-			$scope.Videos[index] = tempVideos;
-		}
-	};
-
-	$scope.playback = function(index){
-      $scope.videos = $scope.stories[index].videos;
-      $('#video').trigger('click');
-    };
 }
 
 //Test story controller. Normally use GenericController
