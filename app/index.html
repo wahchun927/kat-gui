@@ -691,6 +691,12 @@
     if ($('.btn-navbar').is(":visible") && e.target.className != "dropdown-toggle")
       $('.btn-navbar').click();
   });
+
+  $(document).on("keydown", function (e) {
+    if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+    }
+  });
 	
 });
 
