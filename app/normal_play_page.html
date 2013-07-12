@@ -849,6 +849,11 @@
             document.write('<script src="../test/app-test.js"> </' + 'script> ');
             document.write('<script src="../test/lib/angular/angular-mocks.js"> </' + 'script>  ');
         }
+        $(document).on("keydown", function (e) {
+            if (e.which === 8 && !$(e.target).is("input, textarea")) {
+                e.preventDefault();
+            }
+        });
     </script>
 
 </html>
