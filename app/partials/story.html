@@ -77,7 +77,7 @@
 						</table> 
 						<div>
 							<table class="table table-hover" ng-init="list()">
-									<a ng-repeat="video in videos" id="video" class="fancybox fancybox.iframe" style="display:none" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
+									<a ng-repeat="video in videos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
 									<tr ng-repeat="story in stories">
 										<td class="c1">{{story.name}}</td>
 										<td class="c2">{{story.videos.length}}</td>
@@ -87,7 +87,7 @@
 											<div class="btn-group">
 												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
 												<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
-												<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
+												<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 											</div>
 										</td>
 									</tr>
@@ -134,7 +134,6 @@
 						</div>
 					</div>
 					</br>
-					{{Videos}}{{Title}}{{description}}{{stories}}
 					<!--uploaded videos-->
 					<div class="row-fluid">
 						<div class="span12">
@@ -148,12 +147,12 @@
 									<th class="v1">Sequence</th>
 								</tr>  
 							</table>
-							<table class="table table-hover" ng-repeat="item in arrayVideo" align="center">
+							<table class="table table-hover" ng-repeat="item in Videos" align="center">
 									<tr>
 										<td class="v2">#{{$index+1}}</td>
-										<td class="v3">{{item.url}}</td>
+										<td class="v3">http://www.youtube.com/watch?v={{item}}</td>
 										<td class="v4">2:03</td>
-										<td class="v5"><img ng-src="http://img.youtube.com/vi/{{item.code}}/1.jpg" id="standardFrame"></a></td>
+										<td class="v5"><img class="img-rounded" ng-src="http://img.youtube.com/vi/{{item}}/1.jpg" id="standardFrame"></a></td>
 										<td class="v6"> <a type="button" class="icon-remove icon-white" ng-click="deleteVideo($index)"></a></td>   
 										<td class="v1">
 											<div class="btn-group btn-group-vertical">
@@ -164,7 +163,7 @@
 									</tr>																
 							</table> 
 							<div align="right">
-							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-click="create_story(arrayVideo,Title,description)">Save</button>
+							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-click="create_story(Title,description)">Save</button>
 							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;">Publish</button> 
 							</div>
 						</div>

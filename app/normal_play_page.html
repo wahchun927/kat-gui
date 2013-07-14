@@ -544,44 +544,6 @@
         <script src="js/angular-ace.js"></script>
         <script src="src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         <script src="./js/fancybox-fire.js"></script>
-        <script type="text/javascript">
-            //Jainrain login code
-    (function() {
-        if (typeof window.janrain !== 'object') window.janrain = {};
-        if (typeof window.janrain.settings !== 'object') window.janrain.settings = {};
-        //alert(document.location.host);
-        //This has to be on app engine or localhost running SingPath
-        auth_url = "http://"+document.location.host+"/rpx.php";
-        //This is where you want the user redirected back to. 
-        redirect_url = "http://"+document.location.host+"/fyp/app/index.html";
-        //redirect_url = "index.html#/profile";
-
-        janrain.settings.tokenUrl = auth_url+'?target='+redirect_url;
-
-        //Original code example.
-        //janrain.settings.tokenUrl = 'http://www.singpath.com/rpx.php?target=http://www.singpath.com/fyp/app/play_game_demo.html';
-            
-        function isReady() { janrain.ready = true; };
-        if (document.addEventListener) {
-          document.addEventListener("DOMContentLoaded", isReady, false);
-        } else {
-          window.attachEvent('onload', isReady);
-        }
-
-        var e = document.createElement('script');
-        e.type = 'text/javascript';
-        e.id = 'janrainAuthWidget';
-
-        if (document.location.protocol === 'https:') {
-          e.src = 'https://rpxnow.com/js/lib/singpath/engage.js';
-        } else {
-          e.src = 'http://widget-cdn.rpxnow.com/js/lib/singpath/engage.js';
-        }
-
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(e, s);
-    })();
-        </script>
     </head>
     <body>
         <div  ng-controller="NormalGameController" ng-init="" class="container">
@@ -849,6 +811,11 @@
             document.write('<script src="../test/app-test.js"> </' + 'script> ');
             document.write('<script src="../test/lib/angular/angular-mocks.js"> </' + 'script>  ');
         }
+        $(document).on("keydown", function (e) {
+            if (e.which === 8 && !$(e.target).is("input, textarea")) {
+                e.preventDefault();
+            }
+        });
     </script>
 
 </html>
