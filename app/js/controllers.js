@@ -139,6 +139,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
               $scope.abc = 'true';
               $scope.def = 'false';
             }
+            window.location.href = "index.html";
         });
     };     
 }
