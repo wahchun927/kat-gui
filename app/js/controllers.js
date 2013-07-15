@@ -157,6 +157,8 @@ function PathController($scope,$resource,$cookieStore,$location){
   
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
+
+
   // this method add background color to the selected images 
   $scope.practiceSelection=function(checker){
     $('#myCarousel input:image').click(function() {
@@ -395,7 +397,8 @@ function PathController($scope,$resource,$cookieStore,$location){
 			$cookieStore.put("type", "practiceGame");
 			$cookieStore.put("level", lvlnum);		
 			$cookieStore.put("gameDifficulty", $scope.difficulty);			
-			$cookieStore.put("nameOfPath", $scope.path_progress.path.name);				
+			$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+			$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
 			if($scope.difficulty == "Drag-n-Drop"){
 				window.location.href = "practice_play_page.html";
 			}
@@ -884,6 +887,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
         }
         if($cookieStore.get("nameOfPath")){
           $scope.nameOfPath = $cookieStore.get("nameOfPath"); //retrieve name of the path
+        }
+        if($cookieStore.get("path_IDD")){
+          $scope.path_IDD = $cookieStore.get("path_IDD"); //retrieve name of the path
         }		
  
 		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
@@ -1059,6 +1065,17 @@ function PracticeGameController($scope,$resource,$cookieStore){
         };
 		
 		$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+
+		//to retrieve path info to display on path play page
+		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
+	        var path_id = $scope.path_IDD;
+			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id');
+	        //Including details=1 returns the nested problemset progress.
+	        $scope.retrieved_path.get({"path_id":path_id}, function(response){
+	        	$scope.single_path_info = response;
+	        });
+	 	},true);
+
 }
 
 
@@ -1399,6 +1416,9 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         if($cookieStore.get("nameOfPath")){
           $scope.nameOfPath = $cookieStore.get("nameOfPath"); //retrieve name of the path
         }	
+        if($cookieStore.get("path_IDD")){
+          $scope.path_IDD = $cookieStore.get("path_IDD"); //retrieve name of the path
+        }
     	
 		$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
 
@@ -1684,6 +1704,16 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
         };
 
 		$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+
+		//to retrieve path info to display on path play page
+		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
+	        var path_id = $scope.path_IDD;
+			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id');
+	        //Including details=1 returns the nested problemset progress.
+	        $scope.retrieved_path.get({"path_id":path_id}, function(response){
+	        	$scope.single_path_info = response;
+	        });
+	 	},true);
 }
 
 function JsonRecordController($scope,$resource){
