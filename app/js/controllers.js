@@ -204,21 +204,27 @@ function PathController($scope,$resource,$cookieStore,$location){
     }
   }
 	//rank
-  $scope.pathSelectRank=function(){
-    $('#myCarouselRank input:image').click(function() {
-      $('#myCarouselRank input:image').removeClass('selected');   
-      $(this).addClass('selected');
-      
-    });
-		
+  $scope.pathSelectRank=function(checker){
+	$('#myCarouselRank input:image').click(function() {
+      $('#myCarouselRank input:image').removeClass('selected'); 
+	  $(this).addClass('selected');
+
+	});
+	if(checker == 2){
+	  $('#myCarouselRank input:image').click();
+	}
+
   }
   
-  $scope.pathSelectRankSmall=function(){
+  $scope.pathSelectRankSmall=function(checker){
     $('#myCarouselRankSmall input:image').click(function() {
-      $('#myCarouselRankSmall input:image').removeClass('selected');   
-      $(this).addClass('selected');
-      
-    });
+      $('#myCarouselRankSmall input:image').removeClass('selected'); 
+	  $(this).addClass('selected');
+
+	});
+	if(checker == 2){
+	  $('#myCarouselRankSmall input:image').click();
+	}
   }
   
   
@@ -2120,8 +2126,7 @@ function TournamentController($scope,$resource,$http){
 
 
 function RankController($scope,$resource,$cookieStore,$location){
-
-
+	$scope.selectedPlayer;
 	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
 		//ALL Languages
@@ -2165,9 +2170,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 			$scope.pathRankModel2.get({"pathId":pathId}, function(response){
 				$scope.rankingGlobal = response;
 			});
-		
-		}
-		
+		}	
 		
     };
 	
@@ -2179,66 +2182,16 @@ function RankController($scope,$resource,$cookieStore,$location){
 	$scope.get_player_details = function(playerId){
 		
 		//alert("professional":$scope.playerNo.professional);
+		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId');
+		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
+			$scope.selectedPlayer = response;
+		});	
+		//console.log($scope.selectedPlayer);
 		
-		$scope.selectedPlayer = $resource('/jsonapi/player/:playerId');
-		$('#playerDetails').modal('show');
-		
-		$scope.arrayTags = [];
-		$scope.arrayBadges = [];
-		arrayTags=player.tags;
-		arrayBadges=player.badges;
+		$scope.arrayTags=$scope.selectedPlayer.tags;
+		$scope.arrayBadges=$scope.selectedPlayer.badges;
 				
-		var data={"professional":$scope.player.professional};
-		var pro=data.professional;
-		
-		
-		/*
-		if(pro=="1"){		
-			pro="professional";		
-		}
-		else{
-			pro="student";		
-		}
-		*/
-		//alert($scope.player.professional);
-		
-		
-		
-		/*
-		alert($scope.player.nickname);
-		
-		var data = {"nickname":$scope.player.nickname,
-                    "professional":$scope.player.professional,
-                    "about":$scope.player.about,
-                    "gender":$scope.player.gender,
-					"countryFlagURL":$scope.player.countryFlagURL,
-					"gravatar":$scope.player.gravatar,
-					"tags".$scope.player.tags,
-					"badges".$scope.player.badges
-					};
-											
-		var nickname = data.nickname;
-		var professional = data.professional;
-		var about= data.about;
-		var gender=  data.gender;
-		var countryFlagURL= data.countryFlagURL;
-		var gravatar= data.gravatar;
-		var tags= data.tags;
-		var badges= data.badges;
-		
-		$scope.player_details.get({"nickname":nickname,
-									"professional":professional,
-									"about":about,
-									"gender":gender,
-									"countryFlagURL":countryFlagURL,
-									"gravatar":gravatar;
-									"tags":tags;
-									"badges":badges}, function(response){
-			$scope.playerDetails= response;
-			$('#Agent_Profile').modal('show');
-		});
-		
-		*/   
+		$('#playerDetails').modal('show');
 	
 	}
 	
@@ -2271,6 +2224,5 @@ function RankController($scope,$resource,$cookieStore,$location){
 		
 		
     };
-	
 	
 }
