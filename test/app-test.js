@@ -9,21 +9,24 @@ myApp.run(function($httpBackend) {
       ViTech team can put additional requests here. 
       All working test examples can be seen on controllertest.html. 
       
-      ViTech API's Needed: 
-      - Get stories (to update hard coded ones)
-      - Create Quest (passing story, path, and difficulty)
-      - Start Game for Quest (passing questID)
-      - Create/Edit new story
-      - Player level completion
-      - View Problems
-      - View Player problem completion
+      Adding additional mock urls for ViTech testing on July 20th
       */
 
-      //var stories = [];
-      //var count = 1;
-      //var testStory = {name: 'test story', id:count, url:'ae_DKNwK_ms'};
-      //stories.push(testStory);
-      
+      $httpBackend.whenGET('/jsonapi/get_all_path_progress').respond({"message":"just testing"});
+      $httpBackend.whenGET('/jsonapi/country_ranking?maxRank=300').respond({"message":"just testing"});
+      $httpBackend.whenGET('/jsonapi/get_path_progress?details=1').respond({"message":"just testing"});
+      $httpBackend.whenGET(/^\/jsonapi\/worldwide_ranking/).respond({"message":"just testing"});
+
+/*
+Add a response for each of these if you want custom data. 
+/jsonapi/worldwide_ranking?maxRank=25&path_id=&countryCode=SG
+/jsonapi/worldwide_ranking?maxRank=25&path_id=2243213&countryCode=SG
+/jsonapi/worldwide_ranking?maxRank=25&path_id=2243213
+/jsonapi/worldwide_ranking?maxRank=25&path_id=2473247&countryCode=SG
+/jsonapi/worldwide_ranking?maxRank=25&path_id=2473247
+*/
+      //End July 20th adds
+
       var submitted_problems = [];
 
       //$httpBackend.whenGET('/jsonapi/quest').respond([{"name":"Quest 1","image":"http://someimage.com/someimage.jpg"},{"name":"Quest 2","image":"http://someimage.com/someimage.jpg"}]);
@@ -37,6 +40,7 @@ myApp.run(function($httpBackend) {
 
       //$httpBackend.whenGET('/jsonapi/stories').respond(stories); 
       $httpBackend.whenPOST('/jsonapi/log_access').respond({"message":"testing logging"});
+      $httpBackend.whenPOST('/jsonapi/log_event').respond({"message":"testing logging"});
 
       var player = { countryFlagURL: "/static/flags/sg_on.png",gender: "male",isoYear: 2010,countryCode: "SG",tags: ["SMU","hackerspacesg"],country: "Singapore",yearOfBirth: 1985,about: "I love Scifi",isoDay: 5,isoWeek: 6,isAdmin: true,gravatar: "http://www.gravatar.com/avatar/6e64bb2cab5367fd6e201df2aa722512/?default=&amp;s=80",location: "Singapore",rankings: [ ],player_id: 57754,professional: "1",nickname: "Ruijun",badges: [ ]}
 
@@ -183,7 +187,6 @@ myApp.run(function($httpBackend) {
       //These are quick adds to make the test pass
       $httpBackend.whenJSONP(/^h/).passThrough();
       $httpBackend.whenPOST('/jsonapi/contribute_problem').passThrough();
-      $httpBackend.whenGET('/jsonapi/get_path_progress?details=1').passThrough();
       $httpBackend.whenPOST('/jsonapi/log_event').passThrough();
       //$httpBackend.whenPOST('/jsonapi/new_problem_contribution').passThrough();
 
@@ -197,7 +200,7 @@ myApp.run(function($httpBackend) {
       $httpBackend.whenGET('/jsonapi/contributed_problems').respond(submitted_problems);
       $httpBackend.whenPOST('/jsonapi/accept_contribution').respond({"mock":"acceptance result"});
 
-      //$httpBackend.whenGET('/jsonapi/get_path_progress?details=1').respond({"currentProblemsetID": 11032, "currentProblemsetOrder": 9, "currentProblemsetDesc": "Tuples", "currentProblemsetName": "Python Level 9", "problemsInPath": 256, "currentPlayerProgress": 133, "details": [{"description": "The way of SingPath", "pathorder": 1, "problemsInProblemset": 10, "currentPlayerProgress": 13, "id": 11021, "badges": [{"url": "/static/badges/python/p001_on.png", "required_badges": [], "problemsetid": 11021, "description": "Python Level 1 Badge", "name": "Level 1", "pathid": 10030, "awardOrder": 1, "id": 87572, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 1"}, {"description": "Variables, keywords, and statements", "pathorder": 2, "problemsInProblemset": 13, "currentPlayerProgress": 13, "id": 10034, "badges": [{"url": "/static/badges/python/p002_on.png", "required_badges": [87572], "problemsetid": 10034, "description": "Python Level 2 Badge", "name": "Level 2", "pathid": 10030, "awardOrder": 2, "id": 88541, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 2"}, {"description": "Functions", "pathorder": 3, "problemsInProblemset": 24, "currentPlayerProgress": 19, "id": 11023, "badges": [{"url": "/static/badges/python/p003_on.png", "required_badges": [88541], "problemsetid": 11023, "description": "Python Level 3 Badge", "name": "Level 3", "pathid": 10030, "awardOrder": 3, "id": 87573, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 3"}, {"description": "Conditionals", "pathorder": 4, "problemsInProblemset": 28, "currentPlayerProgress": 15, "id": 11026, "badges": [{"url": "/static/badges/python/p004_on.png", "required_badges": [87573], "problemsetid": 11026, "description": "Python Level 4 Badge", "name": "Level 4", "pathid": 10030, "awardOrder": 4, "id": 88542, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 4"}, {"description": "Iteration", "pathorder": 5, "problemsInProblemset": 23, "currentPlayerProgress": 12, "id": 11029, "badges": [{"url": "/static/badges/python/p005_on.png", "required_badges": [88542], "problemsetid": 11029, "description": "Python Level 5 Badge", "name": "Level 5", "pathid": 10030, "awardOrder": 5, "id": 92683, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 5"}, {"description": "Strings", "pathorder": 6, "problemsInProblemset": 33, "currentPlayerProgress": 18, "id": 10040, "badges": [{"url": "/static/badges/python/p006_on.png", "required_badges": [92683], "problemsetid": 10040, "description": "Python Level 6 Badge", "name": "Level 6", "pathid": 10030, "awardOrder": 6, "id": 549028, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 6"}, {"description": "Lists", "pathorder": 7, "problemsInProblemset": 36, "currentPlayerProgress": 14, "id": 11031, "badges": [{"url": "/static/badges/python/p007_on.png", "required_badges": [549028], "problemsetid": 11031, "description": "Python Level 7 Badge", "name": "Level 7", "pathid": 10030, "awardOrder": 7, "id": 515027, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 7"}, {"description": "Dictionaries", "pathorder": 8, "problemsInProblemset": 13, "currentPlayerProgress": 10, "id": 10041, "badges": [{"url": "/static/badges/python/p008_on.png", "required_badges": [515027], "problemsetid": 10041, "description": "Python Level 8 Badge", "name": "Level 8", "pathid": 10030, "awardOrder": 8, "id": 508029, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 8"}, {"description": "Tuples", "pathorder": 9, "problemsInProblemset": 16, "currentPlayerProgress": 5, "id": 11032, "badges": [], "name": "Python Level 9"}, {"description": "Classes & Objects", "pathorder": 10, "problemsInProblemset": 19, "currentPlayerProgress": 2, "id": 38394, "badges": [], "name": "Python Level 10"}, {"description": "Recursion", "pathorder": 11, "problemsInProblemset": 17, "currentPlayerProgress": 12, "id": 11028, "badges": [], "name": "Python Level 11"}, {"description": "Games & Puzzles", "pathorder": 12, "problemsInProblemset": 2, "currentPlayerProgress": 0, "id": 41101, "badges": [], "name": "Python Level 12"}, {"description": "List Comprehensions", "pathorder": 13, "problemsInProblemset": 9, "currentPlayerProgress": 0, "id": 6603407, "badges": [], "name": "Python Level 13"}, {"description": "Python Built-In Library", "pathorder": 14, "problemsInProblemset": 6, "currentPlayerProgress": 0, "id": 6598750, "badges": [], "name": "Python Level 14"}, {"description": "Exceptions", "pathorder": 15, "problemsInProblemset": 5, "currentPlayerProgress": 0, "id": 6771183, "badges": [], "name": "Python Level 15"}, {"description": "Miscellaneous Problems", "pathorder": 16, "problemsInProblemset": 2, "currentPlayerProgress": 0, "id": 11155, "badges": [], "name": "New Problem Storage"}], "path": {"isGamePath": true, "description": "Python game path", "editor_id": 58546, "id": 10030, "name": "Python"}});
+      $httpBackend.whenGET('/jsonapi/get_path_progress?details=1').respond({"currentProblemsetID": 11032, "currentProblemsetOrder": 9, "currentProblemsetDesc": "Tuples", "currentProblemsetName": "Python Level 9", "problemsInPath": 256, "currentPlayerProgress": 133, "details": [{"description": "The way of SingPath", "pathorder": 1, "problemsInProblemset": 10, "currentPlayerProgress": 13, "id": 11021, "badges": [{"url": "/static/badges/python/p001_on.png", "required_badges": [], "problemsetid": 11021, "description": "Python Level 1 Badge", "name": "Level 1", "pathid": 10030, "awardOrder": 1, "id": 87572, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 1"}, {"description": "Variables, keywords, and statements", "pathorder": 2, "problemsInProblemset": 13, "currentPlayerProgress": 13, "id": 10034, "badges": [{"url": "/static/badges/python/p002_on.png", "required_badges": [87572], "problemsetid": 10034, "description": "Python Level 2 Badge", "name": "Level 2", "pathid": 10030, "awardOrder": 2, "id": 88541, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 2"}, {"description": "Functions", "pathorder": 3, "problemsInProblemset": 24, "currentPlayerProgress": 19, "id": 11023, "badges": [{"url": "/static/badges/python/p003_on.png", "required_badges": [88541], "problemsetid": 11023, "description": "Python Level 3 Badge", "name": "Level 3", "pathid": 10030, "awardOrder": 3, "id": 87573, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 3"}, {"description": "Conditionals", "pathorder": 4, "problemsInProblemset": 28, "currentPlayerProgress": 15, "id": 11026, "badges": [{"url": "/static/badges/python/p004_on.png", "required_badges": [87573], "problemsetid": 11026, "description": "Python Level 4 Badge", "name": "Level 4", "pathid": 10030, "awardOrder": 4, "id": 88542, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 4"}, {"description": "Iteration", "pathorder": 5, "problemsInProblemset": 23, "currentPlayerProgress": 12, "id": 11029, "badges": [{"url": "/static/badges/python/p005_on.png", "required_badges": [88542], "problemsetid": 11029, "description": "Python Level 5 Badge", "name": "Level 5", "pathid": 10030, "awardOrder": 5, "id": 92683, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 5"}, {"description": "Strings", "pathorder": 6, "problemsInProblemset": 33, "currentPlayerProgress": 18, "id": 10040, "badges": [{"url": "/static/badges/python/p006_on.png", "required_badges": [92683], "problemsetid": 10040, "description": "Python Level 6 Badge", "name": "Level 6", "pathid": 10030, "awardOrder": 6, "id": 549028, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 6"}, {"description": "Lists", "pathorder": 7, "problemsInProblemset": 36, "currentPlayerProgress": 14, "id": 11031, "badges": [{"url": "/static/badges/python/p007_on.png", "required_badges": [549028], "problemsetid": 11031, "description": "Python Level 7 Badge", "name": "Level 7", "pathid": 10030, "awardOrder": 7, "id": 515027, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 7"}, {"description": "Dictionaries", "pathorder": 8, "problemsInProblemset": 13, "currentPlayerProgress": 10, "id": 10041, "badges": [{"url": "/static/badges/python/p008_on.png", "required_badges": [515027], "problemsetid": 10041, "description": "Python Level 8 Badge", "name": "Level 8", "pathid": 10030, "awardOrder": 8, "id": 508029, "class": ["Badge", "Level_Badge"]}], "name": "Python Level 8"}, {"description": "Tuples", "pathorder": 9, "problemsInProblemset": 16, "currentPlayerProgress": 5, "id": 11032, "badges": [], "name": "Python Level 9"}, {"description": "Classes & Objects", "pathorder": 10, "problemsInProblemset": 19, "currentPlayerProgress": 2, "id": 38394, "badges": [], "name": "Python Level 10"}, {"description": "Recursion", "pathorder": 11, "problemsInProblemset": 17, "currentPlayerProgress": 12, "id": 11028, "badges": [], "name": "Python Level 11"}, {"description": "Games & Puzzles", "pathorder": 12, "problemsInProblemset": 2, "currentPlayerProgress": 0, "id": 41101, "badges": [], "name": "Python Level 12"}, {"description": "List Comprehensions", "pathorder": 13, "problemsInProblemset": 9, "currentPlayerProgress": 0, "id": 6603407, "badges": [], "name": "Python Level 13"}, {"description": "Python Built-In Library", "pathorder": 14, "problemsInProblemset": 6, "currentPlayerProgress": 0, "id": 6598750, "badges": [], "name": "Python Level 14"}, {"description": "Exceptions", "pathorder": 15, "problemsInProblemset": 5, "currentPlayerProgress": 0, "id": 6771183, "badges": [], "name": "Python Level 15"}, {"description": "Miscellaneous Problems", "pathorder": 16, "problemsInProblemset": 2, "currentPlayerProgress": 0, "id": 11155, "badges": [], "name": "New Problem Storage"}], "path": {"isGamePath": true, "description": "Python game path", "editor_id": 58546, "id": 10030, "name": "Python"}});
 
 
       //Generic Response to catch anything sent to the SingPath rest API
@@ -205,6 +208,7 @@ myApp.run(function($httpBackend) {
 
       var backend = {};
       var counter = 0;
+
 
       //Should intercept anything to /jsonapi/rest/. Using a regular expression to match url
       /*
