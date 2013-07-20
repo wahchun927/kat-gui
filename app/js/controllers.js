@@ -2176,7 +2176,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
-        $scope.countryRank = $resource('/jsonapi/country_ranking maxRank=300').get();
+        $scope.countryRank = $resource('/jsonapi/country_ranking?maxRank=300').get();
     };
 	
 	$scope.get_player_details = function(playerId){
