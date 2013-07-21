@@ -2197,31 +2197,29 @@ function RankController($scope,$resource,$cookieStore,$location){
 	
 	//onclick of country flag display country's players' ranking for the selected path
 	
-	$scope.get_countrypath_ranks = function(pathId,countryCode){
-		alert(countryCode);
+	$scope.get_countrypath_ranks = function(countryCode){
+		//alert(countryCode);
+		var pathId = $cookieStore.get("path_id");
 		//ALL Languages
-		if(pathId=='AllLanguages'){
-			
-			
-			
-			$scope.pathRankModelAllCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:countryCode');
-			
+		if(pathId=='AllLanguages'){			
+	
+			$scope.pathRankModelAllCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:countryCode');		
 			$scope.pathRankModelAllCountry.get({"countryCode":countryCode}, function(response){
 				$scope.rankingCountry = response;
+				console.log($scope.rankingCountry);
 			});		
 						
 		}
 		//selected individual language
 		else{
-						
+
 			$scope.pathRankModelPathCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=:countryCode');
-			
 			$scope.pathRankModelPathCountry.get({"pathId":pathId,"countryCode":countryCode}, function(response){
 				$scope.rankingPathCountry = response;
+				console.log($scope.rankingPathCountry);
 			});
 						
 		}
-		
 		
     };
 	
