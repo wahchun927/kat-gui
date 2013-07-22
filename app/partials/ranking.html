@@ -210,8 +210,8 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 								<div class="tab-pane active" id="rankListLarge">
 									<div class="tabbable well well-small"> 
 										<ul class="nav nav-tabs">
-											<li class="innerTabspacing active"><a data-target="#tab1sg" data-toggle="tab">{{player.country}}</a></li>
-											<li class="innerTabspacing"><a data-target="#tab1world" data-toggle="tab">World</a></li>								
+											<li id="tab2SG" class="innerTabspacing active"><a data-target="#tab1sg" data-toggle="tab">{{current_country}}</a></li>
+											<li id="tab2WORLD" class="innerTabspacing"><a data-target="#tab1world" data-toggle="tab">World</a></li>								
 										</ul>
 										<!--User Country Ranking-->
 										<div class="tab-content">
@@ -325,7 +325,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 													{{ranking.rank}}
 												</td>
 												<td class="crPicList"> 
-													<a ng-click="get_countrypath_ranks(ranking.country_code)"><image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>
+													<a ng-click="get_countrypath_ranks(ranking.country_code,ranking.countryName)"><image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>
 													</a>
 												</td>
 												<td class="crCountrynameList"> 
@@ -414,7 +414,8 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														{{ranking.rank}}	
 													</td>
 													<td class="AgentList">
-														<a ng-click="get_player_details(ranking.playerid)"><image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
+														<a ng-click="get_player_details(ranking.playerid)">
+															<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 														</a>
 													</td>
 													<td class="AgentNicknameList">				
@@ -455,7 +456,8 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 													{{ranking.rank}}											
 													</td>
 													<td class="AgentList">
-														<a ng-click="get_player_details(ranking.playerid)"><image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
+														<a ng-click="get_player_details(ranking.playerid)">
+															<image ng-src="{{ranking.gravatar}}"; width = 30px; height= 30px;/>
 														</a>
 													</td>
 													<td class="AgentNicknameList">			
@@ -509,7 +511,9 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														{{ranking.rank}}
 													</td>
 													<td class="crsmall_pic"> 
-														<image ng-src="{{ranking.flagUrl}}"/>
+														<a ng-click="get_countrypath_ranks(ranking.country_code,ranking.countryName)">
+															<image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>
+														</a>
 													</td>
 													<td class="crsmall_countryname"> 
 														{{ranking.countryName}}					
