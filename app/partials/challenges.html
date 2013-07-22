@@ -76,8 +76,8 @@
 <div class="container" id="largeProfile" style="position:relative;">
     <!-- Three columns of text below the carousel -->
     <div class="row-fluid">
-        <div class="span12" ng-controller="QuestController">
-            <div class="span12" ng-controller="ChallengeController">
+        <div class="span12" ng-controller="ChallengeController">
+            <div class="span12">
                 <br>
                 <br>
                 
@@ -92,7 +92,7 @@
                     </li>  
                   </ul>
                   <div class="tab-content" id="top-content">
-                    <div class="tab-pane active" id="t1" ng-controller="QuestController">
+                    <div class="tab-pane active" id="t1">
 						<!--All Challenges Heading : Accepted C & Open C-->
                         <ul class="nav nav-tabs">
                             <li class="tabspacing-inner active">
@@ -105,7 +105,7 @@
                         <div class="tab-content well" id="inner-content">						
 							<!--All Challenges : Accepted Challenge-->
                             <div class="tab-pane active" id="AcceptedChallenges">
-                              <div class="tab-pane" id="tt1" ng-controller="ChallengeController">
+                              <div class="tab-pane" id="tt1">
                                     <div width="400px"style=" width:98.2%; height:30px;">
                                         <table class="table table-condensed">
                                                 <tr>
@@ -118,45 +118,18 @@
                                         </table> 
                                     </div>
                                     <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
-                                                <div>
-                                                    <div>
-                                                            <table class="table table-hover">
-                                                                    <tr>
-                                                                        <td class="i1">Quest Challenge</td>
-                                                                        <td class="i2"> Spy the Sky</td>
-                                                                        <td class="i3">
-                                                                            <div class="progress progress-striped active">
-                                                                                <div class="bar" style="width: 40%;"></div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="i4"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>                       
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="i1">Quest Challenge</td>
-                                                                        <td class="i2"> Break the ceiling without wailing</td>
-                                                                        <td class="i3">
-                                                                            <div class="progress progress-striped active">
-                                                                                <div class="bar" style="width: 30%;"></div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="i4"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>                       
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td class="i1">Badge Challenge</td>
-                                                                        <td class="i2"> Chase Me if You Can!</td>
-                                                                        <td class="i3">
-                                                                            <div class="progress progress-striped active">
-                                                                                <div class="bar" style="width: 100%;"></div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="i4"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>                       
-                                                                    </tr>
-                                                                   
-                                                                         
-                                                            </table>
-                                                    </div>
-                                                </div>
+										<div>
+											<table class="table table-hover" ng-init="registered_challenges()">
+												<tr ng-repeat="challenge in playerRegisteredChallenges">
+													<td class="i1">quest</td>
+													<td class="i2">{{challenge.name}}</td>													
+													<td class="i3">{{challenge.startDate}}</td>
+													<td class="i4" ng-show ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
+													<td class="i4" ng-hide ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
+												</tr>  
+											</table>
+										</div>
+                                              
                                     </div>
                               </div>
                             </div>
@@ -195,7 +168,7 @@
                         </div>
                     </div>
 					<!--My Creations Heading : Challenges I've Made & Challenges others Made -->
-                    <div class="tab-pane" id="t2" ng-controller="QuestController">
+                    <div class="tab-pane" id="t2">
                         <ul class="nav nav-tabs">
 							
                             <li class="tabspacing-inner active">
@@ -210,35 +183,35 @@
 							<!--My Creations : Challenges I've Made -->
                             <div class="tab-pane active" id="ChallengesIveMade">
                                 <div width="400px"style="height:30px;">
-                                    <table class="table table-condensed" style="border-style:solid; border-color:red;">
+                                    <table class="table table-condensed" >
                                             <tr>
-                                                <th style="border-style:solid; border-color:blue;" class="ChallengesI'veMade_Name">Name</th>
-                                                <th style="border-style:solid; border-color:blue;" class="ChallengesI'veMade_Location">Location</th> 
-                                                <th style="border-style:solid; border-color:blue;" class="ChallengesI'veMade_StartDate">Start Date</th>
-                                                <th style="border-style:solid; border-color:blue;"class="ChallengesI'veMade_EndDate">End Date</th>
-												<th style="border-style:solid; border-color:blue;"class="ChallengesI'veMade_Review">Review</th>
-                                                <th style="border-style:solid; border-color:blue;"class="ChallengesI'veMade_Publish">Publish</th>                                                                                              
-												<th style="border-style:solid; border-color:blue;"class="ChallengesI'veMade_Share">Share</th>
+                                                <th class="ChallengesI'veMade_Name">Name</th>
+                                                <th class="ChallengesI'veMade_Location">Badges</th> 
+                                                <th class="ChallengesI'veMade_StartDate">Start Date</th>
+                                                <th class="ChallengesI'veMade_EndDate">End Date</th>
+												<th class="ChallengesI'veMade_Review">Review</th>
+                                                <th class="ChallengesI'veMade_Publish">Publish</th>                                                                                              
+												<th class="ChallengesI'veMade_Share">Share</th>
                                             </tr>                                   
                                     </table> 
 								</div>
                              
                                 <div style="height:270px;overflow-y:auto;overflow-x:hidden" >
                                                                                         
-									<table class="table table-condensed" style="border-style:solid; border-color:blue;" ng-init="list_challenges_I_created()">
+									<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
 											<tr ng-repeat="myChallenge in ListChallengesICreated.challenges">
-												<td style="border-style:solid; border-color:blue;" class="ChallengesI'veMade_Name">{{myChallenge.name}}</td>
-												<td style="border-style:solid; border-color:blue;" class="ChallengesI'veMade_Location">{{myChallenge.allowedCountries}}</td>
-												<td style="border-style:solid; border-color:blue;" class="ChallengesI'veMade_StartDate">{{myChallenge.startDate}}</td>
-												<td style="border-style:solid; border-color:blue;" class="ChallengesI'veMade_EndDate">{{myChallenge.endDate}}</td>
-												<td  style="border-style:solid; border-color:blue;"class="ChallengesI'veMade_Review">
+												<td  class="ChallengesI'veMade_Name">{{myChallenge.name}}</td>
+												<td  class="ChallengesI'veMade_Location">{{myChallenge.unlockRequiredBadges}}</td>
+												<td  class="ChallengesI'veMade_StartDate">{{myChallenge.startDate}}</td>
+												<td  class="ChallengesI'veMade_EndDate">{{myChallenge.endDate}}</td>
+												<td  class="ChallengesI'veMade_Review">
 													<div class="btn-group">																			
 														<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal">Stats</button>
 														<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
 													</div>																	
 												</td>
-												<td  style="border-style:solid; border-color:blue;"class="ChallengesI'veMade_Publish"></td>
-												<td  style="border-style:solid; border-color:blue;"class="ChallengesI'veMade_Share"></td>                                                                                     
+												<td  class="ChallengesI'veMade_Publish">Published</td>
+												<td  class="ChallengesI'veMade_Share"></td>                                                                                     
 											</tr>                                                                
 									</table>
                                   
