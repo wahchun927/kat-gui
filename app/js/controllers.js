@@ -1923,7 +1923,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	
 	$scope.name = $cookieStore.get("name");
     //$scope.StoryModel = $resource('/jsonapi/stories');
-    $scope.StoryModel = $resource('/jsonapi/story');
+    $scope.StoryModel = $resource('/jsonapi/player_stories');
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
