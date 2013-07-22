@@ -536,7 +536,7 @@ function ChallengeController($scope,$resource,$location){
 
     };
 	
-		//1. All Challenges Tab - load accepted challenges
+	//1. All Challenges Tab - load accepted challenges
 		
 	$scope.list_challenges= function(){
 		//alert("all c");
@@ -545,23 +545,29 @@ function ChallengeController($scope,$resource,$location){
 	
 	//2. All Challenges Tab - load accepted challenges
 		//if "_playerRegistered": true, add to array
-	/*
 	$scope.registered_challenges= function(){
-		//alert("all c");
-        $scope.RegisteredChallenges = $resource('/jsonapi/list_challenges').get();
-		var data={"_playerRegistered":$scope.RegisteredChallenges._playerRegistered};
-		var registered=data._playerRegistered;
-		var registeredChallengesArray=[];
 		
-		if (registered==true){
+		$scope.challengeModel = $resource('/jsonapi/list_challenges');
+
+		$scope.challengeModel.get({}, function(response){
+			$scope.challengeReg = response;
+				
+			var RegisteredChallenges = $resource('/jsonapi/list_challenges').get();
+		
+			$scope.playerRegisteredChallenges=[];
+			//get to each challenge
+			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
 			
-			$scope.registeredChallengesArray.push(RegisteredChallenges.challenges);
+				if($scope.challengeReg.challenges[i]._playerRegistered==false){
+					$scope.playerRegisteredChallenges.push($scope.challengeReg.challenges[i]);						
+				}
+				alert($scope.playerRegisteredChallenges.length+"success");
+				
+			}
 		
-		}
-    };
-	*/
-		
-	
+		});
+				
+    };	
 	
 	//3. My Creation - Load Challenges I've Made
 	$scope.list_challenges_I_created= function(){
@@ -580,6 +586,7 @@ function ChallengeController($scope,$resource,$location){
 	//6. Create Badge Challenge
 	//7. Create Quest Challenge
 	//8. Edit Challenges
+	
 	
 	
 }
