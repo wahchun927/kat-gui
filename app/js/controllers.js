@@ -1927,8 +1927,10 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	$scope.editOrCreate = "create";
 	
 	$scope.name = $cookieStore.get("name");
-    //$scope.StoryModel = $resource('/jsonapi/stories');
-    $scope.StoryModel = $resource('/jsonapi/player_stories');
+    $scope.StoryModel = $resource('/jsonapi/stories');
+    //We will need a different controller or resource to fetch player stories. 
+    //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
+    //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
