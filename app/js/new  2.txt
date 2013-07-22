@@ -1,0 +1,44 @@
+test5407535624355840pathProgress{
+	"details": [{
+		"id": 5407535624355840,
+		"name": "test_problemset_1",
+		"badges": [{
+			"id": 6533435531198464,
+			"description": "Level Badge 1",
+			"name": "Level_Badge",
+			"class": ["Badge",
+			"Level_Badge"],
+			"problemsetid": 5407535624355840,
+			"required_badges": [],
+			"pathid": 5970485577777152,
+			"awardOrder": 1,
+			"url": "/static/badges/python/p001_on.png"
+		}],
+		"pathorder": 1,
+		"description": "Another problemset",
+		"problemsInProblemset": 10,
+		"currentPlayerProgress": 10
+	},
+	{
+		"id": 5196429391822848,
+		"name": "test_problemset_2",
+		"badges": [],
+		"pathorder": 2,
+		"description": "Another problemset",
+		"problemsInProblemset": 10,
+		"currentPlayerProgress": 0
+	}],
+	"currentProblemsetName": "test_problemset_2",
+	"currentProblemsetDesc": "Another problemset",
+	"currentProblemsetID": 5196429391822848,
+	"currentProblemsetOrder": 2,
+	"path": {
+		"id": 5970485577777152,
+		"name": "test_path2",
+		"description": "Yet another path",
+		"isGamePath": true,
+		"editor_id": 6093630880088064
+	},
+	"problemsInPath": 20,
+	"currentPlayerProgress": 10
+}
