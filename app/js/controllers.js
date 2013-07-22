@@ -558,11 +558,12 @@ function ChallengeController($scope,$resource,$location){
 			//get to each challenge
 			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
 			
+				//You have to ensure that this property exists first if it won't always be present.
 				if($scope.challengeReg.challenges[i]._playerRegistered==false){
 					$scope.playerRegisteredChallenges.push($scope.challengeReg.challenges[i]);						
 				}
-				alert($scope.playerRegisteredChallenges.length+"success");
-				
+				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
+				//alert($scope.playerRegisteredChallenges.length+"success");
 			}
 		
 		});
@@ -1873,12 +1874,16 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     };
 
      $scope.updateQuest = function(){
-     $resource('/jsonapi/quest/:questID').get({"questID":$scope.questID},
-        function(response){
-          $scope.name = response;
-          $cookieStore.put("name", $scope.name);
-          //window.location = "index.html#/storyboard";
-		});
+       //Make sure there is a questID before fetching or 
+       //you will fetch the list of quests
+       if($scope.questID){
+         $resource('/jsonapi/quest/:questID').get({"questID":$scope.questID},
+            function(response){
+              $scope.name = response;
+              $cookieStore.put("name", $scope.name);
+              //window.location = "index.html#/storyboard";
+		 });
+       }
     };
 
     $scope.playback = function(){
