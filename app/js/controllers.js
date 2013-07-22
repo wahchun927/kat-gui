@@ -38,6 +38,7 @@ function Ctrl($scope) {
 function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.player = $resource('/jsonapi/player').get(); 
+    $scope.current_country = $scope.player.country;
 
 	$scope.firstLoad=function(paid){
 		if($scope.player.nickname){
@@ -2185,6 +2186,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 				$scope.rankingGlobal = response;
 			});
 		}	
+		$cookieStore.put("path_id", pathId);
 		
     };
 	
@@ -2211,7 +2213,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 	
 	//onclick of country flag display country's players' ranking for the selected path
 	
-	$scope.get_countrypath_ranks = function(countryCode){
+	$scope.get_countrypath_ranks = function(countryCode,countryName){
 		//alert(countryCode);
 		var pathId = $cookieStore.get("path_id");
 		//ALL Languages
@@ -2219,8 +2221,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 	
 			$scope.pathRankModelAllCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:countryCode');		
 			$scope.pathRankModelAllCountry.get({"countryCode":countryCode}, function(response){
-				$scope.rankingCountry = response;
-				console.log($scope.rankingCountry);
+				$scope.rankingUserCountry = response;
 			});		
 						
 		}
@@ -2229,12 +2230,17 @@ function RankController($scope,$resource,$cookieStore,$location){
 
 			$scope.pathRankModelPathCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=:countryCode');
 			$scope.pathRankModelPathCountry.get({"pathId":pathId,"countryCode":countryCode}, function(response){
-				$scope.rankingPathCountry = response;
-				console.log($scope.rankingPathCountry);
+				$scope.rankingUserCountry = response;
 			});
 						
 		}
-		
+		//render new data
+		$scope.current_country = countryName;
+
+		$('#tab1world').removeClass('active');
+		$('#tab2WORLD').removeClass('active');
+        $('#tab2SG').addClass('active');
+        $('#tab1sg').addClass('active');		
     };
 	
 }
