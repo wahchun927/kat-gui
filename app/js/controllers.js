@@ -536,7 +536,7 @@ function ChallengeController($scope,$resource,$location){
 
     };
 	
-		//1. All Challenges Tab - load accepted challenges
+	//1. All Challenges Tab - load accepted challenges
 		
 	$scope.list_challenges= function(){
 		//alert("all c");
@@ -545,23 +545,30 @@ function ChallengeController($scope,$resource,$location){
 	
 	//2. All Challenges Tab - load accepted challenges
 		//if "_playerRegistered": true, add to array
-	/*
 	$scope.registered_challenges= function(){
-		//alert("all c");
-        $scope.RegisteredChallenges = $resource('/jsonapi/list_challenges').get();
-		var data={"_playerRegistered":$scope.RegisteredChallenges._playerRegistered};
-		var registered=data._playerRegistered;
-		var registeredChallengesArray=[];
 		
-		if (registered==true){
+		$scope.challengeModel = $resource('/jsonapi/list_challenges');
+
+		$scope.challengeModel.get({}, function(response){
+			$scope.challengeReg = response;
+				
+			var RegisteredChallenges = $resource('/jsonapi/list_challenges').get();
+		
+			$scope.playerRegisteredChallenges=[];
+			//get to each challenge
+			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
 			
-			$scope.registeredChallengesArray.push(RegisteredChallenges.challenges);
+				//You have to ensure that this property exists first if it won't always be present.
+				if($scope.challengeReg.challenges[i]._playerRegistered==false){
+					$scope.playerRegisteredChallenges.push($scope.challengeReg.challenges[i]);						
+				}
+				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
+				//alert($scope.playerRegisteredChallenges.length+"success");
+			}
 		
-		}
-    };
-	*/
-		
-	
+		});
+				
+    };	
 	
 	//3. My Creation - Load Challenges I've Made
 	$scope.list_challenges_I_created= function(){
@@ -580,6 +587,7 @@ function ChallengeController($scope,$resource,$location){
 	//6. Create Badge Challenge
 	//7. Create Quest Challenge
 	//8. Edit Challenges
+	
 	
 	
 }
@@ -1866,12 +1874,16 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     };
 
      $scope.updateQuest = function(){
-     $resource('/jsonapi/quest/:questID').get({"questID":$scope.questID},
-        function(response){
-          $scope.name = response;
-          $cookieStore.put("name", $scope.name);
-          //window.location = "index.html#/storyboard";
-		});
+       //Make sure there is a questID before fetching or 
+       //you will fetch the list of quests
+       if($scope.questID){
+         $resource('/jsonapi/quest/:questID').get({"questID":$scope.questID},
+            function(response){
+              $scope.name = response;
+              $cookieStore.put("name", $scope.name);
+              //window.location = "index.html#/storyboard";
+		 });
+       }
     };
 
     $scope.playback = function(){
@@ -1915,8 +1927,10 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	$scope.editOrCreate = "create";
 	
 	$scope.name = $cookieStore.get("name");
-    //$scope.StoryModel = $resource('/jsonapi/stories');
-    $scope.StoryModel = $resource('/jsonapi/story');
+    $scope.StoryModel = $resource('/jsonapi/stories');
+    //We will need a different controller or resource to fetch player stories. 
+    //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
+    //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
