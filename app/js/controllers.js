@@ -1924,6 +1924,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	$scope.description = "";
 	$scope.Title = "";
 	$scope.stories = "";
+	$scope.publishStatus = "";
 	$scope.videos = "";
 	$scope.myStories = "";
 	$scope.myVideos = "";
@@ -2006,6 +2007,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 			$scope.description = response.description;
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
+			$scope.publishStatus = response.published;
 			$cookieStore.put("editStory", response);
 			$scope.editOrCreate = "edit";
 		}); 
@@ -2091,38 +2093,30 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 		////if admin made saved a story/edited a story, enable the "Publish" button
 		
 		////if user clicks publish, set published value to true, disable publish button to "Pubished"
-	$scope.publish_story = function(title,des){
-      $scope.newStory = {};
-      $scope.newStory.name = title;
-  	  $scope.newStory.description = des;
-	  $scope.newStory.videos = $scope.Videos;
-      $scope.newStory.published = false;
+		$scope.publish_story = function(title,des){
+		  $scope.newStory = {};
+		  $scope.newStory.name = title;
+		  $scope.newStory.description = des;
+		  $scope.newStory.videos = $scope.Videos;
+		  $scope.newStory.published = true;
 
       
-	  if($scope.editOrCreate == "edit"){
+
 			$scope.currentStoryID = $cookieStore.get("editStory").id;
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
 							description:$scope.newStory.description,
 							videos:$scope.newStory.videos,
-							published:$scope.newStory.published
+							published:true
 			}).success(function (data, status, headers, config) {
 				$scope.registration_response = data;
 			}).error(function (data, status, headers, config) {
 				$scope.registration_response = data;
 			});
-		}
-		else{
-				$scope.NewStory = $resource('/jsonapi/story');
-				var new_story = new $scope.NewStory($scope.newStory);
-				new_story.$save(function(response){
-					$scope.story = response;
-					$scope.newStoryID = response.id;
-			});
-		}
-		window.location.reload();
-    };
+		
+			window.location.reload();
+		};
 	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
