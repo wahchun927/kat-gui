@@ -25,5 +25,8 @@ after_success:
 - git checkout master -- app
 - git checkout master -- test
 - git add .
+- git config --global user.email "cboesch@smu.edu.sg"
+- git config --global user.name "Chris from Travis"
 - git commit -m "Updating from Travis-ci"
 - git status
+- git push https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git gh-pages
