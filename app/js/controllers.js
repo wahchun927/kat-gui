@@ -38,6 +38,7 @@ function Ctrl($scope) {
 function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.player = $resource('/jsonapi/player').get(); 
+    $scope.current_country = $scope.player.country;
 
 	$scope.firstLoad=function(paid){
 		if($scope.player.nickname){
@@ -1924,11 +1925,17 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	$scope.Title = "";
 	$scope.stories = "";
 	$scope.videos = "";
+	$scope.myStories = "";
+	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	
 	$scope.name = $cookieStore.get("name");
-    //$scope.StoryModel = $resource('/jsonapi/stories');
-    $scope.StoryModel = $resource('/jsonapi/player_stories');
+    $scope.StoryModel = $resource('/jsonapi/stories');
+    //We will need a different controller or resource to fetch player stories. 
+    //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
+    //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
+	
+
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
@@ -1939,6 +1946,18 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
               //alert("There are "+$scope.stories.length+" stories.");
           });
     };
+	$scope.myStoryModel = $resource('/jsonapi/player_stories');
+	//fetch list of 
+	$scope.myStorylist = function(){
+          $scope.myStoryModel.query({}, function(response){
+              $scope.myStories = response;
+              $scope.myVideos = $scope.myStories[0].videos;
+			  $scope.$parent.storyid = $scope.myStories[abc].id;
+              //alert("There are "+$scope.stories.length+" stories.");
+          });
+    };
+	
+	
     //$scope.fetch_stories();
     $scope.goToStory=function(){
 	
@@ -1994,14 +2013,13 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	
 	//3. Playback an existing story
 	$scope.playback = function(index){
-		$scope.videos = $scope.stories[index].videos;
+		$scope.myVideos = $scope.myStories[index].videos;
 		$('#video').trigger('click');
     };
 	//4. View statistics on existing story
 
-	//5. Create a new Story
+	//5. Create or edit a Story
     $scope.create_story = function(title,des){
-	  alert(title+des);
       $scope.newStory = {};
       $scope.newStory.name = title;
   	  $scope.newStory.description = des;
@@ -2010,9 +2028,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 
       
 	  if($scope.editOrCreate == "edit"){
-			$scope.currentStoryID = $cookieStore.get("editStory").id;//retrieve quest id from Storyboard page
-			alert($scope.currentStoryID);
-
+			$scope.currentStoryID = $cookieStore.get("editStory").id;
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
@@ -2071,10 +2087,42 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	   ////set story image as that of the first video thumbnail
 	   
 	//6. If user is admin, enable publish(yes|no)
-
+	
 		////if admin made saved a story/edited a story, enable the "Publish" button
 		
 		////if user clicks publish, set published value to true, disable publish button to "Pubished"
+	$scope.publish_story = function(title,des){
+      $scope.newStory = {};
+      $scope.newStory.name = title;
+  	  $scope.newStory.description = des;
+	  $scope.newStory.videos = $scope.Videos;
+      $scope.newStory.published = false;
+
+      
+	  if($scope.editOrCreate == "edit"){
+			$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+							name:$scope.newStory.name,
+							description:$scope.newStory.description,
+							videos:$scope.newStory.videos,
+							published:$scope.newStory.published
+			}).success(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			}).error(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			});
+		}
+		else{
+				$scope.NewStory = $resource('/jsonapi/story');
+				var new_story = new $scope.NewStory($scope.newStory);
+				new_story.$save(function(response){
+					$scope.story = response;
+					$scope.newStoryID = response.id;
+			});
+		}
+		window.location.reload();
+    };
 	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
@@ -2183,6 +2231,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 				$scope.rankingGlobal = response;
 			});
 		}	
+		$cookieStore.put("path_id", pathId);
 		
     };
 	
@@ -2209,7 +2258,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 	
 	//onclick of country flag display country's players' ranking for the selected path
 	
-	$scope.get_countrypath_ranks = function(countryCode){
+	$scope.get_countrypath_ranks = function(countryCode,countryName){
 		//alert(countryCode);
 		var pathId = $cookieStore.get("path_id");
 		//ALL Languages
@@ -2217,8 +2266,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 	
 			$scope.pathRankModelAllCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:countryCode');		
 			$scope.pathRankModelAllCountry.get({"countryCode":countryCode}, function(response){
-				$scope.rankingCountry = response;
-				console.log($scope.rankingCountry);
+				$scope.rankingUserCountry = response;
 			});		
 						
 		}
@@ -2227,12 +2275,17 @@ function RankController($scope,$resource,$cookieStore,$location){
 
 			$scope.pathRankModelPathCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=:countryCode');
 			$scope.pathRankModelPathCountry.get({"pathId":pathId,"countryCode":countryCode}, function(response){
-				$scope.rankingPathCountry = response;
-				console.log($scope.rankingPathCountry);
+				$scope.rankingUserCountry = response;
 			});
 						
 		}
-		
+		//render new data
+		$scope.current_country = countryName;
+
+		$('#tab1world').removeClass('active');
+		$('#tab2WORLD').removeClass('active');
+        $('#tab2SG').addClass('active');
+        $('#tab1sg').addClass('active');		
     };
 	
 }
