@@ -150,16 +150,16 @@ function InterfaceController($scope,$resource){
 }
 
 function PathController($scope,$resource,$cookieStore,$location){
+  //Try to only fetch what you need in the init of the controller. 
   $scope.paths = $resource('/jsonapi/get_game_paths').get();
-	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-	$scope.abc = $cookieStore.get("pid");
-  $scope.difficulty = "Drag-n-Drop";
-	$scope.lvlName = 1;
-  
+  $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+  $scope.abc = $cookieStore.get("pid");
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
-
-
+  $scope.difficulty = "Drag-n-Drop";
+  $scope.lvlName = 1;
+  
+  
   // this method add background color to the selected images 
   $scope.practiceSelection=function(checker){
     $('#myCarousel input:image').click(function() {
@@ -440,8 +440,12 @@ function PathController($scope,$resource,$cookieStore,$location){
     $scope.get_mobile_paths = function(){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     };
-    $scope.get_mobile_paths();
-	
+
+    //Assuming this is what you wanted by calling list in ng-init
+    $scope.list = function(){
+    	$scope.paths = $resource('/jsonapi/get_game_paths').get();
+    };
+    
 	//update path progress for 14 inch window size
     $scope.update_path_progress = function(pathID){
         $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
@@ -464,6 +468,11 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$('#myTab1 a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
+
+    //This may not be needed every time the controller loads. 
+    //Try using init
+    $scope.get_mobile_paths();
+	
 }
 
 function ProblemsetController($scope,$resource){
