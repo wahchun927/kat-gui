@@ -18,9 +18,10 @@ env:
 
 after_success:
 - git checkout gh-pages
+- ls
 - git checkout master -- app
 - git checkout master -- test
 - git add .
 - git commit -m "Updating from Travis-ci"
 - git status
-- git push https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git
+- git push https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git gh-pages
