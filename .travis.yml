@@ -12,3 +12,8 @@ before_script:
 script:
   - karma start config/karma-e2e.conf.js --reporters=dots --browsers=Firefox
   
+after_success:
+- git checkout gh-pages
+- git checkout master -- app
+- git checkout master -- test
+- git status
