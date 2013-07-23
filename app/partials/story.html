@@ -60,7 +60,7 @@
 				  <a data-target="#tab1current" data-toggle="tab">Current Stories</a>
 				</li>
 				<li class="tabspacing">
-				  <a data-target="#tab2create" data-toggle="tab">Create Stories</a>
+				  <a data-target="#tab2create" type="button" data-toggle="tab" ng-click="changeToCreate()">Create Stories</a>
 				</li>	   
 			  </ul>
 			  <div class="tab-content well">
@@ -82,7 +82,7 @@
 										<td class="c1">{{story.name}}</td>
 										<td class="c2">{{story.videos.length}}</td>
 										<td class="c3">50:00</td>
-										<td ng-show="story.published==false" class="c4"><span class="label label-success" >Saved</span></td>
+										<td ng-show="story.published==false" class="c4"><span class="label label-info" >Saved</span></td>
 										<td ng-show="story.published==true" class="c4"><span class="label label-success" >Published</span></td>
 										<td class="c5"> 
 											<div class="btn-group">
