@@ -17,11 +17,11 @@ env:
     - secure: "GyXhbUK7QebxnWpkKsrNT3x7FyWmUZtFB/9Tdj12CFxJOZq6h79cY1DdfzKMGOu0qZOL4mjTykzGbn4sZL6Nzd5KLsDLTUL835x4siTheRzFXN4DE0mRGFFm7WctGJigF/eXYQxw8/3vpd1AgloLC2mtWyYTr14B2Y/fSgYHr2E="
 
 after_success:
-- git checkout --track https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git/gh-pages
+- git fetch https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git gh-pages
+- git checkout gh-pages
 - ls
 - git checkout master -- app
 - git checkout master -- test
 - git add .
 - git commit -m "Updating from Travis-ci"
 - git status
-- git push https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git gh-pages
