@@ -66,7 +66,27 @@ describe('ViTech provided tests for index loaded partials', function() {
       if (pauseAll) pause();
   });
 
-
+  it('should render challenges when user navigates to #challenges', function() {
+      
+      browser().navigateTo('#challenges');
+      
+      expect(browser().location().url()).toBe("/challenges");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+  
+  it('should render practice when user navigates to #practice', function() {
+      
+      browser().navigateTo('#practice');
+      
+      expect(browser().location().url()).toBe("/practice");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
 
 });
 

@@ -289,7 +289,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			for (var i=0;i<$scope.path_progress.details.length;i++)
 			{ 
 				if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
-					alert("level "+$scope.path_progress.details[i].pathorder);
+					console.log("level "+$scope.path_progress.details[i].pathorder);
 					$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 					break;
 				}
@@ -377,7 +377,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
 			if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
-				alert("level "+$scope.path_progress.details[i].pathorder);
+				console.log("level "+$scope.path_progress.details[i].pathorder);
 				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
 			}
@@ -414,7 +414,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			}
 		}
 		else{
-			alert("Please clear previous level problems to unlock this level!");
+			console.log("Please clear previous level problems to unlock this level!");
 		}
 	};
 	
@@ -1846,12 +1846,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     };
     
     $scope.create_quest_game_from_QuestController = function(questID){
-      alert("creating a new game for quest from quest controller "+questID);
+      console.log("creating a new game for quest from quest controller "+questID);
       $scope.NewQuestGame = $resource('/jsonapi/create_quest_game/:questID');
       $scope.NewQuestGame.get({'questID':questID}, function(response){
         $scope.game = response;
         $scope.list();
-        alert("reply for create quest game in quest model");
+        console.log("reply for create quest game in quest model");
         //Update the parent game model by calling game fetch method. 
       });
     };
