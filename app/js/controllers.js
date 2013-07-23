@@ -1961,8 +1961,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	
     //$scope.fetch_stories();
     $scope.goToStory=function(){
-	
-		$location.path("story");
+
     };
 
     // this method add background color to the selected images 
@@ -2120,7 +2119,20 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
-	}
+	};
+	
+	$scope.changeToCreate=function(){
+		$scope.arrayVideo = [];
+		$scope.Videos = [];
+		$scope.newStoryID = "";
+		$scope.videoURL = "";
+		$scope.description = "";
+		$scope.Title = "";
+		$scope.stories = "";
+		$scope.publishStatus = null;
+		$scope.videos = "";
+		$scope.editOrCreate = "create";
+	};
 }
 
 //Test story controller. Normally use GenericController
