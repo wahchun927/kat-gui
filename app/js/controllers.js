@@ -150,16 +150,16 @@ function InterfaceController($scope,$resource){
 }
 
 function PathController($scope,$resource,$cookieStore,$location){
+  //Try to only fetch what you need in the init of the controller. 
   $scope.paths = $resource('/jsonapi/get_game_paths').get();
-	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-	$scope.abc = $cookieStore.get("pid");
-  $scope.difficulty = "Drag-n-Drop";
-	$scope.lvlName = 1;
-  
+  $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+  $scope.abc = $cookieStore.get("pid");
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
-
-
+  $scope.difficulty = "Drag-n-Drop";
+  $scope.lvlName = 1;
+  
+  
   // this method add background color to the selected images 
   $scope.practiceSelection=function(checker){
     $('#myCarousel input:image').click(function() {
@@ -289,7 +289,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			for (var i=0;i<$scope.path_progress.details.length;i++)
 			{ 
 				if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
-					alert("level "+$scope.path_progress.details[i].pathorder);
+					console.log("level "+$scope.path_progress.details[i].pathorder);
 					$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 					break;
 				}
@@ -377,7 +377,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
 			if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
-				alert("level "+$scope.path_progress.details[i].pathorder);
+				console.log("level "+$scope.path_progress.details[i].pathorder);
 				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
 			}
@@ -414,7 +414,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			}
 		}
 		else{
-			alert("Please clear previous level problems to unlock this level!");
+			console.log("Please clear previous level problems to unlock this level!");
 		}
 	};
 	
@@ -440,8 +440,12 @@ function PathController($scope,$resource,$cookieStore,$location){
     $scope.get_mobile_paths = function(){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     };
-    $scope.get_mobile_paths();
-	
+
+    //Assuming this is what you wanted by calling list in ng-init
+    $scope.list = function(){
+    	$scope.paths = $resource('/jsonapi/get_game_paths').get();
+    };
+    
 	//update path progress for 14 inch window size
     $scope.update_path_progress = function(pathID){
         $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
@@ -464,6 +468,11 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$('#myTab1 a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
+
+    //This may not be needed every time the controller loads. 
+    //Try using init
+    $scope.get_mobile_paths();
+	
 }
 
 function ProblemsetController($scope,$resource){
@@ -1837,12 +1846,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     };
     
     $scope.create_quest_game_from_QuestController = function(questID){
-      alert("creating a new game for quest from quest controller "+questID);
+      console.log("creating a new game for quest from quest controller "+questID);
       $scope.NewQuestGame = $resource('/jsonapi/create_quest_game/:questID');
       $scope.NewQuestGame.get({'questID':questID}, function(response){
         $scope.game = response;
         $scope.list();
-        alert("reply for create quest game in quest model");
+        console.log("reply for create quest game in quest model");
         //Update the parent game model by calling game fetch method. 
       });
     };
@@ -1924,14 +1933,19 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	$scope.description = "";
 	$scope.Title = "";
 	$scope.stories = "";
+	$scope.publishStatus = "";
 	$scope.videos = "";
+	$scope.myStories = "";
+	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	
 	$scope.name = $cookieStore.get("name");
-    $scope.StoryModel = $resource('/jsonapi/stories');
+    $scope.StoryModel = $resource('/jsonapi/story');
     //We will need a different controller or resource to fetch player stories. 
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
+	
+
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
@@ -1942,10 +1956,21 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
               //alert("There are "+$scope.stories.length+" stories.");
           });
     };
+	$scope.myStoryModel = $resource('/jsonapi/player_stories');
+	//fetch list of 
+	$scope.myStorylist = function(){
+          $scope.myStoryModel.query({}, function(response){
+              $scope.myStories = response;
+              $scope.myVideos = $scope.myStories[0].videos;
+			  $scope.$parent.storyid = $scope.myStories[abc].id;
+              //alert("There are "+$scope.stories.length+" stories.");
+          });
+    };
+	
+	
     //$scope.fetch_stories();
     $scope.goToStory=function(){
-	
-		$location.path("story");
+
     };
 
     // this method add background color to the selected images 
@@ -1990,6 +2015,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 			$scope.description = response.description;
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
+			$scope.publishStatus = response.published;
 			$cookieStore.put("editStory", response);
 			$scope.editOrCreate = "edit";
 		}); 
@@ -1997,14 +2023,13 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	
 	//3. Playback an existing story
 	$scope.playback = function(index){
-		$scope.videos = $scope.stories[index].videos;
+		$scope.myVideos = $scope.myStories[index].videos;
 		$('#video').trigger('click');
     };
 	//4. View statistics on existing story
 
-	//5. Create a new Story
+	//5. Create or edit a Story
     $scope.create_story = function(title,des){
-	  alert(title+des);
       $scope.newStory = {};
       $scope.newStory.name = title;
   	  $scope.newStory.description = des;
@@ -2013,9 +2038,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 
       
 	  if($scope.editOrCreate == "edit"){
-			$scope.currentStoryID = $cookieStore.get("editStory").id;//retrieve quest id from Storyboard page
-			alert($scope.currentStoryID);
-
+			$scope.currentStoryID = $cookieStore.get("editStory").id;
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
@@ -2074,14 +2097,51 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	   ////set story image as that of the first video thumbnail
 	   
 	//6. If user is admin, enable publish(yes|no)
-
+	
 		////if admin made saved a story/edited a story, enable the "Publish" button
 		
 		////if user clicks publish, set published value to true, disable publish button to "Pubished"
+		$scope.publish_story = function(title,des){
+		  $scope.newStory = {};
+		  $scope.newStory.name = title;
+		  $scope.newStory.description = des;
+		  $scope.newStory.videos = $scope.Videos;
+		  $scope.newStory.published = true;
+
+      
+
+			$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+							name:$scope.newStory.name,
+							description:$scope.newStory.description,
+							videos:$scope.newStory.videos,
+							published:true
+			}).success(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			}).error(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			});
+		
+			window.location.reload();
+		};
 	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
-	}
+	};
+	
+	$scope.changeToCreate=function(){
+		$scope.arrayVideo = [];
+		$scope.Videos = [];
+		$scope.newStoryID = "";
+		$scope.videoURL = "";
+		$scope.description = "";
+		$scope.Title = "";
+		$scope.stories = "";
+		$scope.publishStatus = null;
+		$scope.videos = "";
+		$scope.editOrCreate = "create";
+	};
 }
 
 //Test story controller. Normally use GenericController
