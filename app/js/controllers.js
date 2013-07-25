@@ -37,8 +37,11 @@ function Ctrl($scope) {
 
 function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-    $scope.player = $resource('/jsonapi/player').get(); 
-    $scope.current_country = $scope.player.country;
+    $scope.player = $resource('/jsonapi/player').get();
+
+    $scope.$watch('player', function() {
+    	$scope.current_country = $scope.player.country;
+    },true);
 
 	$scope.firstLoad=function(paid){
 		if($scope.player.nickname){
