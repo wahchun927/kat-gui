@@ -37,7 +37,11 @@ function Ctrl($scope) {
 
 function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-    $scope.player = $resource('/jsonapi/player').get(); 
+    $scope.player = $resource('/jsonapi/player').get();
+
+    $scope.$watch('player', function() {
+    	$scope.current_country = $scope.player.country;
+    },true);
 
 	$scope.firstLoad=function(paid){
 		if($scope.player.nickname){
@@ -149,16 +153,16 @@ function InterfaceController($scope,$resource){
 }
 
 function PathController($scope,$resource,$cookieStore,$location){
+  //Try to only fetch what you need in the init of the controller. 
   $scope.paths = $resource('/jsonapi/get_game_paths').get();
-	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-	$scope.abc = $cookieStore.get("pid");
-  $scope.difficulty = "Drag-n-Drop";
-	$scope.lvlName = 1;
-  
+  $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+  $scope.abc = $cookieStore.get("pid");
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 
-
-
+  $scope.difficulty = "Drag-n-Drop";
+  $scope.lvlName = 1;
+  
+  
   // this method add background color to the selected images 
   $scope.practiceSelection=function(checker){
     $('#myCarousel input:image').click(function() {
@@ -204,21 +208,27 @@ function PathController($scope,$resource,$cookieStore,$location){
     }
   }
 	//rank
-  $scope.pathSelectRank=function(){
-    $('#myCarouselRank input:image').click(function() {
-      $('#myCarouselRank input:image').removeClass('selected');   
-      $(this).addClass('selected');
-      
-    });
-		
+  $scope.pathSelectRank=function(checker){
+	$('#myCarouselRank input:image').click(function() {
+      $('#myCarouselRank input:image').removeClass('selected'); 
+	  $(this).addClass('selected');
+
+	});
+	if(checker == 2){
+	  $('#myCarouselRank input:image').click();
+	}
+
   }
   
-  $scope.pathSelectRankSmall=function(){
+  $scope.pathSelectRankSmall=function(checker){
     $('#myCarouselRankSmall input:image').click(function() {
-      $('#myCarouselRankSmall input:image').removeClass('selected');   
-      $(this).addClass('selected');
-      
-    });
+      $('#myCarouselRankSmall input:image').removeClass('selected'); 
+	  $(this).addClass('selected');
+
+	});
+	if(checker == 2){
+	  $('#myCarouselRankSmall input:image').click();
+	}
   }
   
   
@@ -282,7 +292,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			for (var i=0;i<$scope.path_progress.details.length;i++)
 			{ 
 				if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
-					alert("level "+$scope.path_progress.details[i].pathorder);
+					console.log("level "+$scope.path_progress.details[i].pathorder);
 					$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 					break;
 				}
@@ -370,7 +380,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 		for (var i=0;i<$scope.path_progress.details.length;i++)
 		{ 
 			if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
-				alert("level "+$scope.path_progress.details[i].pathorder);
+				console.log("level "+$scope.path_progress.details[i].pathorder);
 				$scope.create_prac($scope.path_progress.details[i].id,num,$scope.path_progress.details[i].pathorder);
 				break;
 			}
@@ -407,7 +417,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 			}
 		}
 		else{
-			alert("Please clear previous level problems to unlock this level!");
+			console.log("Please clear previous level problems to unlock this level!");
 		}
 	};
 	
@@ -433,8 +443,12 @@ function PathController($scope,$resource,$cookieStore,$location){
     $scope.get_mobile_paths = function(){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     };
-    $scope.get_mobile_paths();
-	
+
+    //Assuming this is what you wanted by calling list in ng-init
+    $scope.list = function(){
+    	$scope.paths = $resource('/jsonapi/get_game_paths').get();
+    };
+    
 	//update path progress for 14 inch window size
     $scope.update_path_progress = function(pathID){
         $scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
@@ -457,6 +471,11 @@ function PathController($scope,$resource,$cookieStore,$location){
 		$('#myTab1 a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
+
+    //This may not be needed every time the controller loads. 
+    //Try using init
+    $scope.get_mobile_paths();
+	
 }
 
 function ProblemsetController($scope,$resource){
@@ -530,7 +549,7 @@ function ChallengeController($scope,$resource,$location){
 
     };
 	
-		//1. All Challenges Tab - load accepted challenges
+	//1. All Challenges Tab - load accepted challenges
 		
 	$scope.list_challenges= function(){
 		//alert("all c");
@@ -539,23 +558,30 @@ function ChallengeController($scope,$resource,$location){
 	
 	//2. All Challenges Tab - load accepted challenges
 		//if "_playerRegistered": true, add to array
-	/*
 	$scope.registered_challenges= function(){
-		//alert("all c");
-        $scope.RegisteredChallenges = $resource('/jsonapi/list_challenges').get();
-		var data={"_playerRegistered":$scope.RegisteredChallenges._playerRegistered};
-		var registered=data._playerRegistered;
-		var registeredChallengesArray=[];
 		
-		if (registered==true){
+		$scope.challengeModel = $resource('/jsonapi/list_challenges');
+
+		$scope.challengeModel.get({}, function(response){
+			$scope.challengeReg = response;
+				
+			var RegisteredChallenges = $resource('/jsonapi/list_challenges').get();
+		
+			$scope.playerRegisteredChallenges=[];
+			//get to each challenge
+			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
 			
-			$scope.registeredChallengesArray.push(RegisteredChallenges.challenges);
+				//You have to ensure that this property exists first if it won't always be present.
+				if($scope.challengeReg.challenges[i]._playerRegistered==false){
+					$scope.playerRegisteredChallenges.push($scope.challengeReg.challenges[i]);						
+				}
+				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
+				//alert($scope.playerRegisteredChallenges.length+"success");
+			}
 		
-		}
-    };
-	*/
-		
-	
+		});
+				
+    };	
 	
 	//3. My Creation - Load Challenges I've Made
 	$scope.list_challenges_I_created= function(){
@@ -574,6 +600,7 @@ function ChallengeController($scope,$resource,$location){
 	//6. Create Badge Challenge
 	//7. Create Quest Challenge
 	//8. Edit Challenges
+	
 	
 	
 }
@@ -1822,12 +1849,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     };
     
     $scope.create_quest_game_from_QuestController = function(questID){
-      alert("creating a new game for quest from quest controller "+questID);
+      console.log("creating a new game for quest from quest controller "+questID);
       $scope.NewQuestGame = $resource('/jsonapi/create_quest_game/:questID');
       $scope.NewQuestGame.get({'questID':questID}, function(response){
         $scope.game = response;
         $scope.list();
-        alert("reply for create quest game in quest model");
+        console.log("reply for create quest game in quest model");
         //Update the parent game model by calling game fetch method. 
       });
     };
@@ -1860,12 +1887,16 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     };
 
      $scope.updateQuest = function(){
-     $resource('/jsonapi/quest/:questID').get({"questID":$scope.questID},
-        function(response){
-          $scope.name = response;
-          $cookieStore.put("name", $scope.name);
-          //window.location = "index.html#/storyboard";
-		});
+       //Make sure there is a questID before fetching or 
+       //you will fetch the list of quests
+       if($scope.questID){
+         $resource('/jsonapi/quest/:questID').get({"questID":$scope.questID},
+            function(response){
+              $scope.name = response;
+              $cookieStore.put("name", $scope.name);
+              //window.location = "index.html#/storyboard";
+		 });
+       }
     };
 
     $scope.playback = function(){
@@ -1905,12 +1936,19 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	$scope.description = "";
 	$scope.Title = "";
 	$scope.stories = "";
+	$scope.publishStatus = "";
 	$scope.videos = "";
+	$scope.myStories = "";
+	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	
 	$scope.name = $cookieStore.get("name");
-    //$scope.StoryModel = $resource('/jsonapi/stories');
     $scope.StoryModel = $resource('/jsonapi/story');
+    //We will need a different controller or resource to fetch player stories. 
+    //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
+    //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
+	
+
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
@@ -1921,10 +1959,21 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
               //alert("There are "+$scope.stories.length+" stories.");
           });
     };
+	$scope.myStoryModel = $resource('/jsonapi/player_stories');
+	//fetch list of 
+	$scope.myStorylist = function(){
+          $scope.myStoryModel.query({}, function(response){
+              $scope.myStories = response;
+              $scope.myVideos = $scope.myStories[0].videos;
+			  $scope.$parent.storyid = $scope.myStories[abc].id;
+              //alert("There are "+$scope.stories.length+" stories.");
+          });
+    };
+	
+	
     //$scope.fetch_stories();
     $scope.goToStory=function(){
-	
-		$location.path("story");
+
     };
 
     // this method add background color to the selected images 
@@ -1969,6 +2018,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 			$scope.description = response.description;
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
+			$scope.publishStatus = response.published;
 			$cookieStore.put("editStory", response);
 			$scope.editOrCreate = "edit";
 		}); 
@@ -1976,14 +2026,13 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	
 	//3. Playback an existing story
 	$scope.playback = function(index){
-		$scope.videos = $scope.stories[index].videos;
+		$scope.myVideos = $scope.myStories[index].videos;
 		$('#video').trigger('click');
     };
 	//4. View statistics on existing story
 
-	//5. Create a new Story
+	//5. Create or edit a Story
     $scope.create_story = function(title,des){
-	  alert(title+des);
       $scope.newStory = {};
       $scope.newStory.name = title;
   	  $scope.newStory.description = des;
@@ -1992,9 +2041,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 
       
 	  if($scope.editOrCreate == "edit"){
-			$scope.currentStoryID = $cookieStore.get("editStory").id;//retrieve quest id from Storyboard page
-			alert($scope.currentStoryID);
-
+			$scope.currentStoryID = $cookieStore.get("editStory").id;
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
@@ -2053,14 +2100,51 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	   ////set story image as that of the first video thumbnail
 	   
 	//6. If user is admin, enable publish(yes|no)
-
+	
 		////if admin made saved a story/edited a story, enable the "Publish" button
 		
 		////if user clicks publish, set published value to true, disable publish button to "Pubished"
+		$scope.publish_story = function(title,des){
+		  $scope.newStory = {};
+		  $scope.newStory.name = title;
+		  $scope.newStory.description = des;
+		  $scope.newStory.videos = $scope.Videos;
+		  $scope.newStory.published = true;
+
+      
+
+			$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+							name:$scope.newStory.name,
+							description:$scope.newStory.description,
+							videos:$scope.newStory.videos,
+							published:true
+			}).success(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			}).error(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			});
+		
+			window.location.reload();
+		};
 	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
-	}
+	};
+	
+	$scope.changeToCreate=function(){
+		$scope.arrayVideo = [];
+		$scope.Videos = [];
+		$scope.newStoryID = "";
+		$scope.videoURL = "";
+		$scope.description = "";
+		$scope.Title = "";
+		$scope.stories = "";
+		$scope.publishStatus = null;
+		$scope.videos = "";
+		$scope.editOrCreate = "create";
+	};
 }
 
 //Test story controller. Normally use GenericController
@@ -2120,8 +2204,7 @@ function TournamentController($scope,$resource,$http){
 
 
 function RankController($scope,$resource,$cookieStore,$location){
-
-
+	$scope.selectedPlayer;
 	//fetch list of rankers based in the path selected by user
 	$scope.get_path_ranks = function(pathId){
 		//ALL Languages
@@ -2165,112 +2248,62 @@ function RankController($scope,$resource,$cookieStore,$location){
 			$scope.pathRankModel2.get({"pathId":pathId}, function(response){
 				$scope.rankingGlobal = response;
 			});
-		
-		}
-		
+		}	
+		$cookieStore.put("path_id", pathId);
 		
     };
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
-        $scope.countryRank = $resource('/jsonapi/country_ranking maxRank=300').get();
+        $scope.countryRank = $resource('/jsonapi/country_ranking?maxRank=300').get();
     };
 	
 	$scope.get_player_details = function(playerId){
 		
 		//alert("professional":$scope.playerNo.professional);
+		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId');
+		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
+			$scope.selectedPlayer = response;
+		});	
+		//console.log($scope.selectedPlayer);
 		
-		$scope.selectedPlayer = $resource('/jsonapi/player/:playerId');
-		$('#playerDetails').modal('show');
-		
-		$scope.arrayTags = [];
-		$scope.arrayBadges = [];
-		arrayTags=player.tags;
-		arrayBadges=player.badges;
+		$scope.arrayTags=$scope.selectedPlayer.tags;
+		$scope.arrayBadges=$scope.selectedPlayer.badges;
 				
-		var data={"professional":$scope.player.professional};
-		var pro=data.professional;
-		
-		
-		/*
-		if(pro=="1"){		
-			pro="professional";		
-		}
-		else{
-			pro="student";		
-		}
-		*/
-		//alert($scope.player.professional);
-		
-		
-		
-		/*
-		alert($scope.player.nickname);
-		
-		var data = {"nickname":$scope.player.nickname,
-                    "professional":$scope.player.professional,
-                    "about":$scope.player.about,
-                    "gender":$scope.player.gender,
-					"countryFlagURL":$scope.player.countryFlagURL,
-					"gravatar":$scope.player.gravatar,
-					"tags".$scope.player.tags,
-					"badges".$scope.player.badges
-					};
-											
-		var nickname = data.nickname;
-		var professional = data.professional;
-		var about= data.about;
-		var gender=  data.gender;
-		var countryFlagURL= data.countryFlagURL;
-		var gravatar= data.gravatar;
-		var tags= data.tags;
-		var badges= data.badges;
-		
-		$scope.player_details.get({"nickname":nickname,
-									"professional":professional,
-									"about":about,
-									"gender":gender,
-									"countryFlagURL":countryFlagURL,
-									"gravatar":gravatar;
-									"tags":tags;
-									"badges":badges}, function(response){
-			$scope.playerDetails= response;
-			$('#Agent_Profile').modal('show');
-		});
-		
-		*/   
+		$('#playerDetails').modal('show');
 	
 	}
 	
 	//onclick of country flag display country's players' ranking for the selected path
 	
-	$scope.get_countrypath_ranks = function(pathId,countryCode){
-		alert(countryCode);
+	$scope.get_countrypath_ranks = function(countryCode,countryName){
+		//alert(countryCode);
+		var pathId = $cookieStore.get("path_id");
 		//ALL Languages
-		if(pathId=='AllLanguages'){
-			
-			
-			
-			$scope.pathRankModelAllCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:countryCode');
-			
+		if(pathId=='AllLanguages'){			
+	
+			$scope.pathRankModelAllCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&countryCode=:countryCode');		
 			$scope.pathRankModelAllCountry.get({"countryCode":countryCode}, function(response){
-				$scope.rankingCountry = response;
+				$scope.rankingUserCountry = response;
 			});		
 						
 		}
 		//selected individual language
 		else{
-						
+
 			$scope.pathRankModelPathCountry = $resource('/jsonapi/worldwide_ranking?maxRank=25&path_id=:pathId&countryCode=:countryCode');
-			
 			$scope.pathRankModelPathCountry.get({"pathId":pathId,"countryCode":countryCode}, function(response){
-				$scope.rankingPathCountry = response;
+				$scope.rankingUserCountry = response;
 			});
 						
 		}
-		
-		
+		//render new data
+		$scope.current_country = countryName;
+
+		$('#tab1world').removeClass('active');
+		$('#tab2WORLD').removeClass('active');
+        $('#tab2SG').addClass('active');
+        $('#tab1sg').addClass('active');		
     };
-	
 	
 }

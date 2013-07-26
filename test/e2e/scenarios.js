@@ -8,7 +8,7 @@ describe('ViTech provided tests for index loaded partials', function() {
   //You can reload a page before every test if desired.
   //This can slow testing down but make test much more consistent.
   beforeEach(function() {
-    browser().navigateTo('../../app/index.html');
+    browser().navigateTo('../../app/index.html?test_with=app-test.js');
   });
 
   it('should render teach when user navigates to #teach', function() {
@@ -22,14 +22,14 @@ describe('ViTech provided tests for index loaded partials', function() {
       if (pauseAll) pause();
   });
 
-  it('should render create when user navigates to #create', function() {
+  it('should render create when user navigates to #quest', function() {
       
       browser().navigateTo('#quests');
       
       expect(browser().location().url()).toBe("/quests");
       //You can select all the text from all h5 or any other html element
-      expect(element('#myCarousel .ng-scope:nth-child(1) .ng-binding').text()).
-        toMatch("The Spy Who Coded");//"The Spy Who Coded"
+      //expect(element('#myCarousel .ng-scope:nth-child(1) .ng-binding').text()).
+      //  toMatch("The Spy Who Coded");//"The Spy Who Coded"
       if (pauseAll) pause();
   });
 
@@ -66,7 +66,27 @@ describe('ViTech provided tests for index loaded partials', function() {
       if (pauseAll) pause();
   });
 
-
+  it('should render challenges when user navigates to #challenges', function() {
+      
+      browser().navigateTo('#challenges');
+      
+      expect(browser().location().url()).toBe("/challenges");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+  
+  it('should render practice when user navigates to #practice', function() {
+      
+      browser().navigateTo('#practice');
+      
+      expect(browser().location().url()).toBe("/practice");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
 
 });
 

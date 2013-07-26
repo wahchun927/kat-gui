@@ -60,7 +60,7 @@
 				  <a data-target="#tab1current" data-toggle="tab">Current Stories</a>
 				</li>
 				<li class="tabspacing">
-				  <a data-target="#tab2create" data-toggle="tab">Create Stories</a>
+				  <a data-target="#tab2create" type="button" data-toggle="tab" ng-click="changeToCreate()">Create Stories</a>
 				</li>	   
 			  </ul>
 			  <div class="tab-content well">
@@ -76,13 +76,14 @@
 								</tr>  
 						</table> 
 						<div>
-							<table class="table table-hover" ng-init="list()">
-									<a ng-repeat="video in videos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
-									<tr ng-repeat="story in stories">
+							<table class="table table-hover" ng-init="myStorylist()">
+									<a ng-repeat="video in myVideos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
+									<tr ng-repeat="story in myStories">
 										<td class="c1">{{story.name}}</td>
 										<td class="c2">{{story.videos.length}}</td>
 										<td class="c3">50:00</td>
-										<td class="c4"><span class="label label-success">Saved</span></td>
+										<td ng-show="story.published==false" class="c4"><span class="label label-info" >Saved</span></td>
+										<td ng-show="story.published==true" class="c4"><span class="label label-success" >Published</span></td>
 										<td class="c5"> 
 											<div class="btn-group">
 												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
@@ -162,9 +163,10 @@
 										</td>
 									</tr>																
 							</table> 
-							<div align="right">
-							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-click="create_story(Title,description)">Save</button>
-							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;">Publish</button> 
+							<div align="right" ng-controller = "PlayerController">
+							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="Title && description && Videos[0]" ng-click="create_story(Title,description)">Save</button>
+							<button class="btn btn-primary  disabled" type="button" style="height: 30px;width: 100px;" ng-show="!Title || !description || !Videos[0]">save</button>
+							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="player.isAdmin && publishStatus==false" ng-click="publish_story(Title,description)">Publish</button> 
 							</div>
 						</div>
 					</div>

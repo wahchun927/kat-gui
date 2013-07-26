@@ -11,4 +11,23 @@ before_script:
 
 script:
   - karma start config/karma-e2e.conf.js --reporters=dots --browsers=Firefox
-  
+
+env:
+  global:
+    - secure: "GyXhbUK7QebxnWpkKsrNT3x7FyWmUZtFB/9Tdj12CFxJOZq6h79cY1DdfzKMGOu0qZOL4mjTykzGbn4sZL6Nzd5KLsDLTUL835x4siTheRzFXN4DE0mRGFFm7WctGJigF/eXYQxw8/3vpd1AgloLC2mtWyYTr14B2Y/fSgYHr2E="
+
+after_success:
+- git clone https://github.com/ChrisBoesch/kat-gui.git kat
+- cd kat
+- git branch -a
+- git checkout gh-pages
+- ls
+- git checkout master -- app
+- git checkout master -- test
+- git add .
+- git config --global user.email "cboesch@smu.edu.sg"
+- git config --global user.name "Chris from Travis"
+- git commit -m "Updating from Travis-ci"
+- git status
+- git push https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git gh-pages
+- curl http://django-box-19263.apse1.actionbox.io:8888
