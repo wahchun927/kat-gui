@@ -40,10 +40,14 @@
     th.d4, td.d4{width:20%;}
     th.d5, td.d5{width:20%;}
 
-    th.i1, td.i1{width:20%;}
-    th.i2, td.i2{width:20%;}
-    th.i3, td.i3{width:40%;}
-    th.i4, td.i4{width:20%;}
+    <!--All Challenges : Registered Challenge-->
+    <!--All Challenges : Registered Challenge-->
+    th.AcceptedC_Type, td.AcceptedC_Type{width:20%;}
+    th.AcceptedC_Name, td.AcceptedC_Name{width:20%;}
+    th.AcceptedC_StartDate, td.AcceptedC_StartDate{width:20%;}
+    th.AcceptedC_EndDate, td.AcceptedC_EndDate{width:20%;}
+	th.AcceptedC_Status, td.AcceptedC_Status{width:10%;}
+	th.AcceptedC_Outcome, td.AcceptedC_Outcome{width:10%;}
 	
 	<!--All Challenges : Open Challenge-->
     th.OpenC_Name, td.OpenC_Name{width:25%;}
@@ -109,10 +113,12 @@
                                     <div width="400px"style=" width:98.2%; height:30px;">
                                         <table class="table table-condensed">
                                                 <tr>
-                                                    <th class="i1">Type</th>
-                                                    <th class="i2">Name</th>
-                                                    <th class="i3">Progress</th>
-                                                    <th class="i4">Outcome</th>
+                                                    <th class="AcceptedC_Type">Type</th>
+                                                    <th class="AcceptedC_Name">Name</th>
+                                                    <th class="AcceptedC_StartDate">StartDate</th>
+													<th class="AcceptedC_EndDate">EndDate</th>
+													<th class="AcceptedC_Status">Status</th>
+                                                    <th class="AcceptedC_Outcome">Outcome</th>
 
                                                 </tr>                                   
                                         </table> 
@@ -121,11 +127,13 @@
 										<div>
 											<table class="table table-hover" ng-init="registered_challenges()">
 												<tr ng-repeat="challenge in playerRegisteredChallenges">
-													<td class="i1">quest</td>
-													<td class="i2">{{challenge.name}}</td>													
-													<td class="i3">{{challenge.startDate}}</td>
-													<td class="i4" ng-show ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
-													<td class="i4" ng-hide ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
+													<td class="AcceptedC_Type">quest</td>
+													<td class="AcceptedC_Name">{{challenge.name}}</td>													
+													<td class="AcceptedC_StartDate">{{challenge.startDate}}</td>
+													<td class="AcceptedC_EndDate">{{challenge.endDate}}</td>
+													<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
+													<td class="AcceptedC_Outcome" ng-show ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
+													<td class="AcceptedC_Outcome" ng-hide ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
 												</tr>  
 											</table>
 										</div>
