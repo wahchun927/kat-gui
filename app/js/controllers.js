@@ -171,7 +171,7 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#myCarousel input:image').click();
+      $('#myCarousel input:image').last().addClass('selected');
     }
   }
 
@@ -182,7 +182,7 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#myCarouselSmall input:image').click();
+      $('#myCarouselSmall input:image').last().addClass('selected');
     }
   }
 
@@ -193,7 +193,7 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#paths input:image').click();
+      $('#paths input:image').last().addClass('selected');
     }
   }
 
@@ -204,7 +204,7 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#pathsSmall input:image').click();
+      $('#pathsSmall input:image').last().addClass('selected');
     }
   }
 	//rank
@@ -215,7 +215,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 
 	});
 	if(checker == 2){
-	  $('#myCarouselRank input:image').click();
+	  $('#myCarouselRank input:image').last().addClass('selected');
 	}
 
   }
@@ -227,7 +227,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 
 	});
 	if(checker == 2){
-	  $('#myCarouselRankSmall input:image').click();
+	  $('#myCarouselRankSmall input:image').last().addClass('selected');
 	}
   }
   
