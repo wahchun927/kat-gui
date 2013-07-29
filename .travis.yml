@@ -30,4 +30,4 @@ after_success:
 - git commit -m "Updating from Travis-ci"
 - git status
 - git push https://$MY_GITHUB_TOKEN@github.com/ChrisBoesch/kat-gui.git gh-pages
-- curl http://django-box-19263.apse1.actionbox.io:8888
+- curl http://django-box-19263.apse1.actionbox.io:8888/
