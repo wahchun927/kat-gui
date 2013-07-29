@@ -12,13 +12,10 @@
     }
     
     .tabspacing{
-        width:50%;
+        width:25%;
 	}
 
-    .tabspacing-inner{
-        width:50%;
-    }
-
+    
     .tab-content {
       clear: none;
       margin-bottom:0px;
@@ -27,280 +24,204 @@
     tbody{
         overflow:auto;  
     }
-
-    th.c1, td.c1{width:20%;}
-    th.c2, td.c2{width:20%;}
-    th.c3, td.c3{width:40%;}
-    th.c4, td.c4{width:20%;}
-  
-
-    th.d1, td.d1{width:40%;}
-    th.d2, td.d2{width:10%;}
-    th.d3, td.d3{width:10%;}
-    th.d4, td.d4{width:20%;}
-    th.d5, td.d5{width:20%;}
-
-    <!--All Challenges : Registered Challenge-->
-    <!--All Challenges : Registered Challenge-->
-    th.AcceptedC_Type, td.AcceptedC_Type{width:20%;}
-    th.AcceptedC_Name, td.AcceptedC_Name{width:20%;}
-    th.AcceptedC_StartDate, td.AcceptedC_StartDate{width:20%;}
-    th.AcceptedC_EndDate, td.AcceptedC_EndDate{width:20%;}
-	th.AcceptedC_Status, td.AcceptedC_Status{width:10%;}
-	th.AcceptedC_Outcome, td.AcceptedC_Outcome{width:10%;}
 	
 	<!--All Challenges : Open Challenge-->
-    th.OpenC_Name, td.OpenC_Name{width:25%;}
-    th.OpenC_Location, td.OpenC_Location{width:10%;}
-    th.OpenC_Needed, td.OpenC_Needed{width:25%;}
-    th.OpenC_StartDate, td.OpenC_StartDate{width:15%;}
-    th.OpenC_EndDate, td.OpenC_EndDate{width:15%;}
-    th.OpenC_Register, td.OpenC_Register{width:10%;}
+	th.OpenC_Type, td.OpenC_Type							{width:20%;}
+    th.OpenC_Name, td.OpenC_Name							{width:20%;}
+    th.OpenC_Location, td.OpenC_Location					{width:20%;}
+    th.OpenC_StartDate, td.OpenC_StartDate					{width:15%;}
+    th.OpenC_EndDate, td.OpenC_EndDate						{width:15%;}
+    th.OpenC_Register, td.OpenC_Register					{width:10%;}
+	
+	<!--All Challenges : Registered Challenge-->
+    th.AcceptedC_Type, td.AcceptedC_Type					{width:20%;}
+    th.AcceptedC_Name, td.AcceptedC_Name					{width:20%;}
+	th.AcceptedC_Location, td.AcceptedC_Location			{width:20%;}
+    th.AcceptedC_StartDate, td.AcceptedC_StartDate			{width:10%;}
+    th.AcceptedC_EndDate, td.AcceptedC_EndDate				{width:10%;}
+	th.AcceptedC_Status, td.AcceptedC_Status				{width:10%;}
+	th.AcceptedC_Outcome, td.AcceptedC_Outcome				{width:10%;}	
+	
+	<!--My Creations : Challenges Others Made -->
+	th.OtherC_Type, td.OtherC_Type							{width:20%;}
+    th.OtherC_Name, td.OtherC_Name							{width:20%;}
+	th.OtherC_Location, td.OtherC_Location					{width:20%;}
+    th.OtherC_StartDate, td.OtherC_StartDate				{width:20%;}
+    th.OtherC_EndDate, td.OtherC_EndDate					{width:20%;}    
 	
 	<!--My Creations : Challenges I've Made -->
-    th.ChallengesI'veMade_Name, td.ChallengesI'veMade_Name{width:20%; }
-    th.ChallengesI'veMade_Location, td.ChallengesI'veMade_Location{width:20%;}
-    th.ChallengesI'veMade_StartDate, td.ChallengesI'veMade_StartDate{width:10%;}
-    th.ChallengesI'veMade_EndDate, td.ChallengesI'veMade_EndDate{width:10%;}
-    th.ChallengesI'veMade_Review, td.ChallengesI'veMade_Review{width:20%;}
-    th.ChallengesI'veMade_Publish, td.ChallengesI'veMade_Publish{width:10%;}
-    th.ChallengesI'veMade_Share, td.ChallengesI'veMade_Share{width:10%;}
+	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
+	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:20%;}
+	th.ChallengesIMade_Location,td.ChallengesIMade_Location		{width:20%;}
+	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:10%;}
+	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:10%;}
+	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:10%;}
+	th.ChallengesIMade_Publish,td.ChallengesIMade_Publish		{width:10%;}                                                                                         
+	th.ChallengesIMade_Share,td.ChallengesIMade_Share			{width:10%;}
+	
+   
  
-	th.nc1, td.nc1{width:20%;}
-    th.nc2, td.nc2{width:10%;}
-    th.nc3, td.nc3{width:10%;}
-    th.nc4, td.nc4{width:15%;}
-    th.nc5, td.nc5{width:15%;}
-    th.nc6, td.nc6{width:15%;}
-    th.nc7, td.nc7{width:15%;}
-
-
 </style>
+<br>
 
 <div class="container" id="largeProfile" style="position:relative;">
-    <!-- Three columns of text below the carousel -->
+    
     <div class="row-fluid">
         <div class="span12" ng-controller="ChallengeController">
-            <div class="span12">
-                <br>
-                <br>
-                
-                <div class="tabbable well" align="center">				
-					<!--Top Tabs : All Challenges & My Creations-->
-                  <ul class="nav nav-tabs">
-                    <li class="tabspacing active">
-                      <a data-target="#t1" data-toggle="tab">All Challenges</a>
-                    </li>
-                    <li class="tabspacing">
-                      <a data-target="#t2" data-toggle="tab">My Creation (Challenges) </a>
-                    </li>  
-                  </ul>
-                  <div class="tab-content" id="top-content">
-                    <div class="tab-pane active" id="t1">
-						<!--All Challenges Heading : Accepted C & Open C-->
-                        <ul class="nav nav-tabs">
-                            <li class="tabspacing-inner active">
-                              <a data-target="#AcceptedChallenges" data-toggle="tab">Accepted Challenges</a>
-                            </li>
-                            <li class="tabspacing-inner">
-                              <a data-target="#OpenChallenges" data-toggle="tab"> Open Challenges</a>
-                            </li> 
-                        </ul>
-                        <div class="tab-content well" id="inner-content">						
-							<!--All Challenges : Accepted Challenge-->
-                            <div class="tab-pane active" id="AcceptedChallenges">
-                              <div class="tab-pane" id="tt1">
-                                    <div width="400px"style=" width:98.2%; height:30px;">
-                                        <table class="table table-condensed">
-                                                <tr>
-                                                    <th class="AcceptedC_Type">Type</th>
-                                                    <th class="AcceptedC_Name">Name</th>
-                                                    <th class="AcceptedC_StartDate">StartDate</th>
-													<th class="AcceptedC_EndDate">EndDate</th>
-													<th class="AcceptedC_Status">Status</th>
-                                                    <th class="AcceptedC_Outcome">Outcome</th>
+            
+			<div class="tabbable well" align="center">				
+				<!--Top Tabs : All Challenges & My Creations-->
+				<ul class="nav nav-tabs">
+					<li class="tabspacing active">
+					  <a data-target="#Open" data-toggle="tab">Open Challenges</a>
+					</li>
+					<li class="tabspacing">
+					  <a data-target="#Accepted" data-toggle="tab">Accepted Challenges</a>
+					</li> 
+					<li class="tabspacing">
+					  <a data-target="#Other" data-toggle="tab">Challenges Other's Created</a>
+					</li> 
+					<li class="tabspacing">
+					  <a data-target="#Mine" data-toggle="tab">Challenges I've Made</a>
+					</li> 
+					
+				</ul>
+				<div class="tab-content" id="top-content">				
+					
+					<div class="tab-pane active" align="center" id="Open">
+						<div width="400px"style=" width:98.2%; height:30px;">
+							<table class="table table-condensed">
+									<tr>
+										<th class="OpenC_Type">Type</th>
+										<th class="OpenC_Name">Name</th>
+										<th class="OpenC_Location">Location</th>										
+										<th class="OpenC_StartDate">Start Date</th>
+										<th class="OpenC_EndDate">End Date</th>
+										<th class="OpenC_Register">Register</th>
 
-                                                </tr>                                   
-                                        </table> 
-                                    </div>
-                                    <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
-										<div>
-											<table class="table table-hover" ng-init="registered_challenges()">
-												<tr ng-repeat="challenge in playerRegisteredChallenges">
-													<td class="AcceptedC_Type">quest</td>
-													<td class="AcceptedC_Name">{{challenge.name}}</td>													
-													<td class="AcceptedC_StartDate">{{challenge.startDate}}</td>
-													<td class="AcceptedC_EndDate">{{challenge.endDate}}</td>
-													<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
-													<td class="AcceptedC_Outcome" ng-show ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
-													<td class="AcceptedC_Outcome" ng-hide ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
-												</tr>  
-											</table>
-										</div>
-                                              
-                                    </div>
-                              </div>
-                            </div>
-							<!--All Challenges : Open Challenge-->
-                            <div class="tab-pane" id="OpenChallenges">
-                                    <div align="center"width="400px"style=" width:98.2%; height:30px;">
-                                        <table class="table table-condensed">
-                                                <tr>
-                                                    <th class="OpenC_Name">Name</th>
-                                                    <th class="OpenC_Location">Location</th>
-                                                    <th class="OpenC_Needed">Needed</th>
-                                                    <th class="OpenC_StartDate">Start Date</th>
-                                                    <th class="OpenC_EndDate">End Date</th>
-                                                    <th class="OpenC_Register">Register</th>
+									</tr>                                   
+							</table> 
+						</div>
+						<div style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">									
+							<table class="table table-hover" ng-init="list_challenges();">														
+								<tr ng-repeat="challenge in ListAllChallenges.challenges">
+									<td class="OpenC_Type">Quest</th>
+									<td class="OpenC_Name">{{challenge.name}}</td>
+									<td class="OpenC_Location">{{challenge.allowedCountries}}</td>									
+									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
+									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
+									<td class="OpenC_Register"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>
 
-                                                </tr>                                   
-                                        </table> 
-                                    </div>
-                                    <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" ng-init="list_challenges();">									
-										<table class="table table-hover">														
-											<tr ng-repeat="challenge in ListAllChallenges.challenges">
-												<td class="OpenC_Name">{{challenge.name}}</td>
-												<td class="OpenC_Location">{{challenge.allowedCountries}}</td>
-												<td class="OpenC_Needed">{{challenge.unlockRequiredBadges}}</td>
-												<td class="OpenC_StartDate">{{challenge.startDate}}</td>
-												<td class="OpenC_EndDate">{{challenge.endDate}}</td>
-												<td class="OpenC_Register"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>
+								</tr>           
+							</table>																	
+						</div>
+					</div>
+					
+					<div class="tab-pane" align="center" id="Accepted">
+						<div width="400px"style=" width:98.2%; height:30px;">
+							<table class="table table-condensed">
+									<tr>
+										<th class="AcceptedC_Type">Type</th>
+										<th class="AcceptedC_Name">Name</th>
+										<th class="AcceptedC_Location">Location</th>
+										<th class="AcceptedC_StartDate">StartDate</th>
+										<th class="AcceptedC_EndDate">EndDate</th>
+										<th class="AcceptedC_Status">Status</th>
+										<th class="AcceptedC_Outcome">Outcome</th>
 
-											</tr>           
-										</table>
-																			
-                                    </div>
-                                                                  
-                            </div>
-                            
-                        </div>
-                    </div>
-					<!--My Creations Heading : Challenges I've Made & Challenges others Made -->
-                    <div class="tab-pane" id="t2">
-                        <ul class="nav nav-tabs">
-							
-                            <li class="tabspacing-inner active">
-                              <a data-target="#ChallengesIveMade" data-toggle="tab">Challenges I've Made</a>
-                            </li>
-                            <li class="tabspacing-inner">
-                              <a data-target="#ChallengesOthersMade" data-toggle="tab">Challenges others Made</a>
-                            </li> 
-							
-                        </ul>
-                        <div class="tab-content well"  ng-controller="PlayerController">
-							<!--My Creations : Challenges I've Made -->
-                            <div class="tab-pane active" id="ChallengesIveMade">
-                                <div width="400px"style="height:30px;">
-                                    <table class="table table-condensed" >
-                                            <tr>
-                                                <th class="ChallengesI'veMade_Name">Name</th>
-                                                <th class="ChallengesI'veMade_Location">Badges</th> 
-                                                <th class="ChallengesI'veMade_StartDate">Start Date</th>
-                                                <th class="ChallengesI'veMade_EndDate">End Date</th>
-												<th class="ChallengesI'veMade_Review">Review</th>
-                                                <th class="ChallengesI'veMade_Publish">Publish</th>                                                                                              
-												<th class="ChallengesI'veMade_Share">Share</th>
-                                            </tr>                                   
-                                    </table> 
-								</div>
-                             
-                                <div style="height:270px;overflow-y:auto;overflow-x:hidden" >
-                                                                                        
-									<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
-											<tr ng-repeat="myChallenge in ListChallengesICreated.challenges">
-												<td  class="ChallengesI'veMade_Name">{{myChallenge.name}}</td>
-												<td  class="ChallengesI'veMade_Location">{{myChallenge.unlockRequiredBadges}}</td>
-												<td  class="ChallengesI'veMade_StartDate">{{myChallenge.startDate}}</td>
-												<td  class="ChallengesI'veMade_EndDate">{{myChallenge.endDate}}</td>
-												<td  class="ChallengesI'veMade_Review">
-													<div class="btn-group">																			
-														<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal">Stats</button>
-														<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
-													</div>																	
-												</td>
-												<td  class="ChallengesI'veMade_Publish">Published</td>
-												<td  class="ChallengesI'veMade_Share"></td>                                                                                     
-											</tr>                                                                
-									</table>
-                                  
-                                </div>
-								<!--Create button-->
-                                <div align="right"  ng-controller="ChallengeController">
-                                    <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
-                                </div>
+									</tr>                                   
+							</table> 
+						</div>
+						<div  style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
+								<table class="table table-hover" ng-init="registered_challenges()">
+									<tr ng-repeat="challenge in playerRegisteredChallenges">
+										<td class="AcceptedC_Type">quest</td>
+										<td class="AcceptedC_Name">{{challenge.name}}</td>	
+										<td class="AcceptedC_Location">{{challenge.allowedCountries}}</td>
+										<td class="AcceptedC_StartDate">{{challenge.startDate}}</td>
+										<td class="AcceptedC_EndDate">{{challenge.endDate}}</td>
+										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
+										<td class="AcceptedC_Outcome" ng-show ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
+										<td class="AcceptedC_Outcome" ng-hide ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
+									</tr>  
+								</table>
+						</div>
+					</div>
+					
+					<div class="tab-pane" align="center" id="Other">
+						<div width="400px"style=" width:98.2%; height:30px;">
+							<table class="table table-condensed" >
+								<tr>
+									<th class="OtherC_Type">Type</th>
+									<th class="OtherC_Name">Name</th>
+									<th class="OtherC_Location">Location</th>
+									<th class="OtherC_StartDate">Start Date</th>
+									<th class="OtherC_EndDate">End Date</th>
+									
+								</tr>                                   
+							</table> 
+						</div>
+						<div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >								
+							<table class="table table-hover" ng-init="others_challenges();">
+								<tr ng-repeat="otherChallenge in playerRegisteredChallenges">
+									<td class="OtherC_Type">{{otherChallenge.name}}</td>
+									<td class="OtherC_Name">{{otherChallenge.name}}</td>
+									<td class="OtherC_Location">{{otherChallenge.allowedCountries}}</td>								
+									<td class="OtherC_StartDate">{{otherChallenge.startDate}}</td>
+									<td class="OtherC_EndDate">{{otherChallenge.endDate}}</td>                                                                                            
+								</tr>                                                          
+							</table>								
+						</div>							
+					</div>
+					
+					<div class="tab-pane" align="center" id="Mine">
+						<div width="400px"style="height:30px;">
+							<table class="table table-condensed" >
+								<tr>
+									<th class="ChallengesIMade_Type">Type</th>
+									<th class="ChallengesIMade_Name">Name</th>
+									<th class="ChallengesIMade_Location">Location</th> 
+									<th class="ChallengesIMade_StartDate">Start Date</th>
+									<th class="ChallengesIMade_EndDate">End Date</th>
+									<th class="ChallengesIMade_Review">Review</th>
+									<th class="ChallengesIMade_Publish">Publish</th>                                                                                              
+									<th class="ChallengesIMade_Share">Share</th>
+								</tr>                                   
+							</table> 
+						</div>
+					 
+						<div style="height:270px;overflow-y:auto;overflow-x:hidden" >																					
+							<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
+								<tr ng-repeat="myChallenge in ListChallengesICreated.challenges">
+									<td  class="ChallengesIMade_Type">Quest</td>
+									<td  class="ChallengesIMade_Name">{{myChallenge.name}}</td>
+									<td  class="ChallengesIMade_Location">{{myChallenge.allowedCountries}}</td>
+									<td  class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
+									<td  class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
+									<td  class="ChallengesIMade_Review">
+										<div class="btn-group">																			
+											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal">Stats</button>
+											<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
+										</div>																	
+									</td>
+									<td  class="ChallengesIMade_Publish">Published</td>
+									<td  class="ChallengesIMade_Share">Shared</td>                                                                                     
+								</tr>                                                                
+							</table>							  
+						</div>
+						<!--Create button-->
+						<div align="right"  ng-controller="ChallengeController">
+							<button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+						</div>
+					</div>
+					
+			  
+			 
+				
+			   
+				</div>
+			</div>
 
-                            </div>
-                            <!--My Creations : Challenges others Made -->
-							<div class="tab-pane" id="ChallengesOthersMade">
-                                <div width="400px"style=" width:98.2%; height:30px;">
-                                    <table class="table table-condensed">
-                                            <tr>
-                                                <th class="nc1">Name</th>
-                                                <th class="nc2">Location</th>
-                                                <th class="nc3">Needed</th>
-                                                <th class="nc4">Start Date</th>
-                                                <th class="nc5">End Date</th>
-                                                <th class="nc6">Edit</th>
-                                                <th class="nc7">Stats</th>
-
-                                            </tr>                                   
-                                    </table> 
-                                </div>
-                                <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
-                                            <div>
-                                                <div>
-                                                        <table class="table table-hover">
-                                                                <tr>
-                                                                    <td class="nc1">Testing it!</td>
-                                                                    <td class="nc2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
-                                                                    <td class="nc3"><input type="image" ng-src="img/challenge/p007_on.png"/></td>
-                                                                    <td class="nc4">2013/05/05</td>
-                                                                    <td class="nc5">2013/07/07</td>
-                                                                    <td class="nc6"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
-                                                                    <td class="nc7"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="nc1">Improve without sweat!</td>
-                                                                    <td class="nc2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
-                                                                    <td class="nc3"><input type="image" ng-src="img/challenge/a008_on.png"/></td>
-                                                                    <td class="nc4">2013/06/06</td>
-                                                                    <td class="nc5">2013/06/25</td>
-                                                                    <td class="nc6"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
-                                                                    <td class="nc7"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="nc1">Let's celebrate the summer</td>
-                                                                    <td class="nc2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
-                                                                    <td class="nc3"><input type="image" ng-src="img/challenge/js001_on.png"/></td>
-                                                                    <td class="nc4">2013/03/23</td>
-                                                                    <td class="nc5">2013/06/18</td>
-                                                                    <td class="nc6"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
-                                                                    <td class="nc7"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
-                                                                </tr>
-                                                                     
-                                                        </table>
-                                                </div>
-                                            </div>
-                                </div>
-                                <div align="right">
-                                        <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                  
-                   
-                  </div>
-                </div>
-
-            </div>
-          
-          
         </div>
     </div>
-</div>
-<br>
-<br>
-<div class="container" id="smallProfile" style="position:relative;">
 </div>
