@@ -1,0 +1,853 @@
+<style>
+    #edit_profile {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: black;
+    }
+    .table td, .table th {
+        border: none;
+    }
+    .table tbody tr:hover td,
+    .table tbody tr:hover th {
+        background-color: #C0C0C0;
+    }
+    
+    .badgeheight {
+        height:200px
+    }
+    .fRight{
+        float:right;
+    }
+
+    .tabspacing{
+        width:33.3333%;
+    }
+
+    .tabspacing-create{
+        width:50%;
+    }
+
+    tbody{
+        overflow:auto;  
+    }
+
+    th.a, td.a {text-align: left;}
+
+    th.c1, td.c1{width:20%;}
+    th.c2, td.c2{width:50%;}
+    th.c3, td.c3{width:30%;}
+
+    th.d1, td.d1{width:30%;text-align:center;}
+    th.d2, td.d2{width:15%;text-align:center;}
+    th.d3, td.d3{width:15%;text-align:center;}
+    th.d4, td.d4{width:20%;text-align:center;}
+    th.d5, td.d5{width:20%;text-align:center;}
+
+    th.q1, td.q1{width:20%;}
+    th.q2, td.q2{width:10%;}
+    th.q3, td.q3{width:10%;}
+    th.q4, td.q4{width:10%;}
+    th.q5, td.q5{width:15%;}
+    th.q6, td.q6{width:15%;}
+    th.q7, td.q7{width:10%;}
+    th.q8, td.q8{width:10%;}
+
+    th.s1, td.s1{width:25%;}
+    th.s2, td.s2{width:15%;}
+    th.s3, td.s3{width:10%;}
+    th.s4, td.s4{width:20%;}
+    th.s5, td.s5{width:20%;}
+    th.s6, td.s6{width:10%;}
+
+</style>
+<br>
+<div class="container" id="largeProfile" style="position:relative;">
+    <!-- Three columns of text below the carousel -->
+    <div class="row-fluid">
+        <div class="span12">
+
+
+            <div class="span2">
+                <!-- Profile Information -->
+                    <br>
+                    <br>
+                    <div ng-controller="QuestController">
+                        <div ng-controller="PathController">
+                                                          
+                            <div ng-controller="PlayerController">
+                                
+                                    
+                                <div class="well">
+                                    <table id="playerProfile"class="table" style="text-align:left">
+                                        <tr>
+                                            <th align="left">
+                                                 <p>Profile Info</p>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <image ng-src="{{player.gravatar}}"; width = 60px; height= 60px;/>
+                                                <br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name: {{player.nickname}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Location: {{player.location}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>About Me: {{player.description}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><button class="btn-small btn-danger pull-right" ng-click="show_panel()">Edit Profile</button>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table><!-- End of Profile information -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                     
+            </div>
+           
+            <!-- End of Profile Information and Create button -->
+            <div class="span10">
+                <br>
+                <br>
+                  
+                <div class="well" id="badgesTable" >
+                    <!-- Badges Table -->
+                      <div align="center"><bold>Badges</bold></div>
+                      <hr>
+                      <div class="badgeheight" style="overflow:auto;" width="100%" ng-controller="BadgeController">
+                        <table id="badgesTable" width="100%" class="table table-condensed"> 
+                            <tbody align="left">  
+                              <tr >  
+                               
+                                <ng-model="python" ng-init="python='10030'"> 
+                                <td class="a">Python</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:python">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>  
+                              <tr> 
+                                 
+                                <ng-model="bPython" ng-init="bPython='6920762'">
+                                <td class="a">Beginner Python</td> 
+                                <td class="a" ng-repeat="badge in playerBadges.badges|filter:bPython">
+                                    <img ng-src="{{badge.imageURL}}">
+                                </td> 
+                              </tr> 
+                              <tr >
+                                <ng-model="ruby" ng-init="ruby='2462233'"> 
+                                <td class="a">Ruby</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>
+                              <tr >  
+                                <ng-model="javaScript" ng-init="javaScript='2473247'"> 
+                                <td class="a"> JavaScript</td>
+                                <td ng-repeat="(key,value) in playerBadges.badges|filter:javaScript">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>
+                              <tr > 
+                                <ng-model="java" ng-init="java='2243213'"> 
+                                <td class="a"> Java</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:java">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>
+                            
+                             
+                            </tbody>  
+                        </table>
+                      </div>
+                      
+
+                   
+                </div>
+                <br>
+           
+
+                <!-- Tab for Quest,Path and Challenges-->
+                <div class="tabbable well">
+                  <ul class="nav nav-tabs">
+                    <li class="tabspacing active">
+                      <a data-target="#t1" data-toggle="tab">Quest</a>
+                    </li>
+                    <li class="tabspacing">
+                      <a data-target="#t2" data-toggle="tab">Path</a>
+                    </li>
+                    <li class="tabspacing">
+                      <a data-target="#t3" data-toggle="tab">Challenges</a>
+                    </li>    
+                  </ul>
+                  <div class="tab-content well">
+                    <div class="tab-pane active" id="t1" ng-controller="QuestController">
+                      <div width="400px"style=" width:98.2%; height:30px;" ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="c1">Quest Name</th>
+                                        <th class="c2">myProgress</th>
+                                        <th class="c3">Take the leap</th>
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr ng-repeat="quest in quests | orderBy:'numSolved':true" ng-init="count(0);">
+                                                           
+                                                            <td>
+                                                              {{quest.name}}
+                                                        
+                                                            </td>
+                                                            <td class="c2">
+                                                              
+                                                                {{quest.numSolved}}/{{quest.numProblems}}  
+                                                                <div class="progress progress-success">
+                                                                    <div class="bar" style="width:{{count = (quest.numSolved/quest.numProblems)*100 |number:0}}%"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="c3"><button align="center" class="btn btn-info" ng-click="loadUnfinshed(quest)">Resume!</button>
+                                                            </td>                                 
+                                                        </tr>
+                                                             
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="t2">
+                      <div width="400px"style="width:98.2%; height:30px">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="c1">Path Name</th>
+                                        <th class="c2">myProgress</th>
+                                        <th class="c3">Take the leap</th>
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
+                                        <div ng-controller="PathController" ng-model="filter">
+                                                <table class="table table-hover">
+                                                        <tr ng-repeat="path in player_progress" ng-init="count(0);">
+                                                           
+                                                            <td>
+                                                              {{path.path.name}}
+                                                            </td>
+                                                            <td class="c2">
+                                                                {{path.currentPlayerProgress}}/{{path.problemsInPath}}
+                                                                <div class="progress progress-success">
+                                                                    <div class="bar" style="width:{{count = (path.currentPlayerProgress/path.problemsInPath)*100 |number:0}}%"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="c3"><button align="center" class="btn btn-info" ng-click = "resumePracticeGame(path.path.id,path.path.name,5)">Resume!</button>
+                                                            </td>                                 
+                                                        </tr>
+                                                             
+                                                </table>
+                                        </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="t3">
+                      <div width="400px"style="width:98.2%; height:30px;">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="d1">Name</th>
+                                        <th class="d2">Location</th>
+                                        <th class="d3">Needed</th>
+                                        <th class="d4">Start Date</th>
+                                        <th class="d5">End Date</th>
+
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
+                                    <table class="table table-hover" ng-controller="ChallengeController">
+
+                                            <tr ng-repeat="challenges in listChallenges.challenges" ng-init="">
+
+                                                <td class="d1"> {{challenges.name}}</td>
+                                                <td>
+                                                    <input class="img-rounded" id="badage" type="image" data-target="#myModal" data-toggle="modal"
+                                    src="img/sg.jpg" alt="" height="40">
+                                                </td>
+
+                                                <td class="d3"> Intermediate</td>
+                                                <td class="d4">{{challenges.startDate}}</td> 
+                                                <td class="d5">{{challenges.endDate}}</td>                                  
+                                            </tr>
+                                            
+                                    </table>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- End of Quest,Path and Challenges tables-->
+                <br>
+
+                <!-- Tab for Create Challenges and Stories -->
+                <div class="tabbable well" align="center">
+                  <ul class="nav nav-tabs">
+                    <li class="tabspacing-create active">
+                      <a data-target="#tt1" data-toggle="tab">Challenges I've Made</a>
+                    </li>
+                    <li class="tabspacing-create">
+                      <a data-target="#tt2" data-toggle="tab">Stories I've Created</a>
+                    </li>  
+                  </ul>
+                  <div class="tab-content well">
+                    <div class="tab-pane active" id="tt1" ng-controller="ChallengeController">
+                      <div width="400px"style=" width:98.2%; height:30px;">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="q1">Name</th>
+                                        <th class="q2">Location</th>
+                                        <th class="q3">Share</th>
+                                        <th class="q4">Publish</th>
+                                        <th class="q5">Start Date</th>
+                                        <th class="q6">End Date</th>
+                                        <th class="q7">Edit</th>
+                                        <th class="q8">Stats</th>
+
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr>
+                                                            <td class="q1">Quest Challenge 1</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="q1">Catch Me If You Can!</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="q1">Chase if You do!</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                             
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div align="right">
+                            <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tt2" align="center" ng-controller="StoryController">
+                      <div width="400px"style="width:98.2%; height:30px">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="s1">Name</th>
+                                        <th class="s2">No of videos</th>
+                                        <th class="s3">Total Time</th>
+                                        <th class="s4">Status</th>
+                                        <th class="s5">Statistics</th>
+                                        <th class="s6">Review</th>
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
+                                
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr>
+                                                            <td class="s1">Reach For the Sky</td>
+                                                            <td class="s2">5</td>
+                                                            <td class="s3">6:56</td>
+                                                            <td class="s4">SAVED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="s1">Vision with Hesitation!</td>
+                                                            <td class="s2">5</td>
+                                                            <td class="s3">8:20</td>
+                                                            <td class="s4">PUBLISHED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="s1">Mission Miserable!</td>
+                                                            <td class="s2">4</td>
+                                                            <td class="s3">4:30</td>
+                                                            <td class="s4">PUBLISHED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                                    <div align="right">
+                                        <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+                                    </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- End of span9 Badges table-->
+            
+          
+        </div><!--End of .span12-->
+    </div><!-- /.row -->
+</div><!-- End of container which contains 'largeProfile' -->
+<br>
+<br>
+<div class="container" id="smallProfile" style="position:relative;">
+    <!-- Three columns of text below the carousel -->
+    <div class="row-fluid">
+        <div class="span12">
+
+
+            <div class="span2">
+                <!-- Profile Information -->
+                    <br>
+                    <br>
+                    <div ng-controller="QuestController">
+                        <div ng-controller="PathController">
+                                                          
+                            <div ng-controller="PlayerController">
+                                
+                                    
+                                <div class="well">
+                                    <table id="playerProfile"class="table" style="text-align:left">
+                                        <tr>
+                                            <th align="left">
+                                                 <p>Profile Info</p>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <image ng-src="{{player.gravatar}}"; width = 60px; height= 60px;/>
+                                                <br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name: {{player.nickname}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Location: {{player.location}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>About Me: {{player.description}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><button class="btn-small btn-danger pull-right" ng-click="show_panel()">Edit Profile</button>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table><!-- End of Profile information -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+            </div>
+           
+            <!-- End of Profile Information and Create button -->
+            <div class="span10">
+                <br>
+                <br>
+                  
+                <div class="well" id="badgesTable" >
+                    <!-- Badges Table -->
+                      <div align="center"><bold>Badges</bold></div>
+                      <hr>
+                      <div class="badgeheight" style="overflow:auto;" width="100%" ng-controller="BadgeController">
+                        <table id="badgesTable" width="100%" class="table table-condensed"> 
+                            <tbody align="left">  
+                              <tr >  
+                               
+                                <ng-model="python" ng-init="python='10030'"> 
+                                <td class="a">Python</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:python">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>  
+                              <tr> 
+                                 
+                                <ng-model="bPython" ng-init="bPython='6920762'">
+                                <td class="a">Beginner Python</td> 
+                                <td class="a" ng-repeat="badge in playerBadges.badges|filter:bPython">
+                                    <img ng-src="{{badge.imageURL}}">
+                                </td> 
+                              </tr> 
+                              <tr >
+                                <ng-model="ruby" ng-init="ruby='2462233'"> 
+                                <td class="a">Ruby</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>
+                              <tr >  
+                                <ng-model="javaScript" ng-init="javaScript='2473247'"> 
+                                <td class="a"> JavaScript</td>
+                                <td ng-repeat="(key,value) in playerBadges.badges|filter:javaScript">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>
+                              <tr > 
+                                <ng-model="java" ng-init="java='2243213'"> 
+                                <td class="a"> Java</td>
+                                <td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:java">
+                                 <img ng-src="{{value.imageURL}}">
+                                </td> 
+                              </tr>
+                            
+                             
+                            </tbody>  
+                        </table>
+                      </div>
+                      
+
+                   
+                </div>
+                <br>
+           
+
+                <!-- Tab for Quest,Path and Challenges-->
+                <div class="tabbable well">
+                  <ul class="nav nav-tabs">
+                    <li class="tabspacing active">
+                      <a data-target="#t1" data-toggle="tab">Quest</a>
+                    </li>
+                    <li class="tabspacing">
+                      <a data-target="#t2" data-toggle="tab">Path</a>
+                    </li>
+                    <li class="tabspacing">
+                      <a data-target="#t3" data-toggle="tab">Challenges</a>
+                    </li>    
+                  </ul>
+                  <div class="tab-content well">
+                    <div class="tab-pane active" id="t1" ng-controller="QuestController">
+                      <div width="400px"style=" width:98.2%; height:30px;" ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="c1">Quest Name</th>
+                                        <th class="c2">myProgress</th>
+                                        <th class="c3">Take the leap</th>
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr ng-repeat="quest in quests | orderBy:'numSolved':true" ng-init="count(0);">
+                                                           
+                                                            <td>
+                                                              {{quest.name}}
+                                                        
+                                                            </td>
+                                                            <td class="c2">
+                                                              
+                                                                {{quest.numSolved}}/{{quest.numProblems}}  
+                                                                <div class="progress progress-success">
+                                                                    <div class="bar" style="width:{{count = (quest.numSolved/quest.numProblems)*100 |number:0}}%"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="c3"><button align="center" class="btn btn-info" ng-click="loadUnfinshed(quest)">Resume!</button>
+                                                            </td>                                 
+                                                        </tr>
+                                                             
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="t2">
+                      <div width="400px"style="width:98.2%; height:30px">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="c1">Path Name</th>
+                                        <th class="c2">myProgress</th>
+                                        <th class="c3">Take the leap</th>
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
+                                    <div ng-controller="QuestController">
+                                        <div ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
+                                                <table class="table table-hover">
+                                                        <tr ng-repeat="path in player_progress.paths" ng-init="count(0);">
+                                                           
+                                                            <td>
+                                                              {{path.name}}
+                                                        
+                                                            </td>
+                                                            <td class="c2">
+                                                                
+                                                                {{path.solvedProblems}}/{{path.problemsInPath}}
+                                                                <div class="progress progress-success">
+                                                                    <div class="bar" style="width:{{count = (path.solvedProblems/path.problemsInPath)*100 |number:0}}%"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="c3"><a align="center" class="btn btn-info" href="#contact">Resume!</a>
+                                                            </td>                                 
+                                                        </tr>
+                                                             
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="t3">
+                      <div width="400px"style="width:98.2%; height:30px;">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="d1">Name</th>
+                                        <th class="d2">Location</th>
+                                        <th class="d3">Needed</th>
+                                        <th class="d4">Start Date</th>
+                                        <th class="d5">End Date</th>
+
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
+                                    <table class="table table-hover" ng-controller="ChallengeController">
+
+                                            <tr ng-repeat="challenges in listChallenges.challenges" ng-init="">
+
+                                                <td class="d1"> {{challenges.name}}</td>
+                                                <td>
+                                                    <input class="img-rounded" id="badage" type="image" data-target="#myModal" data-toggle="modal"
+                                    src="img/sg.jpg" alt="" height="40">
+                                                </td>
+
+                                                <td class="d3"> Intermediate</td>
+                                                <td class="d4">{{challenges.startDate}}</td> 
+                                                <td class="d5">{{challenges.endDate}}</td>                                  
+                                            </tr>
+                                            
+                                    </table>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- End of Quest,Path and Challenges tables-->
+                <br>
+
+                <!-- Tab for Create Challenges and Stories -->
+                <div class="tabbable well" align="center">
+                  <ul class="nav nav-tabs">
+                    <li class="tabspacing-create active">
+                      <a data-target="#tt1" data-toggle="tab">Challenges I've Made</a>
+                    </li>
+                    <li class="tabspacing-create">
+                      <a data-target="#tt2" data-toggle="tab">Stories I've Created</a>
+                    </li>  
+                  </ul>
+                  <div class="tab-content well">
+                    <div class="tab-pane active" id="tt1" ng-controller="ChallengeController">
+                      <div width="400px"style=" width:98.2%; height:30px;">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="q1">Name</th>
+                                        <th class="q2">Location</th>
+                                        <th class="q3">Share</th>
+                                        <th class="q4">Publish</th>
+                                        <th class="q5">Start Date</th>
+                                        <th class="q6">End Date</th>
+                                        <th class="q7">Edit</th>
+                                        <th class="q8">Stats</th>
+
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr>
+                                                            <td class="q1">Quest Challenge 1</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="q1">Catch Me If You Can!</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="q1">Chase if You do!</td>
+                                                            <td class="q2"><input type="image" ng-src="img/challenge/sg_on.png" /></td>
+                                                            <td class="q3"><input type="image" ng-src="img/challenge/share.png" /></td>
+                                                            <td class="q4"><input type="image" ng-src="img/challenge/Publish.png"/></td>
+                                                            <td class="q5">2013/06/04</td>
+                                                            <td class="q6">2013/07/04</td>
+                                                            <td class="q7"> <input type="image" ng-src="img/challenge/editCircle_on.png" /></td>
+                                                            <td class="q8"><input type="image" ng-src="img/challenge/statistics_on.png" /></td>                          
+                                                        </tr>
+                                                             
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div align="right">
+                            <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tt2" align="center" ng-controller="StoryController">
+                      <div width="400px"style="width:98.2%; height:30px">
+                            <table class="table table-condensed">
+                                    <tr>
+                                        <th class="s1">Name</th>
+                                        <th class="s2">No of videos</th>
+                                        <th class="s3">Total Time</th>
+                                        <th class="s4">Status</th>
+                                        <th class="s5">Statistics</th>
+                                        <th class="s6">Review</th>
+                                    </tr>                                   
+                            </table> 
+                        </div>
+                        <div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">
+                                
+                                    <div>
+                                        <div>
+                                                <table class="table table-hover">
+                                                        <tr>
+                                                            <td class="s1">Reach For the Sky</td>
+                                                            <td class="s2">5</td>
+                                                            <td class="s3">6:56</td>
+                                                            <td class="s4">SAVED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="s1">Vision with Hesitation!</td>
+                                                            <td class="s2">5</td>
+                                                            <td class="s3">8:20</td>
+                                                            <td class="s4">PUBLISHED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="s1">Mission Miserable!</td>
+                                                            <td class="s2">4</td>
+                                                            <td class="s3">4:30</td>
+                                                            <td class="s4">PUBLISHED</td>
+                                                            <td class="s5"><input type="image" ng-src="img/challenge/statistics_onn.png" /></td>
+                                                            <td class="s6">
+                                                                <input type="radio" align="center">
+                                                            </td>                                 
+                                                        </tr>
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>
+                                    <div align="right">
+                                        <button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+                                    </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- End of span9 Badges table-->
+            
+          
+        </div><!--End of .span12-->
+    </div><!-- /.row -->
+</div><!-- End of container which contains 'smallProfile' -->
+<div class="modal fade" id="edit_profile" style="display:none" ng-controller="PlayerController">
+  <div class="modal-header">
+    <h4>Edit Profile<h4>
+  </div>
+  <div class="modal-body">
+    <table>
+        <tr>
+            <td>Name:</td> 
+            <td>
+                <input type="text" ng-model="player.nickname">
+            </td>
+        </tr>
+        <tr>
+            <td>Gender:</td> 
+            <td>
+              <select ng-model="player.gender">
+                  <option value="secret">Secret</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+              </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Occupation:</td>
+            <td>
+                <select ng-model="player.professional">
+                  <option value="1">Professional</option>
+                  <option value="0">Student</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>About:</td> 
+            <td>
+                <textarea rows="4" cols="50" ng-model="player.about">
+                </textarea>
+            </td>
+        </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ng-click="update_player_profile()" data-dismiss="modal" class="btn btn-primary">Update!</button>
+    <a data-target="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
