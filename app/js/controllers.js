@@ -75,6 +75,15 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 		}
 	};
 	
+	$scope.checkStoryLogin = function(){
+		if($scope.player.nickname){
+			$location.path("story");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
 	$scope.checkChallengesLogin = function(){
 		if($scope.player.nickname){
 			$location.path("challenges");
@@ -87,6 +96,15 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.checkRankingLogin = function(){
 		if($scope.player.nickname){
 			$location.path("ranking");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkFeedbackLogin = function(){
+		if($scope.player.nickname){
+			$location.path("feedback");
 		}
 		else{
 			alert("Please login with FaceBook or Google Account first!");
