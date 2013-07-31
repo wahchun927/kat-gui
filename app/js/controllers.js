@@ -2005,7 +2005,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	//1. Load all stories created by user 
 
 	//2. Edit an exiting story
-		$scope.goToEditStory = function(storyID){
+	$scope.goToEditStory = function(storyID){
 		$('#tabCr').addClass('active');
         $('#tabCu').removeClass('active');
         $('#tab2create').addClass('active');
@@ -2119,7 +2119,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 							name:$scope.newStory.name,
 							description:$scope.newStory.description,
 							videos:$scope.newStory.videos,
-							published:true
+							published:true,
+							archived:false
 			}).success(function (data, status, headers, config) {
 				$scope.registration_response = data;
 			}).error(function (data, status, headers, config) {
@@ -2145,6 +2146,31 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 		$scope.videos = "";
 		$scope.editOrCreate = "create";
 	};
+	
+	//delete story
+	$scope.deleteStory=function(storyID,storyName,storyDescription,stories,publish){
+		$scope.newStory = {};
+		$scope.newStory.name = storyName;
+		$scope.newStory.description = storyDescription;
+		$scope.newStory.videos = stories;
+		$scope.newStory.published = publish;
+		
+		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/story/'+storyID, {
+							name:$scope.newStory.name,
+							description:$scope.newStory.description,
+							videos:$scope.newStory.videos,
+							published:publish,
+							archived:true
+		}).success(function (data, status, headers, config) {
+		$scope.registration_response = data;
+		}).error(function (data, status, headers, config) {
+		$scope.registration_response = data;
+		});
+		
+		window.location.reload();
+	}
 }
 
 //Test story controller. Normally use GenericController
