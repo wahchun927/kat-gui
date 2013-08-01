@@ -44,20 +44,6 @@
       font-family: Helvetica Neue, Helvetica, Arial, "sans-serif";
       color: black;
     }
-
-    /* to change tab hover and active color*/
-    .nav-tabs > .active > a,
-    .nav-tabs > .active > a:hover {
-      color: white;
-      cursor: default;
-      background-color: #736B62;
-      border: 1px solid #ddd;
-      border-bottom-color: transparent;
-    }
-    .nav-tabs > li > a:hover {
-        background-color: #AFA199;
-        border-color: #eeeeee #eeeeee #dddddd;
-    }
     .btn-primary:active,
     .btn-primary.active {
       color: #ffffff;
@@ -74,7 +60,8 @@
       height:215px;
     }
     .well{
-      background-color: white;
+      background-color: #171718;
+      border-color: black;
     }
     .table td {
      text-align: center;   
@@ -436,17 +423,17 @@
 
 
 
-  /* To insert background theme */
+
    body{
-    color: black;
+    color: #F2F2F2;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background-color: #F0EFEA;
-    *background-color: #F0EFEA;
-    background-image: -moz-linear-gradient(top, #F0EFEA, #F0EFEA);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F0EFEA), to(#F0EFEA));
-    background-image: -webkit-linear-gradient(top, #F0EFEA, #F0EFEA);
-    background-image: -o-linear-gradient(top, #F0EFEA, #F0EFEA);
-    background-image: linear-gradient(to bottom,#F0EFEA, #F0EFEA);
+    background-color: #2E2E2E;
+    *background-color: #2E2E2E;
+    background-image: -moz-linear-gradient(top, #2E2E2E, #2E2E2E);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2E2E2E), to(#2E2E2E));
+    background-image: -webkit-linear-gradient(top, #2E2E2E, #2E2E2E);
+    background-image: -o-linear-gradient(top, #2E2E2E, #2E2E2E);
+    background-image: linear-gradient(to bottom,#2E2E2E, #2E2E2E);
     background-repeat: repeat-x;
     border-color: #0044cc #0044cc #002a80;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -546,13 +533,19 @@
                 </li>                
                 <li>
 			      <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
-                </li>                
+                </li>
+				<li>
+				<a type="button" ng-click="checkStoryLogin()">Story</a>
+				</li>
                 <li>
                 <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
                 </li>                
                 <li>
                 <a type="button" ng-click="checkRankingLogin()">Rankings</a>
-                </li>                                                          
+                </li>   
+				<li>
+				<a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
+				</li>
                 <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->                 
                 <li class="dropdown" id="menu">                  
                   <a href="" class="dropdown-toggle" data-toggle="dropdown">More... 

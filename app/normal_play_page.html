@@ -31,27 +31,14 @@
               padding-bottom: 2px;
               margin-top: 17px;
               margin-bottom: 10px;
-              background-color: white;
+              background-color: #171718;
+              border: 1px solid #000000;
               -webkit-border-radius: 4px;
                  -moz-border-radius: 4px;
                       border-radius: 4px;
               -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
                  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
                       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-            }
-
-            /* to change tab hover and active color*/
-            .nav-tabs > .active > a,
-            .nav-tabs > .active > a:hover {
-              color: white;
-              cursor: default;
-              background-color: #736B62;
-              border: 1px solid #ddd;
-              border-bottom-color: transparent;
-            }
-            .nav-tabs > li > a:hover {
-                background-color: #AFA199;
-                border-color: #eeeeee #eeeeee #dddddd;
             }
             .btn-primary:active,
             .btn-primary.active {
@@ -69,10 +56,11 @@
                 height:215px;
             }
             .well{
-              background-color: white;
+              background-color: #171718;
+              border-color: black;
             }
             a:link {
-                color: #0000FF;
+                color: #ffffff;
             }
             a:active {
                 color: #000000;
@@ -434,17 +422,17 @@
         ul {
             list-style-type: none;
         }
-        /* To insert background theme */
+        /* Code added to change background into back color */
         body{
-            color: black;
+            color: #F2F2F2;
             text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-            background-color: #F0EFEA;
-            *background-color: #F0EFEA;
-            background-image: -moz-linear-gradient(top, #F0EFEA, #F0EFEA);
-            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F0EFEA), to(#F0EFEA));
-            background-image: -webkit-linear-gradient(top, #F0EFEA, #F0EFEA);
-            background-image: -o-linear-gradient(top, #F0EFEA, #F0EFEA);
-            background-image: linear-gradient(to bottom,#F0EFEA, #F0EFEA);
+            background-color: #2E2E2E;
+            *background-color: #2E2E2E;
+            background-image: -moz-linear-gradient(top, #2E2E2E, #2E2E2E);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2E2E2E), to(#2E2E2E));
+            background-image: -webkit-linear-gradient(top, #2E2E2E, #2E2E2E);
+            background-image: -o-linear-gradient(top, #2E2E2E, #2E2E2E);
+            background-image: linear-gradient(to bottom,#2E2E2E, #2E2E2E);
             background-repeat: repeat-x;
             border-color: #0044cc #0044cc #002a80;
             border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -486,18 +474,24 @@
                         <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right">
-                                <li> <a href="index.html#/quests">Quests</a>
-
-                                </li>
-                                <li> <a href="index.html#/practice">Practice</a>
-
-                                </li>
-                                <li> <a href="index.html#/teach">Challenges</a>
-
-                                </li>
-                                <li> <a href="index.html#/ranking">Rankings</a>
-
-                                </li>
+                                <li> 
+								  <a href="index.html#/quests">Quests</a>
+								</li>
+								<li> 
+								  <a href="index.html#/practice">Practice</a>
+								</li>
+								<li> 
+								  <a href="index.html#/story">Story</a>
+								</li>					
+								<li> 
+								  <a href="index.html#/teach">Challenges</a>
+								</li>
+								<li> 
+								  <a href="index.html#/ranking">Rankings</a>
+								</li>
+								<li> 
+								  <a href="index.html#/feedback">Feedback</a>
+								</li>
                                 <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->                 
                                 <li class="dropdown">                  
                                   <a href="" class="dropdown-toggle" data-toggle="dropdown">More... 
