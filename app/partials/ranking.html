@@ -184,7 +184,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 												<div class="row">
 													<!--all languages-->
 													<div class="span1"> </div>
-													<div class="span2"  ng-init="pathSelectRank()"  >
+													<div class="span2"  ng-init="pathSelectRank(0)"  >
 														<label class="radio">
 														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
 														<input class="well well-small" type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
@@ -362,7 +362,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 								<div class="row">
 								<!--all languages-->
 									<div class="span"> &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; </div>
-									<div class="span2"  ng-init="pathSelectRankSmall($index)">
+									<div class="span2"  ng-init="pathSelectRankSmall(0)">
 										<label class="radio">									
 										<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
 										<input class="well well well-small" type="image" ng-src="img/language/AllLanguages.png"  alt="" id="pathImg"/>
