@@ -189,7 +189,9 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#myCarousel input:image').last().addClass('selected');
+      setTimeout(function () {
+	    $('#myCarousel input:image').eq(2).trigger('click');
+	  }, 2000);
     }
   }
 
@@ -200,7 +202,9 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#myCarouselSmall input:image').last().addClass('selected');
+      setTimeout(function () {
+	    $('#myCarouselSmall input:image').eq(2).click();
+	  }, 2000);
     }
   }
 
@@ -210,8 +214,10 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-    if(checker == 2){
-      $('#paths input:image').last().addClass('selected');
+    if(checker == 0){
+      setTimeout(function () {
+	    $('#paths input:image').first().click();
+	  }, 2000);
     }
   }
 
@@ -221,21 +227,25 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-    if(checker == 2){
-      $('#pathsSmall input:image').last().addClass('selected');
+    if(checker == 0){
+	  setTimeout(function () {
+	    $('#pathsSmall input:image').first().click();
+	  }, 2000);
     }
   }
-	//rank
+
+  //rank
   $scope.pathSelectRank=function(checker){
 	$('#myCarouselRank input:image').click(function() {
       $('#myCarouselRank input:image').removeClass('selected'); 
 	  $(this).addClass('selected');
-
+	  
 	});
 	if(checker == 2){
-	  $('#myCarouselRank input:image').last().addClass('selected');
+      setTimeout(function () {
+        $('#myCarouselRank input:image').eq(2).click();
+      }, 2000);	
 	}
-
   }
   
   $scope.pathSelectRankSmall=function(checker){
@@ -245,9 +255,12 @@ function PathController($scope,$resource,$cookieStore,$location){
 
 	});
 	if(checker == 2){
-	  $('#myCarouselRankSmall input:image').last().addClass('selected');
+      setTimeout(function () {
+        $('#myCarouselRankSmall input:image').eq(2).click();
+      }, 2000);	
 	}
   }
+
   
   
 	$scope.setDefaultButton=function(name,problemID){
@@ -1923,14 +1936,17 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 
     $scope.addDefaultLevel=function(checker){
       if(checker){
-        $('#levels button:button').click();  
+      	setTimeout(function () {
+		  $('#levels button:button').first().click();
+		}, 2000);
       }
     }
 
     $scope.addDefaultLevelSmall=function(checker){
       if(checker){
-        $('#levelsmall button:button').click();  
-        $('#levelsmall button:button').click();  
+      	setTimeout(function () {
+		  $('#levelsmall button:button').first().click();
+		}, 2000);
       }
     }
 
@@ -1995,26 +2011,28 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
     };
 
     // this method add background color to the selected images 
-    $scope.addQuestColor=function(checker){
+     $scope.addQuestColor=function(checker){
 		$('#myCarousel input:image').click(function() {
-		$('#myCarousel input:image').removeClass('selected');
-		$(this).addClass('selected');     
-			});
+			$('#myCarousel input:image').removeClass('selected');
+			$(this).addClass('selected');     
+		});
 		if(checker){
-			$('#myCarousel input:image').click();
+			setTimeout(function () {
+			  $('#myCarousel input:image').eq(0).click();
+			}, 2000);
 		}
     }
 
     // this method add background color to the selected images 
     $scope.addQuestColorSmall=function(checker){
 		$('#myCarouselSmall input:image').click(function() {
-        $('#myCarouselSmall input:image').removeClass('selected');   
-        $(this).addClass('selected');
-        
+	        $('#myCarouselSmall input:image').removeClass('selected');   
+	        $(this).addClass('selected');
 		});
-		
 		if(checker){
-			$('#myCarouselSmall input:image').click();
+			setTimeout(function () {
+			  $('#myCarouselSmall input:image').click();
+			}, 2000);
 		}
     }
 
