@@ -583,8 +583,28 @@ function ChallengeController($scope,$resource,$location){
 	//1. All Challenges Tab - load accepted challenges
 		
 	$scope.list_challenges= function(){
-		//alert("all c");
-        $scope.ListAllChallenges = $resource('/jsonapi/list_challenges').get();
+		$scope.challengeModel = $resource('/jsonapi/list_challenges');
+		
+		$scope.challengeModel.get({}, function(response){
+			$scope.ListAllChallenges = response.challenges;
+			
+			//fetch the flag img url for each 
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountires = response.countries;	
+
+				for(var i=0;i<=$scope.ListAllChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountires.length;j++){
+						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountires[j].id)
+						{
+							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountires[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+        });
+		
     };
 	
 	//2. All Challenges Tab - load accepted challenges

@@ -104,10 +104,11 @@
 						</div>
 						<div style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden">									
 							<table class="table table-hover" ng-init="list_challenges();">														
-								<tr ng-repeat="challenge in ListAllChallenges.challenges">
+								<tr ng-repeat="challenge in ListAllChallenges">
 									<td class="OpenC_Type">Quest</th>
 									<td class="OpenC_Name">{{challenge.name}}</td>
-									<td class="OpenC_Location">{{challenge.allowedCountries}}</td>									
+									<td class="OpenC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
+									<td class="OpenC_Location" ng-show="challenge.worldwide==0"><image ng-src="{{challenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
 									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
 									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
 									<td class="OpenC_Register"><button class="btn btn-primary" ng-click="goToRegistration()">Register</button></td>
