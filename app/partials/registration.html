@@ -52,54 +52,59 @@
 
 </style>
 <br>
-<div class="container" id="largeProfile" style="position:relative;">
+<div class="container" id="largeProfile" style="position:relative;" ng-controller="ChallengeController">
     <!-- Three columns of text below the carousel -->
     <div class="row-fluid">
         <div class="span12">
-            <div class="well" align="center">
-                <h4>You haven't registered for this challenge. Please click below to register!</h4>
+            <div class="well well-small" align="center" ng-show="single_challenge.challenge._playerRegistered == false">
+                <p>Remember to register for a challenge to get more information about the challenge and to be notified when you unlock it!</p>
             </div>
-            <div align="center">
-                <button type="button" class="btn btn-primary" style="height: 33px; width: 250px">Register Me!</button>
+            <div class="well well-small" align="center" ng-show="single_challenge.challenge._playerRegistered == true">
+                <p>You are already registered for this challenge!!</p>
+            </div>
+            <div align="center" ng-show="single_challenge.challenge._playerRegistered == false">
+                <button type="button" class="btn btn-primary" style="height: 33px; width: 250px" ng-click="register_me(single_challenge.challenge.challenge_id)">Register Me!</button>
             </div>
             <br>
-            <div class="span12">
+        </div>
+    </div>
+    <div class="row-fluid" >
+         <div class="span12">
                 <div class="span8 well">
                     <div id="challengeHeading" align="left"> Challenge Details</div>
-                    <br>
+                    <hr><br>
                     <div>
-                        Name:   TestingChallenge1
+                        <b>Name:</b>
+                        <br> <span ng-bind="single_challenge.challenge.name"></span>
                         <br>
                         <br>
-                        Description:
-                        Let's celebrate our semester ending by overcoming Python Level 5
+                        <b>Description:</b>
+                        <br> <span ng-bind="single_challenge.challenge.description"></span>
                         <br>
                         <br>
-                        Public Message from the Challenge Creator to you:
-                        Play quest named, The spy who coded with Java Path and level Medium
+                        <b>Public Message from the Challenge Creator to you:</b> 
+                        <br><span ng-bind="single_challenge.challenge.publicMessage"></span>
                         <br>
+                        <br>  
+                        <b> Earn the following Badges To Unlock This Challenge:</b>
+                        <br>{{single_challenge.challenge._playerRegistered}}
                         <br>
-                        Earn the following Badges To Unlock This Challenge:
-                        <br>
-                        <br>
-                        <br>
-                        Complete the following Trials To Unlock This Challenge:
+                        <b>Complete the following Trials To Unlock This Challenge:</b>
 
                     </div>
                 </div>
-                <div class="span3 well" align="center">
+                <div class="span4 well" align="center">
                     <div id="msgBody" align="left"> Private Message</div>
                     <br>
                     <br>
                     <input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/>
 
                 </div>
+
                 
             </div>
+    </div>
 
-          
-        </div><!--End of .span12-->
-    </div><!-- /.row -->
 </div><!-- End of container which contains 'largeProfile' -->
 <br>
 <br>

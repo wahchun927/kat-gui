@@ -556,8 +556,18 @@ function BadgeController($scope,$resource){
 }
 
 //to the list of challenges EDITED by viTech
-function ChallengeController($scope,$resource,$location){
+function ChallengeController($scope,$resource,$location,$cookieStore){
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
+
+     // To display particular challenge in the registration page
+    if ($cookieStore.get("challengeID")){
+    	var open_challenge_ID = $cookieStore.get("challengeID"); 
+	}
+    $scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
+   	$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
+   	$scope.single_challenge = response;
+       	console.log($scope.single_challenge);           	
+   	});
 
     $scope.goToStory=function()
     {
@@ -574,9 +584,10 @@ function ChallengeController($scope,$resource,$location){
       $location.path("challengedetails");
 
     };
-    $scope.goToRegistration=function()
+     $scope.goToRegistration=function(challenge_id)
     {
-      $location.path("registration");
+    	$cookieStore.put("challengeID", challenge_id)
+    	$location.path("registration");
 
     };
 	
@@ -622,7 +633,7 @@ function ChallengeController($scope,$resource,$location){
 			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
 			
 				//You have to ensure that this property exists first if it won't always be present.
-				if($scope.challengeReg.challenges[i]._playerRegistered==false){
+				if($scope.challengeReg.challenges[i]._playerRegistered==true){
 					$scope.playerRegisteredChallenges.push($scope.challengeReg.challenges[i]);						
 				}
 				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
@@ -650,6 +661,20 @@ function ChallengeController($scope,$resource,$location){
 		});
 				
     };	
+
+    // It will enable the user to register
+    $scope.register_me = function(required_challenge_id){
+
+    	 var to_register = required_challenge_id;
+    	$scope.to_register_challenge = $resource('/jsonapi/register_challenge/?challenge_id=:to_register');
+    	$scope.to_register_challenge.get({"to_register":to_register},function(response){
+    		$scope.registered_this_challenge = response;
+
+    	});
+    	//$location.path("registration");
+    	window.location = "index.html#/challenges";
+
+    };
 	
 	//3. My Creation - Load Challenges I've Made
 	$scope.list_challenges_I_created= function(){
