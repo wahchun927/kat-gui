@@ -580,8 +580,7 @@ function ChallengeController($scope,$resource,$location){
 
     };
 	
-	//1. All Challenges Tab - load accepted challenges
-		
+	//1. All Challenges Tab - load accepted challenges		
 	$scope.list_challenges= function(){
 		$scope.challengeModel = $resource('/jsonapi/list_challenges');
 		
@@ -591,13 +590,13 @@ function ChallengeController($scope,$resource,$location){
 			//fetch the flag img url for each 
 			$scope.countryModel = $resource('/jsonapi/all_countries');
 				$scope.countryModel.get({}, function(response){
-				$scope.ListAllCountires = response.countries;	
+				$scope.ListAllCountries = response.countries;	
 
 				for(var i=0;i<=$scope.ListAllChallenges.length;i++){
-					for(var j=0;j<=$scope.ListAllCountires.length;j++){
-						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountires[j].id)
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
 						{
-							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountires[j].flagUrl;
+							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
 						}
 					}
 				
@@ -629,17 +628,54 @@ function ChallengeController($scope,$resource,$location){
 				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
 				//alert($scope.playerRegisteredChallenges.length+"success");
 			}
-		
+			
+						
+			//fetch the flag img url for each challenge in playerRegisteredChallenges
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;	
+
+				for(var i=0;i<=$scope.playerRegisteredChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.playerRegisteredChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+						{
+							$scope.playerRegisteredChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+				
+			
 		});
 				
     };	
 	
 	//3. My Creation - Load Challenges I've Made
 	$scope.list_challenges_I_created= function(){
-		//alert("c i created");
-        $scope.ListChallengesICreated = $resource('/jsonapi/list_my_challenges').get();
+		
+        $scope.ChallengesICreatedModel = $resource('/jsonapi/list_my_challenges');
+		
+		$scope.ChallengesICreatedModel.get({}, function(response){
+			$scope.ListMyChallenges = response.challenges;
+			
+			//fetch the flag img url for each challenge created by user
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;	
+
+				for(var i=0;i<=$scope.ListMyChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.ListMyChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+						{
+							$scope.ListMyChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+        });
     };
-	
 	
 	//4. My Creation - Challenges others Made	
 	$scope.others_challenges= function(){
@@ -666,11 +702,32 @@ function ChallengeController($scope,$resource,$location){
 				}
 				
 			}
+			
+			//fetch the flag img url for each challenge created by other users
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;	
+
+				for(var i=0;i<=$scope.playerOtherChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.playerOtherChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+						{
+							$scope.playerOtherChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+			
+			
 		
 		});
 		
 				
     };
+	
+	
+	
 	//3. Challengedetails.html - Load stats for each challenge
 			//3a. All players
 			//3b. Registered players
