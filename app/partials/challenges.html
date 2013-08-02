@@ -135,15 +135,16 @@
 						</div>
 						<div  style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
 								<table class="table table-hover" ng-init="registered_challenges()">
-									<tr ng-repeat="challenge in playerRegisteredChallenges">
+									<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges">
 										<td class="AcceptedC_Type">quest</td>
-										<td class="AcceptedC_Name">{{challenge.name}}</td>	
-										<td class="AcceptedC_Location">{{challenge.allowedCountries}}</td>
-										<td class="AcceptedC_StartDate">{{challenge.startDate}}</td>
-										<td class="AcceptedC_EndDate">{{challenge.endDate}}</td>
+										<td class="AcceptedC_Name">{{Acceptedchallenge.name}}</td>	
+										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
+										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==0"><image ng-src="{{Acceptedchallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
+										<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
+										<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
 										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
-										<td class="AcceptedC_Outcome" ng-show ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
-										<td class="AcceptedC_Outcome" ng-hide ="challenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
+										<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
+										<td class="AcceptedC_Outcome" ng-hide ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
 									</tr>  
 								</table>
 						</div>
@@ -167,7 +168,8 @@
 								<tr ng-repeat="otherChallenge in playerOtherChallenges">
 									<td class="OtherC_Type">{{otherChallenge.name}}</td>
 									<td class="OtherC_Name">{{otherChallenge.name}}</td>
-									<td class="OtherC_Location">{{otherChallenge.allowedCountries}}</td>								
+									<td class="OtherC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
+									<td class="OtherC_Location" ng-show="challenge.worldwide==0"><image ng-src="{{challenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
 									<td class="OtherC_StartDate">{{otherChallenge.startDate}}</td>
 									<td class="OtherC_EndDate">{{otherChallenge.endDate}}</td>                                                                                            
 								</tr>                                                          
@@ -193,13 +195,14 @@
 					 
 						<div style="height:270px;overflow-y:auto;overflow-x:hidden" >																					
 							<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
-								<tr ng-repeat="myChallenge in ListChallengesICreated.challenges">
-									<td  class="ChallengesIMade_Type">Quest</td>
-									<td  class="ChallengesIMade_Name">{{myChallenge.name}}</td>
-									<td  class="ChallengesIMade_Location">{{myChallenge.allowedCountries}}</td>
-									<td  class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
-									<td  class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
-									<td  class="ChallengesIMade_Review">
+								<tr ng-repeat="myChallenge in ListMyChallenges">
+									<td class="ChallengesIMade_Type">Quest</td>
+									<td class="ChallengesIMade_Name">{{myChallenge.name}}</td>
+									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">Worldwide</td>	
+									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0"><image ng-src="{{myChallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
+									<td class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
+									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
+									<td class="ChallengesIMade_Review">
 										<div class="btn-group">																			
 											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal">Stats</button>
 											<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
