@@ -642,6 +642,35 @@ function ChallengeController($scope,$resource,$location){
 	
 	
 	//4. My Creation - Challenges others Made	
+	$scope.others_challenges= function(){
+			
+		
+		$scope.challengeModel = $resource('/jsonapi/list_challenges');			
+		
+		$scope.challengeModel.get({}, function(response){
+			
+			//obtain current user's id
+			var data = {"player_id":$scope.player.player_id};			
+			var creatorId = data.player_id;			
+		
+			$scope.challengeOther = response;
+				
+			var AllChallenges = $resource('/jsonapi/list_challenges').get();
+		
+			$scope.playerOtherChallenges=[];
+			//get to each challenge
+			for (var i=0;i<=$scope.challengeOther.challenges.length;i++){ 			
+				//challenge owner !== current user
+				if($scope.challengeOther.challenges[i].owner.player_id!==creatorId){
+					$scope.playerOtherChallenges.push($scope.challengeOther.challenges[i]);						
+				}
+				
+			}
+		
+		});
+		
+				
+    };
 	//3. Challengedetails.html - Load stats for each challenge
 			//3a. All players
 			//3b. Registered players
