@@ -75,6 +75,15 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 		}
 	};
 	
+	$scope.checkStoryLogin = function(){
+		if($scope.player.nickname){
+			$location.path("story");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
 	$scope.checkChallengesLogin = function(){
 		if($scope.player.nickname){
 			$location.path("challenges");
@@ -87,6 +96,15 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.checkRankingLogin = function(){
 		if($scope.player.nickname){
 			$location.path("ranking");
+		}
+		else{
+			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.checkFeedbackLogin = function(){
+		if($scope.player.nickname){
+			$location.path("feedback");
 		}
 		else{
 			alert("Please login with FaceBook or Google Account first!");
@@ -171,7 +189,9 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#myCarousel input:image').last().addClass('selected');
+      setTimeout(function () {
+	    $('#myCarousel input:image').eq(2).trigger('click');
+	  }, 2000);
     }
   }
 
@@ -182,7 +202,9 @@ function PathController($scope,$resource,$cookieStore,$location){
       
     });
     if(checker == 2){
-      $('#myCarouselSmall input:image').last().addClass('selected');
+      setTimeout(function () {
+	    $('#myCarouselSmall input:image').eq(2).click();
+	  }, 2000);
     }
   }
 
@@ -192,8 +214,10 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-    if(checker == 2){
-      $('#paths input:image').last().addClass('selected');
+    if(checker == 0){
+      setTimeout(function () {
+	    $('#paths input:image').first().click();
+	  }, 2000);
     }
   }
 
@@ -203,21 +227,25 @@ function PathController($scope,$resource,$cookieStore,$location){
       $(this).addClass('selected');
       
     });
-    if(checker == 2){
-      $('#pathsSmall input:image').last().addClass('selected');
+    if(checker == 0){
+	  setTimeout(function () {
+	    $('#pathsSmall input:image').first().click();
+	  }, 2000);
     }
   }
-	//rank
+
+  //rank
   $scope.pathSelectRank=function(checker){
 	$('#myCarouselRank input:image').click(function() {
       $('#myCarouselRank input:image').removeClass('selected'); 
 	  $(this).addClass('selected');
-
+	  
 	});
 	if(checker == 2){
-	  $('#myCarouselRank input:image').last().addClass('selected');
+      setTimeout(function () {
+        $('#myCarouselRank input:image').eq(2).click();
+      }, 2000);	
 	}
-
   }
   
   $scope.pathSelectRankSmall=function(checker){
@@ -227,9 +255,12 @@ function PathController($scope,$resource,$cookieStore,$location){
 
 	});
 	if(checker == 2){
-	  $('#myCarouselRankSmall input:image').last().addClass('selected');
+      setTimeout(function () {
+        $('#myCarouselRankSmall input:image').eq(2).click();
+      }, 2000);	
 	}
   }
+
   
   
 	$scope.setDefaultButton=function(name,problemID){
@@ -552,8 +583,28 @@ function ChallengeController($scope,$resource,$location){
 	//1. All Challenges Tab - load accepted challenges
 		
 	$scope.list_challenges= function(){
-		//alert("all c");
-        $scope.ListAllChallenges = $resource('/jsonapi/list_challenges').get();
+		$scope.challengeModel = $resource('/jsonapi/list_challenges');
+		
+		$scope.challengeModel.get({}, function(response){
+			$scope.ListAllChallenges = response.challenges;
+			
+			//fetch the flag img url for each 
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountires = response.countries;	
+
+				for(var i=0;i<=$scope.ListAllChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountires.length;j++){
+						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountires[j].id)
+						{
+							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountires[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+        });
+		
     };
 	
 	//2. All Challenges Tab - load accepted challenges
@@ -1905,14 +1956,17 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 
     $scope.addDefaultLevel=function(checker){
       if(checker){
-        $('#levels button:button').click();  
+      	setTimeout(function () {
+		  $('#levels button:button').first().click();
+		}, 2000);
       }
     }
 
     $scope.addDefaultLevelSmall=function(checker){
       if(checker){
-        $('#levelsmall button:button').click();  
-        $('#levelsmall button:button').click();  
+      	setTimeout(function () {
+		  $('#levelsmall button:button').first().click();
+		}, 2000);
       }
     }
 
@@ -1977,26 +2031,28 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
     };
 
     // this method add background color to the selected images 
-    $scope.addQuestColor=function(checker){
+     $scope.addQuestColor=function(checker){
 		$('#myCarousel input:image').click(function() {
-		$('#myCarousel input:image').removeClass('selected');
-		$(this).addClass('selected');     
-			});
+			$('#myCarousel input:image').removeClass('selected');
+			$(this).addClass('selected');     
+		});
 		if(checker){
-			$('#myCarousel input:image').click();
+			setTimeout(function () {
+			  $('#myCarousel input:image').eq(0).click();
+			}, 2000);
 		}
     }
 
     // this method add background color to the selected images 
     $scope.addQuestColorSmall=function(checker){
 		$('#myCarouselSmall input:image').click(function() {
-        $('#myCarouselSmall input:image').removeClass('selected');   
-        $(this).addClass('selected');
-        
+	        $('#myCarouselSmall input:image').removeClass('selected');   
+	        $(this).addClass('selected');
 		});
-		
 		if(checker){
-			$('#myCarouselSmall input:image').click();
+			setTimeout(function () {
+			  $('#myCarouselSmall input:image').click();
+			}, 2000);
 		}
     }
 
@@ -2005,7 +2061,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 	//1. Load all stories created by user 
 
 	//2. Edit an exiting story
-		$scope.goToEditStory = function(storyID){
+	$scope.goToEditStory = function(storyID){
 		$('#tabCr').addClass('active');
         $('#tabCu').removeClass('active');
         $('#tab2create').addClass('active');
@@ -2119,7 +2175,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 							name:$scope.newStory.name,
 							description:$scope.newStory.description,
 							videos:$scope.newStory.videos,
-							published:true
+							published:true,
+							archived:false
 			}).success(function (data, status, headers, config) {
 				$scope.registration_response = data;
 			}).error(function (data, status, headers, config) {
@@ -2145,6 +2202,31 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
 		$scope.videos = "";
 		$scope.editOrCreate = "create";
 	};
+	
+	//delete story
+	$scope.deleteStory=function(storyID,storyName,storyDescription,stories,publish){
+		$scope.newStory = {};
+		$scope.newStory.name = storyName;
+		$scope.newStory.description = storyDescription;
+		$scope.newStory.videos = stories;
+		$scope.newStory.published = publish;
+		
+		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/story/'+storyID, {
+							name:$scope.newStory.name,
+							description:$scope.newStory.description,
+							videos:$scope.newStory.videos,
+							published:publish,
+							archived:true
+		}).success(function (data, status, headers, config) {
+		$scope.registration_response = data;
+		}).error(function (data, status, headers, config) {
+		$scope.registration_response = data;
+		});
+		
+		window.location.reload();
+	}
 }
 
 //Test story controller. Normally use GenericController

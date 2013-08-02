@@ -113,10 +113,10 @@ input:hover{
 					<div class="container">
 						<div class="row" >
 							
-								<div class="span4"  ng-repeat="story in stories | limitTo:3" ng-init="addQuestColor($first)">
+								<div class="span4"  ng-repeat="story in stories" ng-init="addQuestColor($first)">
 									<label class="radio">
 									<input type="radio" style="visibility:hidden" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
-									<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImg"/>
+									<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
 									
 									<br>
 									<h4>{{story.name}}</h4>
