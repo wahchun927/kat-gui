@@ -2181,7 +2181,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		});
 		if(checker){
 			setTimeout(function () {
-			  $('#myCarouselSmall input:image').click();
+			  $('#myCarouselSmall input:image').eq(0).click();
 			}, 2000);
 		}
     }
