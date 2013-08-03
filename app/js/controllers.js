@@ -2093,7 +2093,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 }
 
 //Test story controller. Normally use GenericController
-function StoryController($scope,$resource,$cookieStore,$location,$http){
+function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.arrayVideo = [];
 	$scope.Videos = [];
 	$scope.newStoryID = "";
@@ -2119,6 +2119,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http){
     $scope.list = function(){
           $scope.StoryModel.query({}, function(response){
               $scope.stories = response;
+              $scope.questStoryList = $filter('groupBy')(response, 3);
               $scope.videos = $scope.stories[0].videos;
 			  $scope.$parent.storyid = $scope.stories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
