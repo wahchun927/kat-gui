@@ -2181,7 +2181,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		});
 		if(checker){
 			setTimeout(function () {
-			  $('#myCarouselSmall input:image').click();
+			  $('#myCarouselSmall input:image').eq(0).click();
 			}, 2000);
 		}
     }
@@ -2477,7 +2477,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
 			$scope.selectedPlayer = response;
 		});	
-		//console.log($scope.selectedPlayer);
+		console.log($scope.selectedPlayer);
 		
 		$scope.arrayTags=$scope.selectedPlayer.tags;
 		$scope.arrayBadges=$scope.selectedPlayer.badges;
