@@ -37,7 +37,7 @@
         font-size:14pt;
         font-family:times new roman;
         font-weight:bold;
-        color:#FFFFFF;
+        color:black;
     }
     .tab-content {
       clear: none;
@@ -72,7 +72,7 @@
          <div class="span12">
                 <div class="span8 well">
                     <div id="challengeHeading" align="left"> Challenge Details</div>
-                    <hr><br>
+                    <hr>
                     <div>
                         <b>Name:</b>
                         <br> <span ng-bind="single_challenge.challenge.name"></span>
@@ -87,8 +87,12 @@
                         <br>
                         <br>  
                         <b> Earn the following Badges To Unlock This Challenge:</b>
-                        <br>{{single_challenge.challenge._playerRegistered}}
                         <br>
+                        <span ng-repeat="badgeImage in single_challenge.challenge.unlockRequiredBadges ">
+                            <image ng-src="{{badgeImage}}"; width = 45px; height= 45px;/>
+                        </span>
+                        <br>
+
                         <b>Complete the following Trials To Unlock This Challenge:</b>
 
                     </div>
