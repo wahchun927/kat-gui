@@ -2477,7 +2477,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
 			$scope.selectedPlayer = response;
 		});	
-		//console.log($scope.selectedPlayer);
+		console.log($scope.selectedPlayer);
 		
 		$scope.arrayTags=$scope.selectedPlayer.tags;
 		$scope.arrayBadges=$scope.selectedPlayer.badges;
