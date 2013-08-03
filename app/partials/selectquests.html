@@ -193,7 +193,7 @@ input:hover{
 
 	<div ng-controller="StoryController" ng-init="list();">
 		<div id="myCarouselSmall" class="carousel slide" >
-		    <div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
+		    <div class="carousel-inner" style="position:relative; left:0px; z-index:0" class="ng-scope">
 		        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}">
 	                <!-- Three columns of text below the carousel -->
 					<div class="container">
