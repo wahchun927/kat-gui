@@ -101,18 +101,17 @@ input:hover{
 	 <div class="container" >
 		<h4 class="well well-small" align="center">#1. Pick a Story!</h4>
 	 </div>
-<div>&nbsp;</div>
-		 
+<div>&nbsp;</div>	 
   
 <div ng-controller="StoryController" ng-init="list();">
 	<div id="myCarousel" class="carousel slide" >
 	    <div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-	        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}"  ng-init="addQuestColor($first)">
+	        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}">
                 <!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row">
 						
-							<div class="span4" ng-repeat="story in storylist">
+							<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColor($first)">
 								<label class="radio">
 								<input type="radio" style="visibility:hidden" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
