@@ -64,13 +64,11 @@
 }
 
 input:hover{
-	background-color:#C0C0C0;
+	background-color: #C0C0C0;
 }
 
 #paths input img {
-
     padding: 3px;
-    
 }
 
 <!--small-->
@@ -107,14 +105,14 @@ input:hover{
 <div ng-controller="StoryController" ng-init="list();">
 	<div id="myCarousel" class="carousel slide" >
 	    <div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-	        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}"  ng-init="addQuestColor($first)">
+	        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}">
                 <!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row">
 						
-							<div class="span4" ng-repeat="story in storylist">
+							<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColor($first)">
 								<label class="radio">
-								<input type="radio" style="visibility:hidden" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input type="radio" style="visibility:hidden" ng-click="addQuestColor()" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 								<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
 								<br>
 								<h4>{{story.name}}</h4>
@@ -198,32 +196,33 @@ input:hover{
 
 <div id="smallSelectPlay" ng-controller="QuestController" ng-init="model='Quest';list();difficulty='Drag-n-Drop';">
 
-	<div class="container" >
-		<h4 class="well well-small" align="center">#1. Pick a Story!</h4>
-	</div>  
+<div class="container" >
+	<h4 class="well well-small" align="center">#1. Pick a Story!</h4>
+</div>  
 <div ng-controller="StoryController" ng-init="list();">
-<div id="myCarouselSmall" class="carousel slide" >
-    <div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-
-        <div class="item active">
-            <!-- Three columns of text below the carousel -->
-			<div class="container">
-				<div class="row" >
-					<div class="span4"  ng-repeat="story in stories | limitTo:3" ng-init="addQuestColorSmall($first)">
-						<label class="radio">
-							<input type="radio" style="visibility:hidden" name="optionsRadios" ng-click="addQuestColorSmall()" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
-							<input class="well"type="image" ng-src="img/story/{{story.name.split(' ').join('_')}}.jpg" alt="" id="pathImgSmall"/>
-							<br>
-							<h4>{{story.name}}</h4>
-						</label>
+	<div id="myCarouselSmall" class="carousel slide" >
+	    <div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
+	        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}">
+                <!-- Three columns of text below the carousel -->
+				<div class="container">
+					<div class="row">
+						
+							<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColorSmall($first)">
+								<label class="radio">
+								<input type="radio" style="visibility:hidden" ng-click="addQuestColorSmall()" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+								<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
+								<br>
+								<h4>{{story.name}}</h4>
+								</label>
+							</div>
+						
 					</div>
-			    </div>
-			</div>	
-		</div>
-    </div> 
-	<a class="left carousel-control" data-target="#myCarouselSmall" data-slide="prev">&lsaquo;</a>
-    <a class="right carousel-control" data-target="#myCarouselSmall" data-slide="next">&rsaquo;</a>
-</div>
+				</div>	
+			</div>
+	    </div> 
+		<a class="left carousel-control" data-target="#myCarouselSmall" data-slide="prev">&lsaquo;</a>
+	    <a class="right carousel-control" data-target="#myCarouselSmall" data-slide="next">&rsaquo;</a>
+	</div>
 </div>
 <!-- /.carousel -->
 
