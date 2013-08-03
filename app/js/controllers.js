@@ -559,15 +559,33 @@ function BadgeController($scope,$resource){
 function ChallengeController($scope,$resource,$location,$cookieStore){
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
 
-     // To display particular challenge in the registration page
-    if ($cookieStore.get("challengeID")){
-    	var open_challenge_ID = $cookieStore.get("challengeID"); 
+    // To display particular challenge in the registration page
+   
+    var open_challenge_ID = $cookieStore.get("challengeID"); 
+    if( open_challenge_ID != null){
+    	$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
+   		$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
+   			$scope.single_challenge = response;  
+
+   				
+   		
+	    	//fetch the badge img url's 
+	        $scope.get_all_badges = $resource('/jsonapi/all_badges');
+	        $scope.get_all_badges.get({},function(response){
+	        	$scope.all_the_badges = response;
+
+	        	for( var i=0; i<$scope.single_challenge.challenge.unlockRequiredBadges.length; i++){
+	        		for(var j=0; j<$scope.all_the_badges.badges.length; j++){
+	        			if($scope.all_the_badges.badges[j].id == $scope.single_challenge.challenge.unlockRequiredBadges[i]){
+	        				$scope.single_challenge.challenge.unlockRequiredBadges[i] = $scope.all_the_badges.badges[j].imageURL;
+	        			}
+	        		}
+
+	        	}
+
+	        });	
+        });
 	}
-    $scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
-   	$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
-   	$scope.single_challenge = response;
-       	console.log($scope.single_challenge);           	
-   	});
 
     $scope.goToStory=function()
     {
