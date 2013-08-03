@@ -556,8 +556,18 @@ function BadgeController($scope,$resource){
 }
 
 //to the list of challenges EDITED by viTech
-function ChallengeController($scope,$resource,$location){
+function ChallengeController($scope,$resource,$location,$cookieStore){
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
+
+     // To display particular challenge in the registration page
+    if ($cookieStore.get("challengeID")){
+    	var open_challenge_ID = $cookieStore.get("challengeID"); 
+	}
+    $scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
+   	$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
+   	$scope.single_challenge = response;
+       	console.log($scope.single_challenge);           	
+   	});
 
     $scope.goToStory=function()
     {
@@ -574,14 +584,14 @@ function ChallengeController($scope,$resource,$location){
       $location.path("challengedetails");
 
     };
-    $scope.goToRegistration=function()
+     $scope.goToRegistration=function(challenge_id)
     {
-      $location.path("registration");
+    	$cookieStore.put("challengeID", challenge_id)
+    	$location.path("registration");
 
     };
 	
-	//1. All Challenges Tab - load accepted challenges
-		
+	//1. All Challenges Tab - load accepted challenges		
 	$scope.list_challenges= function(){
 		$scope.challengeModel = $resource('/jsonapi/list_challenges');
 		
@@ -591,13 +601,13 @@ function ChallengeController($scope,$resource,$location){
 			//fetch the flag img url for each 
 			$scope.countryModel = $resource('/jsonapi/all_countries');
 				$scope.countryModel.get({}, function(response){
-				$scope.ListAllCountires = response.countries;	
+				$scope.ListAllCountries = response.countries;	
 
 				for(var i=0;i<=$scope.ListAllChallenges.length;i++){
-					for(var j=0;j<=$scope.ListAllCountires.length;j++){
-						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountires[j].id)
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
 						{
-							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountires[j].flagUrl;
+							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
 						}
 					}
 				
@@ -623,25 +633,126 @@ function ChallengeController($scope,$resource,$location){
 			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
 			
 				//You have to ensure that this property exists first if it won't always be present.
-				if($scope.challengeReg.challenges[i]._playerRegistered==false){
+				if($scope.challengeReg.challenges[i]._playerRegistered==true){
 					$scope.playerRegisteredChallenges.push($scope.challengeReg.challenges[i]);						
 				}
 				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
 				//alert($scope.playerRegisteredChallenges.length+"success");
 			}
-		
+			
+						
+			//fetch the flag img url for each challenge in playerRegisteredChallenges
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;	
+
+				for(var i=0;i<=$scope.playerRegisteredChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.playerRegisteredChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+						{
+							$scope.playerRegisteredChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+				
+			
 		});
 				
     };	
+
+    // It will enable the user to register
+    $scope.register_me = function(required_challenge_id){
+
+    	 var to_register = required_challenge_id;
+    	$scope.to_register_challenge = $resource('/jsonapi/register_challenge/?challenge_id=:to_register');
+    	$scope.to_register_challenge.get({"to_register":to_register},function(response){
+    		$scope.registered_this_challenge = response;
+
+    	});
+    	//$location.path("registration");
+    	window.location = "index.html#/challenges";
+
+    };
 	
 	//3. My Creation - Load Challenges I've Made
 	$scope.list_challenges_I_created= function(){
-		//alert("c i created");
-        $scope.ListChallengesICreated = $resource('/jsonapi/list_my_challenges').get();
+		
+        $scope.ChallengesICreatedModel = $resource('/jsonapi/list_my_challenges');
+		
+		$scope.ChallengesICreatedModel.get({}, function(response){
+			$scope.ListMyChallenges = response.challenges;
+			
+			//fetch the flag img url for each challenge created by user
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;	
+
+				for(var i=0;i<=$scope.ListMyChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.ListMyChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+						{
+							$scope.ListMyChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+        });
+    };
+	
+	//4. My Creation - Challenges others Made	
+	$scope.others_challenges= function(){
+			
+		
+		$scope.challengeModel = $resource('/jsonapi/list_challenges');			
+		
+		$scope.challengeModel.get({}, function(response){
+			
+			//obtain current user's id
+			var data = {"player_id":$scope.player.player_id};			
+			var creatorId = data.player_id;			
+		
+			$scope.challengeOther = response;
+				
+			var AllChallenges = $resource('/jsonapi/list_challenges').get();
+		
+			$scope.playerOtherChallenges=[];
+			//get to each challenge
+			for (var i=0;i<=$scope.challengeOther.challenges.length;i++){ 			
+				//challenge owner !== current user
+				if($scope.challengeOther.challenges[i].owner.player_id!==creatorId){
+					$scope.playerOtherChallenges.push($scope.challengeOther.challenges[i]);						
+				}
+				
+			}
+			
+			//fetch the flag img url for each challenge created by other users
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+				$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;	
+
+				for(var i=0;i<=$scope.playerOtherChallenges.length;i++){
+					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+						if($scope.playerOtherChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+						{
+							$scope.playerOtherChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+						}
+					}
+				
+				}
+			});
+			
+			
+		
+		});
+		
+				
     };
 	
 	
-	//4. My Creation - Challenges others Made	
+	
 	//3. Challengedetails.html - Load stats for each challenge
 			//3a. All players
 			//3b. Registered players
