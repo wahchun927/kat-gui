@@ -2477,10 +2477,13 @@ function RankController($scope,$resource,$cookieStore,$location){
 		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
 			$scope.selectedPlayer = response;
 		});	
-		console.log($scope.selectedPlayer);
-		
+		//console.log($scope.selectedPlayer);
+		$scope.selectedBadgesModel = $resource('/jsonapi/badges/:playerId');
+		$scope.selectedBadgesModel.get({"playerId":playerId}, function(response){
+			$scope.selectedBadges = response;
+		});	
+
 		$scope.arrayTags=$scope.selectedPlayer.tags;
-		$scope.arrayBadges=$scope.selectedPlayer.badges;
 				
 		$('#playerDetails').modal('show');
 	
