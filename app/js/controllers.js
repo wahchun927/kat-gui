@@ -2127,6 +2127,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	
 	$scope.name = $cookieStore.get("name");
     $scope.StoryModel = $resource('/jsonapi/story');
+    $scope.StoryModel.query({}, function(response){
+        $scope.storyList = response;
+    });
     //We will need a different controller or resource to fetch player stories. 
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
