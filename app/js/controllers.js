@@ -2481,6 +2481,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 		$scope.selectedBadgesModel = $resource('/jsonapi/badges/:playerId');
 		$scope.selectedBadgesModel.get({"playerId":playerId}, function(response){
 			$scope.selectedBadges = response;
+			console.log($scope.selectedBadges);
 		});	
 
 		$scope.arrayTags=$scope.selectedPlayer.tags;
