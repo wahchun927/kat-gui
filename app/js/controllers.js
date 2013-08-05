@@ -2497,7 +2497,7 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 
 		else{
 			$scope.selectedPlayerBadges = $filter('filter')($scope.selectedPlayer.badges, pathName);
-			console.log(selectedPlayerBadges);
+			console.log($scope.selectedPlayerBadges);
 		}
 				
 		$('#playerDetails').modal('show');
