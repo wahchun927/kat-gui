@@ -549,11 +549,11 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						<image ng-src="{{selectedPlayer.gravatar}}"; width = 200px; height= 200px;/> <br> <br> 
 						<div style="text-align: center;text-transform:capitalize;"> {{selectedPlayer.gender}} </div>				
 					</div>
-					<table class="table table-hover">		
+					<table class="table">		
 						<tr> About: {{selectedPlayer.about}}</tr>
 						<tr> Location: <image ng-src="{{selectedPlayer.countryFlagURL}}"; width = 30px; height= 30px;/> &nbsp {{selectedPlayer.country}}  </tr>
 						<tr>Tags: <td ng-repeat="item in selectedPlayer.tags"><span class="badge">{{item}}</span></td> </tr>
-						<tr>Badges: <td ng-repeat="item in selectedPlayer.badges"><image ng-src="{{item.imageURL}}"; width = 30px; height= 30px;/></td> </tr>
+						<tr>Badges: <td ng-repeat="item in selectedPlayerBadges"><image ng-src="{{item.imageURL}}"; width = 30px; height= 30px;/></td> </tr>
 					</table> 
 				</div>
 			</div>
