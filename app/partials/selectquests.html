@@ -101,14 +101,14 @@ input:hover{
 	<div ng-controller="StoryController" ng-init="list();">
 		<div id="myCarousel" class="carousel slide" >
 		    <div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-		        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}">
+		        <div class="item" ng-repeat="storylist in questStoryList" ng-class="{active : $first}" >
 	                <!-- Three columns of text below the carousel -->
 					<div class="container">
 						<div class="row">	
 							<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColor($first)">
 								<label class="radio">
 								<input type="radio" style="visibility:hidden" ng-click="addQuestColor()" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
-								<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
+								<input class="well"type="image" ng-src="http://img.youtube.com/vi/{{story.videos[0]}}/1.jpg" alt="" id="pathImg"/>
 								<br>
 								<h4>{{story.name}}</h4>
 								</label>
@@ -201,7 +201,7 @@ input:hover{
 							<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColorSmall($first)">
 								<label class="radio">
 								<input type="radio" style="visibility:hidden" ng-click="addQuestColorSmall()" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
-								<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
+								<input class="well"type="image" ng-src="http://img.youtube.com/vi/{{story.videos[0]}}/1.jpg" alt="" id="pathImg"/>
 								<br>
 								<h4>{{story.name}}</h4>
 								</label>

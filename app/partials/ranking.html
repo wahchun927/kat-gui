@@ -552,8 +552,8 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 					<div class="span9" style="overflow:auto">		
 						<div> About: {{selectedPlayer.about}}</div> <br>
 						<div> Location: <image ng-src="{{selectedPlayer.countryFlagURL}}"; width = 30px; height= 30px;/> &nbsp {{selectedPlayer.country}}  </div>  <br>
-						<div>Tags: <div ng-repeat="item in arrayTags"><image ng-src="{{item.url}}"; width = 30px; height= 30px;/></div> </div> <br>
-						<div>Badges: <div ng-repeat="item in arrayBadges"><image ng-src="{{item.url}}"; width = 30px; height= 30px;/></div> </div><br>
+						<div>Tags: <div ng-repeat="item in arrayTags"><div class="badge">{{item}}</div></div> </div> <br>
+						<div>Badges: <div ng-repeat="item in selectedBadges"><image ng-src="{{item.url}}"; width = 30px; height= 30px;/></div> </div><br>
 					</div> 
 				</div>
 			</div>

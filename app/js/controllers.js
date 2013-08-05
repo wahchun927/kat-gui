@@ -2127,6 +2127,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	
 	$scope.name = $cookieStore.get("name");
     $scope.StoryModel = $resource('/jsonapi/story');
+    $scope.StoryModel.query({}, function(response){
+        $scope.storyList = response;
+    });
     //We will need a different controller or resource to fetch player stories. 
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
@@ -2135,9 +2138,15 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
+		  $scope.pubStories = [];
           $scope.StoryModel.query({}, function(response){
               $scope.stories = response;
-              $scope.questStoryList = $filter('groupBy')(response, 3);
+			  for(var i=0;i<$scope.stories.length;i++){
+					if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+						$scope.pubStories.push($scope.stories[i]);
+					}				
+			  }				
+              $scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
               $scope.videos = $scope.stories[0].videos;
 			  $scope.$parent.storyid = $scope.stories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
@@ -2476,11 +2485,10 @@ function RankController($scope,$resource,$cookieStore,$location){
 		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId');
 		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
 			$scope.selectedPlayer = response;
+			$scope.selectedBadges = $resource('/jsonapi/badges_for_current_player').get();
 		});	
-		console.log($scope.selectedPlayer);
-		
+
 		$scope.arrayTags=$scope.selectedPlayer.tags;
-		$scope.arrayBadges=$scope.selectedPlayer.badges;
 				
 		$('#playerDetails').modal('show');
 	
