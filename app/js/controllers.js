@@ -2483,7 +2483,6 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.get_player_details = function(playerId){
 
 		var pathName = $cookieStore.get("path_name");
-		console.log(pathName);
 
 		//alert("professional":$scope.playerNo.professional);
 		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId?load_badges=1');
@@ -2497,7 +2496,6 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 
 		else{
 			$scope.selectedPlayerBadges = $filter('filter')($scope.selectedPlayer.badges, pathName);
-			console.log($scope.selectedPlayerBadges);
 		}
 				
 		$('#playerDetails').modal('show');
