@@ -548,22 +548,20 @@
             <div class="nav-collapse collapse">              
               <ul class="nav pull-right" id="myTab">   
                 <li>
-                  <a type="button" ng-click="checkQuestLogin()">Quest</a>
+                  <a type="button" ng-click="checkQuestLogin()">Quests</a>
                 </li>                
                 <li>
 			      <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
                 </li>
+
+        <li>
+            <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
+        </li>                
+        <li>
+            <a type="button" ng-click="checkRankingLogin()">Rankings</a>
+        </li>   
 				<li>
-				<a type="button" ng-click="checkStoryLogin()">Story</a>
-				</li>
-                <li>
-                <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
-                </li>                
-                <li>
-                <a type="button" ng-click="checkRankingLogin()">Rankings</a>
-                </li>   
-				<li>
-				<a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
+				    <a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
 				</li>
                 <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->                 
                 <li class="dropdown" id="menu">                  
@@ -571,36 +569,26 @@
                     <b class="caret"></b></a>                  
                   <ul class="dropdown-menu">                    
                     <li>
-                    <a href="#tournaments">Tournaments</a>
+                        <a href="#tournaments">Tournaments</a>
                     </li>                    
+                                      
+                    <li class="divider"></li>                    
+                    
+                    <li class="nav-header">Create</li>                    
+
                     <li>
-                    <a href="#trials">Trials</a>
+                      <a href="#create">Path or Level</a>
+                    </li>   
+                    <li>
+                      <a type="button" ng-click="checkStoryLogin()">Story or Tutorial</a>
                     </li>                    
+                 
+                    <li class="divider"></li>                    
+                    <li class="nav-header">Videos</li>                    
                     <li>
-                    <a href="#challenges">Events</a>
-                    </li>                    
-                    <li>
-                    <a href="#rankings">Statistics on Tournaments</a>
-                    </li>     
-                    <li>
-                    <a href="#challenges">Teaching</a>
-                    </li>
-                    <li>
-                    <a href="#challenges">Contribute Problems</a>
-                    </li>               
-                    <li class="divider">
-                    </li>                    
-                    <li class="nav-header">Create
-                    </li>                    
-                    <li>
-                    <a href="#challengeCreator">Challenges</a>
-                    </li>                    
-                    <li>
-                    <a href="#story">Story</a>
-                    </li>                    
-                    <li>
-                    <a href="#">Tutorials</a>
-                    </li>                                     
+                      <a href="#videos">Learn about SingPath</a>
+                    </li> 
+                                    
                   </ul>                
                 </li>
                 <li>
