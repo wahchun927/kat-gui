@@ -2138,9 +2138,15 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     var abc = 0;
     //A method to fetch a generic model and id. 
     $scope.list = function(){
+		  $scope.pubStories = [];
           $scope.StoryModel.query({}, function(response){
               $scope.stories = response;
-              $scope.questStoryList = $filter('groupBy')(response, 3);
+			  for(var i=0;i<$scope.stories.length;i++){
+					if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+						$scope.pubStories.push($scope.stories[i]);
+					}				
+			  }				
+              $scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
               $scope.videos = $scope.stories[0].videos;
 			  $scope.$parent.storyid = $scope.stories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
