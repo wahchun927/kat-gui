@@ -2427,7 +2427,7 @@ function TournamentController($scope,$resource,$http){
 function RankController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.selectedPlayer;
 	//fetch list of rankers based in the path selected by user
-	$scope.get_path_ranks = function(pathId,pathName){
+	$scope.get_path_ranks = function(pathId){
 		//ALL Languages
 		if(pathId=='AllLanguages'){
 			
@@ -2470,33 +2470,24 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 				$scope.rankingGlobal = response;
 			});
 		}	
-		$cookieStore.put("path_id", pathId);
-		$cookieStore.put("path_name", pathName);
-		
+		$cookieStore.put("path_id", pathId);		
     };
 	
 	//fetch countries rank based	
 	$scope.get_country_ranks = function(){
+
         $scope.countryRank = $resource('/jsonapi/country_ranking?maxRank=300').get();
+
     };
 	
 	$scope.get_player_details = function(playerId){
-
-		var pathName = $cookieStore.get("path_name");
 
 		//alert("professional":$scope.playerNo.professional);
 		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId?load_badges=1');
 		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
 			$scope.selectedPlayer = response;
-		});	
-
-		if(pathName=='AllLanguages'){
-			$scope.selectedPlayerBadges = $scope.selectedPlayer.badges;
-		}
-
-		else{
-			$scope.selectedPlayerBadges = $filter('filter')($scope.selectedPlayer.badges, pathName);
-		}
+        	$scope.badgeLines = $filter('groupBy')($scope.selectedPlayer.badges, 5);
+		});
 				
 		$('#playerDetails').modal('show');
 	
