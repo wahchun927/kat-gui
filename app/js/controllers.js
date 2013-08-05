@@ -2482,11 +2482,12 @@ function RankController($scope,$resource,$cookieStore,$location){
 	$scope.get_player_details = function(playerId){
 		
 		//alert("professional":$scope.playerNo.professional);
-		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId');
+		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId?load_badges=1');
 		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
 			$scope.selectedPlayer = response;
-			$scope.selectedBadges = $resource('/jsonapi/badges_for_current_player').get();
 		});	
+
+		console.log(playerId); 
 
 		$scope.arrayTags=$scope.selectedPlayer.tags;
 				
