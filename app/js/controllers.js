@@ -2490,7 +2490,7 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.selectedPlayer = response;
 		});	
 
-		if(pathId=='AllLanguages'){
+		if(pathName=='AllLanguages'){
 			$scope.selectedPlayerBadges = $scope.selectedPlayer.badges;
 		}
 
