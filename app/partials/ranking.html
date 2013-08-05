@@ -58,7 +58,7 @@ input:hover{
     padding: 0px;
 }
 
-#CountryRankingListLarge{
+/*#CountryRankingListLarge{
 	height:300px;
 	overflow:auto
 }
@@ -71,7 +71,7 @@ input:hover{
 #GlobalRankListLarge{
 	height:120px;
 	overflow:auto
-}
+}*/
 
 #CountryRankingListSmall{
 	height:310px;
@@ -227,7 +227,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 														</tr>  
 													</table>
 													
-													<div id="UserCountryRankListLarge">
+													<div id="UserCountryRankListLarge" style="height:{{window_Height_table}}px;overflow:auto;">
 														<table class="table table-condensed">
 															<tr ng-repeat="ranking in rankingUserCountry.rankings">
 																<td class="RankList">
@@ -266,7 +266,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 															<th class="Solved">Solved</th>
 														</tr>
 													</table>
-													<div id="GlobalRankListLarge">
+													<div id="GlobalRankListLarge" style="height:{{window_Height_table}}px;overflow:auto;">
 														<table class="table table-condensed">
 															<tr ng-repeat="ranking in rankingGlobal.rankings">   
 																<td class="RankList">
@@ -318,7 +318,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 										<th class="crUsers">Number of Users</th>						
 									</tr>  
 								</table> 
-								<div id="CountryRankingListLarge" >
+								<div id="CountryRankingListLarge" style="height:{{window_Height_country}}px;overflow:auto;">
 									<table class="table table-condensed" ng-init="get_country_ranks();" style="height:10px;" >
 											<tr ng-repeat="ranking in countryRank.rankings">
 												<td class="crRankList">

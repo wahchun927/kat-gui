@@ -2533,5 +2533,17 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
         $('#tab2SG').addClass('active');
         $('#tab1sg').addClass('active');		
     };
+    //to retrieve windows height
+    $scope.getHeight = function() {
+        return $(window).height();
+    };
+    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+        $scope.window_Height = newValue;
+        $scope.window_Height_table = $scope.window_Height * 0.275;
+        $scope.window_Height_country = $scope.window_Height * 0.56;
+    });
+    window.onresize = function(){
+        $scope.$apply();
+    }
 	
 }
