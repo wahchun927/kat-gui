@@ -2424,10 +2424,10 @@ function TournamentController($scope,$resource,$http){
 }
 
 
-function RankController($scope,$resource,$cookieStore,$location){
+function RankController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.selectedPlayer;
 	//fetch list of rankers based in the path selected by user
-	$scope.get_path_ranks = function(pathId){
+	$scope.get_path_ranks = function(pathId,pathName){
 		//ALL Languages
 		if(pathId=='AllLanguages'){
 			
@@ -2471,6 +2471,7 @@ function RankController($scope,$resource,$cookieStore,$location){
 			});
 		}	
 		$cookieStore.put("path_id", pathId);
+		$cookieStore.put("path_name", pathName);
 		
     };
 	
@@ -2480,16 +2481,22 @@ function RankController($scope,$resource,$cookieStore,$location){
     };
 	
 	$scope.get_player_details = function(playerId){
-		
+
+		var pathName = $cookieStore.get("path_name");
+
 		//alert("professional":$scope.playerNo.professional);
 		$scope.selectedPlayerModel = $resource('/jsonapi/player/:playerId?load_badges=1');
 		$scope.selectedPlayerModel.get({"playerId":playerId}, function(response){
 			$scope.selectedPlayer = response;
 		});	
 
-		console.log(playerId); 
+		if(pathId=='AllLanguages'){
+			$scope.selectedPlayerBadges = $scope.selectedPlayer.badges;
+		}
 
-		$scope.arrayTags=$scope.selectedPlayer.tags;
+		else{
+			$scope.selectedPlayerBadges = $filter('filter')($scope.selectedPlayer.badges, pathName);
+		}
 				
 		$('#playerDetails').modal('show');
 	
