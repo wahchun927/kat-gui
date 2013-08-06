@@ -2538,3 +2538,25 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
     }
 	
 }
+
+function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
+
+	$scope.create_feedback = function(title,des,type){
+		$scope.newFeedback = {};
+		$scope.newFeedback.name = title;
+		$scope.newFeedback.description =des ;
+		$scope.newFeedback.category = type ;		  
+			
+		$scope.NewFeedback = $resource('/jsonapi/feedback');
+		var new_feedback = new $scope.NewFeedback($scope.NewFeedback);
+		new_feedback.$save(function(response){
+			$scope.feedback = response;
+
+		});
+	};
+
+}
+
+
+
+
