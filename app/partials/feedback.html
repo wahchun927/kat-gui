@@ -1,6 +1,15 @@
 </br>
-</br>
-<div class="container" id="feedback" style="position:relative;">
+
+<div class="container" id="feedback" style="position:relative;" ng-controller = "FeedbackController">
+
+	<div class="row-fluid">		
+		<div class="span12 well well-small">			
+			<p> &nbsp &nbsp &nbsp &nbsp Hi Agent {{player.nickname}}! <br>
+			&nbsp &nbsp &nbsp &nbsp Would you like to give us a feedback? Simply fill the options below & click 'Send it to us!'. If you would like to send any attachments kindly email to <font color=blue><a href="mailto:pivotalexpert@gmail.com">pivotalexpert@gmail.com</a></font>.
+			<br>&nbsp &nbsp &nbsp &nbsp Thank you! </p>
+		</div>
+	</div>
+
 
 	<div class="row-fluid">
 	
@@ -8,20 +17,20 @@
 		
 			<div class="span1"></div>
 			<div class="span2">
-					<p>Would you like to give</p>
+					<p>Would like to give </p>
 			</div>
 			<div class="span9">
-				<div class="btn-group" data-toggle="buttons-radio">
-					<button type="button" class="btn btn-primary">Idea</button>
-					<button type="button" class="btn btn-primary">Question</button>
-					<button type="button" class="btn btn-primary">Problem</button>
-					<button type="button" class="btn btn-primary">Praise</button>				
+				<div class="btn-group" data-toggle="buttons-radio" ng-model="type">
+					<button type="button" class="btn btn-primary" value="Idea">Idea</button>
+					<button type="button" class="btn btn-primary" value="Question">Question</button>
+					<button type="button" class="btn btn-primary" value="Problem">Problem</button>
+					<button type="button" class="btn btn-primary" value="Praise">Praise</button>				
 				</div>			
 			</div>
 			
-		<br>
-		<br>
-		<br>
+			<br>
+			<br>
+			<br>
 		
 		</div>
 	</div>
@@ -30,10 +39,10 @@
 		<div class="span12">
 			<div class="span1"></div>
 			<div class="span2">
-					<p>Message Title :</p>
+					<p>Message Title </p>
 			</div>
-			<div class="span9">
-				<input class="span8" type="text" ng-model="Title">{{Title}}</p> 	
+			<div class="span9 input-prepend">
+				<input class="span8" type="text" ng-model="title">{{title}}</input>	
 			</div>
 		</div>
 		
@@ -43,7 +52,7 @@
 		<div class="span12">
 			<div class="span1"></div>
 			<div class="span2">
-					<p>What would you like to say? </p>												
+					<p>Would like to say that </p>												
 			</div>
 			<div class="span9">
 				 <textarea class="span8" rows="3" ng-model="description">{{description}}</textarea>
@@ -61,7 +70,7 @@
 		<div class="span12">
 			<div class="span8"></div>
 		
-			<button class="btn btn-primary" type="button">Send it to us!</button>
+			<button class="btn btn-primary" type="button" ng-click="create_feedback(title,description,type)">Send it to us!</button>
 		</div>
 	</div>
 
