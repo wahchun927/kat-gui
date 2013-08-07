@@ -1,11 +1,13 @@
 </br>
 
 <div class="container" id="feedback" style="position:relative;" ng-controller = "FeedbackController">
-
+  <div ng-show="!feedback_sent">
 	<div class="row-fluid">		
 		<div class="span12 well well-small">			
-			<p> &nbsp &nbsp &nbsp &nbsp Hi Agent {{player.nickname}}! <br>
-			&nbsp &nbsp &nbsp &nbsp Would you like to give us a feedback? Simply fill the options below & click 'Send it to us!'. If you would like to send any attachments (like a screenshot or something) kindly email us at <font color=blue><a href="mailto:pivotalexpert@gmail.com">pivotalexpert@gmail.com</a></font>.
+			<p>Hi Agent {{player.nickname}}! <br>
+			Would you like to give us a feedback? <br>
+			Simply fill the options below & click 'Send it to us!'.<br> 
+			If you would like to send any attachments (like a screenshot or something) kindly email us <font color=blue><a href="mailto:pivotalexpert@gmail.com">pivotalexpert@gmail.com</a></font>.
 			<br>&nbsp &nbsp &nbsp &nbsp Thank you! </p>
 		</div>
 	</div>
@@ -76,5 +78,9 @@
 			<button class="btn btn-primary" type="button" ng-click="create_feedback(title,description,type)">Send it to us!</button>
 		</div>
 	</div>
+  </div>
+  <div ng-show="feedback_sent">
+  	<h1>Thank you</h1>
+  </div>
 
 <div>

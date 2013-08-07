@@ -2540,6 +2540,7 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 }
 
 function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
+	$scope.feedback_sent = false;
 	$scope.title = "Some feedback on SingPath";
 	$scope.description = "I just wanted to let you know that ..";
 	
@@ -2557,7 +2558,8 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 		var new_feedback = new $scope.NewFeedback($scope.newFeedback);
 		new_feedback.$save(function(response){
 			$scope.feedback = response;
-
+			//Hide the form
+			$scope.feedback_sent = true;
 		});
 	};
 
