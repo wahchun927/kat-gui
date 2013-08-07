@@ -11,8 +11,8 @@ files = [
    //'app/js/**/*.js',
 ];
 
-//frameworks = ["requirejs"];
-frameworks = ["ng-scenario"];
+frameworks = ["requirejs"];
+//frameworks = ["ng-scenario"];
 
 autoWatch = false;
 
