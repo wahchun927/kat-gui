@@ -2540,18 +2540,26 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 }
 
 function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
+	$scope.feedback_sent = false;
+	$scope.title = "Some feedback on SingPath";
+	$scope.description = "I just wanted to let you know that ..";
+	
 
 	$scope.create_feedback = function(title,des,type){
+		console.log(title+" "+des+" "+type);
 		$scope.newFeedback = {};
 		$scope.newFeedback.name = title;
-		$scope.newFeedback.description =des ;
-		$scope.newFeedback.category = type ;		  
-			
+		$scope.newFeedback.description = des;
+		//Commenting this out until it works
+		//$scope.newFeedback.category = type;
+		$scope.newFeedback.category = "Idea";
+		
 		$scope.NewFeedback = $resource('/jsonapi/feedback');
-		var new_feedback = new $scope.NewFeedback($scope.NewFeedback);
+		var new_feedback = new $scope.NewFeedback($scope.newFeedback);
 		new_feedback.$save(function(response){
 			$scope.feedback = response;
-
+			//Hide the form
+			$scope.feedback_sent = true;
 		});
 	};
 
