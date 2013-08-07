@@ -6,7 +6,8 @@ files = [
   'test/e2e/**/*.js'
 ];
 
-frameworks = ["requirejs"];
+//frameworks = ["requirejs"];
+frameworks = ["ng-scenario"];
 
 autoWatch = false;
 
