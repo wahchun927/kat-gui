@@ -179,6 +179,7 @@ myApp.run(function($httpBackend) {
       //$httpBackend.whenJSONP(/^h/).passThrough();
       $httpBackend.whenPOST('/jsonapi/contribute_problem').passThrough();
       $httpBackend.whenPOST('/jsonapi/log_event').passThrough();
+      $httpBackend.whenPOST('/jsonapi/feedback').passThrough();  
       //$httpBackend.whenPOST('/jsonapi/new_problem_contribution').passThrough();
 
       var submitted_problems = [];
