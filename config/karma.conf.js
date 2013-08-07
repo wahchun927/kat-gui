@@ -1,14 +1,16 @@
 basePath = '../';
 
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
+  //JASMINE,
+  //JASMINE_ADAPTER,
   'app/lib/angular/angular.js',
   'app/lib/angular/angular-*.js',
   'test/lib/angular/angular-mocks.js',
   'app/js/**/*.js',
   'test/unit/**/*.js'
 ];
+
+frameworks = ["jasmine"];
 
 autoWatch = true;
 

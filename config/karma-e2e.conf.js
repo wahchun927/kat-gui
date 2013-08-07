@@ -1,10 +1,17 @@
 basePath = '../';
 
 files = [
-  ANGULAR_SCENARIO,
-  ANGULAR_SCENARIO_ADAPTER,
+  //ANGULAR_SCENARIO,
+  //ANGULAR_SCENARIO_ADAPTER,
+  'app/lib/angular/angular.js',
+  'app/lib/angular/angular-*.js',
+  'test/lib/angular/angular-mocks.js',
+  'app/js/**/*.js',
   'test/e2e/**/*.js'
 ];
+
+//frameworks = ["requirejs"];
+frameworks = ["ng-scenario"];
 
 autoWatch = false;
 
