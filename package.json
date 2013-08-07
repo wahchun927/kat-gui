@@ -6,6 +6,12 @@
         "type": "git",
         "url": "git://github.com/ChrisBoesch/kat-gui.git"
     },
+    "devDependencies": {
+        "karma": "~0.8"
+    },
+    "scripts": {
+        "test": "./node_modules/.bin/karma start --single-run --browsers Chrome"
+    },
     "author": "Chris Boesch <scboesch@gmail.com>",
     "engines": {
         "node": "~0.8 || ~0.10"
