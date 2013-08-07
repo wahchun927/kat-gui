@@ -1,0 +1,14 @@
+{
+    "name": "kat-gui",
+    "description": "SingPath Angularjs GUI.",
+    "homepage": "http://chrisboesch.github.io/kat-gui",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/ChrisBoesch/kat-gui.git"
+    },
+    "author": "Chris Boesch <scboesch@gmail.com>",
+    "engines": {
+        "node": "~0.8 || ~0.10"
+    },
+    "version": "0.01.0"
+}
