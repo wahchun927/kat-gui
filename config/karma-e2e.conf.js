@@ -6,12 +6,12 @@ files = [
   'app/lib/angular/angular.js',
   'app/lib/angular/angular-*.js',
   'test/lib/angular/angular-mocks.js',
-  //'app/js/**/*.js',
-  'test/e2e/**/*.js'
+  'test/e2e/**/*.js',
+   //'app/js/**/*.js',
 ];
 
-//frameworks = ["requirejs"];
-frameworks = ["ng-scenario"];
+frameworks = ["requirejs"];
+//frameworks = ["ng-scenario"];
 
 autoWatch = false;
 
