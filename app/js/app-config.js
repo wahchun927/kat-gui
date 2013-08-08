@@ -1,8 +1,8 @@
 var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'analytics','aceDirective']).config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('', {templateUrl: 'partials/home.html', controller: IndexController});
     $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: IndexController});
-    $routeProvider.when('/quests', {templateUrl: 'partials/selectquests.html', controller: IndexController});
-    $routeProvider.when('/practice', {templateUrl: 'partials/practice.html', controller: IndexController});
+    $routeProvider.when('/quests', {templateUrl: 'partials/selectquests.html', controller: IndexController, reloadOnSearch:false});
+    $routeProvider.when('/practice', {templateUrl: 'partials/practice.html', controller: IndexController, reloadOnSearch:false});
     $routeProvider.when('/challenges', {templateUrl: 'partials/challenges.html', controller: IndexController});
     $routeProvider.when('/profile', {templateUrl: 'partials/profile.html', controller: IndexController});
     $routeProvider.when('/teach', {templateUrl: 'partials/teach.html', controller: IndexController});
