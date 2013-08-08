@@ -376,6 +376,7 @@ function PathController($scope,$resource,$cookieStore,$location){
 				}
 			}
 		}
+		$location.search({pathName: pathName,difficulty: difficulty});
 		//update_path_progress(pat)
 	};
 	
@@ -2097,6 +2098,10 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 		  $('#levelsmall button:button').first().click();
 		}, 2000);
       }
+    }
+
+    $scope.updateURL=function(storyID,difficulty,pathDes){
+      $location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
     }
 
     $scope.$watch('name', function() {
