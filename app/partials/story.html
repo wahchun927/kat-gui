@@ -40,15 +40,14 @@
     th.d4, td.d4{width:20%;}
     th.d5, td.d5{width:20%;}
 	
-	th.v1, td.v1{width:05%;}
-    th.v2, td.v2{width:10%;}
-    th.v3, td.v3{width:30%;} 
-    th.v4, td.v4{width:20%;}
-    th.v5, td.v5{width:10%;}
-    th.v6, td.v6{width:10%;}
+	th.v1, td.v1{width:10%; vertical-align:middle;}
+    th.v2, td.v2{width:35%; vertical-align:middle;}
+    th.v3, td.v3{width:20%; vertical-align:middle;} 
+    th.v4, td.v4{width:15%; vertical-align:middle;}
+    th.v5, td.v5{width:20%; vertical-align:middle;}
 </style>
 
-<div class="container" id="largeProfile" style="position:relative;" ng-controller = "StoryController">
+<div class="container" style="position:relative;" ng-controller = "StoryController">
 	<br>
 	<br>
 	<div class="row">
@@ -105,7 +104,7 @@
 										<td class="c4"> 
 											<div class="btn-group">
 												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
-												<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
+												<button class="btn btn-warning disabled" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
 												<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 											</div>
 										</td>
@@ -161,22 +160,20 @@
 						<div class="span12">
 							<table class="table table-condensed" align="center">
 								<tr style="border-top: solid white; border-bottom: solid white;">
-									<th class="v2">Video Name</th>
-									<th class="v3">Location</th>
-									<th class="v4">Length</th>
-									<th class="v5">Thumbnail</th>
-									<th class="v6">Delete</th>
-									<th class="v1">Sequence</th>
+									<th class="v1">Video Order</th>
+									<th class="v2">Location</th>									
+									<th class="v3">Thumbnail</th>
+									<th class="v4">Delete</th>
+									<th class="v5">Resequence</th>
 								</tr>  
 							</table>
 							<table class="table table-hover" ng-repeat="item in Videos" align="center">
 									<tr>
-										<td class="v2">#{{$index+1}}</td>
-										<td class="v3">http://www.youtube.com/watch?v={{item}}</td>
-										<td class="v4">2:03</td>
-										<td class="v5"><img class="img-rounded" ng-src="http://img.youtube.com/vi/{{item}}/1.jpg" id="standardFrame"></a></td>
-										<td class="v6"> <a type="button" class="icon-remove icon-white" ng-click="deleteVideo($index)"></a></td>   
-										<td class="v1">
+										<td class="v1">{{$index+1}}</td>
+										<td class="v2">http://www.youtube.com/watch?v={{item}}</td>									
+										<td class="v3"><img class="img-rounded" ng-src="http://img.youtube.com/vi/{{item}}/1.jpg" id="standardFrame"></a></td>
+										<td class="v4"> <a type="button" class="icon-remove" ng-click="deleteVideo($index)" style="cursor:pointer"></a></td>   
+										<td class="v5">
 											<div class="btn-group btn-group-vertical">
 											  <button class="btn" style="font-weight:bold;" ng-click="moveUp($index)">&#923;</button>
 											  <button class="btn" style="font-weight:bold" ng-click="moveDown($index)">V</button>
