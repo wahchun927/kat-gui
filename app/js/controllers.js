@@ -610,6 +610,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 
     };
 	
+	$scope.goToChallengeStats=function(challenge_id)
+    {
+    	$cookieStore.put("challengeID", challenge_id)
+    	$location.path("challengedetails");
+
+    };
+	
 	//1. All Challenges Tab - load accepted challenges		
 	$scope.list_challenges= function(){
 		$scope.challengeModel = $resource('/jsonapi/list_challenges');
