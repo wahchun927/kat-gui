@@ -12,7 +12,7 @@
     }
     
     .tabspacing{
-        width:25%;
+        width:33.333%;
 	}
 
     
@@ -41,14 +41,7 @@
     th.AcceptedC_EndDate, td.AcceptedC_EndDate				{width:10%;}
 	th.AcceptedC_Status, td.AcceptedC_Status				{width:10%;}
 	th.AcceptedC_Outcome, td.AcceptedC_Outcome				{width:10%;}	
-	
-	<!--My Creations : Challenges Others Made -->
-	th.OtherC_Type, td.OtherC_Type							{width:20%;}
-    th.OtherC_Name, td.OtherC_Name							{width:20%;}
-	th.OtherC_Location, td.OtherC_Location					{width:20%;}
-    th.OtherC_StartDate, td.OtherC_StartDate				{width:20%;}
-    th.OtherC_EndDate, td.OtherC_EndDate					{width:20%;}    
-	
+
 	<!--My Creations : Challenges I've Made -->
 	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
 	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:20%;}
@@ -64,7 +57,7 @@
 </style>
 <br>
 
-<div class="container" style="position:relative;">
+<div class="container"  style="position:relative;">
     
     <div class="row-fluid">
         <div class="span12" ng-controller="ChallengeController">
@@ -77,10 +70,7 @@
 					</li>
 					<li class="tabspacing">
 					  <a data-target="#Accepted" data-toggle="tab">Accepted Challenges</a>
-					</li> 
-					<li class="tabspacing">
-					  <a data-target="#Other" data-toggle="tab">Challenges Other's Created</a>
-					</li> 
+					</li> 					
 					<li class="tabspacing">
 					  <a data-target="#Mine" data-toggle="tab">Challenges I've Made</a>
 					</li> 
@@ -117,6 +107,9 @@
 								</tr>           
 							</table>																	
 						</div>
+						<div align="right"  ng-controller="ChallengeController">
+							<button type="button" class="btn btn-primary" style="height: 33px; width: 150px" ng-click="goToChallengeCreator()">Create a Challenge</button>
+						</div>
 					</div>
 					
 					<div class="tab-pane" align="center" id="Accepted">
@@ -149,33 +142,9 @@
 									</tr>  
 								</table>
 						</div>
-					</div>
-					
-					<div class="tab-pane" align="center" id="Other">
-						<div width="400px"style=" width:98.2%; height:30px;">
-							<table class="table table-condensed" >
-								<tr>
-									<th class="OtherC_Type">Type</th>
-									<th class="OtherC_Name">Name</th>
-									<th class="OtherC_Location">Location</th>
-									<th class="OtherC_StartDate">Start Date</th>
-									<th class="OtherC_EndDate">End Date</th>
-									
-								</tr>                                   
-							</table> 
+						<div align="right"  ng-controller="ChallengeController">
+							<button type="button" class="btn btn-primary" style="height: 33px; width: 150px" ng-click="goToChallengeCreator()">Create a Challenge</button>
 						</div>
-						<div align="center" style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >								
-							<table class="table table-hover" ng-init="others_challenges();">
-								<tr ng-repeat="otherChallenge in playerOtherChallenges">
-									<td class="OtherC_Type">{{otherChallenge.name}}</td>
-									<td class="OtherC_Name">{{otherChallenge.name}}</td>
-									<td class="OtherC_Location" ng-show="otherChallenge.worldwide==1">Worldwide</td>	
-									<td class="OtherC_Location" ng-show="otherChallenge.worldwide==0"><image ng-src="{{otherChallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
-									<td class="OtherC_StartDate">{{otherChallenge.startDate}}</td>
-									<td class="OtherC_EndDate">{{otherChallenge.endDate}}</td>                                                                                            
-								</tr>                                                          
-							</table>								
-						</div>							
 					</div>
 					
 					<div class="tab-pane" align="center" id="Mine">
@@ -205,7 +174,7 @@
 									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
 									<td class="ChallengesIMade_Review">
 										<div class="btn-group">																			
-											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal">Stats</button>
+											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" ng-click="goToChallengeStats(myChallenge.challenge_id)">Stats</button>
 											<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
 										</div>																	
 									</td>
@@ -216,7 +185,7 @@
 						</div>
 						<!--Create button-->
 						<div align="right"  ng-controller="ChallengeController">
-							<button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+							<button type="button" class="btn btn-primary" style="height: 33px; width: 150px" ng-click="goToChallengeCreator()">Create a Challenge</button>
 						</div>
 					</div>
 					
