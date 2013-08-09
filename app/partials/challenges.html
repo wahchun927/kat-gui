@@ -107,6 +107,9 @@
 								</tr>           
 							</table>																	
 						</div>
+						<div align="right"  ng-controller="ChallengeController">
+							<button type="button" class="btn btn-primary" style="height: 33px; width: 150px" ng-click="goToChallengeCreator()">Create a Challenge</button>
+						</div>
 					</div>
 					
 					<div class="tab-pane" align="center" id="Accepted">
@@ -138,6 +141,9 @@
 										<td class="AcceptedC_Outcome" ng-hide ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
 									</tr>  
 								</table>
+						</div>
+						<div align="right"  ng-controller="ChallengeController">
+							<button type="button" class="btn btn-primary" style="height: 33px; width: 150px" ng-click="goToChallengeCreator()">Create a Challenge</button>
 						</div>
 					</div>
 					
@@ -179,7 +185,7 @@
 						</div>
 						<!--Create button-->
 						<div align="right"  ng-controller="ChallengeController">
-							<button type="button" class="btn btn-primary" style="height: 33px; width: 100px" ng-click="goToStory()">Create</button>
+							<button type="button" class="btn btn-primary" style="height: 33px; width: 150px" ng-click="goToChallengeCreator()">Create a Challenge</button>
 						</div>
 					</div>
 					
