@@ -588,7 +588,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
         });
 	}
 
-    $scope.goToStory=function()
+    $scope.goToChallengeCreator=function()
     {
       $location.path("challengeCreator");
 
