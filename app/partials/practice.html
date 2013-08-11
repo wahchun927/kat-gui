@@ -2,17 +2,17 @@
 <style>
 
 .radio{
-    text-align: center;	
+  text-align: center;	
 }
 
 H5 {FONT-SIZE: 11pt;}
 
 #gradient1{  
-#gradient > .vertical(@black, @white);  
+  #gradient > .vertical(@black, @white);  
 }
 
 #radButton{
-display:inline;
+  display:inline;
 }
 
 #pathImg label {
@@ -21,67 +21,61 @@ display:inline;
 }
 
 #paths {
-    display: inline-block;
-    cursor: pointer;
+  display: inline-block;
+  cursor: pointer;
 }
 
 #pathImg{
-
-width:100px;
-height:100px;
-
+  width:100px;
+  height:100px;
 }
 
 #smallPathImg{
-	width:60px;
-	height:60px;
+  width:60px;
+  height:60px;
 }
 
 .selected {
-    background-color: #C0C0C0;
+  background-color: #C0C0C0;
 }
 
 #paths input {
-    display: inline-block;
-    cursor: pointer;
+  display: inline-block;
+  cursor: pointer;
 }
 
 input:hover{
-
- background-color: 	#C0C0C0;
+  background-color: #C0C0C0;
 }
 
 #paths input img {
-
-    padding: 3px;
-    
+  padding: 3px;
 }
 
 <!--small-->
 
-
-
 #smallDifficulty{
-height: 30px;
-width: 100px;
-border-radius: 3px;
+  height: 30px;
+  width: 100px;
+  border-radius: 3px;
 }
 
 #largeDifficulty{
-height: 40px;
-width: 170px;
-border-radius: 3px;
+  height: 40px;
+  width: 170px;
+  border-radius: 3px;
 }
 
 li{ list-style:none; }
 
 .tabspacing{
-    width:50%;
-	text-align:center;
+  width:50%;
+  text-align:center;
 }
+
 </style>
 
-<div id="largeSelectPlay" ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
+<div id="largeSelectPlay" ng-controller="PathController" ng-init="list()">
     <div class="container" >
 	<h4 class="well well-small" align="center">#1. Pick a Path!</h4>
 	</div>
@@ -91,7 +85,7 @@ li{ list-style:none; }
 				<!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row" >
-						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelection($index)">
+						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelection()">
 							<label class="radio">
 								<input style="visibility:hidden" type="radio" ng-click="changePath(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
@@ -105,7 +99,7 @@ li{ list-style:none; }
 				<!-- Three columns of text below the carousel -->
 				<div class="container">
 					<div class="row" >
-						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="practiceSelection(0)">
+						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3">
 							<label class="radio">
 								<input style="visibility:hidden" type="radio" ng-click="changePath(difficulty,path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
@@ -128,7 +122,7 @@ li{ list-style:none; }
 				<div class="span4 lead well well-small" align="center">
 					<div id="gradient1"><h4>#2. Select a difficulty Level</h4></div> 
 					<hr>
-					<div id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]" ng-controller="QuestController">					
+					<div id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
 						<span ng-repeat="item in levels" ng-init="addDefaultLevel($first)">
 							<label class="radio">
 							<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
@@ -233,7 +227,7 @@ li{ list-style:none; }
 	</div>
 </div>
 
-<div id="smallSelectPlay" ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
+<div id="smallSelectPlay" ng-controller="PathController" ng-init="list()">
 	<div class="container" >
 	<H5 class="well well-small" align="center">#1. Pick a Path!</H5>
 	</div>
