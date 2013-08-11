@@ -2179,24 +2179,17 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	
-	$scope.name = $cookieStore.get("name");
-    $scope.StoryModel = $resource('/jsonapi/story');
-        $scope.StoryModel.query({}, function(response){
-        $scope.stories = response;
-        if(location.href.indexOf("storyID") > -1){
-	  	  $scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-		  //alert($scope.passed_in_pathName);
-		  setTimeout(function () {
-			  $scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
-			  $scope.addQuestColor(true);
-	      }, 2000);
-	    }else{
-	    	setTimeout(function () {
+	$scope.filter_and_group_questStoryList = function(current_path){
+ 			  //Replace this by passing it in as a parameter.  
+	    	  if (!current_path){
+	    	  	current_path = 10030;
+	    	  }
 			  $scope.pubStories = [];
 	          $scope.StoryModel.query({}, function(response){
 	              $scope.stories = response;
 				  for(var i=0;i<$scope.stories.length;i++){
-						if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+				  		//adding the filter on supported path logic. 
+						if($scope.stories[i].published==true && $scope.stories[i].archived == false && ($scope.stories[i].supported_paths.length==0 || $scope.stories[i].supported_paths.indexOf(current_path)>=0) ){
 							$scope.pubStories.push($scope.stories[i]);
 						}				
 				  }		
@@ -2214,6 +2207,22 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	              //alert("There are "+$scope.stories.length+" stories.");
 	          });
 	  		  $scope.addQuestColor(true);
+    };
+
+	$scope.name = $cookieStore.get("name");
+    $scope.StoryModel = $resource('/jsonapi/story');
+        $scope.StoryModel.query({}, function(response){
+        $scope.stories = response;
+        if(location.href.indexOf("storyID") > -1){
+	  	  $scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+		  //alert($scope.passed_in_pathName);
+		  setTimeout(function () {
+			  $scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
+			  $scope.addQuestColor(true);
+	      }, 2000);
+	    }else{
+	    	setTimeout(function () {
+	    	 	$scope.filter_and_group_questStoryList(null);
 	        }, 2000);
 	    }
     });
