@@ -2199,8 +2199,16 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 						if($scope.stories[i].published==true && $scope.stories[i].archived == false){
 							$scope.pubStories.push($scope.stories[i]);
 						}				
-				  }				
-	              $scope.questStoryList = $filter('groupBy')($scope.stories, 3);
+				  }		
+				  //$scope.questStoryList = $filter('groupBy')($scope.stories, 3);
+	              //Not sure why filter does not work locally. Just manually splitting stories for now. 
+	              $scope.questStoryList = [];
+      			  var i = 0;
+      			  var n = $scope.pubStories.length;
+  				  while (i < n) {
+    				$scope.questStoryList.push($scope.pubStories.slice(i, i += 3));
+  				  }
+
 	              $scope.videos = $scope.stories[0].videos;
 				  $scope.$parent.storyid = $scope.stories[abc].id;
 	              //alert("There are "+$scope.stories.length+" stories.");
