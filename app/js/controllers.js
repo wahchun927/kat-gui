@@ -175,116 +175,112 @@ function InterfaceController($scope,$resource){
 }
 
 function PathController($scope,$resource,$cookieStore,$location,$filter){
-  //Try to only fetch what you need in the init of the controller. 
-  $scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
-  $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-  $scope.abc = $cookieStore.get("pid");
-  $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
-  $scope.lvlName = 1;
-  
-  if(location.href.indexOf("pathName") > -1){
-  	$scope.passed_in_pathName = location.hash.split('pathName=')[1].split("&")[0];
-	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-	$scope.difficulty = $scope.passed_in_difficulty;
-	//alert($scope.passed_in_pathName);
-	setTimeout(function () {
-		$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathName)};
-		$scope.practiceSelection(1);
-		$scope.addDefaultLevel($scope.passed_in_difficulty);
-    }, 2000);
-  }
-  else if(location.href.indexOf("pathDes") > -1){
-  	$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
-  	setTimeout(function () {
-  		$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
-  	}, 2000);
-  }
-  else{
-  	setTimeout(function () {
+	//Try to only fetch what you need in the init of the controller. 
+	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
+	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+	$scope.abc = $cookieStore.get("pid");
+	$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
+	$scope.lvlName = 1;
+
+	if(location.href.indexOf("pathName") > -1){
+		$scope.passed_in_pathName = location.hash.split('pathName=')[1].split("&")[0];
+		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
+		$scope.difficulty = $scope.passed_in_difficulty;
+		//alert($scope.passed_in_pathName);
+		setTimeout(function () {
+			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathName)};
+			$scope.practiceSelection(1);
+			$scope.addDefaultLevel($scope.passed_in_difficulty);
+		}, 2000);
+	}
+	else if(location.href.indexOf("pathDes") > -1){
+		$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
+		setTimeout(function () {
+			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
+		}, 2000);
+	}
+	else{
+		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
-  		$scope.practiceSelection(1);
-    }, 2000);
-  }
-
-  $scope.addDefaultLevel=function(checker){
-  	if(checker.length > 1){
-	  setTimeout(function () {
-	    $("button[btn-radio="+checker+"]").click();
-	  }, 2500);
-  	}
-  	else if(checker && location.href.indexOf("difficulty") == -1){
-  	  setTimeout(function () {
-	    $('#levels button:button').first().click();
-	  }, 2000);
- 	}
-  }
-
-  $scope.addDefaultLevelSmall=function(checker){
-    if(checker.length > 1){
-	  setTimeout(function () {
-	    $("button[btn-radio="+checker+"]").click();
-	  }, 2500);
-  	}
-  	else if (checker && location.href.indexOf("difficulty") == -1){
-  	  setTimeout(function () {
-	    $('#levelsmall button:button').first().click();
-	  }, 2000);
-  	}
-  }
-
-  // this method add background color to the selected images 
-  $scope.practiceSelection=function(checker){
-    $('#myCarousel input:image').click(function() {
-      $('#myCarousel input:image').removeClass('selected');   
-      $(this).addClass('selected');
-    });
-    if(checker == 1){
-      setTimeout(function () {
-	    $('#myCarousel input:image').first().trigger('click');
-	  }, 2000);
-    }
-  }
-
-  $scope.practiceSelectionSmall=function(checker){
-    $('#myCarouselSmall input:image').click(function() {
-      $('#myCarouselSmall input:image').removeClass('selected');   
-      $(this).addClass('selected');   
-    });
-    if(checker == 1){
-      setTimeout(function () {
-	    $('#myCarouselSmall input:image').first().click();
-	  }, 2000);
-    }
-  }
-
-  //rank
-  $scope.pathSelectRank=function(checker){
-	$('#myCarouselRank input:image').click(function() {
-      $('#myCarouselRank input:image').removeClass('selected'); 
-	  $(this).addClass('selected');
-	  
-	});
-	if(checker == 2){
-      setTimeout(function () {
-        $('#myCarouselRank input:image').eq(2).click();
-      }, 2000);	
+			$scope.practiceSelection(1);
+		}, 2000);
 	}
-  }
-  
-  $scope.pathSelectRankSmall=function(checker){
-    $('#myCarouselRankSmall input:image').click(function() {
-      $('#myCarouselRankSmall input:image').removeClass('selected'); 
-	  $(this).addClass('selected');
 
-	});
-	if(checker == 2){
-      setTimeout(function () {
-        $('#myCarouselRankSmall input:image').eq(2).click();
-      }, 2000);	
+	$scope.addDefaultLevel=function(checker){
+		if(checker.length > 1){
+		  setTimeout(function () {
+		    $("button[btn-radio="+checker+"]").click();
+		  }, 2500);
+		}
+		else if(checker && location.href.indexOf("difficulty") == -1){
+		  setTimeout(function () {
+		    $('#levels button:button').first().click();
+		  }, 2000);
+		}
 	}
-  }
 
-  
+	$scope.addDefaultLevelSmall=function(checker){
+		if(checker.length > 1){
+		  setTimeout(function () {
+		    $("button[btn-radio="+checker+"]").click();
+		  }, 2500);
+		}
+	  	else if (checker && location.href.indexOf("difficulty") == -1){
+		  setTimeout(function () {
+		    $('#levelsmall button:button').first().click();
+		  }, 2000);
+	 	}
+	}
+
+	// this method add background color to the selected images 
+	$scope.practiceSelection=function(checker){
+		$('#myCarousel input:image').click(function() {
+		  $('#myCarousel input:image').removeClass('selected');   
+		  $(this).addClass('selected');
+		});
+		if(checker == 1){
+		  setTimeout(function () {
+		    $('#myCarousel input:image').first().trigger('click');
+		  }, 2000);
+		}
+	}
+
+	$scope.practiceSelectionSmall=function(checker){
+		$('#myCarouselSmall input:image').click(function() {
+		  $('#myCarouselSmall input:image').removeClass('selected');   
+		  $(this).addClass('selected');   
+		});
+		if(checker == 1){
+		  setTimeout(function () {
+		    $('#myCarouselSmall input:image').first().click();
+		  }, 2000);
+		}
+	}
+
+	//rank
+	$scope.pathSelectRank=function(checker){
+		$('#myCarouselRank input:image').click(function() {
+		  $('#myCarouselRank input:image').removeClass('selected'); 
+		  $(this).addClass('selected'); 
+		});
+		if(checker == 2){
+		  setTimeout(function () {
+		    $('#myCarouselRank input:image').eq(2).click();
+		  }, 2000);	
+		}
+	}
+
+	$scope.pathSelectRankSmall=function(checker){
+		$('#myCarouselRankSmall input:image').click(function() {
+		  $('#myCarouselRankSmall input:image').removeClass('selected'); 
+		  $(this).addClass('selected');
+		});
+		if(checker == 2){
+		  setTimeout(function () {
+		    $('#myCarouselRankSmall input:image').eq(2).click();
+		  }, 2000);	
+		}
+	}
   
 	$scope.setDefaultButton=function(name,problemID){
 
@@ -294,7 +290,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
 		//Including details=1 returns the nested problemset progress.
 		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
-		$scope.problems = response;
+			$scope.problems = response;
 		});	
 	};
 	
@@ -309,7 +305,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
 		//Including details=1 returns the nested problemset progress.
 		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
-		$scope.problems = response;
+			$scope.problems = response;
 		});	
 	};
 	
@@ -323,7 +319,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
 		//Including details=1 returns the nested problemset progress.
 		$scope.lvlModel.get({"problemID":problemID,"details":1}, function(response){
-		$scope.problems = response;
+			$scope.problems = response;
 		});	
 	};
 	
@@ -355,7 +351,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
 	}
 	
-	
 	$scope.changePath = function (difficulty, pathName){
 		if(difficulty=="Drag-n-Drop"){
 			$scope.changeDifficulty(difficulty,pathName);
@@ -376,11 +371,13 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	
 	//change the difficulty level as well as the path level detail table
 	$scope.changeDifficulty = function(difficulty,pathName){
+		var path_ID;
 		if(difficulty=="Drag-n-Drop"){
 			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
+				var a = $scope.mobile_paths[i].path_id;
 				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
 				if(a == b){
+					path_ID = $scope.mobile_paths[i].path_id;
 					$scope.update_path_progress($scope.mobile_paths[i].path_id);
 					break;
 				}
@@ -394,6 +391,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				//alert(a==b);
 				if(a == b){
 					//alert(a+" "+b);
+					path_ID = $scope.paths.paths[i].id;
 					$scope.update_path_progress($scope.paths.paths[i].id);
 					break;
 				}
@@ -401,7 +399,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}
 		//update_path_progress(pat)
 		if(pathName != undefined && difficulty != undefined){
-			$location.search({pathName: pathName,difficulty: difficulty});
+			$location.search({pathID: path_ID,difficulty: difficulty});
 		}
 	};
 	
