@@ -377,7 +377,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				var a = $scope.mobile_paths[i].path_id;
 				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
 				if(a == b){
-					path_ID = $scope.mobile_paths[i].path_id;
 					$scope.update_path_progress($scope.mobile_paths[i].path_id);
 					break;
 				}
@@ -391,7 +390,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				//alert(a==b);
 				if(a == b){
 					//alert(a+" "+b);
-					path_ID = $scope.paths.paths[i].id;
 					$scope.update_path_progress($scope.paths.paths[i].id);
 					break;
 				}
@@ -399,7 +397,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}
 		//update_path_progress(pat)
 		if(pathName != undefined && difficulty != undefined){
-			$location.search({pathID: path_ID,difficulty: difficulty});
+			$location.search({pathName: pathName,difficulty: difficulty});
 		}
 	};
 	
@@ -2068,26 +2066,27 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $scope.newQuest = {}
       $scope.newQuest.storyID = storyID;
 		
-  		if(difficulty=="Drag-n-Drop"){
-  			for(var i=0; i<$scope.mobile_paths.length;i++){
-  				var a = " " + pathName;
-  				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-  				if(a == b){
-  					$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
-  					break;
-  				}
-  			}
-  		}
-  		else{
-  			for(var i=0; i<$scope.paths.paths.length;i++){
-  				var a = " " + pathName.trim();
-  				var b = " " + $scope.paths.paths[i].name.trim();
-  				if(a == b){
-  					$scope.newQuest.pathID = $scope.paths.paths[i].id;
-  					break;
-  				}
-  			}
-  		}
+	  if(difficulty=="Drag-n-Drop"){
+	  	for(var i=0; i<$scope.mobile_paths.length;i++){
+			var a = " " + pathName;
+			var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+			if(a == b){
+				$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
+				break;
+			}
+		}
+	  }
+	  else{
+		for(var i=0; i<$scope.paths.paths.length;i++){
+			var a = " " + pathName.trim();
+			var b = " " + $scope.paths.paths[i].name.trim();
+			if(a == b){
+				$scope.newQuest.pathID = $scope.paths.paths[i].id;
+				break;
+			}
+	    }
+	  }
+
       $scope.newQuest.difficulty = difficulty;
 
       $scope.NewQuest = $resource('/jsonapi/quest');
