@@ -15,7 +15,7 @@
     }
 
     .tabspacing{
-        width:33.333%;
+        width:25%;
 		text-align:center;
     }
 
@@ -28,140 +28,139 @@
 		vertical-align: center;
 	}
 	
-    th.a1, td.a1{width:20%;}
-    th.a2, td.a2{width:10%;}
-    th.a3, td.a3{width:25%;}
-    th.a4, td.a4{width:25%;}
+    th.AllPlayers_SN, td.AllPlayers_SN{width:15%;}
+    th.AllPlayers_Name, td.AllPlayers_Name{width:30%;}
+    th.AllPlayers_Location, td.AllPlayers_Location{width:25%;}
+    th.AllPlayers_RegDate, td.AllPlayers_RegDate{width:30%;}
     
 
-    th.r1, td.r1{width:5%;}
-    th.r2, td.r2{width:15%;}
-    th.r3, td.r3{width:10%;}
-    th.r4, td.r4{width:15%;}
-    th.r5, td.r5{width:15%;}
-	th.r6, td.r6{width:15%;}
-	th.r7, td.r7{width:25%;}
+    th.RegisteredPlayers_SN, td.RegisteredPlayers_SN{width:15%;}
+    th.RegisteredPlayers_Name, td.RegisteredPlayers_Name{width:30%;}
+    th.RegisteredPlayers_Location, td.RegisteredPlayers_Location{width:25%;}
+    th.RegisteredPlayers_RegDate, td.RegisteredPlayers_RegDate{width:30%;}    
 	
-    th.u1, td.u1{width:5%;}
-    th.u2, td.u2{width:15%;}
-    th.u3, td.u3{width:10%;}
-    th.u4, td.u4{width:70%;}
-   
+    th.UnlockedPlayers_SN, td.UnlockedPlayers_SN{width:10%;}
+    th.UnlockedPlayers_Name, td.UnlockedPlayers_Name{width:25%;}
+    th.UnlockedPlayers_Location, td.UnlockedPlayers_Location{width:15%;}
+    th.UnlockedPlayers_RegDate, td.UnlockedPlayers_RegDate{width:25%;}
+	th.UnlockedPlayers_UnlockedDate, td.UnlockedPlayers_UnlockedDate{width:25%;}
 	
+	th.SubmittedPlayers_SN, td.SubmittedPlayers_SN{width:5%;}
+    th.SubmittedPlayers_Name, td.SubmittedPlayers_Name{width:15%;}
+    th.SubmittedPlayers_Location, td.SubmittedPlayers_Location{width:10%;}
+    th.SubmittedPlayers_RegDate, td.SubmittedPlayers_RegDate{width:15%;}
+	th.SubmittedPlayers_UnlockedDate, td.SubmittedPlayers_UnlockedDate{width:15%;}
+    th.SubmittedPlayers_Msg, td.SubmittedPlayers_Msg{width:40%;}
 
 
 </style>
 
 
-<div class ="container">
-	<div class="tabbable well"> <!-- Only required for left/right tabs -->
-	  <ul class="nav nav-tabs">
-		<li class="tabspacing active"><a data-target="#tab1" data-toggle="tab">All Players</a></li>
-		<li class="tabspacing"><a data-target="#tab2" data-toggle="tab">Registered Players</a></li>
-		<li class="tabspacing"><a data-target="#tab3" data-toggle="tab">Responded Players</a></li>
-	  </ul>
-	  <div class="tab-content">
-		<div class="tab-pane active" id="tab1">
-		<!--Name,location,Invite Date,Expiry-->
+<div class ="container" id="challengeDetails">
+	<div class="tabbable well"> 
+		<ul class="nav nav-tabs">
+			<li class="tabspacing active"><a data-target="#AllPlayers" data-toggle="tab">All Players</a></li>
+			<li class="tabspacing"><a data-target="#RegisteredPlayers" data-toggle="tab">Registered Players</a></li>
+			<li class="tabspacing"><a data-target="#UnlockedPlayers" data-toggle="tab">Unlocked Players</a></li>
+			<li class="tabspacing"><a data-target="#SubmittedPlayers" data-toggle="tab">Submitted Players</a></li>
+		</ul>
+	  
+		<div class="tab-content">
+		<div class="tab-pane active" id="AllPlayers">	
 			<div style="overflow-x:hidden">
 				<table class="table table-condensed">
-					<tr style="border-top: solid white; border-bottom: solid white;">
-						<th class="a1">S/N</th>
-						<th class="a2">Name</th>
-						<th class="a3">Location</th>
-						<th class="a4">Invitation Sent Date</th>
-						<th class="a5">Expiry Date</th>
+					<tr>
+						<th class="AllPlayers_SN">S/N</th>
+						<th class="AllPlayers_Name">Name</th>
+						<th class="AllPlayers_Location">Location</th>						
+						<th class="AllPlayers_RegDate">Registeration Date</th>
 					</tr>  
 				</table> 
 				<table class="table table-hover">
 					<tr>
-						<td class="a1">1</td>
-						<td class="a2">Micheal</td>
-						<td class="a3">Sg</td>
-						<td class="a4">14/03/2013</td>
-						<td class="a5">20/03/2013</td>
-					<tr>
-						<td class="a1">2</td>
-						<td class="a2">Jennifer</td>
-						<td class="a3">USA</td>
-						<td class="a4">14/03/2013</td>
-						<td class="a5">20/03/2013</td>
+						<td class="AllPlayers_SN">1</td>
+						<td class="AllPlayers_Name">Jason</td>
+						<td class="AllPlayers_Location">Sg</td>						
+						<td class="AllPlayers_RegDate">25/08/2012</td>
 					</tr>
 				</table>
 			</div>
-		</div>
-		 
+		</div>		 
 		
-		<div class="tab-pane" id="tab2">
+		<div class="tab-pane" id="RegisteredPlayers">
 			<div style="overflow-x:hidden">
 				<table class="table table-condensed">
-					<tr style="border-top: solid white; border-bottom: solid white;">
-						<th class="r1">S/N</th>
-						<th class="r2">Name</th>
-						<th class="r3">Location</th>
-						<th class="r4">Invitation Sent Date</th>
-						<th class="r5">Registeration Date</th>
-						<th class="r6">Expiry Date</th>
-						<th class="r7">Progress</th>
+					<tr>
+						<th class="RegisteredPlayers_SN">S/N</th>
+						<th class="RegisteredPlayers_Name">Name</th>
+						<th class="RegisteredPlayers_Location">Location</th>						
+						<th class="RegisteredPlayers_RegDate">Registeration Date</th>						
 					</tr>  
 				</table> 
 				<table class="table table-hover">
 					<tr>
-						<th class="r1">1/th>
-						<td class="r2">Micheal</td>
-						<td class="r3">Sg</td>
-						<td class="r4">14/03/2013</td>
-						<td class="r5">14/03/2013</td>
-						<td class="r6">20/03/2013</td>
-						<td class="r7"> <div class="progress">
-										<div class="bar" style="width: 60%;"></div>
-										</div>
-						</td>
-						
-					<tr>
-						<th class="r1">2</th>
-						<td class="r1">Jennifer</td>
-						<td class="r2">USA</td>
-						<td class="r3">14/03/2013</td>
-						<td class="r4">17/03/2013</td>
-						<td class="r5">20/03/2013</td>
-						<td class="r6"> <div class="progress">
-										<div class="bar" style="width: 24%;"></div>
-										</div>
-						</td>
+						<td class="RegisteredPlayers_SN">1</td>
+						<td class="RegisteredPlayers_Name">Micheal</td>
+						<td class="RegisteredPlayers_Location">Sg</td>
+						<td class="RegisteredPlayers_RegDate">14/03/2013</td>	
 					</tr>
 				</table>
 			</div>
 		</div>
-		<div class="tab-pane" id="tab3">
-		  <div style="overflow-x:hidden">
+		
+		<div class="tab-pane" id="UnlockedPlayers">
+			<div style="overflow-x:hidden">
 				<table class="table table-condensed">
-					<tr style="border-top: solid white; border-bottom: solid white;">
-						<th class="u1">S/N</th>
-						<th class="u2">Name</th>
-						<th class="u3">Location</th>						
-						<th class="u4">Message</th>						
+					<tr>
+						<th class="UnlockedPlayers_SN">S/N</th>
+						<th class="UnlockedPlayers_Name">Name</th>
+						<th class="UnlockedPlayers_Location">Location</th>						
+						<th class="UnlockedPlayers_RegDate">Registration Date</th>	
+						<th class="UnlockedPlayers_UnlockedDate">Challenge Unlocked Date</th>
 					</tr>  
 				</table> 
 				<table class="table table-hover">
 					<tr>
-						<th class="u1">1</th>
-						<td class="u2">Wilson</td>
-						<td class="u3">Sg</td>
-						<td class="u4">Awesome!</td>								
-					<tr>
-						<th class="u1">2</th>
-						<td class="u2">John</td>
-						<td class="u3">USA</td>						
-						<td class="u4">Can't get enough of it!</td>	
+						<td class="UnlockedPlayers_SN">1</td>
+						<td class="UnlockedPlayers_Name">Wilson</td>
+						<td class="UnlockedPlayers_Location">Sg</td>
+						<td class="UnlockedPlayers_RegDate">Awesome!</td>
+						<td class="UnlockedPlayers_UnlockedDate">22/03/2011</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-	  </div>
+		
+		<div class="tab-pane" id="SubmittedPlayers">
+			<div style="overflow-x:hidden">
+				<table class="table table-condensed">
+					<tr>
+						<th class="SubmittedPlayers_SN">S/N</th>
+						<th class="SubmittedPlayers_Name">Name</th>
+						<th class="SubmittedPlayers_Location">Location</th>						
+						<th class="SubmittedPlayers_RegDate">Registration Date</th>	
+						<th class="SubmittedPlayers_UnlockedDate">Challenge Unlocked Date</th>
+						<th class="SubmittedPlayers_Msg">Challenge Unlocked Date</th>
+					</tr>  
+				</table> 
+				<table class="table table-hover">
+					<tr>
+						<td class="SubmittedPlayers_SN">1</td>
+						<td class="SubmittedPlayers_Name">Wilson</td>
+						<td class="SubmittedPlayers_Location">Sg</td>
+						<td class="SubmittedPlayers_RegDate">Awesome!</td>
+						<td class="SubmittedPlayers_UnlockedDate">22/03/2011</td>
+						<td class="SubmittedPlayers_Msg">Hi There!</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</div>
 	</div>
+
 </div>
     
-<script>
 
-</script>
+
+
+
