@@ -1,6 +1,6 @@
 'use strict';
 
-describe('ViTech provided tests for index loaded partials', function() {
+describe('Loading all partials defined by routings', function() {
   var pauseAll = false;
   //You can load the runner with runner.html?pauseAll=true to see each page after each test.
   pauseAll = window.location.search.replace( "?pauseAll=", "" );
@@ -10,6 +10,7 @@ describe('ViTech provided tests for index loaded partials', function() {
   beforeEach(function() {
     browser().navigateTo('../../app/index.html?test_with=app-test.js');
   });
+
 
   it('should render teach when user navigates to #teach', function() {
       
@@ -30,6 +31,18 @@ describe('ViTech provided tests for index loaded partials', function() {
       //You can select all the text from all h5 or any other html element
       //expect(element('#myCarousel .ng-scope:nth-child(1) .ng-binding').text()).
       //  toMatch("The Spy Who Coded");//"The Spy Who Coded"
+      if (pauseAll) pause();
+  });
+
+
+  it('should render home when user navigates to #badtag', function() {
+      
+      browser().navigateTo('#badtag');
+      
+      expect(browser().location().url()).toBe("/home");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
       if (pauseAll) pause();
   });
 
@@ -87,6 +100,106 @@ describe('ViTech provided tests for index loaded partials', function() {
       //  toMatch("Welcome, Ruijun!");
       if (pauseAll) pause();
   });
+
+  it('should render story when user navigates to #story', function() {
+      
+      browser().navigateTo('#story');
+      
+      expect(browser().location().url()).toBe("/story");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render challengedetails when user navigates to #challengedetails', function() {
+      
+      browser().navigateTo('#challengedetails');
+      
+      expect(browser().location().url()).toBe("/challengedetails");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render ranking when user navigates to #ranking', function() {
+      
+      browser().navigateTo('#ranking');
+      
+      expect(browser().location().url()).toBe("/ranking");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render registration when user navigates to #registration', function() {
+      
+      browser().navigateTo('#registration');
+      
+      expect(browser().location().url()).toBe("/registration");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render challengeCreator when user navigates to #challengeCreator', function() {
+      
+      browser().navigateTo('#challengeCreator');
+      
+      expect(browser().location().url()).toBe("/challengeCreator");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render tournaments when user navigates to #tournaments', function() {
+      
+      browser().navigateTo('#tournaments');
+      
+      expect(browser().location().url()).toBe("/tournaments");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render create when user navigates to #create', function() {
+      
+      browser().navigateTo('#create');
+      
+      expect(browser().location().url()).toBe("/create");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render videos when user navigates to #videos', function() {
+      
+      browser().navigateTo('#videos');
+      
+      expect(browser().location().url()).toBe("/videos");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
+  it('should render feedback when user navigates to #feedback', function() {
+      
+      browser().navigateTo('#feedback');
+      
+      expect(browser().location().url()).toBe("/feedback");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
+
 
 });
 
