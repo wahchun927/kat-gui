@@ -519,15 +519,14 @@
   <body ng-controller="PlayerController" ng-click="log_event($event)">    
     <!-- NAVBAR
         ================================================== --> 
-        <div class="container" >
-		  
-          <ul class="nav nav-pills pull-right" align="right">
-            <li ng-show="player.nickname"><a href="#profile"><image ng-src="{{player.gravatar}}"; width = 30px; height= 30px;/>&nbsp;&nbsp;<span ng-bind="player.nickname"></span><span ng-bind="secretAgent"></span></a></li>
-            <li><a ng-show="!player.nickname" class="janrainEngage" href="#"><button class="btn btn-primary" ng-click='login()'>Login</button></a></li>    
-            <li><a ng-show="player.nickname" ng-click='logout()' href="#"><button class="btn btn-danger" ng-click='logout()'>Log Out</button></a></li>     
-          </ul>
-        </div>  
-        <br>
+    <div class="container">
+      <ul class="nav nav-pills pull-right" align="right">
+        <li ng-show="player.nickname"><a href="#profile"><image ng-src="{{player.gravatar}}"; width = 30px; height= 30px;/>&nbsp;&nbsp;<span ng-bind="player.nickname"></span><span ng-bind="secretAgent"></span></a></li>
+        <li><a ng-show="!player.nickname" class="janrainEngage" href="#"><button class="btn btn-primary" ng-click='login()'>Login</button></a></li>    
+        <li><a ng-show="player.nickname" ng-click='logout()' href="#"><button class="btn btn-danger" ng-click='logout()'>Log Out</button></a></li>     
+      </ul>
+    </div>  
+    <br>
     <div class="navbar-wrapper">      
       <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->      
       <div class="container">       
@@ -551,44 +550,38 @@
                   <a type="button" ng-click="checkQuestLogin()">Quests</a>
                 </li>                
                 <li>
-			      <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
+			            <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
                 </li>
-
-        <li>
-            <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
-        </li>                
-        <li>
-            <a type="button" ng-click="checkRankingLogin()">Rankings</a>
-        </li>   
-				<li>
-				    <a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
-				</li>
+                <li>
+                  <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
+                </li>                
+                <li>
+                  <a type="button" ng-click="checkRankingLogin()">Rankings</a>
+                </li>   
+        				<li>
+        				  <a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
+        				</li>
                 <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->                 
                 <li class="dropdown" id="menu">                  
                   <a href="" class="dropdown-toggle" data-toggle="dropdown">More... 
                     <b class="caret"></b></a>                  
                   <ul class="dropdown-menu">                    
                     <li>
-                        <a href="#tournaments">Tournaments</a>
-                    </li>                    
-                                      
+                      <a href="#tournaments">Tournaments</a>
+                    </li>                                                 
                     <li class="divider"></li>                    
-                    
-                    <li class="nav-header">Create</li>                    
-
+                    <li class="nav-header">Create</li>
                     <li>
                       <a href="#create">Path or Level</a>
                     </li>   
                     <li>
                       <a type="button" ng-click="checkStoryLogin()">Story or Tutorial</a>
-                    </li>                    
-                 
+                    </li>
                     <li class="divider"></li>                    
                     <li class="nav-header">Videos</li>                    
                     <li>
                       <a href="#videos">Learn about SingPath</a>
-                    </li> 
-                                    
+                    </li>                
                   </ul>                
                 </li>
                 <li>
@@ -609,7 +602,7 @@
         ================================================== --> 
   <div ng-view></div>
   <!--Notification to Anoynmous User- "Ques will not be saved!"-->
-  <div class="modal fade" id="loginAlert" >
+  <div class="modal fade" id="loginAlert">
     <div class="modal-header" style="color:black">
       <a class="close"  href="#" data-dismiss="modal">&times;</a>
         <h3>Dear Agent!</h3>
