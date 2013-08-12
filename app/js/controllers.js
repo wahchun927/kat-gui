@@ -26,8 +26,7 @@ function IndexController($scope,$resource,$location,$window){
         var item = new $scope.Log({"page": page,
                                    "event":$event.target.name});
         $scope.item = item.$save(); 
-    }; 
-
+    };
 
 }
 
@@ -45,6 +44,9 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 
 	$scope.firstLoad=function(paid){
 		if($scope.player.nickname){
+   			$location.search('storyID', null);
+   			$location.search('difficulty', null);
+   			$location.search('pathDes', null);
 			$cookieStore.put("pid", paid);
 			$location.path("practice");
 		}
@@ -59,6 +61,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkQuestLogin = function(){
 		if($scope.player.nickname){
+			$location.search('pathName', null);
+   			$location.search('difficulty', null);
 			$location.path("quests");
 		}
 		else{
@@ -167,7 +171,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 }
 
 function InterfaceController($scope,$resource){
-        $scope.interfaces = $resource('/jsonapi/interfaces').get();
+    $scope.interfaces = $resource('/jsonapi/interfaces').get();
 }
 
 function PathController($scope,$resource,$cookieStore,$location,$filter){
@@ -176,8 +180,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
   $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
   $scope.abc = $cookieStore.get("pid");
   $scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
-
-  $scope.difficulty = "Drag-n-Drop";
   $scope.lvlName = 1;
   
   if(location.href.indexOf("pathName") > -1){
@@ -210,11 +212,11 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $("button[btn-radio="+checker+"]").click();
 	  }, 2500);
   	}
-  	else{
+  	else if(checker && location.href.indexOf("difficulty") == -1){
   	  setTimeout(function () {
 	    $('#levels button:button').first().click();
 	  }, 2000);
-  	}
+ 	}
   }
 
   $scope.addDefaultLevelSmall=function(checker){
@@ -223,12 +225,13 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $("button[btn-radio="+checker+"]").click();
 	  }, 2500);
   	}
-  	else if (checker){
+  	else if (checker && location.href.indexOf("difficulty") == -1){
   	  setTimeout(function () {
 	    $('#levelsmall button:button').first().click();
 	  }, 2000);
   	}
   }
+
   // this method add background color to the selected images 
   $scope.practiceSelection=function(checker){
     $('#myCarousel input:image').click(function() {
@@ -527,8 +530,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     }; 
 
     //This may not be needed every time the controller loads. 
-    //Try using init
-    $scope.get_mobile_paths();
+    //Try using inite
 	
 }
 
@@ -1986,8 +1988,8 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     if($cookieStore.get("name")){
       $scope.questID = $cookieStore.get("name").id;//retrieve quest id from Storyboard page
     }
-    $scope.difficulty = "Drag-n-Drop";
-    $scope.pathDes = "Python";
+    //$scope.difficulty = "Drag-n-Drop";
+    //$scope.pathDes = "Python";
 
     if(location.href.indexOf("difficulty") > -1){
     	if(location.href.indexOf("pathDes") > -1){
@@ -1998,6 +2000,32 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     	setTimeout(function () {
     		$("button[btn-radio="+$scope.passed_in_difficulty+"]").click();
     	}, 2000);
+    }
+
+    $scope.addDefaultLevel=function(checker){
+	  	if(checker.length > 1){
+		  setTimeout(function () {
+		    $("button[btn-radio="+checker+"]").click();
+		  }, 2500);
+	  	}
+	  	else if(checker && location.href.indexOf("difficulty") == -1){
+	  	  setTimeout(function () {
+		    $('#levels button:button').first().click();
+		  }, 2000);
+	 	}
+	}
+
+    $scope.addDefaultLevelSmall=function(checker){
+	    if(checker.length > 1){
+		  setTimeout(function () {
+		    $("button[btn-radio="+checker+"]").click();
+		  }, 2500);
+	  	}
+	  	else if (checker && location.href.indexOf("difficulty") == -1){
+	  	  setTimeout(function () {
+		    $('#levelsmall button:button').first().click();
+		  }, 2000);
+	  	}
     }
 
 	 $scope.pathSelection=function(checker){
@@ -2351,71 +2379,71 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		window.location.reload();
     };
 	
-		//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
-	   	$scope.addVideo=function(videoURL){
-			if(videoURL.length==42){
-				//Videos for the purpose of story creation
-				$scope.Videos.push(videoURL.substring(31));
-				$scope.videoURL="";
-			}
-			else{
-				alert("Please put in a valid YouTube URL!");
-			}
+	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
+   	$scope.addVideo=function(videoURL){
+		if(videoURL.length==42){
+			//Videos for the purpose of story creation
+			$scope.Videos.push(videoURL.substring(31));
+			$scope.videoURL="";
 		}
+		else{
+			alert("Please put in a valid YouTube URL!");
+		}
+	}
 		
-	    ////Enable reordering of rows under sequence column, & save the order	   
-		$scope.moveUp = function(index){
-			if (index!=0){
-				var tempVideos = $scope.Videos[index-1];
-				
-				$scope.Videos[index-1] = $scope.Videos[index];
-				
-				$scope.Videos[index] = tempVideos;
-			}
-		};
+    ////Enable reordering of rows under sequence column, & save the order	   
+	$scope.moveUp = function(index){
+		if (index!=0){
+			var tempVideos = $scope.Videos[index-1];
+			
+			$scope.Videos[index-1] = $scope.Videos[index];
+			
+			$scope.Videos[index] = tempVideos;
+		}
+	};
 		
-		$scope.moveDown = function(index){
-			if (index!=($scope.Videos.length-1)){
-				var tempVideos = $scope.Videos[index+1];
-				
-				$scope.Videos[index+1] = $scope.Videos[index];
+	$scope.moveDown = function(index){
+		if (index!=($scope.Videos.length-1)){
+			var tempVideos = $scope.Videos[index+1];
+			
+			$scope.Videos[index+1] = $scope.Videos[index];
 
-				$scope.Videos[index] = tempVideos;
-			}
-		};   
-	   ////set story image as that of the first video thumbnail
+			$scope.Videos[index] = tempVideos;
+		}
+	};   
+   ////set story image as that of the first video thumbnail
 	   
 	//6. If user is admin, enable publish(yes|no)
 	
-		////if admin made saved a story/edited a story, enable the "Publish" button
+	////if admin made saved a story/edited a story, enable the "Publish" button
 		
-		////if user clicks publish, set published value to true, disable publish button to "Pubished"
-		$scope.publish_story = function(title,des){
-		  $scope.newStory = {};
-		  $scope.newStory.name = title;
-		  $scope.newStory.description = des;
-		  $scope.newStory.videos = $scope.Videos;
-		  $scope.newStory.published = true;
+	////if user clicks publish, set published value to true, disable publish button to "Pubished"
+	$scope.publish_story = function(title,des){
+	  $scope.newStory = {};
+	  $scope.newStory.name = title;
+	  $scope.newStory.description = des;
+	  $scope.newStory.videos = $scope.Videos;
+	  $scope.newStory.published = true;
 
-      
+  
 
-			$scope.currentStoryID = $cookieStore.get("editStory").id;
-			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
-							name:$scope.newStory.name,
-							description:$scope.newStory.description,
-							videos:$scope.newStory.videos,
-							published:true,
-							archived:false
-			}).success(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			}).error(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			});
-		
-			window.location.reload();
-		};
+		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+						name:$scope.newStory.name,
+						description:$scope.newStory.description,
+						videos:$scope.newStory.videos,
+						published:true,
+						archived:false
+		}).success(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		}).error(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		});
 	
+		window.location.reload();
+	};
+
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
 	};
@@ -2450,9 +2478,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 							published:publish,
 							archived:true
 		}).success(function (data, status, headers, config) {
-		$scope.registration_response = data;
+			$scope.registration_response = data;
 		}).error(function (data, status, headers, config) {
-		$scope.registration_response = data;
+			$scope.registration_response = data;
 		});
 		
 		window.location.reload();
@@ -2512,6 +2540,7 @@ function TournamentController($scope,$resource,$http){
           //    $scope.tournaments = response;
           //});
     };  
+
 }
 
 
