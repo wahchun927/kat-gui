@@ -206,6 +206,13 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}, 2000);
 	}
 
+	$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+    //Including details=1 returns the nested problemset progress.
+    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
+        $scope.path_progress = response;
+    });
+    
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
 		  setTimeout(function () {
@@ -473,13 +480,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			console.log("Please clear previous level problems to unlock this level!");
 		}
 	};
-	
-   	$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
-
-    //Including details=1 returns the nested problemset progress.
-    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
-        $scope.path_progress = response;
-    });
 			
     $scope.get_player_progress = function(){
         $scope.player_progress = $resource('/jsonapi/get_player_progress').get();
