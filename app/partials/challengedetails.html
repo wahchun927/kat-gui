@@ -76,11 +76,11 @@
 						<th class="AllPlayers_RegDate">Registeration Date</th>
 					</tr>  
 				</table> 
-				<table class="table table-hover">
-					<tr>
-						<td class="AllPlayers_SN">1</td>
-						<td class="AllPlayers_Name">Jason</td>
-						<td class="AllPlayers_Location">Sg</td>						
+				<table class="table table-hover" ng-init="all_players(challengeId)"; ng-init="count(0)";>
+					<tr ng-repeat="player in challengePlayers" ng-repeat="count = count + 1">
+						<td class="AllPlayers_SN">count</td>
+						<td class="AllPlayers_Name">ng-src={{player.gravatar}} &nbsp&nbsp {{player.nickname}}</td>
+						<td class="AllPlayers_Location">{{player.country}}</td>						
 						<td class="AllPlayers_RegDate">25/08/2012</td>
 					</tr>
 				</table>
@@ -97,11 +97,11 @@
 						<th class="RegisteredPlayers_RegDate">Registeration Date</th>						
 					</tr>  
 				</table> 
-				<table class="table table-hover">
-					<tr>
+				<table class="table table-hover" ng-init="registered_players(challengeId)";>
+					<tr ng-repeat="regPlayer in registeredPlayers">
 						<td class="RegisteredPlayers_SN">1</td>
-						<td class="RegisteredPlayers_Name">Micheal</td>
-						<td class="RegisteredPlayers_Location">Sg</td>
+						<td class="RegisteredPlayers_Name">ng-src={{regPlayer.gravatar}} &nbsp&nbsp {{regPlayer.nickname}}</td>
+						<td class="RegisteredPlayers_Location">{{regPlayer.country}}</td>
 						<td class="RegisteredPlayers_RegDate">14/03/2013</td>	
 					</tr>
 				</table>
@@ -119,12 +119,12 @@
 						<th class="UnlockedPlayers_UnlockedDate">Challenge Unlocked Date</th>
 					</tr>  
 				</table> 
-				<table class="table table-hover">
-					<tr>
+				<table class="table table-hover" ng-init="unlocked_players(challengeId)";>
+					<tr ng-repeat="unlockedPlayer in unlockedPlayers">
 						<td class="UnlockedPlayers_SN">1</td>
-						<td class="UnlockedPlayers_Name">Wilson</td>
-						<td class="UnlockedPlayers_Location">Sg</td>
-						<td class="UnlockedPlayers_RegDate">Awesome!</td>
+						<td class="UnlockedPlayers_Name">ng-src={{unlockedPlayer.gravatar}} &nbsp&nbsp {{unlockedPlayer.nickname}}</td>
+						<td class="UnlockedPlayers_Location">{{regPlayer.country}}</td>
+						<td class="UnlockedPlayers_RegDate">22/03/2011</td>
 						<td class="UnlockedPlayers_UnlockedDate">22/03/2011</td>
 					</tr>
 				</table>
@@ -140,15 +140,15 @@
 						<th class="SubmittedPlayers_Location">Location</th>						
 						<th class="SubmittedPlayers_RegDate">Registration Date</th>	
 						<th class="SubmittedPlayers_UnlockedDate">Challenge Unlocked Date</th>
-						<th class="SubmittedPlayers_Msg">Challenge Unlocked Date</th>
+						<th class="SubmittedPlayers_Msg">Message</th>
 					</tr>  
 				</table> 
-				<table class="table table-hover">
-					<tr>
+				<table class="table table-hover" ng-init="submitted_players(challengeId)";>
+					<tr ng-repeat="subPlayer in submittedPlayers">
 						<td class="SubmittedPlayers_SN">1</td>
-						<td class="SubmittedPlayers_Name">Wilson</td>
-						<td class="SubmittedPlayers_Location">Sg</td>
-						<td class="SubmittedPlayers_RegDate">Awesome!</td>
+						<td class="SubmittedPlayers_Name">ng-src={{subPlayer.gravatar}} &nbsp&nbsp {{subPlayer.nickname}}</td>
+						<td class="SubmittedPlayers_Location">">{{regPlayer.country}}</td>
+						<td class="SubmittedPlayers_RegDate">22/03/2011</td>
 						<td class="SubmittedPlayers_UnlockedDate">22/03/2011</td>
 						<td class="SubmittedPlayers_Msg">Hi There!</td>
 					</tr>
