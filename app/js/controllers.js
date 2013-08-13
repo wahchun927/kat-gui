@@ -826,9 +826,62 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	
 	
 	//3. Challengedetails.html - Load stats for each challenge
-			//3a. All players
-			//3b. Registered players
-			//3c. Responded players			
+			$scope.all_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			//$scope.RegDate=challengeDetails.substring(0,9).trim();
+        });	
+	};
+		//3b. Registered players	
+	$scope.registered_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			$scope.registeredPlayers=[];
+			//if playerUnlocked=false
+			for(var i=0;i<=$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerUnlocked==false){					
+					$scope.registeredPlayers.push($scope.challengePlayers[i]);				
+				}
+			}
+        });	
+	};			
+	
+		//3c. Unlocked players	
+	$scope.unlocked_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			$scope.unlockedPlayers=[];
+			//if playerUnlocked=true
+			for(var i=0;i<=$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerUnlocked==false){					
+					$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
+				}
+			}
+        });	
+	};
+	
+		//3d. Submitted players	 
+	$scope.submitted_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			$scope.submittedPlayers=[];
+			//if playerSubmitted=true
+			for(var i=0;i<=$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerSubmitted==true){					
+					$scope.submittedPlayers.push($scope.challengePlayers[i]);				
+				}
+			}
+        });	
+	};
+					
 	//4. Enable registering for challenge
 	//5. Create Habit Challenge
 	//6. Create Badge Challenge
