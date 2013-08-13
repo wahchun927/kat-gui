@@ -47,6 +47,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
    			$location.search('storyID', null);
    			$location.search('difficulty', null);
    			$location.search('pathDes', null);
+   			$location.search('pathName', null);
 			$cookieStore.put("pid", paid);
 			$location.path("practice");
 		}
@@ -61,6 +62,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkQuestLogin = function(){
 		if($scope.player.nickname){
+			$location.search('storyID', null);
+   			$location.search('pathDes', null);
 			$location.search('pathName', null);
    			$location.search('difficulty', null);
 			$location.path("quests");
@@ -80,6 +83,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkStoryLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("story");
 		}
@@ -89,6 +96,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkChallengesLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("challenges");
 		}
@@ -98,6 +109,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkRankingLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("ranking");
 		}
@@ -107,6 +122,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkFeedbackLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("feedback");
 		}
@@ -116,6 +135,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkProfileLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("profile");
 		}
@@ -191,27 +214,34 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathName)};
 			$scope.practiceSelection(1);
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
+			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else if(location.href.indexOf("pathDes") > -1){
 		$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
+			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else{
 		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
 			$scope.practiceSelection(1);
+			//console.log($scope.paths.paths[0].id);
 		}, 2000);
 	}
 
-	$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+	setTimeout(function () {
+		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
-    //Including details=1 returns the nested problemset progress.
-    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
-        $scope.path_progress = response;
-    });
+	    //Including details=1 returns the nested problemset progress.
+	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
+	        $scope.path_progress = response;
+	        console.log($scope.path_progress);
+	    });
+	}, 2000);
+	
     
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
