@@ -1330,7 +1330,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 		//to retrieve path info to display on path play page
 		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
 	        var path_id = $scope.path_IDD;
-			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id');
+			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id?details=1');
 	        //Including details=1 returns the nested problemset progress.
 	        $scope.retrieved_path.get({"path_id":path_id}, function(response){
 	        	$scope.single_path_info = response;
@@ -1977,10 +1977,21 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
 		//to retrieve path info to display on path play page
 		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
 	        var path_id = $scope.path_IDD;
-			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id');
+			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id?details=1');
 	        //Including details=1 returns the nested problemset progress.
 	        $scope.retrieved_path.get({"path_id":path_id}, function(response){
 	        	$scope.single_path_info = response;
+
+	        	$scope.p_S_order = $scope.single_path_info.currentProblemsetID;
+
+
+	        	for( var i=0; i<$scope.single_path_info.details.length;i++){
+	        		if($scope.single_path_info.details[i].id == $scope.p_S_order){
+	        			$scope.current_level_progress = $scope.single_path_info.details[i].currentPlayerProgress;
+	        			$scope.total_level_progress = $scope.single_path_info.details[i].problemsInProblemset;
+	        		}
+
+	        	}
 	        });
 	 	},true);
 }
