@@ -229,12 +229,14 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}, 2000);
 	}
 
-	$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+	setTimeout(function () {
+		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
-    //Including details=1 returns the nested problemset progress.
-    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
-        $scope.path_progress = response;
-    });
+	    //Including details=1 returns the nested problemset progress.
+	    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
+	        $scope.path_progress = response;
+	    });
+	});
 	
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
@@ -2629,14 +2631,14 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
 		}
 
-		$scope.updatedStoryList=[];
-		for(var i=0;i<$scope.pubStories.length;i++){
-			if($scope.pubStories[i].supported_paths.length == 0 || $scope.pubStories[i].supported_paths.indexOf(pathDes) > -1){
-				$scope.pubStories.push($scope.pubStories[i]);
-			}
-		}
-		$scope.questStoryList = $scope.updatedStoryList;
-	    $scope.addQuestColor(true);
+		//$scope.updatedStoryList=[];
+		//for(var i=0;i<$scope.pubStories.length;i++){
+			//if($scope.pubStories[i].supported_paths.length == 0 || $scope.pubStories[i].supported_paths.indexOf(pathDes) > -1){
+				//$scope.pubStories.push($scope.pubStories[i]);
+			//}
+		//}
+		//$scope.questStoryList = $scope.updatedStoryList;
+	    //$scope.addQuestColor(true);
     }
 }
 
