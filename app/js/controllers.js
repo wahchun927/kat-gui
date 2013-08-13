@@ -615,7 +615,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		console.log($scope.theBadges);
 	});
 	
-	$scope.selectedPath1="";
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
 	
 	// retrieve all countries
@@ -631,15 +630,25 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	$scope.challengeTypes.push({'challengeType':'Habit','name':'Habit Challenge'});	
 	
 	$scope.challengeType="Badge";
-	$scope.chName="Put your challenge name here.";
-	$scope.chDescription="Put your description here.";
+	$scope.chName="";
+	$scope.chDescription="";
 	$scope.badges = [null, null, null, null, null, null];
 	$scope.selectedPath = [null, null, null, null, null, null];
+	$scope.chLocation = "-";
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
 	$scope.chLocation="";
-	$scope.chStartDate="";
-	$scope.chEndDate="";
+	
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
+
+	$scope.chStartDate= mm+'/'+dd+'/'+yyyy;
+	dd= dd+1;
+	$scope.chEndDate= mm+'/'+dd+'/'+yyyy;;
     // To display particular challenge in the registration page
    
     var open_challenge_ID = $cookieStore.get("challengeID"); 
@@ -682,12 +691,14 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		$scope.newChallenge.challengeType = $scope.challengeType;
 		$scope.newChallenge.name = $scope.chName;
 		$scope.newChallenge.description = $scope.chDescription;
+		$scope.newChallenge.startDate = $scope.chStartDate;
+		$scope.newChallenge.endDate = $scope.chEndDate;		
 		
-		$scope.newChallenge.badges = [];
+		$scope.newChallenge.unlockRequiredBadges = [];
 		
 		for(var i = 0; i<$scope.badges.length; i++){
 			if($scope.badges[i]){
-			    $scope.newChallenge.badges.push($scope.badges[i]);
+			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
     
