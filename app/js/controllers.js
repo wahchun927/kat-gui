@@ -826,9 +826,62 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	
 	
 	//3. Challengedetails.html - Load stats for each challenge
-			//3a. All players
-			//3b. Registered players
-			//3c. Responded players			
+			$scope.all_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			//$scope.RegDate=challengeDetails.substring(0,9).trim();
+        });	
+	};
+		//3b. Registered players	
+	$scope.registered_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			$scope.registeredPlayers=[];
+			//if playerUnlocked=false
+			for(var i=0;i<=$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerUnlocked==false){					
+					$scope.registeredPlayers.push($scope.challengePlayers[i]);				
+				}
+			}
+        });	
+	};			
+	
+		//3c. Unlocked players	
+	$scope.unlocked_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			$scope.unlockedPlayers=[];
+			//if playerUnlocked=true
+			for(var i=0;i<=$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerUnlocked==false){					
+					$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
+				}
+			}
+        });	
+	};
+	
+		//3d. Submitted players	 
+	$scope.submitted_players= function(challengeId){
+	
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({}, function(response){
+			$scope.challengePlayers = response.players;	
+			$scope.submittedPlayers=[];
+			//if playerSubmitted=true
+			for(var i=0;i<=$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerSubmitted==true){					
+					$scope.submittedPlayers.push($scope.challengePlayers[i]);				
+				}
+			}
+        });	
+	};
+					
 	//4. Enable registering for challenge
 	//5. Create Habit Challenge
 	//6. Create Badge Challenge
@@ -1330,7 +1383,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 		//to retrieve path info to display on path play page
 		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
 	        var path_id = $scope.path_IDD;
-			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id');
+			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id?details=1');
 	        //Including details=1 returns the nested problemset progress.
 	        $scope.retrieved_path.get({"path_id":path_id}, function(response){
 	        	$scope.single_path_info = response;
@@ -1977,10 +2030,21 @@ function PracticeDnDController($scope,$resource,$cookieStore,$location){
 		//to retrieve path info to display on path play page
 		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
 	        var path_id = $scope.path_IDD;
-			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id');
+			$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id?details=1');
 	        //Including details=1 returns the nested problemset progress.
 	        $scope.retrieved_path.get({"path_id":path_id}, function(response){
 	        	$scope.single_path_info = response;
+
+	        	$scope.p_S_order = $scope.single_path_info.currentProblemsetID;
+
+
+	        	for( var i=0; i<$scope.single_path_info.details.length;i++){
+	        		if($scope.single_path_info.details[i].id == $scope.p_S_order){
+	        			$scope.current_level_progress = $scope.single_path_info.details[i].currentPlayerProgress;
+	        			$scope.total_level_progress = $scope.single_path_info.details[i].problemsInProblemset;
+	        		}
+
+	        	}
 	        });
 	 	},true);
 }
