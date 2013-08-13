@@ -56,6 +56,14 @@
       *background-color: #003bb3;
     }
 
+    .no-space [class*="span"] {
+      margin-left: 0;
+    }
+
+    .no-space {
+      margin-left:0;
+    }
+
     .btn-primary:hover{
       color: #ffffff;
       background: #000066;
@@ -182,6 +190,10 @@
      /* RESPONSIVE CSS
     -------------------------------------------------- */
             @media (max-width: 1024px) {
+                body{
+                  font-size: 14px;
+                }
+
                 .navbar-wrapper {
                     position: absolute;
                     top: 40px;
@@ -234,6 +246,9 @@
                 }
             }
             @media (max-width: 800px) {
+                body{
+                  font-size: 12px;
+                }
                 .navbar-inner {
                     margin: -20px;
                 }
@@ -286,6 +301,9 @@
             }
         }
         @media (max-width: 768px) {
+            body{
+              font-size: 11px;
+            }
             #homevideo {
                 height: 80%px;
                 width: 80%;
@@ -306,6 +324,9 @@
             }
         }
         @media (max-width: 600px) {
+            body{
+              font-size: 11px;
+            }
             #homevideo {
                 height: 80%px;
                 width: 80%;
@@ -424,13 +445,13 @@
   <body>
 
     <div class="container">
-		<div class="container" ng-controller="PlayerController">
+    <div class="container" ng-controller="PlayerController">
           <ul class="nav nav-pills pull-right" align="right">
             <li ng-show="player.nickname"><a href="#profile"><input type="image" ng-src="{{player.gravatar}}"; width = 30px; height= 30px;/>&nbsp;&nbsp;</span><span ng-bind="player.nickname"></span><span ng-bind="secretAgent">!</span></a></li>
             <li><a ng-show="!player.nickname" class="janrainEngage" href="#"><button class="btn btn-primary" ng-click='login()'>Login</button></a></li>    
             <li><a ng-show="player.nickname" ng-click='logout()' href="#"><button class="btn btn-danger" ng-click='logout()'>Log Out</button></a></li>     
           </ul>
-		  </div>
+      </div>
     <br>
    </div>
     <div class="container">
@@ -457,18 +478,18 @@
                   <a href="index.html#/quests">Quests</a>
                 </li>                
                 <li>
-			      <a href="index.html#/practice">Practice</a>
+            <a href="index.html#/practice">Practice</a>
                 </li>
 
-				<li>
-					<a href="index.html#/challenges">Challenges</a>
-				</li>                
-				<li>
-					<a href="index.html#/ranking">Rankings</a>
-				</li>   
-				<li>
-				   <a href="index.html#/feedback">Feedback</a>
-				</li>
+        <li>
+          <a href="index.html#/challenges">Challenges</a>
+        </li>                
+        <li>
+          <a href="index.html#/ranking">Rankings</a>
+        </li>   
+        <li>
+           <a href="index.html#/feedback">Feedback</a>
+        </li>
                 <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->                 
                 <li class="dropdown" id="menu">                  
                   <a href="" class="dropdown-toggle" data-toggle="dropdown">More... 
@@ -509,16 +530,16 @@
         <!-- /.navbar -->      
       </div> 
       <!-- /.container -->    
-	  </div>
+    </div>
 
       <div ng-controller="PracticeDnDController" id="dndGame">
 
         <div class="row-fluid" ng-controller="PathController">
             <div class="span9 progess-inner">
-              <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
+              <div class="span3" align="center">&nbsp;&nbsp;&nbsp;&nbsp;Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
 
               </div>
-              <div class="span8" align="left"> 
+              <div class="span8 no-space" align="left"> 
                 <div class="progress progress-success" align="left">
                   <div class="bar" style="width:{{count = (current_level_progress/total_level_progress)*100 |number:0}}%;">
                   </div>
