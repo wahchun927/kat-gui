@@ -229,16 +229,13 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}, 2000);
 	}
 
-	setTimeout(function () {
-		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+	$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
-	    //Including details=1 returns the nested problemset progress.
-	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
-	        $scope.path_progress = response;
-	    });
-	}, 2000);
+    //Including details=1 returns the nested problemset progress.
+    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
+        $scope.path_progress = response;
+    });
 	
-    
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
 		  setTimeout(function () {
@@ -604,8 +601,43 @@ function BadgeController($scope,$resource){
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore){
+	//variable for badge challenge
+	$resource('/jsonapi/get_game_paths').get({},function(response){
+		$scope.paths = response;
+		$scope.theBadges = {};
+			
+	    for( var i=0; i<$scope.paths.paths.length; i++){
+			$scope.theBadges[$scope.paths.paths[i].id] = $scope.paths.paths[i].badges;
+			
+	    }	
+		console.log($scope.theBadges);
+	});
+	
+	$scope.selectedPath1="";
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
-
+	
+	// retrieve all countries
+	$scope.countryModel = $resource('/jsonapi/all_countries');
+	$scope.countryModel.get({}, function(response){
+		$scope.ListAllCountries = response.countries;	
+	});
+	
+	//variable for challenge creation
+	$scope.challengeTypes = [];
+	$scope.challengeTypes.push({'challengeType':'Badge','name':'Badge Challenge'});
+	$scope.challengeTypes.push({'challengeType':'Quest','name':'Quest Challenge'});
+	$scope.challengeTypes.push({'challengeType':'Habit','name':'Habit Challenge'});	
+	
+	$scope.challengeType="Badge";
+	$scope.chName="Put your challenge name here.";
+	$scope.chDescription="Put your description here.";
+	$scope.badges = [null, null, null, null, null, null];
+	$scope.selectedPath = [null, null, null, null, null, null];
+	$scope.chPubMsg="";
+	$scope.chPriMsg="";
+	$scope.chLocation="";
+	$scope.chStartDate="";
+	$scope.chEndDate="";
     // To display particular challenge in the registration page
    
     var open_challenge_ID = $cookieStore.get("challengeID"); 
