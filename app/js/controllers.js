@@ -214,18 +214,21 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathName)};
 			$scope.practiceSelection(1);
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
+			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else if(location.href.indexOf("pathDes") > -1){
 		$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
+			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else{
 		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
 			$scope.practiceSelection(1);
+			//console.log($scope.paths.paths[0].id);
 		}, 2000);
 	}
 
@@ -235,6 +238,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    //Including details=1 returns the nested problemset progress.
 	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
+	        console.log($scope.path_progress);
 	    });
 	}, 2000);
 	
@@ -2198,6 +2202,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 		$('#video').trigger('click');
     };
 
+    $scope.updateURL=function(storyID,difficulty,pathDes){
+    	if(storyID != undefined && difficulty != undefined && pathDes != undefined){
+    		$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
+    	}
+    }
+
     $scope.$watch('name', function() {
       if($scope.name && $scope.name.difficulty == "Drag-n-Drop"){
         $scope.changeRoute = "playPage.html";
@@ -2223,11 +2233,10 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myStories = "";
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
-	$scope.pubStories = [];
 	
 	$scope.name = $cookieStore.get("name");
     $scope.StoryModel = $resource('/jsonapi/story');
-    $scope.StoryModel.query({}, function(response){
+        $scope.StoryModel.query({}, function(response){
         $scope.stories = response;
         if(location.href.indexOf("storyID") > -1){
 	  	  $scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
@@ -2238,6 +2247,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	      }, 2000);
 	    }else{
 	    	setTimeout(function () {
+			  $scope.pubStories = [];
 	          $scope.StoryModel.query({}, function(response){
 	              $scope.stories = response;
 				  for(var i=0;i<$scope.stories.length;i++){
@@ -2245,7 +2255,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 							$scope.pubStories.push($scope.stories[i]);
 						}				
 				  }				
-	              $scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
+	              $scope.questStoryList = $filter('groupBy')($scope.stories, 3);
 	              $scope.videos = $scope.stories[0].videos;
 				  $scope.$parent.storyid = $scope.stories[abc].id;
 	              //alert("There are "+$scope.stories.length+" stories.");
@@ -2269,6 +2279,12 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			  $scope.$parent.storyid = $scope.myStories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
           });
+    };
+	
+	
+    //$scope.fetch_stories();
+    $scope.goToStory=function(){
+
     };
 
     // this method add background color to the selected images 
@@ -2468,22 +2484,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		
 		window.location.reload();
 	}
-
-    $scope.updateURL=function(storyID,difficulty,pathDes){
-		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
-			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
-		}
-
-		$scope.updatedStoryList=[];
-		for(var i=0;i<$scope.pubStories.length;i++){
-			if($scope.pubStories[i].supported_paths.length == 0 || $scope.pubStories[i].supported_paths.indexOf(pathDes) > -1){
-				$scope.pubStories.push($scope.pubStories[i]);
-			}
-		}
-		$scope.questStoryList = $scope.updatedStoryList;
-	    $scope.addQuestColor(true);
-	    
-    }
 }
 
 //Test story controller. Normally use GenericController
