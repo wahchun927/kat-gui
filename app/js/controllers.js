@@ -407,7 +407,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		var path_ID;
 		if(difficulty=="Drag-n-Drop"){
 			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = $scope.mobile_paths[i].path_id;
+				var a = " " + pathName;
 				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
 				if(a == b){
 					$scope.update_path_progress($scope.mobile_paths[i].path_id);
@@ -2564,6 +2564,21 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		
 		window.location.reload();
 	}
+
+	$scope.updateURL=function(storyID,difficulty,pathDes){
+		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
+			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
+		}
+
+		$scope.updatedStoryList=[];
+		for(var i=0;i<$scope.pubStories.length;i++){
+			if($scope.pubStories[i].supported_paths.length == 0 || $scope.pubStories[i].supported_paths.indexOf(pathDes) > -1){
+				$scope.pubStories.push($scope.pubStories[i]);
+			}
+		}
+		$scope.questStoryList = $scope.updatedStoryList;
+	    $scope.addQuestColor(true);
+    }
 }
 
 function TimeAndAttemptsController($scope,$resource){
@@ -2617,23 +2632,7 @@ function TournamentController($scope,$resource,$http){
           //$scope.TournamentModel.query({}, function(response){
           //    $scope.tournaments = response;
           //});
-    };  
-
-    $scope.updateURL=function(storyID,difficulty,pathDes){
-		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
-			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
-		}
-
-		$scope.updatedStoryList=[];
-		for(var i=0;i<$scope.pubStories.length;i++){
-			if($scope.pubStories[i].supported_paths.length == 0 || $scope.pubStories[i].supported_paths.indexOf(pathDes) > -1){
-				$scope.pubStories.push($scope.pubStories[i]);
-			}
-		}
-		$scope.questStoryList = $scope.updatedStoryList;
-	    $scope.addQuestColor(true);
-
-    }
+    };
 
 }
 
