@@ -236,6 +236,9 @@
             /* RESPONSIVE CSS
     -------------------------------------------------- */
             @media (max-width: 1024px) {
+                body{
+                    font-size: 14px;
+                }
                 .navbar-wrapper {
                     position: absolute;
                     top: 40px;
@@ -288,6 +291,9 @@
                 }
             }
             @media (max-width: 800px) {
+                body{
+                    font-size: 12px;
+                }
                 .navbar-inner {
                     margin: -20px;
                 }
@@ -340,6 +346,9 @@
             }
         }
         @media (max-width: 768px) {
+            body{
+                font-size: 11px;
+            }
             #homevideo {
                 height: 80%px;
                 width: 80%;
@@ -360,6 +369,9 @@
             }
         }
         @media (max-width: 600px) {
+            body{
+                font-size: 11px;
+            }
             #homevideo {
                 height: 80%px;
                 width: 80%;
@@ -493,18 +505,18 @@
                   <a href="index.html#/quests">Quests</a>
                 </li>                
                 <li>
-			      <a href="index.html#/practice">Practice</a>
+                  <a href="index.html#/practice">Practice</a>
                 </li>
 
-				<li>
-					<a href="index.html#/challenges">Challenges</a>
-				</li>                
-				<li>
-					<a href="index.html#/ranking">Rankings</a>
-				</li>   
-				<li>
-				   <a href="index.html#/feedback">Feedback</a>
-				</li>
+                <li>
+                    <a href="index.html#/challenges">Challenges</a>
+                </li>                
+                <li>
+                    <a href="index.html#/ranking">Rankings</a>
+                </li>   
+                <li>
+                   <a href="index.html#/feedback">Feedback</a>
+                </li>
                 <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->                 
                 <li class="dropdown" id="menu">                  
                   <a href="" class="dropdown-toggle" data-toggle="dropdown">More... 
@@ -545,7 +557,7 @@
         <!-- /.navbar -->      
       </div> 
       <!-- /.container -->    
-	  </div>
+      </div>
         <!-- /.navbar-wrapper -->
         <script>document.write('<base href="' + document.location + '" />');</script>
         <script src="js/ace.js"></script>
@@ -690,9 +702,9 @@
             <!--<a class="janrainEngage" href="#"><input type="submit" value="Hyperlinked Sign In Button"></a>-->   
             <div class="row-fluid">
                         <div class="span9 progess-inner">
-                            <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
+                            <div class="span3" align="center">&nbsp;&nbsp;&nbsp;&nbsp;Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
                             </div>
-                            <div class="span8" align="left"> 
+                            <div class="span8 no-space" align="left"> 
                                 <div class="progress progress-success" align="left">
                                     <div class="bar" style="width:{{count = (current_level_progress/total_level_progress)*100 |number:0}}%;">
                                     </div>
