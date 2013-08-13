@@ -1338,6 +1338,17 @@ function PracticeGameController($scope,$resource,$cookieStore){
 	        //Including details=1 returns the nested problemset progress.
 	        $scope.retrieved_path.get({"path_id":path_id}, function(response){
 	        	$scope.single_path_info = response;
+
+	        	$scope.p_S_order = $scope.single_path_info.currentProblemsetID;
+
+
+	        	for( var i=0; i<$scope.single_path_info.details.length;i++){
+	        		if($scope.single_path_info.details[i].id == $scope.p_S_order){
+	        			$scope.current_level_progress = $scope.single_path_info.details[i].currentPlayerProgress;
+	        			$scope.total_level_progress = $scope.single_path_info.details[i].problemsInProblemset;
+	        		}
+
+	        	}
 	        });
 	 	},true);
 
@@ -2234,6 +2245,36 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	
+	$scope.filter_and_group_questStoryList = function(current_path){
+ 			  //Replace this by passing it in as a parameter.  
+	    	  if (!current_path){
+	    	  	current_path = 10030;
+	    	  }
+			  $scope.pubStories = [];
+	          $scope.StoryModel.query({}, function(response){
+	              $scope.stories = response;
+				  for(var i=0;i<$scope.stories.length;i++){
+				  		//adding the filter on supported path logic. 
+						if($scope.stories[i].published==true && $scope.stories[i].archived == false && ($scope.stories[i].supported_paths.length==0 || $scope.stories[i].supported_paths.indexOf(current_path)>=0) ){
+							$scope.pubStories.push($scope.stories[i]);
+						}				
+				  }		
+				  //$scope.questStoryList = $filter('groupBy')($scope.stories, 3);
+	              //Not sure why filter does not work locally. Just manually splitting stories for now. 
+	              $scope.questStoryList = [];
+      			  var i = 0;
+      			  var n = $scope.pubStories.length;
+  				  while (i < n) {
+    				$scope.questStoryList.push($scope.pubStories.slice(i, i += 3));
+  				  }
+
+	              $scope.videos = $scope.stories[0].videos;
+				  $scope.$parent.storyid = $scope.stories[abc].id;
+	              //alert("There are "+$scope.stories.length+" stories.");
+	          });
+	  		  $scope.addQuestColor(true);
+    };
+
 	$scope.name = $cookieStore.get("name");
     $scope.StoryModel = $resource('/jsonapi/story');
         $scope.StoryModel.query({}, function(response){
@@ -2247,20 +2288,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	      }, 2000);
 	    }else{
 	    	setTimeout(function () {
-			  $scope.pubStories = [];
-	          $scope.StoryModel.query({}, function(response){
-	              $scope.stories = response;
-				  for(var i=0;i<$scope.stories.length;i++){
-						if($scope.stories[i].published==true && $scope.stories[i].archived == false){
-							$scope.pubStories.push($scope.stories[i]);
-						}				
-				  }				
-	              $scope.questStoryList = $filter('groupBy')($scope.stories, 3);
-	              $scope.videos = $scope.stories[0].videos;
-				  $scope.$parent.storyid = $scope.stories[abc].id;
-	              //alert("There are "+$scope.stories.length+" stories.");
-	          });
-	  		  $scope.addQuestColor(true);
+	    	 	$scope.filter_and_group_questStoryList(null);
 	        }, 2000);
 	    }
     });
@@ -2661,25 +2689,29 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.feedback_sent = false;
 	$scope.title = "Some feedback on SingPath";
-	$scope.description = "I just wanted to let you know that ..";
-	
+	$scope.description = "I just wanted to let you know that ..";	
 
 	$scope.create_feedback = function(title,des,type){
 		console.log(title+" "+des+" "+type);
 		$scope.newFeedback = {};
 		$scope.newFeedback.name = title;
-		$scope.newFeedback.description = des;
-		//Commenting this out until it works
-		//$scope.newFeedback.category = type;
-		$scope.newFeedback.category = "Idea";
+		$scope.newFeedback.description = des;		
+		$scope.newFeedback.category = type;
 		
-		$scope.NewFeedback = $resource('/jsonapi/feedback');
-		var new_feedback = new $scope.NewFeedback($scope.newFeedback);
-		new_feedback.$save(function(response){
-			$scope.feedback = response;
-			//Hide the form
-			$scope.feedback_sent = true;
-		});
+		if(title != undefined && des != undefined && type != undefined){
+			$scope.NewFeedback = $resource('/jsonapi/feedback');
+			var new_feedback = new $scope.NewFeedback($scope.newFeedback);
+			new_feedback.$save(function(response){
+				$scope.feedback = response;
+				//Hide the form
+				$scope.feedback_sent = true;
+				//$('#thanks').modal('show');
+				//window.location.reload();
+				
+			});			
+		
+		}else{		
+			alert("Please fill all options!");		
+		}				
 	};
-
 }

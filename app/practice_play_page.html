@@ -515,12 +515,12 @@
 
         <div class="row-fluid" ng-controller="PathController">
             <div class="span9 progess-inner">
-              <div class="span3">&nbsp;&nbsp;&nbsp;&nbsp;Path Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="single_path_info.currentPlayerProgress"> </span>/<span ng-bind="single_path_info.problemsInPath"></span>
+              <div class="span4">&nbsp;&nbsp;&nbsp;&nbsp;Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
 
               </div>
               <div class="span8" align="left"> 
                 <div class="progress progress-success" align="left">
-                  <div class="bar" style="width:{{count = (single_path_info.currentPlayerProgress/single_path_info.problemsInPath)*100 |number:0}}%;">
+                  <div class="bar" style="width:{{count = (current_level_progress/total_level_progress)*100 |number:0}}%;">
                   </div>
                 </div>
               </div>
