@@ -47,6 +47,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
    			$location.search('storyID', null);
    			$location.search('difficulty', null);
    			$location.search('pathDes', null);
+   			$location.search('pathName', null);
 			$cookieStore.put("pid", paid);
 			$location.path("practice");
 		}
@@ -61,6 +62,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkQuestLogin = function(){
 		if($scope.player.nickname){
+			$location.search('storyID', null);
+   			$location.search('pathDes', null);
 			$location.search('pathName', null);
    			$location.search('difficulty', null);
 			$location.path("quests");
@@ -80,6 +83,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkStoryLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("story");
 		}
@@ -89,6 +96,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkChallengesLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("challenges");
 		}
@@ -98,6 +109,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkRankingLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("ranking");
 		}
@@ -107,6 +122,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkFeedbackLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("feedback");
 		}
@@ -116,6 +135,10 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	};
 	
 	$scope.checkProfileLogin = function(){
+		$location.search('storyID', null);
+		$location.search('pathDes', null);
+		$location.search('pathName', null);
+		$location.search('difficulty', null);
 		if($scope.player.nickname){
 			$location.path("profile");
 		}
@@ -191,21 +214,35 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathName)};
 			$scope.practiceSelection(1);
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
+			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else if(location.href.indexOf("pathDes") > -1){
 		$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
+			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else{
 		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
 			$scope.practiceSelection(1);
+			//console.log($scope.paths.paths[0].id);
 		}, 2000);
 	}
 
+	setTimeout(function () {
+		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+	    //Including details=1 returns the nested problemset progress.
+	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
+	        $scope.path_progress = response;
+	        console.log($scope.path_progress);
+	    });
+	}, 2000);
+	
+    
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
 		  setTimeout(function () {
@@ -377,7 +414,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				var a = $scope.mobile_paths[i].path_id;
 				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
 				if(a == b){
-					path_ID = $scope.mobile_paths[i].path_id;
 					$scope.update_path_progress($scope.mobile_paths[i].path_id);
 					break;
 				}
@@ -391,7 +427,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				//alert(a==b);
 				if(a == b){
 					//alert(a+" "+b);
-					path_ID = $scope.paths.paths[i].id;
 					$scope.update_path_progress($scope.paths.paths[i].id);
 					break;
 				}
@@ -399,7 +434,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}
 		//update_path_progress(pat)
 		if(pathName != undefined && difficulty != undefined){
-			$location.search({pathID: path_ID,difficulty: difficulty});
+			$location.search({pathName: pathName,difficulty: difficulty});
 		}
 	};
 	
@@ -475,13 +510,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			console.log("Please clear previous level problems to unlock this level!");
 		}
 	};
-	
-   	$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
-
-    //Including details=1 returns the nested problemset progress.
-    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
-        $scope.path_progress = response;
-    });
 			
     $scope.get_player_progress = function(){
         $scope.player_progress = $resource('/jsonapi/get_player_progress').get();
@@ -2079,26 +2107,27 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $scope.newQuest = {}
       $scope.newQuest.storyID = storyID;
 		
-  		if(difficulty=="Drag-n-Drop"){
-  			for(var i=0; i<$scope.mobile_paths.length;i++){
-  				var a = " " + pathName;
-  				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-  				if(a == b){
-  					$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
-  					break;
-  				}
-  			}
-  		}
-  		else{
-  			for(var i=0; i<$scope.paths.paths.length;i++){
-  				var a = " " + pathName.trim();
-  				var b = " " + $scope.paths.paths[i].name.trim();
-  				if(a == b){
-  					$scope.newQuest.pathID = $scope.paths.paths[i].id;
-  					break;
-  				}
-  			}
-  		}
+	  if(difficulty=="Drag-n-Drop"){
+	  	for(var i=0; i<$scope.mobile_paths.length;i++){
+			var a = " " + pathName;
+			var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
+			if(a == b){
+				$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
+				break;
+			}
+		}
+	  }
+	  else{
+		for(var i=0; i<$scope.paths.paths.length;i++){
+			var a = " " + pathName.trim();
+			var b = " " + $scope.paths.paths[i].name.trim();
+			if(a == b){
+				$scope.newQuest.pathID = $scope.paths.paths[i].id;
+				break;
+			}
+	    }
+	  }
+
       $scope.newQuest.difficulty = difficulty;
 
       $scope.NewQuest = $resource('/jsonapi/quest');
@@ -2660,25 +2689,29 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.feedback_sent = false;
 	$scope.title = "Some feedback on SingPath";
-	$scope.description = "I just wanted to let you know that ..";
-	
+	$scope.description = "I just wanted to let you know that ..";	
 
 	$scope.create_feedback = function(title,des,type){
 		console.log(title+" "+des+" "+type);
 		$scope.newFeedback = {};
 		$scope.newFeedback.name = title;
-		$scope.newFeedback.description = des;
-		//Commenting this out until it works
-		//$scope.newFeedback.category = type;
-		$scope.newFeedback.category = "Idea";
+		$scope.newFeedback.description = des;		
+		$scope.newFeedback.category = type;
 		
-		$scope.NewFeedback = $resource('/jsonapi/feedback');
-		var new_feedback = new $scope.NewFeedback($scope.newFeedback);
-		new_feedback.$save(function(response){
-			$scope.feedback = response;
-			//Hide the form
-			$scope.feedback_sent = true;
-		});
+		if(title != undefined && des != undefined && type != undefined){
+			$scope.NewFeedback = $resource('/jsonapi/feedback');
+			var new_feedback = new $scope.NewFeedback($scope.newFeedback);
+			new_feedback.$save(function(response){
+				$scope.feedback = response;
+				//Hide the form
+				$scope.feedback_sent = true;
+				//$('#thanks').modal('show');
+				//window.location.reload();
+				
+			});			
+		
+		}else{		
+			alert("Please fill all options!");		
+		}				
 	};
-
 }
