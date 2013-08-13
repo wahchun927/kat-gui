@@ -671,11 +671,38 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
       $location.path("challengeCreator");
 
     };
-    $scope.goToChallengeSummary=function()
+	
+	//save challenge and go to summary page
+	$scope.goToChallengeSummary=function()
     {
-      $location.path("challenges");
-
+		
+		$scope.newChallenge = {};
+		$scope.newChallenge.challengeType = $scope.challengeType;
+		$scope.newChallenge.name = $scope.chName;
+		$scope.newChallenge.description = $scope.chDescription;
+		
+		$scope.newChallenge.badges = [];
+		
+		for(var i = 0; i<$scope.badges.length; i++){
+			if($scope.badges[i]){
+			    $scope.newChallenge.badges.push($scope.badges[i]);
+			}
+		}
+    
+		$scope.NewChallenge = $resource('/jsonapi/new_challenge');
+				var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+				new_challenge.$save(function(response){
+					$scope.challenge = response;
+					console.log("new badge "+response);
+					$scope.newChallengeID = response.id;
+			});
+		
+		
+		
+		//$location.path("challenges");
+		
     };
+	
     $scope.goToChallengeD=function()
     {
       $location.path("challengedetails");
