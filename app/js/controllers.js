@@ -214,21 +214,18 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathName)};
 			$scope.practiceSelection(1);
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
-			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else if(location.href.indexOf("pathDes") > -1){
 		$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
-			//alert($scope.paths.paths[0].path_id);
 		}, 2000);
 	}
 	else{
 		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
 			$scope.practiceSelection(1);
-			//console.log($scope.paths.paths[0].id);
 		}, 2000);
 	}
 
@@ -238,7 +235,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    //Including details=1 returns the nested problemset progress.
 	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
-	        console.log($scope.path_progress);
 	    });
 	}, 2000);
 	
@@ -1354,9 +1350,6 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
 }
 
-
-
-
 function GameController($scope,$resource,$cookieStore,$location){
         //initialization: 
         $scope.autoCheck="yes"; //make autocheck available when page load
@@ -2213,12 +2206,6 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 		$('#video').trigger('click');
     };
 
-    $scope.updateURL=function(storyID,difficulty,pathDes){
-    	if(storyID != undefined && difficulty != undefined && pathDes != undefined){
-    		$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
-    	}
-    }
-
     $scope.$watch('name', function() {
       if($scope.name && $scope.name.difficulty == "Drag-n-Drop"){
         $scope.changeRoute = "playPage.html";
@@ -2244,6 +2231,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myStories = "";
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
+	$scope.pubStories = [];
 	
 	$scope.filter_and_group_questStoryList = function(current_path){
  			  //Replace this by passing it in as a parameter.  
@@ -2514,7 +2502,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	}
 }
 
-//Test story controller. Normally use GenericController
 function TimeAndAttemptsController($scope,$resource){
     $scope.item = $resource('/jsonapi/attempts_and_time_by_day').get();
 }
@@ -2567,6 +2554,22 @@ function TournamentController($scope,$resource,$http){
           //    $scope.tournaments = response;
           //});
     };  
+
+    $scope.updateURL=function(storyID,difficulty,pathDes){
+		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
+			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
+		}
+
+		$scope.updatedStoryList=[];
+		for(var i=0;i<$scope.pubStories.length;i++){
+			if($scope.pubStories[i].supported_paths.length == 0 || $scope.pubStories[i].supported_paths.indexOf(pathDes) > -1){
+				$scope.pubStories.push($scope.pubStories[i]);
+			}
+		}
+		$scope.questStoryList = $scope.updatedStoryList;
+	    $scope.addQuestColor(true);
+
+    }
 
 }
 
