@@ -56,7 +56,7 @@
 </style>
 
 
-<div class ="container" id="challengeDetails">
+<div class ="container" id="challengeDetails" ng-controller="ChallengeController">
 	<div class="tabbable well"> 
 		<ul class="nav nav-tabs">
 			<li class="tabspacing active"><a data-target="#AllPlayers" data-toggle="tab">All Players</a></li>
@@ -76,12 +76,19 @@
 						<th class="AllPlayers_RegDate">Registeration Date</th>
 					</tr>  
 				</table> 
-				<table class="table table-hover" ng-init="all_players(challengeId)"; ng-init="count(0)";>
-					<tr ng-repeat="player in challengePlayers" ng-repeat="count = count + 1">
-						<td class="AllPlayers_SN">count</td>
-						<td class="AllPlayers_Name">ng-src={{player.gravatar}} &nbsp&nbsp {{player.nickname}}</td>
-						<td class="AllPlayers_Location">{{player.country}}</td>						
-						<td class="AllPlayers_RegDate">25/08/2012</td>
+				<table class="table table-hover" ng-init="all_players()">
+					<tr ng-repeat="player in challengePlayers">
+						<td class="AllPlayers_SN">{{$index+1}}</td>
+						<td class="AllPlayers_Name">
+							<span align="center"><input type="image" ng-src="{{player.gravatar}}" height="35px"/ >
+							&nbsp&nbsp</span>
+							<span align="center">{{player.nickname}}</span>
+						</td>
+						<td class="AllPlayers_Location">
+							<span align="center"><input type="image" ng-src="{{player.countryFlagURL}}" height="25px"/ >
+							&nbsp&nbsp</span>
+						</td>						
+						<td class="AllPlayers_RegDate">{{player.playerRegisteredDate}}</td>
 					</tr>
 				</table>
 			</div>
