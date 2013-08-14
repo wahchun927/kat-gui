@@ -233,7 +233,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
 	    //Including details=1 returns the nested problemset progress.
-	    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
+	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
 	    });
 	});
@@ -2434,12 +2434,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			  $scope.$parent.storyid = $scope.myStories[abc].id;
               //alert("There are "+$scope.stories.length+" stories.");
           });
-    };
-	
-	
-    //$scope.fetch_stories();
-    $scope.goToStory=function(){
-
     };
 
     // this method add background color to the selected images 
