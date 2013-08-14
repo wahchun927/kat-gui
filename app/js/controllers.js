@@ -2372,27 +2372,23 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
 	
-	$scope.filter_and_group_questStoryList = function(current_path){
- 			  //Replace this by passing it in as a parameter.  
-	    	  if (!current_path){
-	    	  	current_path = 10030;
-	    	  }
-			  $scope.pubStories = [];
-	          $scope.StoryModel.query({}, function(response){
-	              $scope.stories = response;
-				  for(var i=0;i<$scope.stories.length;i++){
-				  		//adding the filter on supported path logic. 
-						if($scope.stories[i].published==true && $scope.stories[i].archived == false){
-							$scope.pubStories.push($scope.stories[i]);
-						}				
-				  }		
-				  $scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
+	$scope.group_questStoryList = function(){
+	  $scope.pubStories = [];
+      $scope.StoryModel.query({}, function(response){
+          $scope.stories = response;
+		  for(var i=0;i<$scope.stories.length;i++){
+		  		//adding the filter on supported path logic. 
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+					$scope.pubStories.push($scope.stories[i]);
+				}				
+		  }		
+		  $scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
 
-	              $scope.videos = $scope.stories[0].videos;
-				  $scope.$parent.storyid = $scope.stories[abc].id;
-	              //alert("There are "+$scope.stories.length+" stories.");
-	          });
-	  		  $scope.addQuestColor(true);
+          $scope.videos = $scope.stories[0].videos;
+		  $scope.$parent.storyid = $scope.stories[abc].id;
+          //alert("There are "+$scope.stories.length+" stories.");
+      });
+	  $scope.addQuestColor(true);
     };
 
 	$scope.name = $cookieStore.get("name");
@@ -2408,7 +2404,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	      }, 2000);
 	    }else{
 	    	setTimeout(function () {
-	    	 	$scope.filter_and_group_questStoryList(null);
+	    	 	$scope.group_questStoryList();
 	        }, 2000);
 	    }
     });
@@ -2640,6 +2636,18 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}
     }
 
+    $scope.updateStroyList=function(storyID,difficulty,pathDes){
+		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
+			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
+		}
+		$scope.updatedStoryList = [];
+		for(var i=0;i<$scope.pubStories.length;i++){
+			if($scope.pubStories[i].supported_paths.length==0 || $scope.pubStories[i].supported_paths.indexOf(pathID)>=0){
+				$scope.updatedStoryList.push($scope.pubStories[i]);
+			}
+		}
+		//$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
+    }
 }
 
 function TimeAndAttemptsController($scope,$resource){
