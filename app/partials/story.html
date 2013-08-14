@@ -84,7 +84,7 @@
 										<td ng-show="story.published==true" class="c4"><span class="label label-success" >Published</span></td>
 										<td class="c4"> 
 											<div class="btn-group">
-												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
+												<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
 												<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
 												<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 											</div>
@@ -103,7 +103,7 @@
 										<td ng-show="story.published==true" class="c4"><span class="label label-success" >Published</span></td>
 										<td class="c4"> 
 											<div class="btn-group">
-												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
+												<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
 												<button class="btn btn-warning disabled" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
 												<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 											</div>
