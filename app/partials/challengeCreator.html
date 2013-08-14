@@ -71,14 +71,14 @@
 
 </style>
 <br>
-<div class="container" id="largeProfile" style="position:relative;" >
+<div class="container" id="largeProfile" style="position:relative;" ng-controller="ChallengeController">
     <div class="row-fluid">
         <div class="span12 well bs-docs-example" id="challengeDescription">
             <br>
             Either you can create a quest challenge, badge challenge or habit challenge to get the individual or group to get engaged in practicing programming languages or developing development skills. It can be either via invitation or open challenge.
         </div>
     </div>
-    <div class="row-fluid" ng-init="challenge='badgeChallenge'" ng-controller="PlayerController">
+    <div class="row-fluid" ng-init="challengeType='Badge'">
         <div class="span6 well" >
             <div style="border-top: solid white; border-bottom: solid white;">
                 <h4 align="center">Challenge Details</h4>
@@ -88,54 +88,43 @@
                 <tr>
                     <th style="text-align:left;">Challenge Type:</th>
                     <th>
-                        <select style="position:left;" ng-model="challenge">
-                            <option value="badgeChallenge">Badge Challenge</option>
-                            <option value="habitChallenge">Habit Challenge</option>
-                            <option value="questChallenge">Quest Challenge</option>
-                        </select>
+						<select ng-model="challengeType" ng-options="chType.challengeType as chType.name for chType in challengeTypes"></select>
                     </th>
                 </tr>
                 <tr>
                     <th style="text-align:left;">Challenge Name:</th>
-                    <th><input type="text" name="tBox" value="Challenge Name 1"></th>
+                    <th><input type="text" placeholder="Challenge Name" ng-model="chName"></th>
                 </tr>
                 <tr>
                     <th style="text-align:left;">Challenge Description:</th>
                     <th>
-                         <textarea rows="4" cols="120">
-                           This is where you will add the description of your challenge. e.g. Pizza night this Friday for all those who unlock level 5 Python or a job description.
+                         <textarea rows="4" cols="120" placeholder="This is where you will add the description of your challenge. e.g. Pizza night this Friday for all those who unlock level 5 Python or a job description." ng-model="chDescription">
                         </textarea>
                     </th>
                 </tr>
                 <tr>
                     <th style="text-align:left;">Public Message:</th>
                     <th>
-                        <textarea rows="4" cols="80">
-                            This is where you will add a message for anyone who is eligible to look at your challenge to see a public message.
+                        <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "chPubMsg">
                         </textarea>
                     </th>
                 </tr>
                 <tr>
                     <th style="text-align:left;">Private Message:</th>
                     <th>
-                        <textarea rows="4" cols="80">
-                            This is where you will add a message for anyone who is eligible to look at your challenge to see a public message.
+                        <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "chPriMsg">
                         </textarea>
                     </th>
                 </tr>
                 <tr>
                     <th style="text-align:left;">Location</th>
                     <th>
-                        <select style="position:left;">
-                            <option value="badgeChallenge">Global</option>
-                            <option value="habitChallenge">Singapore</option>
-                            <option value="questChallenge">USA</option>
-                        </select>
+						<select ng-model="chLocation" ng-options="country.countryCode as country.countryName for country in ListAllCountries" ng-init="chLocation='-';"></select>
                     </th>
                 </tr>
             </table>
         </div>
-        <div class="span6 well" id="questChallenge" ng-show="challenge=='questChallenge'">
+        <div class="span6 well" id="questChallenge" ng-show="challengeType=='Quest'">
                 <div style="border-top: solid white; border-bottom: solid white;">
                     <h4 align="center">Level of Proficiency Needed</h4>
                 </div> 
@@ -175,7 +164,7 @@
 
                 </table>
         </div>
-        <div class="span6 well" id="habitChallenge" ng-show="challenge=='habitChallenge'">
+        <div class="span6 well" id="habitChallenge" ng-show="challengeType=='Habit'">
                 <div style="border-top: solid white; border-bottom: solid white;">
                     <h4 align="center">Level of Proficiency Needed</h4>
                 </div> 
@@ -228,77 +217,22 @@
                             </select>
                         </th>
                     </tr>
-
                     <tr>
-
                 </table>
         </div>
-        <div class="span6 well" id="badgeChallenge" ng-show="challenge=='badgeChallenge'">
+        <div class="span6 well" id="badgeChallenge" ng-show="challengeType=='Badge'">
                 <div style="border-top: solid white; border-bottom: solid white;">
-                    <h4 align="center">Badges to Earn</h4>
+                <h4 align="center">Badges to Earn</h4>
                 </div> 
-                <br>
                 <table>
-                    <tr>
+                    <tr ng-repeat="x in [0,1,2,3,4,5]">
+						<th>
+							<select ng-model="selectedPath[x]" ng-options="path.id as path.name for path in paths.paths"></select>
+						</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="java">Java</option>
-                                <option value="javaScript">JavaScript</option>
-                                <option value="python">Python</option>
-                            </select>
-                            <th>
-                            <select style="position:right;">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
-                        </th>
+						<select ng-model="badges[x]" ng-options="badge.id as badge.description for badge in theBadges[selectedPath[x]]"></select>
                         </th>
                     </tr>
-                    <tr>
-                        <th>
-                            <select style="position:left;">
-                                <option value="java">Java</option>
-                                <option value="javaScript">JavaScript</option>
-                                <option value="python">Python</option>
-                            </select>
-                            <th>
-                            <select style="position:right;">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
-                        </th>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <select style="position:left;">
-                                <option value="java">Java</option>
-                                <option value="javaScript">JavaScript</option>
-                                <option value="python">Python</option>
-                            </select>
-                            <th>
-                            <select style="position:right;">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
-                        </th>
-                        </th>
-                    </tr>
-                    
-                    
-
                 </table>
         </div>  
         <br>
@@ -307,26 +241,24 @@
             <div style="border-top: solid white; border-bottom: solid white;">
                 <h4 align="center">Dates</h4>
                 </div> 
-                <br>
                 <table>
                     <tr>
                         <th>Start Date</th>
-                        <th><input type="text" name="startDate" value="23/04/2013"></th>
+                        <th><input type="text" name="startDate"  ng-model="chStartDate"></th>
                     </tr>
                     <tr>
                         <th>End Date</th>
-                        <th><input type="text" name="startDate" value="23/05/2013"></th>
+                        <th><input type="text" name="endDate"  ng-model="chEndDate"></th>
                     </tr>
 
                 </table>
         </div>
-        <div class="span6 well" id="finish" ng-controller="ChallengeController">
+        <div class="span6 well" id="finish">
             <div style="border-top: solid white; border-bottom: solid white;">
                 <h4 align="center">Finished</h4>
             </div> 
-            <br>
             <p>Once you have selected the appropriate action to follow your challenge and who it is attended to reach please hit the submit button to make it live attract those people</p>
-            <input type="button" class="btn btn-primary" value="Submit" ng-click="goToChallengeSummary()">
+            <button class="btn btn-primary" ng-click="goToChallengeSummary();">Submit</button>
         </div> 
 
     </div>
