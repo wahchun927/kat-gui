@@ -719,11 +719,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 			}
 		}
 		
-		if(!$scope.chLocation=="-"){
-			$scope.newChallenge.unlockRequiredBadges.push($scope.chLocation);
+		if($scope.chLocation!=""){
+			$scope.newChallenge.allowedCountries.push($scope.chLocation);
 		}    
 	
-		$scope.NewChallenge = $resource('/jsonapi/new_challenge');
+		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
 				var new_challenge = new $scope.NewChallenge($scope.newChallenge);
 				new_challenge.$save(function(response){
 					$scope.challenge = response;
