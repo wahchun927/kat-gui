@@ -236,7 +236,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
 	    });
-	});
+	},2000);
 	
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
@@ -2382,18 +2382,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	              $scope.stories = response;
 				  for(var i=0;i<$scope.stories.length;i++){
 				  		//adding the filter on supported path logic. 
-						if($scope.stories[i].published==true && $scope.stories[i].archived == false && ($scope.stories[i].supported_paths.length==0 || $scope.stories[i].supported_paths.indexOf(current_path)>=0) ){
+						if($scope.stories[i].published==true && $scope.stories[i].archived == false){
 							$scope.pubStories.push($scope.stories[i]);
 						}				
 				  }		
-				  //$scope.questStoryList = $filter('groupBy')($scope.stories, 3);
-	              //Not sure why filter does not work locally. Just manually splitting stories for now. 
-	              $scope.questStoryList = [];
-      			  var i = 0;
-      			  var n = $scope.pubStories.length;
-  				  while (i < n) {
-    				$scope.questStoryList.push($scope.pubStories.slice(i, i += 3));
-  				  }
+				  $scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
 
 	              $scope.videos = $scope.stories[0].videos;
 				  $scope.$parent.storyid = $scope.stories[abc].id;
@@ -2645,16 +2638,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
 			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
 		}
-
-		//$scope.updatedStoryList=[];
-		//for(var i=0;i<$scope.pubStories.length;i++){
-			//if($scope.pubStories[i].supported_paths.length == 0 || $scope.pubStories[i].supported_paths.indexOf(pathDes) > -1){
-				//$scope.pubStories.push($scope.pubStories[i]);
-			//}
-		//}
-		//$scope.questStoryList = $scope.updatedStoryList;
-	    //$scope.addQuestColor(true);
     }
+
 }
 
 function TimeAndAttemptsController($scope,$resource){
