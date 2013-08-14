@@ -119,8 +119,8 @@
                 <tr>
                     <th style="text-align:left;">Location</th>
                     <th>
-						<select ng-model="chLocation" ng-options="country.countryCode as country.countryName for country in ListAllCountries" ng-init="chLocation='-';"></select>
-                    </th>
+						<select ng-model="chLocation" ng-options="country.id as country.countryName for country in ListAllCountries" ng-init="chLocation=ListAllCountries[0].id;">{{chLocation}}</select>
+					</th>
                 </tr>
             </table>
         </div>
@@ -150,12 +150,7 @@
                     <tr>
                         <th>Level</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="drag-n-drop">Drag-n-Drop</option>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
+							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Easy'">{{difficulty}}</select>
                         </th>
                     </tr>
 
