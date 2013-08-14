@@ -71,7 +71,7 @@
 
 </style>
 <br>
-<div class="container" id="largeProfile" style="position:relative;" >
+<div class="container" id="largeProfile" style="position:relative;" ng-controller="ChallengeController">
     <div class="row-fluid">
         <div class="span12 well bs-docs-example" id="challengeDescription">
             <br>
@@ -244,11 +244,11 @@
                 <table>
                     <tr>
                         <th>Start Date</th>
-                        <th><input type="text" name="startDate" value="23/04/2013"></th>
+                        <th><input type="text" name="startDate"  ng-model="chStartDate"></th>
                     </tr>
                     <tr>
                         <th>End Date</th>
-                        <th><input type="text" name="startDate" value="23/05/2013"></th>
+                        <th><input type="text" name="endDate"  ng-model="chEndDate"></th>
                     </tr>
 
                 </table>
