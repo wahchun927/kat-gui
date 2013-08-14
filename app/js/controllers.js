@@ -635,6 +635,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	$scope.badges = [null, null, null, null, null, null];
 	$scope.selectedPath = [null, null, null, null, null, null];
 	$scope.chLocation = "-";
+	$scope.chLanguage="";
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
 	$scope.chLocation="";
@@ -690,6 +691,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		$scope.newChallenge = {};
 		$scope.newChallenge.challengeType = $scope.challengeType;
 		$scope.newChallenge.name = $scope.chName;
+		$scope.newChallenge.publicMessage = $scope.chPubMsg;
+		$scope.newChallenge.privateMessage = $scope.chPriMsg;
 		$scope.newChallenge.description = $scope.chDescription;
 		$scope.newChallenge.startDate = $scope.chStartDate;
 		$scope.newChallenge.endDate = $scope.chEndDate;		
