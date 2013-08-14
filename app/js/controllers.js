@@ -718,7 +718,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-		
+
 		if($scope.chLocation!=""){
 			$scope.newChallenge.allowedCountries.push($scope.chLocation);
 		}    
@@ -733,7 +733,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		
 		
 		
-		//$location.path("challenges");
+		$location.path("challenges");
 		
     };
 	
