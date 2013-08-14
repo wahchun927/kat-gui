@@ -143,11 +143,8 @@
                     <tr>
                         <th>Path</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="java">Java</option>
-                                <option value="javaScript">JavaScript</option>
-                                <option value="python">Python</option>
-                            </select>
+							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							{{pathID}}
                         </th>
                     </tr>
                     <tr>
@@ -173,11 +170,8 @@
                     <tr>
                         <th>Language</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="java">Java</option>
-                                <option value="javaScript">JavaScript</option>
-                                <option value="python">Python</option>
-                            </select>
+							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							{{pathID}}
                         </th>
                     </tr>
                     <tr>
@@ -196,11 +190,6 @@
                         <th>
                             <select style="position:left;">
                                 <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
                             </select>
                         </th>
                     </tr>
@@ -209,11 +198,6 @@
                         <th>
                             <select style="position:left; width:30">
                                 <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
                             </select>
                         </th>
                     </tr>
