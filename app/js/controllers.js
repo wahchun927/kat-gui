@@ -2487,9 +2487,16 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	}
 	
 	//3. Playback an existing story
-	$scope.playback = function(index){
-		$scope.myVideos = $scope.myStories[index].videos;
-		$('#video').trigger('click');
+	$scope.playback = function(index,isAdmin){
+		if(isAdmin){
+			$scope.myVideos = $scope.stories[index].videos;
+		}
+		else{
+			$scope.myVideos = $scope.myStories[index].videos;
+		}
+		setTimeout(function () {
+			$('#video').trigger('click');
+		}, 100);
     };
 	//4. View statistics on existing story
 
