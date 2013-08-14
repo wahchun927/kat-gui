@@ -50,18 +50,26 @@
     .nav-tabs > .active > a:hover {
       color: white;
       cursor: default;
-      background-color: #736B62;
+      background-color: #AFA199;
       border: 1px solid #ddd;
       border-bottom-color: transparent;
     }
     .nav-tabs > li > a:hover {
-        background-color: #AFA199;
+        background-color: #DCD9CD;
         border-color: #eeeeee #eeeeee #dddddd;
     }
+
+    /* to change table background*/
     .tab-content {
-      overflow: auto;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        padding: 10px;
+        background-color: #ffffff;
     }
 
+    .nav-tabs {
+        margin-bottom: 0;
+    }
 
     .btn-primary:active,
     .btn-primary.active {
@@ -79,7 +87,12 @@
       height:215px;
     }
     .well{
-      background-color: #FCFAFA;
+      /*background-color: #FCFAFA;*/
+      background-color: #F0EFEA;
+    }
+    #well-c{
+      /*background-color: #F2F2F2;*/
+      background-color: #DBDACB;
     }
     .table td {
      text-align: center;   
@@ -446,13 +459,13 @@
    body{
     color: black;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background-color: #F0EFEA;
-    *background-color: #F0EFEA;
-    background-image: -moz-linear-gradient(top, #F0EFEA, #F0EFEA);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F0EFEA), to(#F0EFEA));
-    background-image: -webkit-linear-gradient(top, #F0EFEA, #F0EFEA);
-    background-image: -o-linear-gradient(top, #F0EFEA, #F0EFEA);
-    background-image: linear-gradient(to bottom,#F0EFEA, #F0EFEA);
+    background-color: #FCFAFA;
+    *background-color: #FCFAFA;
+    background-image: -moz-linear-gradient(top, #FCFAFA, #FCFAFA);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FCFAFA), to(#FCFAFA));
+    background-image: -webkit-linear-gradient(top, #FCFAFA, #FCFAFA);
+    background-image: -o-linear-gradient(top, #FCFAFA, #FCFAFA);
+    background-image: linear-gradient(to bottom,#FCFAFA, #FCFAFA);
     background-repeat: repeat-x;
     border-color: #0044cc #0044cc #002a80;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -550,7 +563,7 @@
                   <a type="button" ng-click="checkQuestLogin()">Quests</a>
                 </li>                
                 <li>
-			            <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
+                  <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
                 </li>
                 <li>
                   <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
@@ -558,9 +571,9 @@
                 <li>
                   <a type="button" ng-click="checkRankingLogin()">Rankings</a>
                 </li>   
-        				<li>
-        				  <a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
-        				</li>
+                <li>
+                  <a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
+                </li>
                 <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->                 
                 <li class="dropdown" id="menu">                  
                   <a href="" class="dropdown-toggle" data-toggle="dropdown">More... 
@@ -612,7 +625,7 @@
     </div>
     <div class="modal-footer">
       <a ng-show="!player.nickname" class="janrainEngage" href="#"><button class="btn btn-primary" ng-click='dismissModal()'>Login</button></a>
-	  <a ng-show="!player.nickname" href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click='dismissModal()'>Got it!</button></a>
+    <a ng-show="!player.nickname" href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click='dismissModal()'>Got it!</button></a>
     </div>
   </div>
     <!-- /.carousel -->    
@@ -678,26 +691,26 @@
 </script>
 
 <script type='text/javascript'>
-	$(window).load(function(){
-	//$('#myCarousel input:radio').addClass('input_hidden');
-	$('#myCarousel input:image').click(function() {
-		$('#myCarousel input:image').removeClass('selected');   
-		$(this).addClass('selected');
-		
-	});
-	
-	$('#path input:image').click(function() {
-		$('#path input:image').removeClass('selected');   
-		$(this).addClass('selected');
-		
-	});
-	
-	$('#path1 input:image').click(function() {
-		$('#path1 input:image').removeClass('selected');   
-		$(this).addClass('selected');
-		
-	});
-	
+  $(window).load(function(){
+  //$('#myCarousel input:radio').addClass('input_hidden');
+  $('#myCarousel input:image').click(function() {
+    $('#myCarousel input:image').removeClass('selected');   
+    $(this).addClass('selected');
+    
+  });
+  
+  $('#path input:image').click(function() {
+    $('#path input:image').removeClass('selected');   
+    $(this).addClass('selected');
+    
+  });
+  
+  $('#path1 input:image').click(function() {
+    $('#path1 input:image').removeClass('selected');   
+    $(this).addClass('selected');
+    
+  });
+  
   $('#myTab a').click(function (e) {
     $(this).tab('show');
     if ($('.btn-navbar').is(":visible") && e.target.className != "dropdown-toggle")
@@ -709,7 +722,7 @@
         e.preventDefault();
     }
   });
-	
+  
 });
 
 </script>
