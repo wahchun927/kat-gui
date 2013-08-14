@@ -623,6 +623,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		$scope.ListAllCountries = response.countries;	
 	});
 	
+	// difficulty levels
+	$scope.levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];
+	$scope.days = [{'name':'1', 'id':'1'},{'name':'2','id':'2'},{'name':'3', 'id':'3'},{'name':'4','id':'4'},{'name':'5','id':'5'},{'name':'6','id':'6'},{'name':'7','id':'7'},{'name':'8','id':'8'},{'name':'9','id':'9'},{'name':'10','id':'10'}];
 	//variable for challenge creation
 	$scope.challengeTypes = [];
 	$scope.challengeTypes.push({'challengeType':'Badge','name':'Badge Challenge'});
@@ -635,11 +638,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	$scope.badges = [null, null, null, null, null, null];
 	$scope.selectedPath = [null, null, null, null, null, null];
 	$scope.chLocation = "-";
-	$scope.chLanguage="";
+	$scope.pathID="";
+	$scope.difficulty="";
+	$scope.problemsPerDay="";
+	$scope.totalDays="";
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
-	$scope.chLocation="";
-	
+
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -684,6 +689,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 
     };
 	
+	//Create Habit Challenge
+	//Create Badge Challenge
+	//Create Quest Challenge
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
@@ -695,8 +703,14 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		$scope.newChallenge.privateMessage = $scope.chPriMsg;
 		$scope.newChallenge.description = $scope.chDescription;
 		$scope.newChallenge.startDate = $scope.chStartDate;
-		$scope.newChallenge.endDate = $scope.chEndDate;		
-		
+		$scope.newChallenge.endDate = $scope.chEndDate;	
+		$scope.newChallenge.allowedCountries = [];
+		//habit challenge	
+		$scope.newChallenge.pathID=$scope.pathID;
+		$scope.newChallenge.difficulty=$scope.difficulty;
+		$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
+		$scope.newChallenge.totalDays=$scope.totalDays;
+		//badge challenge
 		$scope.newChallenge.unlockRequiredBadges = [];
 		
 		for(var i = 0; i<$scope.badges.length; i++){
@@ -704,7 +718,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-    
+		
+		if(!$scope.chLocation=="-"){
+			$scope.newChallenge.unlockRequiredBadges.push($scope.chLocation);
+		}    
+	
 		$scope.NewChallenge = $resource('/jsonapi/new_challenge');
 				var new_challenge = new $scope.NewChallenge($scope.newChallenge);
 				new_challenge.$save(function(response){
@@ -958,13 +976,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	};
 					
 	//4. Enable registering for challenge
-	//5. Create Habit Challenge
-	//6. Create Badge Challenge
-	//7. Create Quest Challenge
 	//8. Edit Challenges
-	
-	
-	
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
