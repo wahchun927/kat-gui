@@ -919,12 +919,22 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	
 	
 	//3. Challengedetails.html - Load stats for each challenge
-			$scope.all_players= function(challengeId){
+	$scope.all_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
+		//alert(challengeId);
 	
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
+			console.log($scope.challengePlayers.length);
 			//$scope.RegDate=challengeDetails.substring(0,9).trim();
+			for(var i=0; i<$scope.challengePlayers.length;i++){
+				var sliced_date = $scope.challengePlayers[i].playerRegisteredDate;
+				var tmp = sliced_date.lastIndexOf(' ');
+				$scope.challengePlayers[i].playerRegisteredDate = sliced_date.substring(0,tmp);
+				console.log($scope.challengePlayers[i].playerRegisteredDate);
+
+			}
         });	
 	};
 		//3b. Registered players	
