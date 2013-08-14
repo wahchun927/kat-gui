@@ -75,7 +75,7 @@
 								</tr>  
 						</table> 
 						<div>
-							<table class="table table-hover" ng-init="myStorylist()">
+							<table class="table table-hover" ng-init="myStorylist()" ng-hide="player.isAdmin">
 									<a ng-repeat="video in myVideos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
 									<tr ng-repeat="story in myStories" ng-hide="story.archived">
 										<td class="c1">{{story.name}}</td>
@@ -84,7 +84,7 @@
 										<td ng-show="story.published==true" class="c4"><span class="label label-success" >Published</span></td>
 										<td class="c4"> 
 											<div class="btn-group">
-												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
+												<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
 												<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
 												<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 											</div>
@@ -96,14 +96,14 @@
 							</table>
 							<table class="table table-hover" ng-show="player.isAdmin">
 									<a ng-repeat="video in myVideos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
-									<tr ng-repeat="story in storyList" ng-hide="story.archived">
+									<tr ng-repeat="story in stories" ng-hide="story.archived">
 										<td class="c1">{{story.name}}</td>
 										<td class="c2">{{story.videos.length}}</td>
 										<td ng-show="story.published==false" class="c4"><span class="label label-info" >Saved</span></td>
 										<td ng-show="story.published==true" class="c4"><span class="label label-success" >Published</span></td>
 										<td class="c4"> 
 											<div class="btn-group">
-												<button class="btn btn-success" ng-click="playback($index)">Playback</button>
+												<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
 												<button class="btn btn-warning disabled" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
 												<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 											</div>

@@ -151,7 +151,7 @@ input:hover{
 							<div style="height:220px;overflow:auto;margin-top:5px" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
 								<div  ng-repeat="item in paths.paths" id="paths" ng-init="pathSelection($index)" >
 									<label>
-										<input type="radio" style="visibility:hidden" ng-click="updateURL(storyid,difficulty,pathDes)" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.name}}" id="path">
+										<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,pathDes)" ng-model="$parent.$parent.pathDes" name="is_private" value="{{item.name}}" id="path">
 										<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 										<h4>{{item.name}}</h4>
 									</label>		

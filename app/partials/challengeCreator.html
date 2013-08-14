@@ -143,11 +143,8 @@
                     <tr>
                         <th>Path</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="java">Java</option>
-                                <option value="javaScript">JavaScript</option>
-                                <option value="python">Python</option>
-                            </select>
+							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							{{pathID}}
                         </th>
                     </tr>
                     <tr>
@@ -173,48 +170,25 @@
                     <tr>
                         <th>Language</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="java">Java</option>
-                                <option value="javaScript">JavaScript</option>
-                                <option value="python">Python</option>
-                            </select>
+							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
                     <tr>
                         <th>Difficulty</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="drag-n-drop">Drag-n-Drop</option>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
+							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Easy'">{{difficulty}}</select>
                         </th>
                     </tr>
                     <tr>
                         <th>Problems per day</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
+							<select ng-model="problemsPerDay" ng-options="day.id as day.name for day in days" ng-init="problemsPerDay='1'">{{problemsPerDay}}</select>
                         </th>
                     </tr>
                     <tr>
                         <th>Total Number of Days</th>
                         <th>
-                            <select style="position:left; width:30">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
+							<select ng-model="totalDays" ng-options="day.id as day.name for day in days" ng-init="totalDays ='1'">{{totalDays}}</select>
                         </th>
                     </tr>
                     <tr>
@@ -230,7 +204,7 @@
 							<select ng-model="selectedPath[x]" ng-options="path.id as path.name for path in paths.paths"></select>
 						</th>
                         <th>
-						<select ng-model="badges[x]" ng-options="badge.id as badge.description for badge in theBadges[selectedPath[x]]"></select>
+							<select ng-model="badges[x]" ng-options="badge.id as badge.description for badge in theBadges[selectedPath[x]]"></select>
                         </th>
                     </tr>
                 </table>
