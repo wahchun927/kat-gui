@@ -75,7 +75,7 @@
 								</tr>  
 						</table> 
 						<div>
-							<table class="table table-hover" ng-init="myStorylist()" ng-hide="player.isAdmin">
+							<table class="table table-hover" ng-init="myStorylist()">
 									<a ng-repeat="video in myVideos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
 									<tr ng-repeat="story in myStories" ng-hide="story.archived">
 										<td class="c1">{{story.name}}</td>
