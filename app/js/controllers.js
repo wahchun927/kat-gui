@@ -229,7 +229,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}, 2000);
 	}
 
-	setTimeout(function () {
+	setTimeout(function (){
 		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
 	    //Including details=1 returns the nested problemset progress.
@@ -652,9 +652,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	var yyyy = today.getFullYear();
 	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
-	$scope.chStartDate= mm+'/'+dd+'/'+yyyy;
+	$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
 	dd= dd+1;
-	$scope.chEndDate= mm+'/'+dd+'/'+yyyy;;
+	$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
+	
 	//retrieve published and user's own stories
 	$scope.pubStories = [];
  	$scope.StoryModel = $resource('/jsonapi/story');
@@ -753,6 +754,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		if($scope.chLocation!=""){
 			$scope.newChallenge.allowedCountries.push($scope.chLocation);
 		}    
+		else{
+			$scope.newChallenge.allowedCountries = [];
+		}
 	
 		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
 		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
