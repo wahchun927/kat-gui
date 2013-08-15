@@ -2716,17 +2716,23 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}
     }
 
-    $scope.updateStroyList=function(storyID,difficulty,pathDes){
-		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
-			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
+    $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
+		if(storyID != undefined && difficulty != undefined && path_ID != undefined){
+			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
-		$scope.updatedStoryList = [];
-		for(var i=0;i<$scope.pubStories.length;i++){
-			if($scope.pubStories[i].supported_paths.length==0 || $scope.pubStories[i].supported_paths.indexOf(pathID)>=0){
-				$scope.updatedStoryList.push($scope.pubStories[i]);
+		if(pathCount != 1){
+			$scope.updatedStoryList = [];
+			for(var i=0;i<$scope.pubStories.length;i++){
+				if($scope.pubStories[i].supported_paths.length == 0){
+					$scope.updatedStoryList.push($scope.pubStories[i]);
+				}
+				$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
+				if($scope.stringSupportPaths.indexOf(path_ID) >= 0){
+					$scope.updatedStoryList.push($scope.pubStories[i]);
+				}
 			}
+			$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		}
-		//$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
     }
 }
 
