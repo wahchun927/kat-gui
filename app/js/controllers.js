@@ -229,7 +229,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}, 2000);
 	}
 
-	setTimeout(function () {
+	setTimeout(function (){
 		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
 	    //Including details=1 returns the nested problemset progress.
@@ -612,9 +612,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 			$scope.theBadges[$scope.paths.paths[i].id] = $scope.paths.paths[i].badges;
 			
 	    }	
-		console.log($scope.theBadges);
 	});
-	
+		
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
 	
 	// retrieve all countries
@@ -639,6 +638,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	$scope.selectedPath = [null, null, null, null, null, null];
 	$scope.chLocation = "-";
 	$scope.pathID="";
+	$scope.storyID="";
 	$scope.difficulty="";
 	$scope.problemsPerDay="";
 	$scope.totalDays="";
@@ -652,10 +652,37 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	var yyyy = today.getFullYear();
 	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
-	$scope.chStartDate= mm+'/'+dd+'/'+yyyy;
+	$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
 	dd= dd+1;
-	$scope.chEndDate= mm+'/'+dd+'/'+yyyy;;
-    // To display particular challenge in the registration page
+	$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
+	
+	//retrieve published and user's own stories
+	$scope.pubStories = [];
+ 	$scope.StoryModel = $resource('/jsonapi/story');
+    $scope.StoryModel.query({}, function(response){
+        $scope.stories = response;
+		for(var i=0;i<$scope.stories.length;i++){
+			if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+				var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+				$scope.pubStories.push(aStory);
+			}				
+		}
+    }); 
+	
+	$scope.myStoryModel = $resource('/jsonapi/player_stories');
+	$scope.myStoryModel.query({}, function(response){
+		$scope.myStories = response;
+		for(var i=0;i<$scope.myStories.length;i++){
+			if($scope.myStories[i].published == false && $scope.myStories[i].archived == false){
+				var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+				$scope.pubStories.push(aStory);
+			}				
+		}	
+	});	
+
+	
+	
+	// To display particular challenge in the registration page
    
     var open_challenge_ID = $cookieStore.get("challengeID"); 
     if( open_challenge_ID != null){
@@ -705,33 +732,39 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		$scope.newChallenge.startDate = $scope.chStartDate;
 		$scope.newChallenge.endDate = $scope.chEndDate;	
 		$scope.newChallenge.allowedCountries = [];
+		
 		//habit challenge	
 		$scope.newChallenge.pathID=$scope.pathID;
 		$scope.newChallenge.difficulty=$scope.difficulty;
 		$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
 		$scope.newChallenge.totalDays=$scope.totalDays;
+		
 		//badge challenge
 		$scope.newChallenge.unlockRequiredBadges = [];
+		
+		//Quest challenge
+		$scope.newChallenge.storyID = $scope.storyID;
 		
 		for(var i = 0; i<$scope.badges.length; i++){
 			if($scope.badges[i]){
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-		
-		if(!$scope.chLocation=="-"){
-			$scope.newChallenge.unlockRequiredBadges.push($scope.chLocation);
+
+		if($scope.chLocation!=""){
+			$scope.newChallenge.allowedCountries.push($scope.chLocation);
 		}    
+		else{
+			$scope.newChallenge.allowedCountries = [];
+		}
 	
-		$scope.NewChallenge = $resource('/jsonapi/new_challenge');
-				var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-				new_challenge.$save(function(response){
-					$scope.challenge = response;
-					console.log("new badge "+response);
-					$scope.newChallengeID = response.id;
-			});
-		
-		
+		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+		new_challenge.$save(function(response){
+			$scope.challenge = response;
+			console.log("new badge "+response);
+			$scope.newChallengeID = response.id;
+		});
 		
 		//$location.path("challenges");
 		
@@ -1188,6 +1221,7 @@ function NormalGameController($scope,$resource,$cookieStore){
           var item = new $scope.SaveResource($scope.theData);
           item.$save(function(response) { 
                   $scope.solution_check_result = response;
+                  console.log($scope.solution_check_result);
                   if($scope.solution_check_result.last_solved){
                     //If you hardcode to the game, this will automatically advance the game to the next problem. 
                     $scope.fetch($scope.game.gameID);
@@ -2393,7 +2427,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
-	
+
 	$scope.group_questStoryList = function(){
 	  $scope.pubStories = [];
       $scope.StoryModel.query({}, function(response){
@@ -2845,8 +2879,8 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 
 function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.feedback_sent = false;
-	$scope.title = "Some feedback on SingPath";
-	$scope.description = "I just wanted to let you know that ..";	
+	//$scope.title = "Some feedback on SingPath";
+	//$scope.description = "I just wanted to let you know that ..";	
 
 	$scope.create_feedback = function(title,des,type){
 		console.log(title+" "+des+" "+type);
@@ -2863,11 +2897,28 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 				//Hide the form
 				$scope.feedback_sent = true;
 				//$('#thanks').modal('show');
-				//window.location.reload();
-				
-			});			
-		
-		}else{		
+				//window.location.reload();				
+			});		
+		}
+		else if (title == undefined && des != undefined && type != undefined){
+			alert("Please enter your feedback title!");
+		}
+		else if(title != undefined && des == undefined && type != undefined){
+			alert("Please enter your comment!");
+		}
+		else if(title != undefined && des != undefined && type == undefined){
+			alert("Please select a feedback category!");
+		}
+		else if (title == undefined && des == undefined && type != undefined){
+			alert("Please enter your feedback title & comment!");
+		}
+		else if(title == undefined && des != undefined && type == undefined){
+			alert("Please select a feedback category & enter feedback title!");
+		}
+		else if(title != undefined && des == undefined && type == undefined){
+			alert("Please select a feedback category & enter your comment!");
+		}
+		else{		
 			alert("Please fill all options!");		
 		}				
 	};

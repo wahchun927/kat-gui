@@ -119,8 +119,8 @@
                 <tr>
                     <th style="text-align:left;">Location</th>
                     <th>
-						<select ng-model="chLocation" ng-options="country.countryCode as country.countryName for country in ListAllCountries" ng-init="chLocation='-';"></select>
-                    </th>
+						<select ng-model="chLocation" ng-options="country.id as country.countryName for country in ListAllCountries" ng-init="chLocation=ListAllCountries[0].id;">{{chLocation}}</select>
+					</th>
                 </tr>
             </table>
         </div>
@@ -133,29 +133,19 @@
                     <tr>
                         <th>Story Name</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="HitItWithoutMissIt!">Hit it! Without Miss It!</option>
-                                <option value="KickItOut">Kick it Out!</option>
-                                <option value="CheckingItOut">Checking it Out!</option>
-                            </select>
-                        </th>
+							<select ng-model="storyID" ng-options="story.id as story.name for story in pubStories"></select>			
+						</th>
                     </tr>
                     <tr>
                         <th>Path</th>
                         <th>
 							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
-							{{pathID}}
                         </th>
                     </tr>
                     <tr>
                         <th>Level</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="drag-n-drop">Drag-n-Drop</option>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
+							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
                         </th>
                     </tr>
 
@@ -176,19 +166,19 @@
                     <tr>
                         <th>Difficulty</th>
                         <th>
-							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Easy'">{{difficulty}}</select>
+							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
                         </th>
                     </tr>
                     <tr>
                         <th>Problems per day</th>
                         <th>
-							<select ng-model="problemsPerDay" ng-options="day.id as day.name for day in days" ng-init="problemsPerDay='1'">{{problemsPerDay}}</select>
+							<select ng-model="problemsPerDay" ng-options="day.id as day.name for day in days"></select>
                         </th>
                     </tr>
                     <tr>
                         <th>Total Number of Days</th>
                         <th>
-							<select ng-model="totalDays" ng-options="day.id as day.name for day in days" ng-init="totalDays ='1'">{{totalDays}}</select>
+							<select ng-model="totalDays" ng-options="day.id as day.name for day in days"></select>
                         </th>
                     </tr>
                     <tr>
