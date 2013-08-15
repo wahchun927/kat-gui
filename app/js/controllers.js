@@ -612,9 +612,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 			$scope.theBadges[$scope.paths.paths[i].id] = $scope.paths.paths[i].badges;
 			
 	    }	
-		console.log($scope.theBadges);
 	});
-	
+		
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
 	
 	// retrieve all countries
@@ -623,6 +622,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		$scope.ListAllCountries = response.countries;	
 	});
 	
+	// difficulty levels
+	$scope.levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];
+	$scope.days = [{'name':'1', 'id':'1'},{'name':'2','id':'2'},{'name':'3', 'id':'3'},{'name':'4','id':'4'},{'name':'5','id':'5'},{'name':'6','id':'6'},{'name':'7','id':'7'},{'name':'8','id':'8'},{'name':'9','id':'9'},{'name':'10','id':'10'}];
 	//variable for challenge creation
 	$scope.challengeTypes = [];
 	$scope.challengeTypes.push({'challengeType':'Badge','name':'Badge Challenge'});
@@ -635,11 +637,14 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	$scope.badges = [null, null, null, null, null, null];
 	$scope.selectedPath = [null, null, null, null, null, null];
 	$scope.chLocation = "-";
-	$scope.chLanguage="";
+	$scope.pathID="";
+	$scope.storyID="";
+	$scope.difficulty="";
+	$scope.problemsPerDay="";
+	$scope.totalDays="";
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
-	$scope.chLocation="";
-	
+
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -650,7 +655,33 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	$scope.chStartDate= mm+'/'+dd+'/'+yyyy;
 	dd= dd+1;
 	$scope.chEndDate= mm+'/'+dd+'/'+yyyy;;
-    // To display particular challenge in the registration page
+	//retrieve published and user's own stories
+	$scope.pubStories = [];
+ 	$scope.StoryModel = $resource('/jsonapi/story');
+    $scope.StoryModel.query({}, function(response){
+        $scope.stories = response;
+		for(var i=0;i<$scope.stories.length;i++){
+			if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+				var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+				$scope.pubStories.push(aStory);
+			}				
+		}
+    }); 
+	
+	$scope.myStoryModel = $resource('/jsonapi/player_stories');
+	$scope.myStoryModel.query({}, function(response){
+		$scope.myStories = response;
+		for(var i=0;i<$scope.myStories.length;i++){
+			if($scope.myStories[i].published == false && $scope.myStories[i].archived == false){
+				var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+				$scope.pubStories.push(aStory);
+			}				
+		}	
+	});	
+
+	
+	
+	// To display particular challenge in the registration page
    
     var open_challenge_ID = $cookieStore.get("challengeID"); 
     if( open_challenge_ID != null){
@@ -684,6 +715,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 
     };
 	
+	//Create Habit Challenge
+	//Create Badge Challenge
+	//Create Quest Challenge
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
@@ -695,25 +729,38 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		$scope.newChallenge.privateMessage = $scope.chPriMsg;
 		$scope.newChallenge.description = $scope.chDescription;
 		$scope.newChallenge.startDate = $scope.chStartDate;
-		$scope.newChallenge.endDate = $scope.chEndDate;		
+		$scope.newChallenge.endDate = $scope.chEndDate;	
+		$scope.newChallenge.allowedCountries = [];
 		
+		//habit challenge	
+		$scope.newChallenge.pathID=$scope.pathID;
+		$scope.newChallenge.difficulty=$scope.difficulty;
+		$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
+		$scope.newChallenge.totalDays=$scope.totalDays;
+		
+		//badge challenge
 		$scope.newChallenge.unlockRequiredBadges = [];
+		
+		//Quest challenge
+		$scope.newChallenge.storyID = $scope.storyID;
 		
 		for(var i = 0; i<$scope.badges.length; i++){
 			if($scope.badges[i]){
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-    
-		$scope.NewChallenge = $resource('/jsonapi/new_challenge');
-				var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-				new_challenge.$save(function(response){
-					$scope.challenge = response;
-					console.log("new badge "+response);
-					$scope.newChallengeID = response.id;
-			});
-		
-		
+
+		if($scope.chLocation!=""){
+			$scope.newChallenge.allowedCountries.push($scope.chLocation);
+		}    
+	
+		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+		new_challenge.$save(function(response){
+			$scope.challenge = response;
+			console.log("new badge "+response);
+			$scope.newChallengeID = response.id;
+		});
 		
 		//$location.path("challenges");
 		
@@ -901,12 +948,22 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	
 	
 	//3. Challengedetails.html - Load stats for each challenge
-			$scope.all_players= function(challengeId){
+	$scope.all_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
+		//alert(challengeId);
 	
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
+			console.log($scope.challengePlayers.length);
 			//$scope.RegDate=challengeDetails.substring(0,9).trim();
+			for(var i=0; i<$scope.challengePlayers.length;i++){
+				var sliced_date = $scope.challengePlayers[i].playerRegisteredDate;
+				var tmp = sliced_date.lastIndexOf(' ');
+				$scope.challengePlayers[i].playerRegisteredDate = sliced_date.substring(0,tmp);
+				console.log($scope.challengePlayers[i].playerRegisteredDate);
+
+			}
         });	
 	};
 		//3b. Registered players	
@@ -958,13 +1015,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	};
 					
 	//4. Enable registering for challenge
-	//5. Create Habit Challenge
-	//6. Create Badge Challenge
-	//7. Create Quest Challenge
 	//8. Edit Challenges
-	
-	
-	
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
@@ -2371,7 +2422,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
-	
+
 	$scope.group_questStoryList = function(){
 	  $scope.pubStories = [];
       $scope.StoryModel.query({}, function(response){
