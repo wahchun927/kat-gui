@@ -119,10 +119,10 @@ li{ list-style:none; }
 		<div class="row-fluid">
 			<div class="span12">
 			
-				<div class="span4 lead well well-small" align="center">
-					<div id="gradient1"><h4>#2. Select a difficulty Level</h4></div> 
-					<hr>
-					<div id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
+				<div class="span4" align="center"  >
+					<div style="margin-bottom:-15px"><h4  class="well well-small" id="well-c">#2. Select a difficulty Level</h4></div>
+
+					<div class="well well-small" id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
 						<span ng-repeat="item in levels" ng-init="addDefaultLevel($first)">
 							<label class="radio">
 							<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
@@ -130,12 +130,12 @@ li{ list-style:none; }
 							</button></br></br>
 							</label>
 						</span>	
-					</div>
+					</div>	
 				</div>
 				<!--display the level, topic name & progress of the player when the path is selected by the player-->
-				<div class="span6 well well-small" ng-model="$parent.pathName" >
-					<div align="center" ><h4>#3. Select a Path Level!</h4></div>
-					<div class = "tabbable">                      
+				<div class="span6" ng-model="$parent.pathName" >
+					<div align="center" style="margin-bottom:-15px" ><h4  class="well well-small" id="well-c">#3. Select a Path Level!</h4></div>
+					<div class = "tabbable well well-small">                      
 					  <ul id="myTab" class="nav nav-tabs">                        
 						<li id="path1" class="tabspacing active">
 						<a  data-target="#path" data-toggle="tab">{{path_progress.path.name}} Path</a>
@@ -146,7 +146,7 @@ li{ list-style:none; }
 					  </ul>           					  
 					  <div class="tab-content" style="font-family:verdana">                        
 						<div class="tab-pane fade in active" id="path">
-							<div style="height:220px;overflow:auto">
+							<div style="height:190px;overflow:auto">
 								<div class="span12" style="font-size:12px;">
 									<div align = "center" class="span3 pull-left">Level#</div>
 									<div class="span5 pull-left">Description</div>
