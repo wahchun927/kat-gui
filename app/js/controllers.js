@@ -1217,6 +1217,7 @@ function NormalGameController($scope,$resource,$cookieStore){
           var item = new $scope.SaveResource($scope.theData);
           item.$save(function(response) { 
                   $scope.solution_check_result = response;
+                  console.log($scope.solution_check_result);
                   if($scope.solution_check_result.last_solved){
                     //If you hardcode to the game, this will automatically advance the game to the next problem. 
                     $scope.fetch($scope.game.gameID);
