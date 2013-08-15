@@ -958,44 +958,60 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
 		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
-			$scope.challengePlayers = response.players;	
+			$scope.challengePlayers = response.players
+			$scope.all_the_players = [];
 			console.log($scope.challengePlayers.length);
 			//$scope.RegDate=challengeDetails.substring(0,9).trim();
-			for(var i=0; i<$scope.challengePlayers.length;i++){
-				var sliced_date = $scope.challengePlayers[i].playerRegisteredDate;
-				var tmp = sliced_date.lastIndexOf(' ');
-				$scope.challengePlayers[i].playerRegisteredDate = sliced_date.substring(0,tmp);
-				console.log($scope.challengePlayers[i].playerRegisteredDate);
-
+			for(var i=0;i<$scope.challengePlayers.length;i++){
+				var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+				var exact_date = full_date.lastIndexOf(' ');
+				$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+				$scope.all_the_players.push($scope.challengePlayers[i]);
 			}
+
         });	
 	};
 		//3b. Registered players	
-	$scope.registered_players= function(challengeId){
-	
+	$scope.registered_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
+		//alert(challengeId);
+
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
-			$scope.challengePlayers = response.players;	
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+			$scope.challengePlayers = response.players;
+			$scope.challenge_id_display = response.challenge.description;	
 			$scope.registeredPlayers=[];
 			//if playerUnlocked=false
-			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerUnlocked==false){					
-					$scope.registeredPlayers.push($scope.challengePlayers[i]);				
+			for(var i=0;i<$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerUnlocked==false){	
+					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+					var exact_date = full_date.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);				
+					$scope.registeredPlayers.push($scope.challengePlayers[i]);
+
 				}
 			}
         });	
 	};			
 	
 		//3c. Unlocked players	
-	$scope.unlocked_players= function(challengeId){
-	
+	$scope.unlocked_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.unlockedPlayers=[];
 			//if playerUnlocked=true
 			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerUnlocked==false){					
+				if($scope.challengePlayers[i].playerUnlocked==true){
+					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+					var exact_date = full_date.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+
+					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+
 					$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
 				}
 			}
@@ -1003,15 +1019,23 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	};
 	
 		//3d. Submitted players	 
-	$scope.submitted_players= function(challengeId){
-	
+	$scope.submitted_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.submittedPlayers=[];
 			//if playerSubmitted=true
 			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerSubmitted==true){					
+				if($scope.challengePlayers[i].playerSubmitted==true){
+					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+					var exact_date = full_date.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+
+					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+
 					$scope.submittedPlayers.push($scope.challengePlayers[i]);				
 				}
 			}
