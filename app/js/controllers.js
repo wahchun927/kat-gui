@@ -229,7 +229,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		}, 2000);
 	}
 
-	setTimeout(function () {
+	setTimeout(function (){
 		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
 	    //Including details=1 returns the nested problemset progress.
@@ -652,9 +652,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	var yyyy = today.getFullYear();
 	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
-	$scope.chStartDate= mm+'/'+dd+'/'+yyyy;
+	$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
 	dd= dd+1;
-	$scope.chEndDate= mm+'/'+dd+'/'+yyyy;;
+	$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
+	
 	//retrieve published and user's own stories
 	$scope.pubStories = [];
  	$scope.StoryModel = $resource('/jsonapi/story');
@@ -753,6 +754,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 		if($scope.chLocation!=""){
 			$scope.newChallenge.allowedCountries.push($scope.chLocation);
 		}    
+		else{
+			$scope.newChallenge.allowedCountries = [];
+		}
 	
 		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
 		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
@@ -954,44 +958,60 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
 		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
-			$scope.challengePlayers = response.players;	
+			$scope.challengePlayers = response.players
+			$scope.all_the_players = [];
 			console.log($scope.challengePlayers.length);
 			//$scope.RegDate=challengeDetails.substring(0,9).trim();
-			for(var i=0; i<$scope.challengePlayers.length;i++){
-				var sliced_date = $scope.challengePlayers[i].playerRegisteredDate;
-				var tmp = sliced_date.lastIndexOf(' ');
-				$scope.challengePlayers[i].playerRegisteredDate = sliced_date.substring(0,tmp);
-				console.log($scope.challengePlayers[i].playerRegisteredDate);
-
+			for(var i=0;i<$scope.challengePlayers.length;i++){
+				var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+				var exact_date = full_date.lastIndexOf(' ');
+				$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+				$scope.all_the_players.push($scope.challengePlayers[i]);
 			}
+
         });	
 	};
 		//3b. Registered players	
-	$scope.registered_players= function(challengeId){
-	
+	$scope.registered_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
+		//alert(challengeId);
+
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
-			$scope.challengePlayers = response.players;	
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+			$scope.challengePlayers = response.players;
+			$scope.challenge_id_display = response.challenge.description;	
 			$scope.registeredPlayers=[];
 			//if playerUnlocked=false
-			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerUnlocked==false){					
-					$scope.registeredPlayers.push($scope.challengePlayers[i]);				
+			for(var i=0;i<$scope.challengePlayers.length;i++){					
+				if($scope.challengePlayers[i].playerUnlocked==false){	
+					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+					var exact_date = full_date.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);				
+					$scope.registeredPlayers.push($scope.challengePlayers[i]);
+
 				}
 			}
         });	
 	};			
 	
 		//3c. Unlocked players	
-	$scope.unlocked_players= function(challengeId){
-	
+	$scope.unlocked_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.unlockedPlayers=[];
 			//if playerUnlocked=true
 			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerUnlocked==false){					
+				if($scope.challengePlayers[i].playerUnlocked==true){
+					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+					var exact_date = full_date.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+
+					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+
 					$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
 				}
 			}
@@ -999,15 +1019,23 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 	};
 	
 		//3d. Submitted players	 
-	$scope.submitted_players= function(challengeId){
-	
+	$scope.submitted_players= function(){
+		var challengeId = $cookieStore.get("challengeID");
 		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({}, function(response){
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.submittedPlayers=[];
 			//if playerSubmitted=true
 			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerSubmitted==true){					
+				if($scope.challengePlayers[i].playerSubmitted==true){
+					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+					var exact_date = full_date.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+
+					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+
 					$scope.submittedPlayers.push($scope.challengePlayers[i]);				
 				}
 			}
@@ -2875,8 +2903,8 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 
 function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.feedback_sent = false;
-	$scope.title = "Some feedback on SingPath";
-	$scope.description = "I just wanted to let you know that ..";	
+	//$scope.title = "Some feedback on SingPath";
+	//$scope.description = "I just wanted to let you know that ..";	
 
 	$scope.create_feedback = function(title,des,type){
 		console.log(title+" "+des+" "+type);
@@ -2893,11 +2921,28 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 				//Hide the form
 				$scope.feedback_sent = true;
 				//$('#thanks').modal('show');
-				//window.location.reload();
-				
-			});			
-		
-		}else{		
+				//window.location.reload();				
+			});		
+		}
+		else if (title == undefined && des != undefined && type != undefined){
+			alert("Please enter your feedback title!");
+		}
+		else if(title != undefined && des == undefined && type != undefined){
+			alert("Please enter your comment!");
+		}
+		else if(title != undefined && des != undefined && type == undefined){
+			alert("Please select a feedback category!");
+		}
+		else if (title == undefined && des == undefined && type != undefined){
+			alert("Please enter your feedback title & comment!");
+		}
+		else if(title == undefined && des != undefined && type == undefined){
+			alert("Please select a feedback category & enter feedback title!");
+		}
+		else if(title != undefined && des == undefined && type == undefined){
+			alert("Please select a feedback category & enter your comment!");
+		}
+		else{		
 			alert("Please fill all options!");		
 		}				
 	};
