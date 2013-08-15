@@ -133,12 +133,8 @@
                     <tr>
                         <th>Story Name</th>
                         <th>
-                            <select style="position:left;">
-                                <option value="HitItWithoutMissIt!">Hit it! Without Miss It!</option>
-                                <option value="KickItOut">Kick it Out!</option>
-                                <option value="CheckingItOut">Checking it Out!</option>
-                            </select>
-                        </th>
+							<select ng-model="storyID" ng-options="story.id as story.name for story in pubStories"></select>			
+						</th>
                     </tr>
                     <tr>
                         <th>Path</th>
