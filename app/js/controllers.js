@@ -2879,8 +2879,8 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
 
 function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.feedback_sent = false;
-	$scope.title = "Some feedback on SingPath";
-	$scope.description = "I just wanted to let you know that ..";	
+	//$scope.title = "Some feedback on SingPath";
+	//$scope.description = "I just wanted to let you know that ..";	
 
 	$scope.create_feedback = function(title,des,type){
 		console.log(title+" "+des+" "+type);
@@ -2897,11 +2897,28 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 				//Hide the form
 				$scope.feedback_sent = true;
 				//$('#thanks').modal('show');
-				//window.location.reload();
-				
-			});			
-		
-		}else{		
+				//window.location.reload();				
+			});		
+		}
+		else if (title == undefined && des != undefined && type != undefined){
+			alert("Please enter your feedback title!");
+		}
+		else if(title != undefined && des == undefined && type != undefined){
+			alert("Please enter your comment!");
+		}
+		else if(title != undefined && des != undefined && type == undefined){
+			alert("Please select a feedback category!");
+		}
+		else if (title == undefined && des == undefined && type != undefined){
+			alert("Please enter your feedback title & comment!");
+		}
+		else if(title == undefined && des != undefined && type == undefined){
+			alert("Please select a feedback category & enter feedback title!");
+		}
+		else if(title != undefined && des == undefined && type == undefined){
+			alert("Please select a feedback category & enter your comment!");
+		}
+		else{		
 			alert("Please fill all options!");		
 		}				
 	};
