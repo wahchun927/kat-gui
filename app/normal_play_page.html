@@ -797,10 +797,12 @@
                       <div class="tab-content">
                         <div class="tab-pane fade in active" id="t11" style="height:317px;">
                             <div>Examples: 
-                <pre style = "color:blue;"><span ng-bind="game.problems.problems[current_problem_index].examples"></span></pre>
-                </div>
+                                <pre style = "color:blue;">
+                                    <span ng-bind="game.problems.problems[current_problem_index].examples"></span>
+                                </pre>
+                            </div>
                         </div>
-                        <div class="tab-pane fade in" id="t21" style="height:320px;">
+                        <div ng-hide="solution_check_result.error" class="tab-pane fade in" id="t21" style="height:320px;">
                             <table border=1 bgcolor=#FFFFFF width=100%>
                                 <tr>
                                     <th height="50">Called</th>
@@ -816,9 +818,12 @@
                                     <td height="40"ng-show="!line.status" bgcolor=#FF0000>{{line.status}}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4">Errors: <pre style = "color:blue;"><span ng-bind="solution_check_result.errors"></span></pre></td>
+                                    <td colspan="4" ng-hide="!solution_check_result.errors">Errors: <pre style = "color:blue;"><span ng-bind="solution_check_result.errors"></span></pre></td>
                                 </tr>
                             </table>
+                        </div>
+                        <div ng-show="solution_check_result.error">
+                            {{solution_check_result.error}}
                         </div>
                       </div>
                     </div>
