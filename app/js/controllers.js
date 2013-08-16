@@ -846,10 +846,27 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 				}
 				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
 				//alert($scope.playerRegisteredChallenges.length+"success");
+				
+				//fetch the flag img url for each challenge in playerRegisteredChallenges
+				$scope.countryModel = $resource('/jsonapi/all_countries');
+					$scope.countryModel.get({}, function(response){
+					$scope.ListAllCountries = response.countries;	
+
+					for(var i=0;i<=$scope.playerRegisteredChallenges.length;i++){
+						for(var j=0;j<=$scope.ListAllCountries.length;j++){
+							if($scope.playerRegisteredChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+							{
+								$scope.playerRegisteredChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+							}
+						}
+					
+					}
+				});
+
 			}
 			
 						
-			//fetch the flag img url for each challenge in playerRegisteredChallenges
+			/*//fetch the flag img url for each challenge in playerRegisteredChallenges
 			$scope.countryModel = $resource('/jsonapi/all_countries');
 				$scope.countryModel.get({}, function(response){
 				$scope.ListAllCountries = response.countries;	
@@ -863,7 +880,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 					}
 				
 				}
-			});
+			});*/
 				
 			
 		});
