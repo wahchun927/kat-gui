@@ -811,8 +811,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 				$scope.countryModel.get({}, function(response){
 				$scope.ListAllCountries = response.countries;	
 
-				for(var i=0;i<=$scope.ListAllChallenges.length;i++){
-					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+				for(var i=0;i<$scope.ListAllChallenges.length;i++){
+					for(var j=0;j<$scope.ListAllCountries.length;j++){
 						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
 						{
 							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
@@ -846,7 +846,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 				}
 				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
 				//alert($scope.playerRegisteredChallenges.length+"success");
-				
+
 				//fetch the flag img url for each challenge in playerRegisteredChallenges
 				$scope.countryModel = $resource('/jsonapi/all_countries');
 					$scope.countryModel.get({}, function(response){
