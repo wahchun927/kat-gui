@@ -216,10 +216,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
 		}, 2000);
 	}
-	else if(location.href.indexOf("pathDes") > -1){
-		$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
+	else if(location.href.indexOf("path_ID") > -1){
+		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
-			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
+			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
 		}, 2000);
 	}
 	else{
@@ -599,7 +599,17 @@ function ProblemController($scope,$resource){
 
 function BadgeController($scope,$resource){
     $scope.playerBadges = $resource('/jsonapi/badges_for_current_player').get();
+	
+	$scope.list_paths= function(){
+		$scope.pathModel = $resource('/jsonapi/get_game_paths');		
+		$scope.pathModel.get({}, function(response){
+			$scope.ListAllPaths = response.paths;			
+        });		
+    };
+	
 }
+
+
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore){
@@ -2290,7 +2300,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  }
 	}
     //Create quest
-    $scope.create_quest = function(storyID,pathName,difficulty){
+    $scope.create_quest = function(storyID,path_id,difficulty){
 /*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);
       $scope.SaveResource = $resource('/jsonapi/rest/quest', 
                     {}, 
@@ -2316,32 +2326,11 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $scope.$watch('location.search()', function() {
         $scope.target = ($location.search()).target;
       }, true);
+	  
       $scope.newQuest = {}
       $scope.newQuest.storyID = storyID;
-		
-	  if(difficulty=="Drag-n-Drop"){
-	  	for(var i=0; i<$scope.mobile_paths.length;i++){
-			var a = " " + pathName;
-			var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-			if(a == b){
-				$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
-				break;
-			}
-		}
-	  }
-	  else{
-		for(var i=0; i<$scope.paths.paths.length;i++){
-			var a = " " + pathName.trim();
-			var b = " " + $scope.paths.paths[i].name.trim();
-			if(a == b){
-				$scope.newQuest.pathID = $scope.paths.paths[i].id;
-				break;
-			}
-	    }
-	  }
-
+	  $scope.newQuest.pathID = path_id;
       $scope.newQuest.difficulty = difficulty;
-
       $scope.NewQuest = $resource('/jsonapi/quest');
       var new_quest = new $scope.NewQuest($scope.newQuest);
       
@@ -2451,7 +2440,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
-
+	
+    $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
 	  $scope.pubStories = [];
       $scope.StoryModel.query({}, function(response){
@@ -2472,7 +2462,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     };
 
 	$scope.name = $cookieStore.get("name");
-    $scope.StoryModel = $resource('/jsonapi/story');
         $scope.StoryModel.query({}, function(response){
         $scope.stories = response;
         if(location.href.indexOf("storyID") > -1){
@@ -2734,6 +2723,13 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		}
     }
+	
+	$scope.goToStory=function()
+    {
+      $location.path("story");
+
+    };
+	
 }
 
 function TimeAndAttemptsController($scope,$resource){
