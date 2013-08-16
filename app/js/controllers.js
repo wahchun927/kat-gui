@@ -852,8 +852,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 					$scope.countryModel.get({}, function(response){
 					$scope.ListAllCountries = response.countries;	
 
-					for(var i=0;i<=$scope.playerRegisteredChallenges.length;i++){
-						for(var j=0;j<=$scope.ListAllCountries.length;j++){
+					for(var i=0;i<$scope.playerRegisteredChallenges.length;i++){
+						for(var j=0;j<$scope.ListAllCountries.length;j++){
 							if($scope.playerRegisteredChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
 							{
 								$scope.playerRegisteredChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
@@ -914,8 +914,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 				$scope.countryModel.get({}, function(response){
 				$scope.ListAllCountries = response.countries;	
 
-				for(var i=0;i<=$scope.ListMyChallenges.length;i++){
-					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+				for(var i=0;i<$scope.ListMyChallenges.length;i++){
+					for(var j=0;j<$scope.ListAllCountries.length;j++){
 						if($scope.ListMyChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
 						{
 							$scope.ListMyChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
