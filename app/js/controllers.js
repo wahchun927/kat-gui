@@ -203,7 +203,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		setTimeout(function () {			
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
 			$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
-		}, 100);
+		}, 2000);
 	}
 
 	if(location.href.indexOf("path_ID") > -1){
@@ -212,14 +212,14 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 100);
+		}, 2000);
 	}
 	else{
 		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 100);
+		}, 2000);
 	}
 
 	setTimeout(function (){
@@ -229,18 +229,18 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
 	    });
-	},100);
+	},2000);
 	
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
+		  }, 2500);
 		}
 		else if(checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levels button:button').first().click();
-		  }, 100);
+		  }, 2000);
 		}
 	}
 
@@ -248,12 +248,12 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
+		  }, 2500);
 		}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levelsmall button:button').first().click();
-		  }, 100);
+		  }, 2000);
 	 	}
 	}
 
@@ -266,7 +266,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarousel input:image').first().trigger('click');
-		  }, 100);
+		  }, 2000);
 		}
 	}
 
@@ -278,7 +278,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarouselSmall input:image').first().click();
-		  }, 100);
+		  }, 2000);
 		}
 	}
 
@@ -291,7 +291,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRank input:image').eq(2).click();
-		  }, 100);	
+		  }, 2000);	
 		}
 	}
 
@@ -303,7 +303,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRankSmall input:image').eq(2).click();
-		  }, 100);	
+		  }, 2000);	
 		}
 	}
   
@@ -531,7 +531,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 	//update path progress for small window size
     $scope.update_path_progress1 = function(pathID){
@@ -542,7 +542,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab1 a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 
     //This may not be needed every time the controller loads. 
@@ -2255,12 +2255,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  	if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
+		  }, 2500);
 	  	}
 	  	else if(checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
 		    $('#levels button:button').eq(1).click();
-		  }, 100);
+		  }, 2000);
 	 	}
 	}
 
@@ -2268,12 +2268,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	    if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
+		  }, 2500);
 	  	}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
 		    $('#levelsmall button:button').eq(1).click();
-		  }, 100);
+		  }, 2000);
 	  	}
     }
 
@@ -2292,7 +2292,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  if(checker == 0){
 	    setTimeout(function () {
 		  $('#paths input:image').first().click();
-		}, 100);
+		}, 2000);
 	  }
 	}
 
@@ -2304,7 +2304,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  if(checker == 0){
 		setTimeout(function () {
 		  $('#pathsSmall input:image').first().click();
-		}, 100);
+		}, 2000);
 	  }
 	}
     //Create quest
@@ -2481,11 +2481,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			setTimeout(function () {
 				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
 				$scope.addQuestColor(true);
-		    }, 100);
+		    }, 2000);
 	    }else{
 	    	setTimeout(function () {
 	    	 	$scope.group_questStoryList();
-	        }, 100);
+	        }, 2000);
 	    }
     });
     //We will need a different controller or resource to fetch player stories. 
@@ -2514,7 +2514,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(checker){
 			setTimeout(function () {
 			  $('#myCarousel input:image').eq(0).click();
-			}, 100);
+			}, 2000);
 		}
     }
 
@@ -2527,7 +2527,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(checker){
 			setTimeout(function () {
 			  $('#myCarouselSmall input:image').eq(0).click();
-			}, 100);
+			}, 2000);
 		}
     }
 
@@ -2565,7 +2565,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}
 		setTimeout(function () {
 			$('#video').trigger('click');
-		}, 100);
+		}, 2000);
     };
 	//4. View statistics on existing story
 
