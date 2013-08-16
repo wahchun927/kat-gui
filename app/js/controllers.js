@@ -599,7 +599,17 @@ function ProblemController($scope,$resource){
 
 function BadgeController($scope,$resource){
     $scope.playerBadges = $resource('/jsonapi/badges_for_current_player').get();
+	
+	$scope.list_paths= function(){
+		$scope.pathModel = $resource('/jsonapi/get_game_paths');		
+		$scope.pathModel.get({}, function(response){
+			$scope.ListAllPaths = response.paths;			
+        });		
+    };
+	
 }
+
+
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore){
@@ -2713,6 +2723,13 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		}
     }
+	
+	$scope.goToStory=function()
+    {
+      $location.path("story");
+
+    };
+	
 }
 
 function TimeAndAttemptsController($scope,$resource){
