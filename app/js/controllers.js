@@ -2347,6 +2347,9 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
         $cookieStore.put("name", response);
   	    $cookieStore.put("type", "questGame");
         $scope.list();
+        $location.search('storyID', null);
+		$location.search('difficulty', null);
+		$location.search('path_ID', null);
         $location.path('storyboard');
       });
     };
