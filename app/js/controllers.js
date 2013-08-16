@@ -16,7 +16,6 @@ function IndexController($scope,$resource,$location,$window){
     }; 
     */
     $scope.log_event = function($event){  
-
         var result = $location.absUrl().split("/");
         var page = result[result.length-1];
         if($event.target.name){
@@ -204,22 +203,23 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		setTimeout(function () {			
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
 			$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
-		}, 2000);
+		}, 100);
 	}
-	else if(location.href.indexOf("path_ID") > -1){
+
+	if(location.href.indexOf("path_ID") > -1){
 		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 2000);
+		}, 100);
 	}
 	else{
 		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 2000);
+		}, 100);
 	}
 
 	setTimeout(function (){
@@ -229,18 +229,18 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
 	    });
-	},2000);
+	},100);
 	
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 		}
 		else if(checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levels button:button').first().click();
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -248,12 +248,12 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 		}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levelsmall button:button').first().click();
-		  }, 2000);
+		  }, 100);
 	 	}
 	}
 
@@ -266,7 +266,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarousel input:image').first().trigger('click');
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -278,7 +278,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarouselSmall input:image').first().click();
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -291,7 +291,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRank input:image').eq(2).click();
-		  }, 2000);	
+		  }, 100);	
 		}
 	}
 
@@ -303,7 +303,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRankSmall input:image').eq(2).click();
-		  }, 2000);	
+		  }, 100);	
 		}
 	}
   
@@ -2224,26 +2224,16 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     //$scope.difficulty = "Drag-n-Drop";
     //$scope.pathDes = "Python";
 
-    if(location.href.indexOf("difficulty") > -1){
-    	if(location.href.indexOf("pathDes") > -1){
-    		$scope.pathDes = location.hash.split('pathDes=')[1].split("&")[0];
-    	}
-    	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-    	$scope.difficulty = $scope.passed_in_difficulty;
-    	$scope.addDefaultLevel($scope.passed_in_difficulty);
-    	$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
-    }
-
     $scope.addDefaultLevel=function(checker){
 	  	if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 	  	}
 	  	else if(checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
-		    $('#levels button:button').first().click();
-		  }, 2000);
+		    $('#levels button:button').eq(1).click();
+		  }, 100);
 	 	}
 	}
 
@@ -2251,13 +2241,20 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	    if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 	  	}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
-		    $('#levelsmall button:button').first().click();
-		  }, 2000);
+		    $('#levelsmall button:button').eq(1).click();
+		  }, 100);
 	  	}
+    }
+
+    if(location.href.indexOf("difficulty") > -1){
+    	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
+    	$scope.difficulty = $scope.passed_in_difficulty;
+    	$scope.addDefaultLevel($scope.difficulty);
+    	$scope.addDefaultLevelSmall($scope.difficulty);
     }
 
 	 $scope.pathSelection=function(checker){
@@ -2268,7 +2265,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  if(checker == 0){
 	    setTimeout(function () {
 		  $('#paths input:image').first().click();
-		}, 2000);
+		}, 100);
 	  }
 	}
 
@@ -2280,7 +2277,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  if(checker == 0){
 		setTimeout(function () {
 		  $('#pathsSmall input:image').first().click();
-		}, 2000);
+		}, 100);
 	  }
 	}
     //Create quest
@@ -2424,6 +2421,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
+	$scope.name = $cookieStore.get("name");
 	
     $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
@@ -2445,20 +2443,19 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  $scope.addQuestColor(true);
     };
 
-	$scope.name = $cookieStore.get("name");
-        $scope.StoryModel.query({}, function(response){
+    $scope.StoryModel.query({}, function(response){
         $scope.stories = response;
         if(location.href.indexOf("storyID") > -1){
-	  	  $scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-		  //alert($scope.passed_in_pathName);
-		  setTimeout(function () {
-			  $scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
-			  $scope.addQuestColor(true);
-	      }, 2000);
+		  	$scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+			//alert($scope.passed_in_pathName);
+			setTimeout(function () {
+				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
+				$scope.addQuestColor(true);
+		    }, 100);
 	    }else{
 	    	setTimeout(function () {
 	    	 	$scope.group_questStoryList();
-	        }, 2000);
+	        }, 100);
 	    }
     });
     //We will need a different controller or resource to fetch player stories. 
@@ -2487,7 +2484,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(checker){
 			setTimeout(function () {
 			  $('#myCarousel input:image').eq(0).click();
-			}, 2000);
+			}, 100);
 		}
     }
 
@@ -2500,7 +2497,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(checker){
 			setTimeout(function () {
 			  $('#myCarouselSmall input:image').eq(0).click();
-			}, 2000);
+			}, 100);
 		}
     }
 
