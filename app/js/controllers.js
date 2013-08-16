@@ -16,7 +16,6 @@ function IndexController($scope,$resource,$location,$window){
     }; 
     */
     $scope.log_event = function($event){  
-
         var result = $location.absUrl().split("/");
         var page = result[result.length-1];
         if($event.target.name){
@@ -206,7 +205,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
 		}, 2000);
 	}
-	else if(location.href.indexOf("path_ID") > -1){
+
+	if(location.href.indexOf("path_ID") > -1){
 		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
@@ -531,7 +531,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 	//update path progress for small window size
     $scope.update_path_progress1 = function(pathID){
@@ -542,7 +542,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab1 a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 
     //This may not be needed every time the controller loads. 
@@ -2251,16 +2251,6 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     //$scope.difficulty = "Drag-n-Drop";
     //$scope.pathDes = "Python";
 
-    if(location.href.indexOf("difficulty") > -1){
-    	if(location.href.indexOf("pathDes") > -1){
-    		$scope.pathDes = location.hash.split('pathDes=')[1].split("&")[0];
-    	}
-    	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-    	$scope.difficulty = $scope.passed_in_difficulty;
-    	$scope.addDefaultLevel($scope.passed_in_difficulty);
-    	$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
-    }
-
     $scope.addDefaultLevel=function(checker){
 	  	if(checker.length > 1){
 		  setTimeout(function () {
@@ -2269,7 +2259,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  	}
 	  	else if(checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
-		    $('#levels button:button').first().click();
+		    $('#levels button:button').eq(1).click();
 		  }, 2000);
 	 	}
 	}
@@ -2282,9 +2272,16 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  	}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
-		    $('#levelsmall button:button').first().click();
+		    $('#levelsmall button:button').eq(1).click();
 		  }, 2000);
 	  	}
+    }
+
+    if(location.href.indexOf("difficulty") > -1){
+    	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
+    	$scope.difficulty = $scope.passed_in_difficulty;
+    	$scope.addDefaultLevel($scope.difficulty);
+    	$scope.addDefaultLevelSmall($scope.difficulty);
     }
 
 	 $scope.pathSelection=function(checker){
@@ -2350,6 +2347,9 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
         $cookieStore.put("name", response);
   	    $cookieStore.put("type", "questGame");
         $scope.list();
+        $location.search('storyID', null);
+		$location.search('difficulty', null);
+		$location.search('path_ID', null);
         $location.path('storyboard');
       });
     };
@@ -2451,6 +2451,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
+	$scope.name = $cookieStore.get("name");
 	
     $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
@@ -2472,16 +2473,15 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  $scope.addQuestColor(true);
     };
 
-	$scope.name = $cookieStore.get("name");
-        $scope.StoryModel.query({}, function(response){
+    $scope.StoryModel.query({}, function(response){
         $scope.stories = response;
         if(location.href.indexOf("storyID") > -1){
-	  	  $scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-		  //alert($scope.passed_in_pathName);
-		  setTimeout(function () {
-			  $scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
-			  $scope.addQuestColor(true);
-	      }, 2000);
+		  	$scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+			//alert($scope.passed_in_pathName);
+			setTimeout(function () {
+				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
+				$scope.addQuestColor(true);
+		    }, 2000);
 	    }else{
 	    	setTimeout(function () {
 	    	 	$scope.group_questStoryList();
@@ -2565,7 +2565,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}
 		setTimeout(function () {
 			$('#video').trigger('click');
-		}, 100);
+		}, 2000);
     };
 	//4. View statistics on existing story
 
