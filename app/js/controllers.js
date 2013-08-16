@@ -216,10 +216,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
 		}, 2000);
 	}
-	else if(location.href.indexOf("pathDes") > -1){
-		$scope.passed_in_pathDes = location.hash.split('pathDes=')[1].split("&")[0];
+	else if(location.href.indexOf("path_ID") > -1){
+		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
-			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathDes)};
+			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
 		}, 2000);
 	}
 	else{
