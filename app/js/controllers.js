@@ -2290,7 +2290,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  }
 	}
     //Create quest
-    $scope.create_quest = function(storyID,pathName,difficulty){
+    $scope.create_quest = function(storyID,path_id,difficulty){
 /*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);
       $scope.SaveResource = $resource('/jsonapi/rest/quest', 
                     {}, 
@@ -2316,32 +2316,11 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $scope.$watch('location.search()', function() {
         $scope.target = ($location.search()).target;
       }, true);
+	  
       $scope.newQuest = {}
       $scope.newQuest.storyID = storyID;
-		
-	  if(difficulty=="Drag-n-Drop"){
-	  	for(var i=0; i<$scope.mobile_paths.length;i++){
-			var a = " " + pathName;
-			var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-			if(a == b){
-				$scope.newQuest.pathID = $scope.mobile_paths[i].path_id;
-				break;
-			}
-		}
-	  }
-	  else{
-		for(var i=0; i<$scope.paths.paths.length;i++){
-			var a = " " + pathName.trim();
-			var b = " " + $scope.paths.paths[i].name.trim();
-			if(a == b){
-				$scope.newQuest.pathID = $scope.paths.paths[i].id;
-				break;
-			}
-	    }
-	  }
-
+	  $scope.newQuest.pathID = path_id;
       $scope.newQuest.difficulty = difficulty;
-
       $scope.NewQuest = $resource('/jsonapi/quest');
       var new_quest = new $scope.NewQuest($scope.newQuest);
       
@@ -2451,7 +2430,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
-
+	
+    $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
 	  $scope.pubStories = [];
       $scope.StoryModel.query({}, function(response){
@@ -2472,7 +2452,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     };
 
 	$scope.name = $cookieStore.get("name");
-    $scope.StoryModel = $resource('/jsonapi/story');
         $scope.StoryModel.query({}, function(response){
         $scope.stories = response;
         if(location.href.indexOf("storyID") > -1){
