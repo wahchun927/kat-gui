@@ -999,6 +999,23 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 					
 	//4. Enable registering for challenge
 	//8. Edit Challenges
+
+
+	//*******************************Miscellaneous Functions*********************************
+
+	//to retrieve windows height based on screen size
+	    $scope.getHeight_challenge_feature = function() {
+	        return $(window).height();
+	    };
+	    $scope.$watch($scope.getHeight_challenge_feature, function(newValue, oldValue) {
+	        $scope.window_Height = newValue;
+	        $scope.window_Height_challenge = $scope.window_Height * 0.55;
+	        //$scope.window_Height_country = $scope.window_Height * 0.56;
+	    });
+	    window.onresize = function(){
+	        $scope.$apply();
+	    }	
+
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
@@ -2832,18 +2849,18 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
         $('#tab2SG').addClass('active');
         $('#tab1sg').addClass('active');		
     };
-    //to retrieve windows height
-    $scope.getHeight = function() {
-        return $(window).height();
-    };
-    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
-        $scope.window_Height = newValue;
-        $scope.window_Height_table = $scope.window_Height * 0.275;
-        $scope.window_Height_country = $scope.window_Height * 0.56;
-    });
-    window.onresize = function(){
-        $scope.$apply();
-    }
+	    //to retrieve windows height based on screen size
+	    $scope.getHeight = function() {
+	        return $(window).height();
+	    };
+	    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+	        $scope.window_Height = newValue;
+	        $scope.window_Height_table = $scope.window_Height * 0.275;
+	        $scope.window_Height_country = $scope.window_Height * 0.55;
+	    });
+	    window.onresize = function(){
+	        $scope.$apply();
+	    }
 	
 }
 
