@@ -16,7 +16,6 @@ function IndexController($scope,$resource,$location,$window){
     }; 
     */
     $scope.log_event = function($event){  
-
         var result = $location.absUrl().split("/");
         var page = result[result.length-1];
         if($event.target.name){
@@ -46,8 +45,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 		if($scope.player.nickname){
    			$location.search('storyID', null);
    			$location.search('difficulty', null);
-   			$location.search('pathDes', null);
-   			$location.search('pathName', null);
+   			$location.search('path_ID', null);
 			$cookieStore.put("pid", paid);
 			$location.path("practice");
 		}
@@ -63,9 +61,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.checkQuestLogin = function(){
 		if($scope.player.nickname){
 			$location.search('storyID', null);
-   			$location.search('pathDes', null);
-			$location.search('pathName', null);
    			$location.search('difficulty', null);
+   			$location.search('path_ID', null);
 			$location.path("quests");
 		}
 		else{
@@ -84,9 +81,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkStoryLogin = function(){
 		$location.search('storyID', null);
-		$location.search('pathDes', null);
-		$location.search('pathName', null);
 		$location.search('difficulty', null);
+		$location.search('path_ID', null);
 		if($scope.player.nickname){
 			$location.path("story");
 		}
@@ -97,9 +93,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkChallengesLogin = function(){
 		$location.search('storyID', null);
-		$location.search('pathDes', null);
-		$location.search('pathName', null);
 		$location.search('difficulty', null);
+		$location.search('path_ID', null);
 		if($scope.player.nickname){
 			$location.path("challenges");
 		}
@@ -110,9 +105,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkRankingLogin = function(){
 		$location.search('storyID', null);
-		$location.search('pathDes', null);
-		$location.search('pathName', null);
 		$location.search('difficulty', null);
+		$location.search('path_ID', null);
 		if($scope.player.nickname){
 			$location.path("ranking");
 		}
@@ -123,9 +117,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkFeedbackLogin = function(){
 		$location.search('storyID', null);
-		$location.search('pathDes', null);
-		$location.search('pathName', null);
 		$location.search('difficulty', null);
+		$location.search('path_ID', null);
 		if($scope.player.nickname){
 			$location.path("feedback");
 		}
@@ -136,9 +129,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 	
 	$scope.checkProfileLogin = function(){
 		$location.search('storyID', null);
-		$location.search('pathDes', null);
-		$location.search('pathName', null);
 		$location.search('difficulty', null);
+		$location.search('path_ID', null);
 		if($scope.player.nickname){
 			$location.path("profile");
 		}
@@ -204,28 +196,30 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.abc = $cookieStore.get("pid");
 	$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 	$scope.lvlName = 1;
+	$scope.difficulty = "";
 
-	if(location.href.indexOf("pathName") > -1){
-		$scope.passed_in_pathName = location.hash.split('pathName=')[1].split("&")[0];
+	if(location.href.indexOf("difficulty") > -1){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
 		$scope.difficulty = $scope.passed_in_difficulty;
-		//alert($scope.passed_in_pathName);
-		setTimeout(function () {
-			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_pathName)};
-			$scope.practiceSelection(1);
+		setTimeout(function () {			
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
+			$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
 		}, 2000);
 	}
-	else if(location.href.indexOf("path_ID") > -1){
+
+	if(location.href.indexOf("path_ID") > -1){
 		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
+			$scope.practiceSelection(1);
+			$scope.practiceSelectionSmall(1);
 		}, 2000);
 	}
 	else{
 		setTimeout(function () {
 		$scope.paths = $scope.paths_unfiltered;
 			$scope.practiceSelection(1);
+			$scope.practiceSelectionSmall(1);
 		}, 2000);
 	}
 
@@ -383,82 +377,16 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
 	}
 	
-	$scope.changePath = function (difficulty, pathName){
-		if(difficulty=="Drag-n-Drop"){
-			$scope.changeDifficulty(difficulty,pathName);
-		}
-		else{
-			$scope.changeDifficulty(difficulty,"Beginner "+pathName);
-		}
-	};
-	
-	$scope.changePath1 = function (difficulty, pathName){
-		if(difficulty=="Drag-n-Drop"){
-			$scope.changeDifficulty1(difficulty,pathName);
-		}
-		else{
-			$scope.changeDifficulty1(difficulty,"Beginner "+pathName);
+	$scope.changePath = function (pathid){
+		$scope.update_path_progress(pathid);
+		if(pathid != undefined && difficulty != undefined){
+			$location.search({pathID: pathid,difficulty: $scope.difficulty});
 		}
 	};
 	
 	//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty = function(difficulty,pathName){
-		var path_ID;
-		if(difficulty=="Drag-n-Drop"){
-			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
-				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-				if(a == b){
-					$scope.update_path_progress($scope.mobile_paths[i].path_id);
-					break;
-				}
-			}
-		}
-		else{
-			for(var i=0; i<$scope.paths.paths.length;i++){
-				var a = " " + pathName.trim().substring(9);;
-				var b = " " + $scope.paths.paths[i].name.trim();
-				//alert(a+" "+b);
-				//alert(a==b);
-				if(a == b){
-					//alert(a+" "+b);
-					$scope.update_path_progress($scope.paths.paths[i].id);
-					break;
-				}
-			}
-		}
-		//update_path_progress(pat)
-		if(pathName != undefined && difficulty != undefined){
-			$location.search({pathName: pathName,difficulty: difficulty});
-		}
-	};
-	
-		//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty1 = function(difficulty,pathName){
-		if(difficulty=="Drag-n-Drop"){
-			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
-				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-				if(a == b){
-					$scope.update_path_progress1($scope.mobile_paths[i].path_id);
-					break;
-				}
-			}
-		}
-		else{
-			for(var i=0; i<$scope.paths.paths.length;i++){
-				var a = " " + pathName.trim().substring(9);;
-				var b = " " + $scope.paths.paths[i].name.trim();
-				//alert(a+" "+b);
-				//alert(a==b);
-				if(a == b){
-					//alert(a+" "+b);
-					$scope.update_path_progress1($scope.paths.paths[i].id);
-					break;
-				}
-			}
-		}
-		//update_path_progress(pat)
+	$scope.changeDifficulty = function(difficulty){
+		$scope.difficulty = difficulty;
 	};
 	
 	$scope.continuePath = function(num){
@@ -536,7 +464,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 	//update path progress for small window size
     $scope.update_path_progress1 = function(pathID){
@@ -547,7 +475,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab1 a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 
     //This may not be needed every time the controller loads. 
@@ -2256,17 +2184,6 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     //$scope.difficulty = "Drag-n-Drop";
     //$scope.pathDes = "Python";
 
-    if(location.href.indexOf("difficulty") > -1){
-    	if(location.href.indexOf("pathDes") > -1){
-    		$scope.pathDes = location.hash.split('pathDes=')[1].split("&")[0];
-    	}
-    	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-    	$scope.difficulty = $scope.passed_in_difficulty;
-    	setTimeout(function () {
-    		$("button[btn-radio="+$scope.passed_in_difficulty+"]").click();
-    	}, 2000);
-    }
-
     $scope.addDefaultLevel=function(checker){
 	  	if(checker.length > 1){
 		  setTimeout(function () {
@@ -2275,7 +2192,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  	}
 	  	else if(checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
-		    $('#levels button:button').first().click();
+		    $('#levels button:button').eq(1).click();
 		  }, 2000);
 	 	}
 	}
@@ -2288,9 +2205,16 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  	}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
-		    $('#levelsmall button:button').first().click();
+		    $('#levelsmall button:button').eq(1).click();
 		  }, 2000);
 	  	}
+    }
+
+    if(location.href.indexOf("difficulty") > -1){
+    	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
+    	$scope.difficulty = $scope.passed_in_difficulty;
+    	$scope.addDefaultLevel($scope.difficulty);
+    	$scope.addDefaultLevelSmall($scope.difficulty);
     }
 
 	 $scope.pathSelection=function(checker){
@@ -2356,6 +2280,9 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
         $cookieStore.put("name", response);
   	    $cookieStore.put("type", "questGame");
         $scope.list();
+        $location.search('storyID', null);
+		$location.search('difficulty', null);
+		$location.search('path_ID', null);
         $location.path('storyboard');
       });
     };
@@ -2457,6 +2384,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.myVideos = "";
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
+	$scope.name = $cookieStore.get("name");
 	
     $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
@@ -2478,16 +2406,15 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  $scope.addQuestColor(true);
     };
 
-	$scope.name = $cookieStore.get("name");
-        $scope.StoryModel.query({}, function(response){
+    $scope.StoryModel.query({}, function(response){
         $scope.stories = response;
         if(location.href.indexOf("storyID") > -1){
-	  	  $scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-		  //alert($scope.passed_in_pathName);
-		  setTimeout(function () {
-			  $scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
-			  $scope.addQuestColor(true);
-	      }, 2000);
+		  	$scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+			//alert($scope.passed_in_pathName);
+			setTimeout(function () {
+				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
+				$scope.addQuestColor(true);
+		    }, 2000);
 	    }else{
 	    	setTimeout(function () {
 	    	 	$scope.group_questStoryList();
@@ -2571,7 +2498,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}
 		setTimeout(function () {
 			$('#video').trigger('click');
-		}, 100);
+		}, 2000);
     };
 	//4. View statistics on existing story
 
@@ -2716,9 +2643,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		window.location.reload();
 	}
 
-	$scope.updateURL=function(storyID,difficulty,pathDes){
-		if(storyID != undefined && difficulty != undefined && pathDes != undefined){
-			$location.search({storyID: storyID,difficulty: difficulty,pathDes: pathDes});
+	$scope.updateURL=function(storyID,difficulty,path_ID){
+		if(storyID != undefined && difficulty != undefined && path_ID != undefined){
+			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
     }
 
