@@ -196,6 +196,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.abc = $cookieStore.get("pid");
 	$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 	$scope.lvlName = 1;
+	$scope.difficulty = "";
 
 	if(location.href.indexOf("difficulty") > -1){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
@@ -376,84 +377,16 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
 	}
 	
-	$scope.changePath = function (difficulty, pathName){
-		if(difficulty=="Drag-n-Drop"){
-			$scope.changeDifficulty(difficulty,pathName);
-		}
-		else{
-			$scope.changeDifficulty(difficulty,"Beginner "+pathName);
-		}
-	};
-	
-	$scope.changePath1 = function (difficulty, pathName){
-		if(difficulty=="Drag-n-Drop"){
-			$scope.changeDifficulty1(difficulty,pathName);
-		}
-		else{
-			$scope.changeDifficulty1(difficulty,"Beginner "+pathName);
+	$scope.changePath = function (pathid){
+		$scope.update_path_progress(pathid);
+		if(pathid != undefined && difficulty != undefined){
+			$location.search({pathID: pathid,difficulty: $scope.difficulty});
 		}
 	};
 	
 	//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty = function(difficulty,pathName){
-		if(difficulty=="Drag-n-Drop"){
-			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
-				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-				if(a == b){
-					$scope.update_path_progress($scope.mobile_paths[i].path_id);
-					break;
-				}
-			}
-		}
-		else{
-			for(var i=0; i<$scope.paths.paths.length;i++){
-				var a = " " + pathName.trim().substring(9);;
-				var b = " " + $scope.paths.paths[i].name.trim();
-				//alert(a+" "+b);
-				//alert(a==b);
-				if(a == b){
-					//alert(a+" "+b);
-					$scope.update_path_progress($scope.paths.paths[i].id);
-					break;
-				}
-			}
-		}
-		//update_path_progress(pat)
-		if(path_ID != undefined && difficulty != undefined){
-			$location.search({path_ID: path_ID,difficulty: difficulty});
-		}
-	};
-	
-		//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty1 = function(difficulty,pathName){
-		if(difficulty=="Drag-n-Drop"){
-			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
-				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-				if(a == b){
-					$scope.update_path_progress1($scope.mobile_paths[i].path_id);
-					break;
-				}
-			}
-		}
-		else{
-			for(var i=0; i<$scope.paths.paths.length;i++){
-				var a = " " + pathName.trim().substring(9);;
-				var b = " " + $scope.paths.paths[i].name.trim();
-				//alert(a+" "+b);
-				//alert(a==b);
-				if(a == b){
-					//alert(a+" "+b);
-					$scope.update_path_progress1($scope.paths.paths[i].id);
-					break;
-				}
-			}
-		}
-		//update_path_progress(pat)
-		if(path_ID != undefined && difficulty != undefined){
-			$location.search({path_ID: path_ID,difficulty: difficulty});
-		}
+	$scope.changeDifficulty = function(difficulty){
+		$scope.difficulty = difficulty;
 	};
 	
 	$scope.continuePath = function(num){
