@@ -196,6 +196,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.abc = $cookieStore.get("pid");
 	$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 	$scope.lvlName = 1;
+	$scope.difficulty = "";
 
 	if(location.href.indexOf("difficulty") > -1){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
@@ -376,84 +377,16 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
 	}
 	
-	$scope.changePath = function (difficulty, pathName){
-		if(difficulty=="Drag-n-Drop"){
-			$scope.changeDifficulty(difficulty,pathName);
-		}
-		else{
-			$scope.changeDifficulty(difficulty,"Beginner "+pathName);
-		}
-	};
-	
-	$scope.changePath1 = function (difficulty, pathName){
-		if(difficulty=="Drag-n-Drop"){
-			$scope.changeDifficulty1(difficulty,pathName);
-		}
-		else{
-			$scope.changeDifficulty1(difficulty,"Beginner "+pathName);
+	$scope.changePath = function (pathid){
+		$scope.update_path_progress(pathid);
+		if(pathid != undefined && difficulty != undefined){
+			$location.search({pathID: pathid,difficulty: $scope.difficulty});
 		}
 	};
 	
 	//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty = function(difficulty,pathName){
-		if(difficulty=="Drag-n-Drop"){
-			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
-				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-				if(a == b){
-					$scope.update_path_progress($scope.mobile_paths[i].path_id);
-					break;
-				}
-			}
-		}
-		else{
-			for(var i=0; i<$scope.paths.paths.length;i++){
-				var a = " " + pathName.trim().substring(9);;
-				var b = " " + $scope.paths.paths[i].name.trim();
-				//alert(a+" "+b);
-				//alert(a==b);
-				if(a == b){
-					//alert(a+" "+b);
-					$scope.update_path_progress($scope.paths.paths[i].id);
-					break;
-				}
-			}
-		}
-		//update_path_progress(pat)
-		if(path_ID != undefined && difficulty != undefined){
-			$location.search({path_ID: path_ID,difficulty: difficulty});
-		}
-	};
-	
-		//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty1 = function(difficulty,pathName){
-		if(difficulty=="Drag-n-Drop"){
-			for(var i=0; i<$scope.mobile_paths.length;i++){
-				var a = " " + pathName;
-				var b = " " + $scope.mobile_paths[i].name.trim().substring(9);
-				if(a == b){
-					$scope.update_path_progress1($scope.mobile_paths[i].path_id);
-					break;
-				}
-			}
-		}
-		else{
-			for(var i=0; i<$scope.paths.paths.length;i++){
-				var a = " " + pathName.trim().substring(9);;
-				var b = " " + $scope.paths.paths[i].name.trim();
-				//alert(a+" "+b);
-				//alert(a==b);
-				if(a == b){
-					//alert(a+" "+b);
-					$scope.update_path_progress1($scope.paths.paths[i].id);
-					break;
-				}
-			}
-		}
-		//update_path_progress(pat)
-		if(path_ID != undefined && difficulty != undefined){
-			$location.search({path_ID: path_ID,difficulty: difficulty});
-		}
+	$scope.changeDifficulty = function(difficulty){
+		$scope.difficulty = difficulty;
 	};
 	
 	$scope.continuePath = function(num){
@@ -594,7 +527,17 @@ function ProblemController($scope,$resource){
 
 function BadgeController($scope,$resource){
     $scope.playerBadges = $resource('/jsonapi/badges_for_current_player').get();
+	
+	$scope.list_paths= function(){
+		$scope.pathModel = $resource('/jsonapi/get_game_paths');		
+		$scope.pathModel.get({}, function(response){
+			$scope.ListAllPaths = response.paths;			
+        });		
+    };
+	
 }
+
+
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore){
@@ -796,8 +739,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 				$scope.countryModel.get({}, function(response){
 				$scope.ListAllCountries = response.countries;	
 
-				for(var i=0;i<=$scope.ListAllChallenges.length;i++){
-					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+				for(var i=0;i<$scope.ListAllChallenges.length;i++){
+					for(var j=0;j<$scope.ListAllCountries.length;j++){
 						if($scope.ListAllChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
 						{
 							$scope.ListAllChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
@@ -831,10 +774,27 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 				}
 				//This is a bit annoying. Try logging to console rather than alerting when debugging. 
 				//alert($scope.playerRegisteredChallenges.length+"success");
+
+				//fetch the flag img url for each challenge in playerRegisteredChallenges
+				$scope.countryModel = $resource('/jsonapi/all_countries');
+					$scope.countryModel.get({}, function(response){
+					$scope.ListAllCountries = response.countries;	
+
+					for(var i=0;i<$scope.playerRegisteredChallenges.length;i++){
+						for(var j=0;j<$scope.ListAllCountries.length;j++){
+							if($scope.playerRegisteredChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
+							{
+								$scope.playerRegisteredChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
+							}
+						}
+					
+					}
+				});
+
 			}
 			
 						
-			//fetch the flag img url for each challenge in playerRegisteredChallenges
+			/*//fetch the flag img url for each challenge in playerRegisteredChallenges
 			$scope.countryModel = $resource('/jsonapi/all_countries');
 				$scope.countryModel.get({}, function(response){
 				$scope.ListAllCountries = response.countries;	
@@ -848,7 +808,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 					}
 				
 				}
-			});
+			});*/
 				
 			
 		});
@@ -882,8 +842,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 				$scope.countryModel.get({}, function(response){
 				$scope.ListAllCountries = response.countries;	
 
-				for(var i=0;i<=$scope.ListMyChallenges.length;i++){
-					for(var j=0;j<=$scope.ListAllCountries.length;j++){
+				for(var i=0;i<$scope.ListMyChallenges.length;i++){
+					for(var j=0;j<$scope.ListAllCountries.length;j++){
 						if($scope.ListMyChallenges[i].allowedCountries[0]==$scope.ListAllCountries[j].id)
 						{
 							$scope.ListMyChallenges[i].allowedCountries[0]=$scope.ListAllCountries[j].flagUrl;
@@ -1039,6 +999,23 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 					
 	//4. Enable registering for challenge
 	//8. Edit Challenges
+
+
+	//*******************************Miscellaneous Functions*********************************
+
+	//to retrieve windows height based on screen size
+	    $scope.getHeight_challenge_feature = function() {
+	        return $(window).height();
+	    };
+	    $scope.$watch($scope.getHeight_challenge_feature, function(newValue, oldValue) {
+	        $scope.window_Height = newValue;
+	        $scope.window_Height_challenge = $scope.window_Height * 0.55;
+	        //$scope.window_Height_country = $scope.window_Height * 0.56;
+	    });
+	    window.onresize = function(){
+	        $scope.$apply();
+	    }	
+
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
@@ -2707,6 +2684,13 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		}
     }
+	
+	$scope.goToStory=function()
+    {
+      $location.path("story");
+
+    };
+	
 }
 
 function TimeAndAttemptsController($scope,$resource){
@@ -2865,18 +2849,18 @@ function RankController($scope,$resource,$cookieStore,$location,$filter){
         $('#tab2SG').addClass('active');
         $('#tab1sg').addClass('active');		
     };
-    //to retrieve windows height
-    $scope.getHeight = function() {
-        return $(window).height();
-    };
-    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
-        $scope.window_Height = newValue;
-        $scope.window_Height_table = $scope.window_Height * 0.275;
-        $scope.window_Height_country = $scope.window_Height * 0.56;
-    });
-    window.onresize = function(){
-        $scope.$apply();
-    }
+	    //to retrieve windows height based on screen size
+	    $scope.getHeight = function() {
+	        return $(window).height();
+	    };
+	    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+	        $scope.window_Height = newValue;
+	        $scope.window_Height_table = $scope.window_Height * 0.275;
+	        $scope.window_Height_country = $scope.window_Height * 0.55;
+	    });
+	    window.onresize = function(){
+	        $scope.$apply();
+	    }
 	
 }
 
