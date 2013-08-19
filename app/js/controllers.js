@@ -198,6 +198,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.lvlName = 1;
 	$scope.difficulty = "";
 
+	setTimeout(function () {			
+		$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
+	}, 100);
+
 	if(location.href.indexOf("difficulty") > -1){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
 		$scope.difficulty = $scope.passed_in_difficulty;
@@ -206,18 +210,19 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
 		}, 2000);
 	}
-
 	if(location.href.indexOf("path_ID") > -1){
 		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
+			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
 		}, 2000);
 	}
 	else{
 		setTimeout(function () {
-		$scope.paths = $scope.paths_unfiltered;
+			$scope.paths = $scope.paths_unfiltered;
+			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
 		}, 2000);
@@ -267,6 +272,30 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarousel input:image').first().trigger('click');
+		  }, 2000);
+		}
+	}
+
+	$scope.practiceBeginnerSelection=function(checker){
+		$('#myCarouselB input:image').click(function() {
+		  $('#myCarouselB input:image').removeClass('selected');   
+		  $(this).addClass('selected');
+		});
+		if(checker == 1){
+		  setTimeout(function () {
+		    $('#myCarouselB input:image').first().trigger('click');
+		  }, 2000);
+		}
+	}
+
+	$scope.practiceBeginnerSelectionSmall=function(checker){
+		$('#myCarouselSmallB input:image').click(function() {
+		  $('#myCarouselSmallB input:image').removeClass('selected');   
+		  $(this).addClass('selected');
+		});
+		if(checker == 1){
+		  setTimeout(function () {
+		    $('#myCarouselSmallB input:image').first().trigger('click');
 		  }, 2000);
 		}
 	}
@@ -379,9 +408,9 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	
 	$scope.changePath = function (pathid){
 		$scope.update_path_progress(pathid);
-		if(pathid != undefined && difficulty != undefined){
-			$location.search({pathID: pathid,difficulty: $scope.difficulty});
-		}
+		//if(pathid != undefined && difficulty != undefined){
+			//$location.search({pathID: pathid,difficulty: $scope.difficulty});
+		//}
 	};
 	
 	//change the difficulty level as well as the path level detail table
@@ -448,6 +477,9 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 
     $scope.get_mobile_paths = function(){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+		setTimeout(function () {			
+			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
+		}, 2000);
     };
 
     //Assuming this is what you wanted by calling list in ng-init
