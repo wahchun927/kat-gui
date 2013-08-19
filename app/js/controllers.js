@@ -1,3 +1,8 @@
+/*INSTRUCTIONS ON REMOVING THE DEFAULT CLICKS*/
+//Search for keyword "click()" in the editor
+//Comment out the setTimeOut fuction where the click resides in, in case the setTimeOut function comes with an "if" block, comment out the if blocks as well
+//Find relevant methods in the partial page and delete the function calls in ng-inits
+
 'use strict';
 
 /* Controllers */
@@ -197,6 +202,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 	$scope.lvlName = 1;
 	$scope.difficulty = "";
+	$scope.path_ID = "";
 
 	setTimeout(function () {			
 		$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
@@ -208,7 +214,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		setTimeout(function () {			
 			$scope.addDefaultLevel($scope.passed_in_difficulty);
 			$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
-		}, 2000);
+		}, 100);
 	}
 	if(location.href.indexOf("path_ID") > -1){
 		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
@@ -217,7 +223,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 2000);
+		}, 100);
 	}
 	else{
 		setTimeout(function () {
@@ -225,7 +231,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 2000);
+		}, 100);
 	}
 
 	setTimeout(function (){
@@ -235,18 +241,18 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
 	    });
-	},2000);
+	},100);
 	
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 		}
 		else if(checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levels button:button').first().click();
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -254,12 +260,12 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 		}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levelsmall button:button').first().click();
-		  }, 2000);
+		  }, 100);
 	 	}
 	}
 
@@ -272,7 +278,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarousel input:image').first().trigger('click');
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -284,7 +290,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarouselB input:image').first().trigger('click');
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -296,7 +302,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarouselSmallB input:image').first().trigger('click');
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -308,7 +314,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 1){
 		  setTimeout(function () {
 		    $('#myCarouselSmall input:image').first().click();
-		  }, 2000);
+		  }, 100);
 		}
 	}
 
@@ -321,7 +327,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRank input:image').eq(2).click();
-		  }, 2000);	
+		  }, 100);	
 		}
 	}
 
@@ -333,7 +339,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRankSmall input:image').eq(2).click();
-		  }, 2000);	
+		  }, 100);	
 		}
 	}
   
@@ -407,15 +413,19 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	}
 	
 	$scope.changePath = function (pathid){
+		$scope.path_ID = pathid;
 		$scope.update_path_progress(pathid);
-		//if(pathid != undefined && difficulty != undefined){
-			//$location.search({pathID: pathid,difficulty: $scope.difficulty});
-		//}
+		if(pathid != undefined){
+			$location.search({path_ID: pathid, difficulty: $scope.difficulty});
+		}
 	};
 	
 	//change the difficulty level as well as the path level detail table
 	$scope.changeDifficulty = function(difficulty){
 		$scope.difficulty = difficulty;
+		if(difficulty != undefined){
+			$location.search({path_ID: $scope.path_ID, difficulty: difficulty});
+		}
 	};
 	
 	$scope.continuePath = function(num){
@@ -479,7 +489,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 		setTimeout(function () {			
 			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
-		}, 2000);
+		}, 100);
     };
 
     //Assuming this is what you wanted by calling list in ng-init
@@ -496,7 +506,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab a:first').tab('show');
-        ///jsonapi/get_path_progress/200030, 2462233, 6920762
+        ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 	//update path progress for small window size
     $scope.update_path_progress1 = function(pathID){
@@ -507,7 +517,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		$('#myTab1 a:first').tab('show');
-        ///jsonapi/get_path_progress/200030, 2462233, 6920762
+        ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 
     //This may not be needed every time the controller loads. 
@@ -2237,12 +2247,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  	if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 	  	}
 	  	else if(checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
 		    $('#levels button:button').eq(1).click();
-		  }, 2000);
+		  }, 100);
 	 	}
 	}
 
@@ -2250,12 +2260,12 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	    if(checker.length > 1){
 		  setTimeout(function () {
 		    $("button[btn-radio="+checker+"]").click();
-		  }, 2500);
+		  }, 150);
 	  	}
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 	  	  setTimeout(function () {
 		    $('#levelsmall button:button').eq(1).click();
-		  }, 2000);
+		  }, 100);
 	  	}
     }
 
@@ -2274,7 +2284,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  if(checker == 0){
 	    setTimeout(function () {
 		  $('#paths input:image').first().click();
-		}, 2000);
+		}, 100);
 	  }
 	}
 
@@ -2286,7 +2296,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  if(checker == 0){
 		setTimeout(function () {
 		  $('#pathsSmall input:image').first().click();
-		}, 2000);
+		}, 100);
 	  }
 	}
     //Create quest
@@ -2463,11 +2473,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			setTimeout(function () {
 				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
 				$scope.addQuestColor(true);
-		    }, 2000);
+		    }, 100);
 	    }else{
 	    	setTimeout(function () {
 	    	 	$scope.group_questStoryList();
-	        }, 2000);
+	        }, 100);
 	    }
     });
     //We will need a different controller or resource to fetch player stories. 
@@ -2496,7 +2506,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(checker){
 			setTimeout(function () {
 			  $('#myCarousel input:image').eq(0).click();
-			}, 2000);
+			}, 100);
 		}
     }
 
@@ -2509,7 +2519,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(checker){
 			setTimeout(function () {
 			  $('#myCarouselSmall input:image').eq(0).click();
-			}, 2000);
+			}, 100);
 		}
     }
 
@@ -2547,7 +2557,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}
 		setTimeout(function () {
 			$('#video').trigger('click');
-		}, 2000);
+		}, 100);
     };
 	//4. View statistics on existing story
 
@@ -2702,14 +2712,15 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		if(storyID != undefined && difficulty != undefined && path_ID != undefined){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
+		//alert(path_ID);
 		if(pathCount != 1){
 			$scope.updatedStoryList = [];
 			for(var i=0;i<$scope.pubStories.length;i++){
+				$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
 				if($scope.pubStories[i].supported_paths.length == 0){
 					$scope.updatedStoryList.push($scope.pubStories[i]);
 				}
-				$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
-				if($scope.stringSupportPaths.indexOf(path_ID) >= 0){
+				else if($scope.stringSupportPaths.indexOf(path_ID) >= 0){
 					$scope.updatedStoryList.push($scope.pubStories[i]);
 				}
 			}
@@ -2720,7 +2731,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.goToStory=function()
     {
       $location.path("story");
-
     };
 	
 }
