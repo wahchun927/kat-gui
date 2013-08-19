@@ -150,9 +150,9 @@ input:hover{
 							</div>
 							<div class="well well-small">	
 								<div style="height:220px;overflow:auto;margin-top:5px" ng-hide="$parent.difficulty=='Drag-n-Drop'" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-									<div  ng-repeat="item in paths.paths" id="paths" ng-init="pathSelection($index)">
+									<div ng-repeat="item in paths.paths" id="paths" ng-init="pathSelection($index)">
 										<label>
-											<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,path_ID,paths.paths.length)" ng-model="$parent.$parent.path_ID" name="is_private" value="{{item.id}}" id="path">
+											<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.$parent.path_ID,paths.paths.length)" ng-model="$parent.$parent.path_ID" name="is_private" value="{{item.id}}" id="path">
 											<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 											<h4>{{item.name}}</h4>
 										</label>		
@@ -161,7 +161,7 @@ input:hover{
 								<div style="height:220px;overflow:auto;margin-top:5px" ng-show="$parent.difficulty=='Drag-n-Drop'" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
 									<div  ng-repeat="item in mobile_paths" id="paths" ng-init="pathSelection()" >
 										<label>
-											<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,path_ID,paths.paths.length)" ng-model="$parent.$parent.path_ID" name="is_private" value="{{item.path_id}}" id="path">
+											<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.$parent.path_ID,paths.paths.length)" ng-model="$parent.$parent.path_ID" name="is_private" value="{{item.path_id}}" id="path">
 											<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 											<h4>{{item.name}}</h4>
 										</label>		
@@ -253,10 +253,10 @@ input:hover{
 								</div>
 								<div class="well well-small">
 									<div style="height:220px;overflow:auto" id="pathsSmall" ng-hide="$parent.difficulty=='Drag-n-Drop'" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
-										<div  ng-repeat="item in paths.paths" ng-init="pathSelectionSmall($index)" >
+										<div  ng-repeat="item in paths.paths" ng-init="pathSelectionSmall($index)">
 											<label>
-												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,path_ID,paths.paths.length)" ng-model="$parent.$parent.path_id" name="is_private" value="{{item.name}}" id="path">
-												<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
+												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.$parent.path_id,paths.paths.length)" ng-model="$parent.$parent.path_id" name="is_private" value="{{item.id}}" id="path">
+												<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/>
 												<h4>{{item.name}}</h4>
 											</label>		
 										</div>
@@ -264,7 +264,7 @@ input:hover{
 									<div style="height:220px;overflow:auto" id="pathsSmall" ng-show="$parent.difficulty=='Drag-n-Drop'" ng-controller="PathController" ng-init="list();$parent.pathID=10030;get_player_progress();">
 										<div  ng-repeat="item in mobile_paths" ng-init="pathSelectionSmall()" >
 											<label>
-												<input type="radio" style="visibility:hidden" ng-model="$parent.$parent.path_id" name="is_private" value="{{item.path_id}}" id="path">
+												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.$parent.path_id,paths.paths.length)" ng-model="$parent.$parent.path_id" name="is_private" value="{{item.path_id}}" id="path">
 												<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
 												<h4>{{item.name}}</h4>
 											</label>		
