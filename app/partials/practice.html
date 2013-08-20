@@ -81,11 +81,11 @@ li{ list-style:none; }
 	</div>
 	<div id="myCarousel" class="carousel slide" ng-hide="difficulty=='Drag-n-Drop'">
 		<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-			<div class="item active">
-				<!-- Three columns of text below the carousel -->
+			<div class="item" ng-repeat="paths in paths_grouped" ng-class="{active : $first}" >
+                <!-- Three columns of text below the carousel -->
 				<div class="container">
-					<div class="row" >
-						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelection()">
+					<div class="row">	
+						<div class="span4"  ng-repeat="path in paths" ng-init="practiceSelection($index)">
 							<label class="radio">
 								<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
@@ -95,47 +95,19 @@ li{ list-style:none; }
 					</div>
 				</div>	
 			</div>
-			<div class="item">
-				<!-- Three columns of text below the carousel -->
-				<div class="container">
-					<div class="row" >
-						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3">
-							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="changePath(path.id)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
-								<h6>{{path.name}}</h6>
-							</label>
-						</div>
-					</div>
-				</div>	
-			</div>
-		</div> 
+		</div>
 		<a class="left carousel-control" data-target="#myCarousel" data-slide="prev">&lsaquo;</a>
 		<a class="right carousel-control" data-target="#myCarousel" data-slide="next">&rsaquo;</a>
 	</div>
-	<div id="myCarousel" class="carousel slide" ng-show="difficulty=='Drag-n-Drop'">
+	<div id="myCarouselB" class="carousel slide" ng-show="difficulty=='Drag-n-Drop'">
 		<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-			<div class="item active">
-				<!-- Three columns of text below the carousel -->
+			<div class="item" ng-repeat="mobile_path in mobile_paths_grouped" ng-class="{active : $first}" >
+                <!-- Three columns of text below the carousel -->
 				<div class="container">
-					<div class="row" >
-						<div class="span4"  ng-repeat="path in mobile_paths | limitTo:3" ng-init="practiceSelection()">
+					<div class="row">	
+						<div class="span4" ng-repeat="path in mobile_path" ng-init="practiceBeginnerSelection($index)">
 							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.path_id}}" >
-								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
-								<h6>{{path.name}}</h6>
-							</label>
-						</div>
-					</div>
-				</div>	
-			</div>
-			<div class="item">
-				<!-- Three columns of text below the carousel -->
-				<div class="container">
-					<div class="row" >
-						<div class="span4" ng-repeat="path in mobile_paths | startFrom:3 | limitTo:3">
-							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.path_id}}" >
+								<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.path_id}}">
 								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 								<h6>{{path.name}}</h6>
 							</label>
@@ -144,8 +116,8 @@ li{ list-style:none; }
 				</div>	
 			</div>
 		</div> 
-		<a class="left carousel-control" data-target="#myCarousel" data-slide="prev">&lsaquo;</a>
-		<a class="right carousel-control" data-target="#myCarousel" data-slide="next">&rsaquo;</a>
+		<a class="left carousel-control" data-target="#myCarouselB" data-slide="prev">&lsaquo;</a>
+		<a class="right carousel-control" data-target="#myCarouselB" data-slide="next">&rsaquo;</a>
 	</div>
 	<!-- /.carousel -->
 	<div class="container marketing">
@@ -154,7 +126,7 @@ li{ list-style:none; }
 			<div class="span12">
 			
 				<div class="span4" align="center"  >
-					<div style="margin-bottom:-15px"><h4  class="well well-small" id="well-c">#2. Select a difficulty Level</h4></div>
+					<div style="margin-bottom:-15px"><h4 class="well well-small" id="well-c">#2. Select a difficulty Level</h4></div>
 
 					<div class="well well-small" id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];">					
 						<span ng-repeat="item in levels" ng-init="addDefaultLevel($first)">
@@ -265,30 +237,36 @@ li{ list-style:none; }
 	<div class="container" >
 	<H5 class="well well-small" align="center" id="well-c">#1. Pick a Path!</H5>
 	</div>
-	<div id="myCarouselSmall" class="carousel slide" >
-		<div class="carousel-inner" style="position:relative; left:0px; z-index:0" class="ng-scope">
-			<div class="item active">
-				<!-- Three columns of text below the carousel -->
+	<div id="myCarouselSmall" class="carousel slide" ng-hide="difficulty=='Drag-n-Drop'">
+		<div class="carousel-inner" style="position:relative;left:0px;z-index:0" class="ng-scope">
+			<div class="item" ng-repeat="paths in paths_grouped" ng-class="{active : $first}" >
+                <!-- Three columns of text below the carousel -->
 				<div class="container">
-					<div class="row" >
-						<div class="span4"  ng-repeat="path in paths.paths | limitTo:3" ng-init="practiceSelectionSmall($index)">
+					<div class="row">	
+						<div class="span4"  ng-repeat="path in paths" ng-init="practiceSelectionSmall($index)">
 							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="changePath1(difficulty, path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
-								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="smallPathImg"/>
+								<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 								<h6>{{path.name}}</h6>
 							</label>
 						</div>
 					</div>
 				</div>	
 			</div>
-			<div class="item">
-				<!-- Three columns of text below the carousel -->
+		</div>
+		<a class="left carousel-control" data-target="#myCarouselSmall" data-slide="prev">&lsaquo;</a>
+		<a class="right carousel-control" data-target="#myCarouselSmall" data-slide="next">&rsaquo;</a>
+	</div>
+	<div id="myCarouselSmallB" class="carousel slide" ng-show="difficulty=='Drag-n-Drop'">
+		<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
+			<div class="item" ng-repeat="mobile_path in mobile_paths_grouped" ng-class="{active : $first}" >
+                <!-- Three columns of text below the carousel -->
 				<div class="container">
-					<div class="row" >
-						<div class="span4" ng-repeat="path in paths.paths| startFrom:3 | limitTo:3" ng-init="practiceSelectionSmall(0)">
+					<div class="row">	
+						<div class="span4" ng-repeat="path in mobile_path" ng-init="practiceBeginnerSelectionSmall($index)">
 							<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-click="changePath1(difficulty,path.name)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.name}}" >
-								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="smallPathImg"/>
+								<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.path_id}}">
+								<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 								<h6>{{path.name}}</h6>
 							</label>
 						</div>
@@ -296,8 +274,8 @@ li{ list-style:none; }
 				</div>	
 			</div>
 		</div> 
-		<a class="left carousel-control" data-target="#myCarouselSmall" data-slide="prev">&lsaquo;</a>
-		<a class="right carousel-control" data-target="#myCarouselSmall" data-slide="next">&rsaquo;</a>
+		<a class="left carousel-control" data-target="#myCarouselSmallB" data-slide="prev">&lsaquo;</a>
+		<a class="right carousel-control" data-target="#myCarouselSmallB" data-slide="next">&rsaquo;</a>
 	</div>
 	<!-- /.carousel -->
 	<div class="container marketing">

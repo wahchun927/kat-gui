@@ -155,6 +155,31 @@
 						</div>
 					</div>
 					</br>
+					<!--Restricted Paths-->
+					<div class="row-fluid" ng-controller="PathController">
+						<div class="span12">
+							<div class="span2">
+								<p>Supported Paths :</p>							
+							</div>
+							<div class="span10">															
+								<div class="input-append">
+									<input class="span8" ng-model="videoURL" type="text"></input>
+									<li class="btn dropdown">                  
+					                	<a href="" class="dropdown-toggle" data-toggle="dropdown">Paths</a>
+					                    <ul class="dropdown-menu">
+					                    	<li ng-repeat="path in mobile_paths">
+						                      ID: {{path.path_id}} Name: {{path.name}}
+						                    </li>
+					                    	<li ng-repeat="path in paths_unfiltered.paths">
+						                      ID: {{path.id}} Name: {{path.name}}
+						                    </li>
+					                    </ul>                
+					                </li>							
+								</div>													
+							</div> 
+						</div>
+					</div>
+					</br>
 					<!--uploaded videos-->
 					<div class="row-fluid">
 						<div class="span12">
