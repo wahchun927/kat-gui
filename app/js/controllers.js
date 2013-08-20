@@ -253,7 +253,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		else if(checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levels button:button').first().click();
-		  }, 100);
+		  }, 1000);
 		}
 	}
 
@@ -266,7 +266,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levelsmall button:button').first().click();
-		  }, 100);
+		  }, 1000);
 	 	}
 	}
 
