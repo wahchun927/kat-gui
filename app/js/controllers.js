@@ -206,7 +206,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	
 	setTimeout(function () {			
 		$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
-	}, 100);
+	}, 1000);
 
 	if(location.href.indexOf("difficulty") > -1){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
