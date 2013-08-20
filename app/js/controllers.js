@@ -582,7 +582,7 @@ function BadgeController($scope,$resource){
 
 
 //to the list of challenges EDITED by viTech
-function ChallengeController($scope,$resource,$location,$cookieStore){
+function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	//variable for badge challenge
 	$resource('/jsonapi/get_game_paths').get({},function(response){
 		$scope.paths = response;
@@ -1041,6 +1041,52 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 					
 	//4. Enable registering for challenge
 	//8. Edit Challenges
+
+	//Player submit the message after completing the challenge
+	$scope.player_submission_check = function(){
+		var challengeId = $cookieStore.get("challengeID");
+		//var $scope.player_challenge_details = {};
+		//alert(challengeId);
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+			$scope.challengePlayers = response.players;
+
+			console.log("number of registered players" + $scope.challengePlayers.length);
+
+			$scope.player_info = $resource('/jsonapi/player');
+			$scope.player_info.get({},function(response){
+				$scope.player = response;
+
+				for(var i=0; i<$scope.challengePlayers.length;i++){
+					if($scope.challengePlayers[i].player_id == $scope.player.player_id){
+						$scope.player_challenge_details = $scope.challengePlayers[i];
+					}
+				}
+			});	
+		});
+
+	}
+
+	//to submit user's message to the challenge creator
+	$scope.submit_msg=function(playerMsg){
+			$scope.player_msg = playerMsg;
+			$scope.challenge_msg_submission = $cookieStore.get("challengeID");
+			//alert($scope.player_msg);
+			//$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/challenge_submit?challenge_id='+$scope.challenge_msg_submission,{
+							player_message:$scope.player_msg
+			}).success(function (data, status, headers, config) {
+				$scope.challenge_response = data;
+				alert("Your message is submitted successfully");
+				//alert($scope.challenge_response.length);
+			}).error(function (data, status, headers, config) {
+				$scope.challenge_response = data;
+				alert("Sorry, we are unable to submit your message");
+				//alert($scope.challenge_response);
+			});
+			window.location.reload();
+	}
 
 
 	//*******************************Miscellaneous Functions*********************************
@@ -2443,6 +2489,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
 	$scope.name = $cookieStore.get("name");
+	$scope.supportedPaths = [];
+	$scope.supportedPathNames = [];
 	
     $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
@@ -2567,7 +2615,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
   	  $scope.newStory.description = des;
 	  $scope.newStory.videos = $scope.Videos;
       $scope.newStory.published = false;
-
+	  $scope.newStory.supported_paths = $scope.supportedPaths;
       
 	  if($scope.editOrCreate == "edit"){
 			$scope.currentStoryID = $cookieStore.get("editStory").id;
@@ -2576,7 +2624,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 							name:$scope.newStory.name,
 							description:$scope.newStory.description,
 							videos:$scope.newStory.videos,
-							published:$scope.newStory.published
+							published:$scope.newStory.published,
+							supported_paths: $scope.supportedPaths
 			}).success(function (data, status, headers, config) {
 				$scope.registration_response = data;
 			}).error(function (data, status, headers, config) {
@@ -2731,6 +2780,19 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
       $location.path("story");
     };
 	
+	$scope.addPath=function(supportPath){
+		if($scope.supportedPaths.indexOf(supportPath) > -1){
+			alert('The path is already in the list!');
+		}
+		else{
+				$scope.supportedPaths.push(supportPath);
+				$scope.pathModel = $resource('/jsonapi/get_path_progress/:pathID');
+				$scope.pathModel.get({"pathID":supportPath}, function(response){
+				$scope.aStory = response.path.name;
+				$scope.supportedPathNames.push($scope.aStory);
+			});		 			
+		}
+	};
 }
 
 function TimeAndAttemptsController($scope,$resource){
