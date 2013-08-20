@@ -176,33 +176,30 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 					<!-- Carousel for Path -->
 					<div class="span9 well well-small">
 						<div class="row-fluid">
-							<div class="span12" ng-controller="PathController" ng-init="list();$parent.pathID=10030;" >
+							<div class="span12" ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
 								<div id="myCarouselRank" class="carousel slide">
-									<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-										<div class="item active">										
-											<div class="span12">
-												<div class="row">
-													<!--all languages-->
-													<div class="span1"> </div>
-													<div class="span2"  ng-init="pathSelectRank(0)"  >
-														<label class="radio">
-														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
-														<input class="well well-small" type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
-														<h6>All</h6>
-														</label>
-													</div>
-													<div class="span2"  ng-repeat="path in paths.paths | limitTo:4" ng-init="pathSelectRank($index)" >
-														<label class="radio">
-														<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-														<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
-														<h6>{{path.name}}</h6>
-														</label>
-													</div>
-													<div class="span1"></div>
-												</div>
+									<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">						
+										<div class="item" ng-repeat="paths in paths_grouped" ng-class="{active : $first}">
+											<!--all languages-->
+											<div class="span1"> </div>
+											<div class="span3"  ng-init="pathSelectRank(0)" ng-show="$index==0">
+												<label class="radio">
+												<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
+												<input class="well well-small" type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
+												<h6>All</h6>
+												</label>
+											</div>
+											<div class="span2" ng-repeat="path in paths" ng-init="pathSelectRank($index)" >
+												<label class="radio">
+												<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+												<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+												<h6>{{path.name}}</h6>
+												</label>
 											</div>	
-										</div>	
+										</div>
 									</div> 
+									<a class="left carousel-control" data-target="#myCarouselRank" data-slide="prev">&lsaquo;</a>
+									<a class="right carousel-control" data-target="#myCarouselRank" data-slide="next">&rsaquo;</a>
 								</div>
 								<div class="row-fluid">
 								<div class="span12">
@@ -355,32 +352,25 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 		<div class="container">
 			<div  ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
 				<div id="myCarouselRankSmall" class="carousel slide">
-					<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
-						<div class="item active">
-										
-							<div class="span12">
-								<div class="row">
-								<!--all languages-->
-									<div class="span"> &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; </div>
-									<div class="span2"  ng-init="pathSelectRankSmall(0)">
-										<label class="radio">									
-										<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
-										<input class="well well well-small" type="image" ng-src="img/language/AllLanguages.png"  alt="" id="pathImg"/>
-										<h6>All</h6>
-										</label>
-									</div>
-									<div class="span2"  ng-repeat="path in paths.paths | limitTo:4" ng-init="pathSelectRankSmall($index)" >
-										<label class="radio">
-										<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-										<input class="well well well-small" type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
-										<h6>{{path.name}}</h6>
-										</label>
-									</div>			
-								</div>
+					<div class="carousel-inner" style="position:relative;left:0px;z-index:0" class="ng-scope">
+						<div class="item" ng-repeat="paths in paths_grouped" ng-class="{active : $first}">
+							<!--all languages-->
+							<div class="span1"> </div>
+							<div class="span3"  ng-init="pathSelectRankSmall(0)" ng-show="$index==0">
+								<label class="radio">
+								<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
+								<input class="well well-small" type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
+								<h6>All</h6>
+								</label>
+							</div>
+							<div class="span2" ng-repeat="path in paths" ng-init="pathSelectRankSmall($index)" >
+								<label class="radio">
+								<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(path.id)" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
+								<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+								<h6>{{path.name}}</h6>
+								</label>
 							</div>	
-
-						</div>		
-						
+						</div>
 					</div> 
 					<a class="left carousel-control" data-target="#myCarouselRankSmall" data-slide="prev">&lsaquo;</a>
 					<a class="right carousel-control" data-target="#myCarouselRankSmall" data-slide="next">&rsaquo;</a>
