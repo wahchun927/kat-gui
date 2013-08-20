@@ -253,7 +253,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		else if(checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levels button:button').first().click();
-		  }, 1000);
+		  }, 100);
 		}
 	}
 
@@ -266,7 +266,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levelsmall button:button').first().click();
-		  }, 1000);
+		  }, 100);
 	 	}
 	}
 
@@ -506,7 +506,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.PathModel.get({"pathID":pathID,"details":1}, function(response){
             $scope.path_progress = response;
         });
-		$('#myTab a:first').tab('show');
+		//$('#myTab a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 	//update path progress for small window size
@@ -517,7 +517,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.PathModel.get({"pathID":pathID,"details":1}, function(response){
             $scope.path_progress = response;
         });
-		$('#myTab1 a:first').tab('show');
+		//$('#myTab1 a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 
