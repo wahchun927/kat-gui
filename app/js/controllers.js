@@ -583,7 +583,7 @@ function BadgeController($scope,$resource){
 
 
 //to the list of challenges EDITED by viTech
-function ChallengeController($scope,$resource,$location,$cookieStore){
+function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	//variable for badge challenge
 	$resource('/jsonapi/get_game_paths').get({},function(response){
 		$scope.paths = response;
@@ -1042,6 +1042,52 @@ function ChallengeController($scope,$resource,$location,$cookieStore){
 					
 	//4. Enable registering for challenge
 	//8. Edit Challenges
+
+	//Player submit the message after completing the challenge
+	$scope.player_submission_check = function(){
+		var challengeId = $cookieStore.get("challengeID");
+		//var $scope.player_challenge_details = {};
+		//alert(challengeId);
+		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+			$scope.challengePlayers = response.players;
+
+			console.log("number of registered players" + $scope.challengePlayers.length);
+
+			$scope.player_info = $resource('/jsonapi/player');
+			$scope.player_info.get({},function(response){
+				$scope.player = response;
+
+				for(var i=0; i<$scope.challengePlayers.length;i++){
+					if($scope.challengePlayers[i].player_id == $scope.player.player_id){
+						$scope.player_challenge_details = $scope.challengePlayers[i];
+					}
+				}
+			});	
+		});
+
+	}
+
+	//to submit user's message to the challenge creator
+	$scope.submit_msg=function(playerMsg){
+			$scope.player_msg = playerMsg;
+			$scope.challenge_msg_submission = $cookieStore.get("challengeID");
+			//alert($scope.player_msg);
+			//$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/challenge_submit?challenge_id='+$scope.challenge_msg_submission,{
+							player_message:$scope.player_msg
+			}).success(function (data, status, headers, config) {
+				$scope.challenge_response = data;
+				alert("Your message is submitted successfully");
+				//alert($scope.challenge_response.length);
+			}).error(function (data, status, headers, config) {
+				$scope.challenge_response = data;
+				alert("Sorry, we are unable to submit your message");
+				//alert($scope.challenge_response);
+			});
+			window.location.reload();
+	}
 
 
 	//*******************************Miscellaneous Functions*********************************
