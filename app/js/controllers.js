@@ -253,7 +253,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		else if(checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levels button:button').first().click();
-		  }, 100);
+		  }, 1000);
 		}
 	}
 
@@ -266,7 +266,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	  	else if (checker && location.href.indexOf("difficulty") == -1){
 		  setTimeout(function () {
 		    $('#levelsmall button:button').first().click();
-		  }, 100);
+		  }, 1000);
 	 	}
 	}
 
@@ -1260,8 +1260,8 @@ function NormalGameController($scope,$resource,$cookieStore){
           var item = new $scope.SaveResource($scope.theData);
           item.$save(function(response) { 
                   $scope.solution_check_result = response;
-                  console.log($scope.solution_check_result.error);
-                  alert($scope.solution_check_result.error);
+                  console.log($scope.solution_check_result.errors);
+                  alert($scope.solution_check_result.error.length);
                   if($scope.solution_check_result.last_solved){
                     //If you hardcode to the game, this will automatically advance the game to the next problem. 
                     $scope.fetch($scope.game.gameID);
