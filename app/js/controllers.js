@@ -223,8 +223,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-			console.log($scope.paths_grouped);
-		}, 2000);
+		}, 1000);
 	}
 	else{
 		setTimeout(function () {
@@ -233,7 +232,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
 			console.log($scope.paths_grouped);
-		}, 2000);
+		}, 1000);
 	}
 
 	setTimeout(function (){
@@ -491,7 +490,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 		setTimeout(function () {			
 			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
-		}, 100);
+		}, 1000);
     };
 
     //Assuming this is what you wanted by calling list in ng-init
