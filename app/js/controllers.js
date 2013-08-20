@@ -223,7 +223,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 100);
+		}, 1000);
 	}
 	else{
 		setTimeout(function () {
@@ -231,7 +231,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 100);
+		}, 1000);
 	}
 
 	setTimeout(function (){
@@ -241,7 +241,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
 	        $scope.path_progress = response;
 	    });
-	},1000);
+	},100);
 	
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
