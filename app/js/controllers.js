@@ -506,7 +506,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.PathModel.get({"pathID":pathID,"details":1}, function(response){
             $scope.path_progress = response;
         });
-		$('#myTab a:first').tab('show');
+		//$('#myTab a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 	//update path progress for small window size
@@ -517,7 +517,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.PathModel.get({"pathID":pathID,"details":1}, function(response){
             $scope.path_progress = response;
         });
-		$('#myTab1 a:first').tab('show');
+		//$('#myTab1 a:first').tab('show');
         ///jsonapi/get_path_progress/10030, 2462233, 6920762
     }; 
 
@@ -1260,7 +1260,8 @@ function NormalGameController($scope,$resource,$cookieStore){
           var item = new $scope.SaveResource($scope.theData);
           item.$save(function(response) { 
                   $scope.solution_check_result = response;
-                  console.log($scope.solution_check_result);
+                  console.log($scope.solution_check_result.errors);
+                  alert($scope.solution_check_result.error.length);
                   if($scope.solution_check_result.last_solved){
                     //If you hardcode to the game, this will automatically advance the game to the next problem. 
                     $scope.fetch($scope.game.gameID);
