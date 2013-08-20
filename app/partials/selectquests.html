@@ -182,6 +182,16 @@ input:hover{
 										<div  ng-show="difficulty && path_ID && storyid">
 										<!-- <form action="#storyboard"> -->
 											<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_ID,difficulty)" style="width: 145px"><h1>Go!</h1></button>
+											Please select
+											<span class="label label-info">
+													Diffculty : {{difficulty}}
+											</span>
+											<span class="label label-info">
+													Path ID : {{path_ID}}
+											</span>
+											<span class="label label-info">
+													Story ID: {{storyid}}
+											</span>
 										<!-- </form> -->
 										</div>
 									</td>
@@ -289,7 +299,16 @@ input:hover{
 								<!-- <form action="#storyboard"> -->
 									<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_id,difficulty)" style="width: 100px"><h1>Go!</h1></button>
 								<!-- </form> -->
-								
+									Please select
+									<span class="label label-info">
+											Diffculty : {{difficulty}}
+									</span>
+									<span class="label label-info">
+											Path ID : {{path_ID}}
+									</span>
+									<span class="label label-info">
+											Story ID: {{storyid}}
+									</span>
 								</div>
 								</td></tr>					
 								</table>
