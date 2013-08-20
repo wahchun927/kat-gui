@@ -1258,13 +1258,12 @@ function NormalGameController($scope,$resource,$cookieStore){
           
           var item = new $scope.SaveResource($scope.theData);
           item.$save(function(response) { 
-                  $scope.solution_check_result = response;
-                  alert(solution_check_result.error);
-                  if($scope.solution_check_result.last_solved){
-                    //If you hardcode to the game, this will automatically advance the game to the next problem. 
-                    $scope.fetch($scope.game.gameID);
-                    $scope.update_quest();
-                  }
+              $scope.solution_check_result = response;
+              if($scope.solution_check_result.last_solved){
+                //If you hardcode to the game, this will automatically advance the game to the next problem. 
+                $scope.fetch($scope.game.gameID);
+                $scope.update_quest();
+              }
           });
         };
 
