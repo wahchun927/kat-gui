@@ -231,7 +231,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-			console.log($scope.paths_grouped);
 		}, 1000);
 	}
 
@@ -1306,6 +1305,7 @@ function NormalGameController($scope,$resource,$cookieStore){
           var item = new $scope.SaveResource($scope.theData);
           item.$save(function(response) { 
                   $scope.solution_check_result = response;
+                  alert(solution_check_result.error);
                   if($scope.solution_check_result.last_solved){
                     //If you hardcode to the game, this will automatically advance the game to the next problem. 
                     $scope.fetch($scope.game.gameID);
