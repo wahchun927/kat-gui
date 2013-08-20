@@ -241,7 +241,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
 	        $scope.path_progress = response;
 	    });
-	},100);
+	},1000);
 	
 	$scope.addDefaultLevel=function(checker){
 		if(checker.length > 1){
@@ -2585,11 +2585,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			});
 		}
 		else{
-				$scope.NewStory = $resource('/jsonapi/story');
-				var new_story = new $scope.NewStory($scope.newStory);
-				new_story.$save(function(response){
-					$scope.story = response;
-					$scope.newStoryID = response.id;
+			$scope.NewStory = $resource('/jsonapi/story');
+			var new_story = new $scope.NewStory($scope.newStory);
+			new_story.$save(function(response){
+				$scope.story = response;
+				$scope.newStoryID = response.id;
 			});
 		}
 		window.location.reload();
@@ -2635,11 +2635,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		
 	////if user clicks publish, set published value to true, disable publish button to "Pubished"
 	$scope.publish_story = function(title,des){
-	  $scope.newStory = {};
-	  $scope.newStory.name = title;
-	  $scope.newStory.description = des;
-	  $scope.newStory.videos = $scope.Videos;
-	  $scope.newStory.published = true;
+	   $scope.newStory = {};
+	   $scope.newStory.name = title;
+	   $scope.newStory.description = des;
+	   $scope.newStory.videos = $scope.Videos;
+	   $scope.newStory.published = true;
 
   
 
@@ -2697,8 +2697,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.registration_response = data;
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
-		});
-		
+		});	
 		window.location.reload();
 	}
 
