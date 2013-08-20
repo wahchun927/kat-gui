@@ -223,7 +223,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 1000);
+			console.log($scope.paths_grouped);
+		}, 2000);
 	}
 	else{
 		setTimeout(function () {
@@ -231,7 +232,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.practiceSelection(1);
 			$scope.practiceSelectionSmall(1);
-		}, 1000);
+			console.log($scope.paths_grouped);
+		}, 2000);
 	}
 
 	setTimeout(function (){
