@@ -2490,6 +2490,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.editOrCreate = "create";
 	$scope.pubStories = [];
 	$scope.name = $cookieStore.get("name");
+	$scope.supportedPaths = [];
+	$scope.supportedPathNames = [];
 	
     $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
@@ -2614,7 +2616,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
   	  $scope.newStory.description = des;
 	  $scope.newStory.videos = $scope.Videos;
       $scope.newStory.published = false;
-
+	  $scope.newStory.supported_paths = $scope.supportedPaths;
       
 	  if($scope.editOrCreate == "edit"){
 			$scope.currentStoryID = $cookieStore.get("editStory").id;
@@ -2778,6 +2780,19 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
       $location.path("story");
     };
 	
+	$scope.addPath=function(supportPath){
+		if($scope.supportedPaths.indexOf(supportPath) > -1){
+			alert('The path is already in the list!');
+		}
+		else{
+				$scope.supportedPaths.push(supportPath);
+				$scope.pathModel = $resource('/jsonapi/get_path_progress/:pathID');
+				$scope.pathModel.get({"pathID":supportPath}, function(response){
+				$scope.aStory = response.path.name;
+				$scope.supportedPathNames.push($scope.aStory);
+			});		 			
+		}
+	};
 }
 
 function TimeAndAttemptsController($scope,$resource){
