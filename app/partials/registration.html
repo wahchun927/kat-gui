@@ -97,11 +97,31 @@
 
                     </div>
                 </div>
-                <div class="span4 well" align="center">
-                    <div id="msgBody" align="left"> Private Message</div>
-                    <br>
-                    <br>
-                    <input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/>
+                <div class="span4" align="center" ng-init="player_submission_check()">
+                    <div class="span12 well well-small">
+                        <div id="msgBody" align="left"> Private Message</div>
+                        <br>
+                        <span ng-hide="player_challenge_details.playerUnlocked">
+                            <input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/>
+                        </span>
+                        <span ng-show="player_challenge_details.playerUnlocked">
+                            Well done for unlocking the challenge!
+                        </span>
+                        <br>
+                    </div>
+                    <div class="span12 well well-small" ng-show="player_challenge_details.playerUnlocked">
+                        <div id="msgBody" align="left"> Action</div>
+                        <br>
+                        <span>You unlocked this challenge, so you can send a private message to the challenge owner:"
+                        </span>
+                        <br>
+                        <span>
+                        <br>
+                            Message: <input type="text" name="submitMsg" ng-model="Msg"><br>
+                            <input type="button" value="Submit" ng-click="submit_msg(Msg)">
+                        </span>
+                    </div>
+
 
                 </div>
 
