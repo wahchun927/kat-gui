@@ -203,7 +203,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.lvlName = 1;
 	$scope.difficulty = "";
 	$scope.path_ID = "";
-
+	$scope.paths = {};
+	
 	setTimeout(function () {			
 		$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
 	}, 100);
