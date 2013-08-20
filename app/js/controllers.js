@@ -2625,7 +2625,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 							name:$scope.newStory.name,
 							description:$scope.newStory.description,
 							videos:$scope.newStory.videos,
-							published:$scope.newStory.published
+							published:$scope.newStory.published,
+							supported_paths: $scope.supportedPaths
 			}).success(function (data, status, headers, config) {
 				$scope.registration_response = data;
 			}).error(function (data, status, headers, config) {
