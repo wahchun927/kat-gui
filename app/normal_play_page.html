@@ -818,11 +818,11 @@
                                     <td height="40"ng-show="!line.status" bgcolor=#FF0000>{{line.status}}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" ng-hide="solution_check_result.errors==undefined">Errors: <pre style = "color:blue;"><span ng-bind="solution_check_result.errors"></span></pre></td>
+                                    <td colspan="4" ng-hide="solution_check_result.errors.length==0">Errors: <pre style = "color:blue;"><span ng-bind="solution_check_result.errors"></span></pre></td>
                                 </tr>
                             </table>
                         </div>
-                        <div ng-show="solution_check_result.error!=undefined">
+                        <div ng-show="solution_check_result.error.length!=0">
                             {{solution_check_result.error}}
                         </div>
                       </div>
