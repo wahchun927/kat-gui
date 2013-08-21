@@ -237,6 +237,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 					$scope.mobile_paths = $filter('filter')($scope.mobile_paths,$scope.passed_in_path_ID);
 					$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
 				}
+				$('#largeSelectPlay').click();
 			}, 2000);
 		}
 	//}
@@ -2410,20 +2411,21 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 
 		    $scope.videos = $scope.stories[0].videos;
 			$scope.$parent.storyid = $scope.stories[abc].id;
+			$('#largeSelectPlay').click();
         }, 1500);    
     });
     //We will need a different controller or resource to fetch player stories. 
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
 
-    $scope.filter_story_id = function(){
+    //$scope.filter_story_id = function(){
         if(location.href.indexOf("storyID") > -1){
 		  	$scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
 			setTimeout(function () {
 				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
 		    }, 2000);
 	    }
-    };
+    //};
 
     var abc = 0;
 
