@@ -808,7 +808,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		
 			$scope.playerRegisteredChallenges=[];
 			//get to each challenge
-			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
+			for (var i=0;i<$scope.challengeReg.challenges.length;i++){ 			
 			
 				//You have to ensure that this property exists first if it won't always be present.
 				if($scope.challengeReg.challenges[i]._playerRegistered==true){
