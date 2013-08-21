@@ -2491,6 +2491,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.name = $cookieStore.get("name");
 	$scope.supportedPaths = [];
 	$scope.supportedPathNames = [];
+	$scope.story_name = "";
+	$scope.path_name = "";
 	
     $scope.StoryModel = $resource('/jsonapi/story');
 	$scope.group_questStoryList = function(){
@@ -2750,6 +2752,16 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
+	
+		$scope.storyModel = $resource('/jsonapi/story/:storyID');
+		$scope.storyModel.get({"storyID":storyID}, function(response){
+            $scope.story_name = response.name;
+		});
+		
+		$scope.pathModel = $resource('/jsonapi/get_path_progress/:pathID');
+		$scope.pathModel.get({"pathID":path_ID}, function(response){
+			$scope.path_name = response.path.name;
+		});
 		if(storyID != undefined && difficulty != undefined && path_ID != undefined){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -2788,8 +2800,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 				$scope.supportedPaths.push(supportPath);
 				$scope.pathModel = $resource('/jsonapi/get_path_progress/:pathID');
 				$scope.pathModel.get({"pathID":supportPath}, function(response){
-				$scope.aStory = response.path.name;
-				$scope.supportedPathNames.push($scope.aStory);
+				$scope.aPath = response.path.name;
+				$scope.supportedPathNames.push($scope.aPath);
 			});		 			
 		}
 	};
