@@ -1,8 +1,8 @@
 var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'analytics','aceDirective']).config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('', {templateUrl: 'partials/home.html', controller: IndexController});
     $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: IndexController});
-    $routeProvider.when('/quests', {templateUrl: 'partials/selectquests.html', controller: IndexController});
-    $routeProvider.when('/practice', {templateUrl: 'partials/practice.html', controller: IndexController});
+    $routeProvider.when('/quests', {templateUrl: 'partials/selectquests.html', controller: IndexController, reloadOnSearch:false});
+    $routeProvider.when('/practice', {templateUrl: 'partials/practice.html', controller: IndexController, reloadOnSearch:false});
     $routeProvider.when('/challenges', {templateUrl: 'partials/challenges.html', controller: IndexController});
     $routeProvider.when('/profile', {templateUrl: 'partials/profile.html', controller: IndexController});
     $routeProvider.when('/teach', {templateUrl: 'partials/teach.html', controller: IndexController});
@@ -12,6 +12,10 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
 	$routeProvider.when('/ranking', {templateUrl: 'partials/ranking.html', controller: IndexController});
 	$routeProvider.when('/registration', {templateUrl: 'partials/registration.html', controller: IndexController});
     $routeProvider.when('/challengeCreator', {templateUrl: 'partials/challengeCreator.html', controller: IndexController});
+    $routeProvider.when('/tournaments', {templateUrl: 'partials/tournament.html', controller: IndexController});
+	$routeProvider.when('/create', {templateUrl: 'partials/create_paths_and_levels.html', controller: IndexController});
+    $routeProvider.when('/videos', {templateUrl: 'partials/videos.html', controller: IndexController});
+    $routeProvider.when('/feedback', {templateUrl: 'partials/feedback.html', controller: IndexController});
     $routeProvider.otherwise({redirectTo: '/home'});
 }]);
 
@@ -26,6 +30,29 @@ myAppConfig.filter('startFrom', function() {
             for (; i<len; i++)
                 result.push(input[i]);
             return result;
+        }
+    };
+});
+
+myAppConfig.filter('groupBy', function() {
+    return function(items, groupedBy) {
+        if (items) {
+            var finalItems = [],
+                thisGroup;
+            for (var i = 0; i < items.length; i++) {
+                if (!thisGroup) {
+                    thisGroup = [];
+                }
+                thisGroup.push(items[i]);
+                if (((i+1) % groupedBy) == 0) {
+                    finalItems.push(thisGroup);
+                    thisGroup = null;
+                }
+            };
+            if (thisGroup) {
+                finalItems.push(thisGroup);
+            }
+            return finalItems;
         }
     };
 });
