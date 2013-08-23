@@ -1015,23 +1015,45 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 
 	//to submit user's message to the challenge creator
 	$scope.submit_msg=function(playerMsg){
-			$scope.player_msg = playerMsg;
-			$scope.challenge_msg_submission = $cookieStore.get("challengeID");
-			//alert($scope.player_msg);
-			//$scope.currentStoryID = $cookieStore.get("editStory").id;
-			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-			$http.post('/jsonapi/challenge_submit?challenge_id='+$scope.challenge_msg_submission,{
-							player_message:$scope.player_msg
-			}).success(function (data, status, headers, config) {
-				$scope.challenge_response = data;
-				alert("Your message is submitted successfully");
-				//alert($scope.challenge_response.length);
-			}).error(function (data, status, headers, config) {
-				$scope.challenge_response = data;
-				alert("Sorry, we are unable to submit your message");
-				//alert($scope.challenge_response);
-			});
-			window.location.reload();
+		$scope.player_msg = playerMsg;
+		$scope.attachment_Name = $scope.file_name;
+		$scope.attachment_content = $scope.files;
+		$scope.domain_urls = 'http://www.singpath.com';
+		$scope.challenge_msg_submission = $cookieStore.get("challengeID");
+		console.log("Player Message = " + $scope.player_msg);
+		//alert($scope.challenge_msg_submission);
+		//alert($scope.attachment_Name);
+
+		$http.post('/jsonapi/challenge_submit?challenge_id='+$scope.challenge_msg_submission, 
+					JSON.stringify({
+						player_message:$scope.player_msg,
+						attachmentName:$scope.attachment_Name,
+						attachmentContent:$scope.attachment_content
+					}), 
+					{
+						withCredentials: true,
+						headers: {'Content-Type': undefined},
+						transformRequest: angular.identity
+					}).success(function (data,status,headers,config){
+						window.console.log(data);
+						alert("You are successfully submitted your message");
+					}).error(function (data, status, headers, config){
+						window.console.log(data);
+						alert("You are unable to submit your message");
+					});
+	}
+
+	$scope.set_file = function(element){
+		$scope.files = new FormData();
+		$scope.file_name = '';
+   		$scope.$apply(function($scope) {
+      		console.log('files:', element.files[0].name);
+      		//Assign the first file name
+      		$scope.file_name = element.files[0].name;
+      		//Take the first selected file
+    		$scope.files.append("file", element.files[0]);
+      	});
+
 	}
 
 
