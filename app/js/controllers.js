@@ -243,7 +243,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		    $scope.pathModel.get({"pathID":passed_in_path_ID}, function(response){
 		    	$scope.path_name = response.path.name;
-		    	alert($scope.path_name);
 		    });
 		}
 	//}
