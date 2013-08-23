@@ -111,15 +111,19 @@
                     </div>
                     <div class="span12 well well-small" ng-show="player_challenge_details.playerUnlocked">
                         <div id="msgBody" align="left"> Action</div>
-                        <br>
-                        <span>You unlocked this challenge, so you can send a private message to the challenge owner:"
-                        </span>
-                        <br>
-                        <span>
-                        <br>
-                            Message: <input type="text" name="submitMsg" ng-model="Msg"><br>
-                            <input type="button" value="Submit" ng-click="submit_msg(Msg)">
-                        </span>
+                        <div align="left">
+                                <p align="center">You unlocked this challenge, so you can send a private message to the challenge owner:
+                                </p>
+                                <br>
+                                Message:<input type="text" name="submitMsg" ng-model="Msg"/>
+                                <br>
+                                Select a file:<input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().set_file(this)"/>
+
+                                <div align="right">
+                                    <input type="button" value="Submit" ng-click="submit_msg(Msg)">
+                                </div>
+                        </div>
+                            
                     </div>
 
 
