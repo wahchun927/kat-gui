@@ -95,7 +95,7 @@
 						<div style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden">									
 							<table class="table table-hover" ng-init="list_challenges();">														
 								<tr ng-repeat="challenge in ListAllChallenges">
-									<td class="OpenC_Type">Quest</th>
+									<td class="OpenC_Type">{{challenge.challengeType}}</th>
 									<td class="OpenC_Name">{{challenge.name}}</td>
 									<td class="OpenC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
 									<td class="OpenC_Location" ng-show="challenge.worldwide==0"><image ng-src="{{challenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
@@ -128,7 +128,7 @@
 						<div  style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >
 								<table class="table table-hover" ng-init="registered_challenges()">
 									<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges">
-										<td class="AcceptedC_Type">quest</td>
+										<td class="AcceptedC_Type">{{Acceptedchallenge.challengeType}}</td>
 										<td class="AcceptedC_Name">{{Acceptedchallenge.name}}</td>	
 										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
 										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==0"><image ng-src="{{Acceptedchallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
@@ -162,7 +162,7 @@
 						<div style="height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >																					
 							<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
 								<tr ng-repeat="myChallenge in ListMyChallenges">
-									<td class="ChallengesIMade_Type">Quest</td>
+									<td class="ChallengesIMade_Type">{{myChallenge.challengeType}}</td>
 									<td class="ChallengesIMade_Name">{{myChallenge.name}}</td>
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">Worldwide</td>	
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0"><image ng-src="{{myChallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
