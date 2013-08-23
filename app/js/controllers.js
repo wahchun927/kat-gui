@@ -195,127 +195,80 @@ function InterfaceController($scope,$resource){
 }
 
 function PathController($scope,$resource,$cookieStore,$location,$filter){
-	//Try to only fetch what you need in the init of the controller. 
-	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
-	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-	$scope.abc = $cookieStore.get("pid");
-	$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
-	$scope.lvlName = 1;
-	$scope.difficulty = "";
-	$scope.path_ID = "";
-	
-	setTimeout(function () {			
-		$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
-	}, 1000);
-
-	if(location.href.indexOf("difficulty") > -1){
-		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-		$scope.difficulty = $scope.passed_in_difficulty;
-		setTimeout(function () {			
-			$scope.addDefaultLevel($scope.passed_in_difficulty);
-			$scope.addDefaultLevelSmall($scope.passed_in_difficulty);
-		}, 100);
-	}
-	if(location.href.indexOf("path_ID") > -1){
-		$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
-		setTimeout(function () {
-			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
-			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
-			$scope.practiceSelection(1);
-			$scope.practiceSelectionSmall(1);
-		}, 1000);
-	}
-	else{
+	//Assuming this is what you wanted by calling list in ng-init
+    $scope.list = function(){
+    	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
+		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+		$scope.abc = $cookieStore.get("pid");
+		$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
+		$scope.lvlName = 1;
+		$scope.difficulty = "";
+		$scope.path_ID = "";
+		
 		setTimeout(function () {
 			$scope.paths = $scope.paths_unfiltered;
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
-			$scope.practiceSelection(1);
-			$scope.practiceSelectionSmall(1);
-		}, 1000);
-	}
+			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
+			$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
-	setTimeout(function (){
-		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+		    //Including details=1 returns the nested problemset progress.
+		    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
+		        $scope.path_progress = response;
+		    });
+		    $('#largeSelectPlay').click();
+		}, 1500);
+    };
 
-	    //Including details=1 returns the nested problemset progress.
-	    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
-	        $scope.path_progress = response;
-	    });
-	},100);
-	
-	$scope.addDefaultLevel=function(checker){
-		if(checker.length > 1){
-		  setTimeout(function () {
-		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
+	//Try to only fetch what you need in the init of the controller.
+	//$scope.filter_path_id=function(){
+		if(location.href.indexOf("difficulty") > -1){
+			$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
+			setTimeout(function () {
+				$scope.difficulty = $scope.passed_in_difficulty;
+			}, 2000);
 		}
-		else if(checker && location.href.indexOf("difficulty") == -1){
-		  setTimeout(function () {
-		    $('#levels button:button').first().click();
-		  }, 1000);
-		}
-	}
 
-	$scope.addDefaultLevelSmall=function(checker){
-		if(checker.length > 1){
-		  setTimeout(function () {
-		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
+		if(location.href.indexOf("path_ID") > -1){
+			$scope.passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
+			setTimeout(function () {
+				$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,$scope.passed_in_path_ID)};
+				$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 1);
+				if($scope.paths_grouped.length == 0){
+					$scope.mobile_paths = $filter('filter')($scope.mobile_paths,$scope.passed_in_path_ID);
+					$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
+				}
+				$('#largeSelectPlay').click();
+			}, 2000);
 		}
-	  	else if (checker && location.href.indexOf("difficulty") == -1){
-		  setTimeout(function () {
-		    $('#levelsmall button:button').first().click();
-		  }, 1000);
-	 	}
-	}
+	//}
 
 	// this method add background color to the selected images 
-	$scope.practiceSelection=function(checker){
+	$scope.practiceSelection=function(){
 		$('#myCarousel input:image').click(function() {
 		  $('#myCarousel input:image').removeClass('selected');   
 		  $(this).addClass('selected');
 		});
-		if(checker == 1){
-		  setTimeout(function () {
-		    $('#myCarousel input:image').first().trigger('click');
-		  }, 100);
-		}
 	}
 
-	$scope.practiceBeginnerSelection=function(checker){
+	$scope.practiceBeginnerSelection=function(){
 		$('#myCarouselB input:image').click(function() {
 		  $('#myCarouselB input:image').removeClass('selected');   
 		  $(this).addClass('selected');
 		});
-		if(checker == 1){
-		  setTimeout(function () {
-		    $('#myCarouselB input:image').first().trigger('click');
-		  }, 100);
-		}
 	}
 
-	$scope.practiceBeginnerSelectionSmall=function(checker){
+	$scope.practiceBeginnerSelectionSmall=function(){
 		$('#myCarouselSmallB input:image').click(function() {
 		  $('#myCarouselSmallB input:image').removeClass('selected');   
 		  $(this).addClass('selected');
 		});
-		if(checker == 1){
-		  setTimeout(function () {
-		    $('#myCarouselSmallB input:image').first().trigger('click');
-		  }, 100);
-		}
 	}
 
-	$scope.practiceSelectionSmall=function(checker){
+	$scope.practiceSelectionSmall=function(){
 		$('#myCarouselSmall input:image').click(function() {
 		  $('#myCarouselSmall input:image').removeClass('selected');   
 		  $(this).addClass('selected');   
 		});
-		if(checker == 1){
-		  setTimeout(function () {
-		    $('#myCarouselSmall input:image').first().click();
-		  }, 100);
-		}
 	}
 
 	//rank
@@ -327,7 +280,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRank input:image').eq(2).click();
-		  }, 100);	
+		  }, 2000);	
 		}
 	}
 
@@ -339,7 +292,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(checker == 2){
 		  setTimeout(function () {
 		    $('#myCarouselRankSmall input:image').eq(2).click();
-		  }, 100);	
+		  }, 2000);	
 		}
 	}
   
@@ -415,7 +368,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.changePath = function (pathid){
 		$scope.path_ID = pathid;
 		$scope.update_path_progress(pathid);
-		if(pathid != undefined){
+		if(pathid != undefined && $scope.difficulty != ""){
 			$location.search({path_ID: pathid, difficulty: $scope.difficulty});
 		}
 	};
@@ -423,7 +376,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	//change the difficulty level as well as the path level detail table
 	$scope.changeDifficulty = function(difficulty){
 		$scope.difficulty = difficulty;
-		if(difficulty != undefined){
+		if(difficulty != undefined && $scope.path_ID != ""){
 			$location.search({path_ID: $scope.path_ID, difficulty: difficulty});
 		}
 	};
@@ -489,12 +442,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 		setTimeout(function () {			
 			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
-		}, 1000);
-    };
-
-    //Assuming this is what you wanted by calling list in ng-init
-    $scope.list = function(){
-    	$scope.paths = $resource('/jsonapi/get_game_paths').get();
+		}, 2000);
     };
     
 	//update path progress for 14 inch window size
@@ -506,7 +454,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		//$('#myTab a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 	//update path progress for small window size
     $scope.update_path_progress1 = function(pathID){
@@ -517,7 +465,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
             $scope.path_progress = response;
         });
 		//$('#myTab1 a:first').tab('show');
-        ///jsonapi/get_path_progress/10030, 2462233, 6920762
+        ///jsonapi/get_path_progress/200030, 2462233, 6920762
     }; 
 
     //This may not be needed every time the controller loads. 
@@ -563,7 +511,6 @@ function ProblemController($scope,$resource){
           });
     }
 
-
 }
 
 
@@ -578,7 +525,6 @@ function BadgeController($scope,$resource){
     };
 	
 }
-
 
 
 //to the list of challenges EDITED by viTech
@@ -808,7 +754,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		
 			$scope.playerRegisteredChallenges=[];
 			//get to each challenge
-			for (var i=0;i<=$scope.challengeReg.challenges.length;i++){ 			
+			for (var i=0;i<$scope.challengeReg.challenges.length;i++){ 			
 			
 				//You have to ensure that this property exists first if it won't always be present.
 				if($scope.challengeReg.challenges[i]._playerRegistered==true){
@@ -2288,61 +2234,18 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
     //$scope.difficulty = "Drag-n-Drop";
     //$scope.pathDes = "Python";
 
-    $scope.addDefaultLevel=function(checker){
-	  	if(checker.length > 1){
-		  setTimeout(function () {
-		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
-	  	}
-	  	else if(checker && location.href.indexOf("difficulty") == -1){
-	  	  setTimeout(function () {
-		    $('#levels button:button').eq(1).click();
-		  }, 100);
-	 	}
-	}
-
-    $scope.addDefaultLevelSmall=function(checker){
-	    if(checker.length > 1){
-		  setTimeout(function () {
-		    $("button[btn-radio="+checker+"]").click();
-		  }, 150);
-	  	}
-	  	else if (checker && location.href.indexOf("difficulty") == -1){
-	  	  setTimeout(function () {
-		    $('#levelsmall button:button').eq(1).click();
-		  }, 100);
-	  	}
-    }
-
-    if(location.href.indexOf("difficulty") > -1){
-    	$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-    	$scope.difficulty = $scope.passed_in_difficulty;
-    	$scope.addDefaultLevel($scope.difficulty);
-    	$scope.addDefaultLevelSmall($scope.difficulty);
-    }
-
-	 $scope.pathSelection=function(checker){
+	$scope.pathSelection=function(){
 	  $('#pathSel input:image').click(function() {
 	    $('#pathSel input:image').removeClass('selected');   
 	    $(this).addClass('selected');
 	  });
-	  if(checker == 0){
-	    setTimeout(function () {
-		  $('#paths input:image').first().click();
-		}, 100);
-	  }
 	}
 
-	$scope.pathSelectionSmall=function(checker){
+	$scope.pathSelectionSmall=function(){
 	  $('#small-pathSel input:image').click(function() {
 	    $('#small-pathSel input:image').removeClass('selected');   
 	    $(this).addClass('selected');
 	  });
-	  if(checker == 0){
-		setTimeout(function () {
-		  $('#pathsSmall input:image').first().click();
-		}, 100);
-	  }
 	}
     //Create quest
     $scope.create_quest = function(storyID,path_id,difficulty){
@@ -2491,45 +2394,40 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.name = $cookieStore.get("name");
 	$scope.supportedPaths = [];
 	$scope.supportedPathNames = [];
+	$scope.story_name = "";
+	$scope.path_name = "";
 	
     $scope.StoryModel = $resource('/jsonapi/story');
-	$scope.group_questStoryList = function(){
-	  $scope.pubStories = [];
-      $scope.StoryModel.query({}, function(response){
-          $scope.stories = response;
-		  for(var i=0;i<$scope.stories.length;i++){
-		  		//adding the filter on supported path logic. 
-				if($scope.stories[i].published==true && $scope.stories[i].archived == false){
-					$scope.pubStories.push($scope.stories[i]);
-				}				
-		  }		
-		  $scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
-
-          $scope.videos = $scope.stories[0].videos;
-		  $scope.$parent.storyid = $scope.stories[abc].id;
-          //alert("There are "+$scope.stories.length+" stories.");
-      });
-	  $scope.addQuestColor(true);
-    };
 
     $scope.StoryModel.query({}, function(response){
         $scope.stories = response;
-        if(location.href.indexOf("storyID") > -1){
-		  	$scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-			//alert($scope.passed_in_pathName);
-			setTimeout(function () {
-				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
-				$scope.addQuestColor(true);
-		    }, 100);
-	    }else{
-	    	setTimeout(function () {
-	    	 	$scope.group_questStoryList();
-	        }, 100);
-	    }
+    	setTimeout(function () {
+    	 	$scope.pubStories = [];
+			for(var i=0;i<$scope.stories.length;i++){
+				//adding the filter on supported path logic. 
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+					$scope.pubStories.push($scope.stories[i]);
+				}				
+			}		
+			$scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
+
+		    $scope.videos = $scope.stories[0].videos;
+			$scope.$parent.storyid = $scope.stories[abc].id;
+			$('#largeSelectPlay').click();
+        }, 1500);    
     });
     //We will need a different controller or resource to fetch player stories. 
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
+
+    //$scope.filter_story_id = function(){
+        if(location.href.indexOf("storyID") > -1){
+		  	$scope.passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+			setTimeout(function () {
+				$scope.questStoryList = [$filter('filter')($scope.stories,$scope.passed_in_storyID)];
+		    }, 2000);
+	    }
+    //};
 
     var abc = 0;
 
@@ -2545,29 +2443,19 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(checker){
+     $scope.addQuestColor=function(){
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
 		});
-		if(checker){
-			setTimeout(function () {
-			  $('#myCarousel input:image').eq(0).click();
-			}, 100);
-		}
     }
 
     // this method add background color to the selected images 
-    $scope.addQuestColorSmall=function(checker){
+    $scope.addQuestColorSmall=function(){
 		$('#myCarouselSmall input:image').click(function() {
 	        $('#myCarouselSmall input:image').removeClass('selected');   
 	        $(this).addClass('selected');
 		});
-		if(checker){
-			setTimeout(function () {
-			  $('#myCarouselSmall input:image').eq(0).click();
-			}, 100);
-		}
     }
 
 	//Create story
@@ -2604,7 +2492,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}
 		setTimeout(function () {
 			$('#video').trigger('click');
-		}, 100);
+		}, 2000);
     };
 	//4. View statistics on existing story
 
@@ -2750,6 +2638,15 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
+		$scope.storyModel = $resource('/jsonapi/story/:storyID');
+	    $scope.storyModel.get({"storyID":storyID}, function(response){
+            $scope.story_name = response.name;
+	    });
+	    
+	    $scope.pathModel = $resource('/jsonapi/get_path_progress/:pathID');
+	    $scope.pathModel.get({"pathID":path_ID}, function(response){
+	    	$scope.path_name = response.path.name;
+	    });
 		if(storyID != undefined && difficulty != undefined && path_ID != undefined){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -2788,8 +2685,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 				$scope.supportedPaths.push(supportPath);
 				$scope.pathModel = $resource('/jsonapi/get_path_progress/:pathID');
 				$scope.pathModel.get({"pathID":supportPath}, function(response){
-				$scope.aStory = response.path.name;
-				$scope.supportedPathNames.push($scope.aStory);
+				$scope.aPath = response.path.name;
+		        $scope.supportedPathNames.push($scope.aPath);
 			});		 			
 		}
 	};
