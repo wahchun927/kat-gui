@@ -119,8 +119,9 @@
                 <tr>
                     <th style="text-align:left;">Location</th>
                     <th>
-						<select ng-model="chLocation" ng-options="country.id as country.countryName for country in ListAllCountries" ng-init="chLocation=ListAllCountries[0].id;">{{chLocation}}</select>
+						<select ng-model="chLocation" ng-options="country.id as country.countryName for country in ListAllCountries">{{chLocation}}</select>
 					</th>
+					test{{ListAllCountries.value.id}}
                 </tr>
             </table>
         </div>
