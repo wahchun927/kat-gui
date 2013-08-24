@@ -41,7 +41,8 @@ function Ctrl($scope) {
 function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.player = $resource('/jsonapi/player').get();
-
+	$scope.gender = "";
+	$scope.tags = $resource('/jsonapi/tags').get();
     $scope.$watch('player', function() {
     	$scope.current_country = $scope.player.country;
     },true);
@@ -56,6 +57,16 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 		}
 		else{
 			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.addTag = function(addedTag){
+	    if($scope.player.tags.indexOf(addedTag) > -1){
+			
+			alert("This tag is alread in the list, please select antoher one!");
+		}
+		else{
+			$scope.player.tags.push(addedTag);
 		}
 	};
 	
@@ -149,6 +160,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
         var data = {"nickname":$scope.player.nickname,
                     "professional":$scope.player.professional,
                     "about":$scope.player.about,
+					"tags":$scope.player.tags,
                     "gender":$scope.player.gender};
 
         $scope.UpdateProfile = $resource('/jsonapi/update_player_profile');
