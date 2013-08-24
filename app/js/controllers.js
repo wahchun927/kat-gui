@@ -2687,7 +2687,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":path_ID}, function(response){
-		    $scope.path_name = response;
+		    $scope.path_name = response.name;
 			console.log(response);
 		});
 		
@@ -2697,7 +2697,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
-		alert(path_ID);
 		$scope.storyModel = $resource('/jsonapi/story/:storyID');
 		$scope.storyModel.get({"storyID":storyID}, function(response){
 	        $scope.story_name = response.name;
@@ -2705,7 +2704,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"pathID":path_ID}, function(response){
-			$scope.path_name = response;
+			$scope.path_name = response.name;
 			console.log(response);
 		});
 		
