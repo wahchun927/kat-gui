@@ -41,7 +41,8 @@ function Ctrl($scope) {
 function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.player = $resource('/jsonapi/player').get();
-
+	$scope.gender = "";
+	$scope.tags = $resource('/jsonapi/tags').get();
     $scope.$watch('player', function() {
     	$scope.current_country = $scope.player.country;
     },true);
@@ -56,6 +57,16 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 		}
 		else{
 			alert("Please login with FaceBook or Google Account first!");
+		}
+	};
+	
+	$scope.addTag = function(addedTag){
+	    if($scope.player.tags.indexOf(addedTag) > -1){
+			
+			alert("This tag is alread in the list, please select antoher one!");
+		}
+		else{
+			$scope.player.tags.push(addedTag);
 		}
 	};
 	
@@ -149,6 +160,7 @@ function PlayerController($scope,$resource,$location,$cookieStore){
         var data = {"nickname":$scope.player.nickname,
                     "professional":$scope.player.professional,
                     "about":$scope.player.about,
+					"tags":$scope.player.tags,
                     "gender":$scope.player.gender};
 
         $scope.UpdateProfile = $resource('/jsonapi/update_player_profile');
@@ -2687,7 +2699,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":path_ID}, function(response){
-		    $scope.path_name = response;
+		    $scope.path_name = response.name;
 			console.log(response);
 		});
 		
@@ -2697,7 +2709,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
-		alert(path_ID);
 		$scope.storyModel = $resource('/jsonapi/story/:storyID');
 		$scope.storyModel.get({"storyID":storyID}, function(response){
 	        $scope.story_name = response.name;
@@ -2705,7 +2716,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"pathID":path_ID}, function(response){
-			$scope.path_name = response;
+			$scope.path_name = response.name;
 			console.log(response);
 		});
 		
