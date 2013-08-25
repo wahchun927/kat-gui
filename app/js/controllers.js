@@ -572,7 +572,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.challengeTypes.push({'challengeType':'Quest','name':'Quest Challenge'});
 	$scope.challengeTypes.push({'challengeType':'Habit','name':'Habit Challenge'});	
 	
-	$scope.challengeType="Badge";
+	$scope.chType="Badge";
 	$scope.chName="";
 	$scope.chDescription="";
 	$scope.badges = [null, null, null, null, null, null];
@@ -665,7 +665,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     {
 		
 		$scope.newChallenge = {};
-		$scope.newChallenge.challengeType = $scope.challengeType;
+		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
 		$scope.newChallenge.publicMessage = $scope.chPubMsg;
 		$scope.newChallenge.privateMessage = $scope.chPriMsg;
@@ -866,7 +866,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	//4. My Creation - Challenges others Made	
 	$scope.others_challenges= function(){
 			
-		
 		$scope.challengeModel = $resource('/jsonapi/list_challenges');			
 		
 		$scope.challengeModel.get({}, function(response){
@@ -2574,7 +2573,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 				$scope.newStoryID = response.id;
 			});
 		}
-		//window.location.reload();
+		window.location.reload();
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
@@ -2639,7 +2638,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.registration_response = data;
 		});
 	
-		//window.location.reload();
+		window.location.reload();
 	};
 
 	$scope.deleteVideo=function(id){
@@ -2681,7 +2680,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});	
-		//window.location.reload();
+		window.location.reload();
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){

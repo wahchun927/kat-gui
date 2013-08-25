@@ -21,6 +21,7 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
     $routeProvider.when('/b3', {templateUrl: 'bisa/b3.html', controller: IndexController});
     $routeProvider.when('/b4', {templateUrl: 'bisa/b4.html', controller: IndexController});
     $routeProvider.when('/b5', {templateUrl: 'bisa/b5.html', controller: IndexController});
+
     $routeProvider.otherwise({redirectTo: '/home'});
 }]);
 
