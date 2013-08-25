@@ -2646,8 +2646,10 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});
-	
-		window.location.reload();
+		//Just reload the stories. 
+		$scope.myStorylist(); 
+		//window.location = "index.html#/story";
+		//window.location.reload();
 	};
 
 	$scope.deleteVideo=function(id){
@@ -2688,7 +2690,10 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});	
-		window.location.reload();
+		//Just reload the story list. 
+		$scope.myStorylist();
+		//window.location = "index.html#/story";
+		//window.location.reload();
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
