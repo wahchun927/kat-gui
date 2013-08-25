@@ -2522,7 +2522,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
 			$scope.publishStatus = response.published;
-			$cookieStore.put("editStory", response);
+			$cookieStore.put("editStory", response.id);
+			console.log(response.id);
 			$scope.editOrCreate = "edit";
 		}); 
 	}
@@ -2551,7 +2552,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  $scope.newStory.supported_paths = $scope.supportedPaths;
       
 	  if($scope.editOrCreate == "edit"){
-			$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$scope.currentStoryID = $cookieStore.get("editStory");
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
@@ -2573,7 +2574,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 				$scope.newStoryID = response.id;
 			});
 		}
-		window.location.reload();
+		//window.location.reload();
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
@@ -2624,7 +2625,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 
   
 
-		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$scope.currentStoryID = $cookieStore.get("editStory");
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 						name:$scope.newStory.name,
@@ -2638,7 +2639,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.registration_response = data;
 		});
 	
-		window.location.reload();
+		//window.location.reload();
 	};
 
 	$scope.deleteVideo=function(id){
@@ -2666,7 +2667,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		$scope.newStory.videos = stories;
 		$scope.newStory.published = publish;
 		
-		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$scope.currentStoryID = $cookieStore.get("editStory");
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http.post('/jsonapi/story/'+storyID, {
 							name:$scope.newStory.name,
@@ -2675,11 +2676,12 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 							published:publish,
 							archived:true
 		}).success(function (data, status, headers, config) {
+			alert("success");
 			$scope.registration_response = data;
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});	
-		window.location.reload();
+		//window.location.reload();
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
