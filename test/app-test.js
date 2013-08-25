@@ -158,6 +158,8 @@ myApp.run(function($httpBackend) {
 
       //Pass through any request for partials
       $httpBackend.whenGET(/^partials/).passThrough();
+      //Pass through any request for bisa
+      $httpBackend.whenGET(/^bisa/).passThrough();
       
       //Add story
       $httpBackend.whenPOST('/jsonapi/add_story').respond(function(method, url, data) {
