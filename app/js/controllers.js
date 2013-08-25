@@ -213,7 +213,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
 		    //Including details=1 returns the nested problemset progress.
-		    $scope.PathModel.get({"pathID":$scope.paths.paths[0].id,"details":1}, function(response){
+		    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
 		        $scope.path_progress = response;
 		    });
 		    $('#largeSelectPlay').click();
