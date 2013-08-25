@@ -215,6 +215,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.difficulty = "";
 		$scope.path_ID = "";
 		$scope.path_name = "";
+		$scope.currentURL = location.href;
 		
 		setTimeout(function () {
 			$scope.paths = $scope.paths_unfiltered;
@@ -231,31 +232,30 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     };
 
 	//Try to only fetch what you need in the init of the controller.
-	//$scope.filter_path_id=function(){
-		if(location.href.indexOf("difficulty") > -1){
-			$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-			setTimeout(function () {
-				$scope.difficulty = $scope.passed_in_difficulty;
-			}, 2000);
-		}
+	if(location.href.indexOf("difficulty") > -1){
+		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
+		setTimeout(function () {
+			$scope.difficulty = $scope.passed_in_difficulty;
+		}, 2000);
+	}
 
-		if(location.href.indexOf("path_ID") > -1){
-			var passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
-			setTimeout(function () {
-				$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID)};
-				$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 1);
-				if($scope.paths_grouped.length == 0){
-					$scope.mobile_paths = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
-					$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
-				}
-				$('#largeSelectPlay').click();
-			}, 2000);
+	if(location.href.indexOf("path_ID") > -1){
+		var passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
+		setTimeout(function () {
+			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID)};
+			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 1);
+			if($scope.paths_grouped.length == 0){
+				$scope.mobile_paths = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
+				$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
+			}
+			$('#largeSelectPlay').click();
 			$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		    $scope.pathModel.get({"pathID":passed_in_path_ID}, function(response){
+		    	console.log(response);
 		    	$scope.path_name = response.path.name;
 		    });
-		}
-	//}
+		}, 2000);
+	}
 
 	// this method add background color to the selected images 
 	$scope.practiceSelection=function(){
@@ -383,7 +383,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.changePath = function (pathid){
 		$scope.path_ID = pathid;
 		$scope.update_path_progress(pathid);
-		if(pathid != undefined && $scope.difficulty != ""){
+		if(pathid != "" && $scope.difficulty != ""){
 			$location.search({path_ID: pathid, difficulty: $scope.difficulty});
 		}
 	};
@@ -391,7 +391,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	//change the difficulty level as well as the path level detail table
 	$scope.changeDifficulty = function(difficulty){
 		$scope.difficulty = difficulty;
-		if(difficulty != undefined && $scope.path_ID != ""){
+		if(difficulty != "" && $scope.path_ID != ""){
 			$location.search({path_ID: $scope.path_ID, difficulty: difficulty});
 		}
 	};
@@ -2462,19 +2462,17 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
 
-    //$scope.filter_story_id = function(){
-        if(location.href.indexOf("storyID") > -1){
-		  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-		  	$scope.currentURL = location.href;
-			setTimeout(function () {
-				$scope.questStoryList = [$filter('filter')($scope.stories, passed_in_storyID)];
-		    }, 2000);
-		    $scope.storyModel = $resource('/jsonapi/story/:storyID');
-		    $scope.storyModel.get({"storyID":passed_in_storyID}, function(response){
-	            $scope.story_name = response.name;
-		    });	
-	    }
-    //};
+    if(location.href.indexOf("storyID") > -1){
+	  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+	  	$scope.currentURL = location.href;
+		setTimeout(function () {
+			$scope.questStoryList = [$filter('filter')($scope.stories, passed_in_storyID)];
+	    }, 2000);
+	    $scope.storyModel = $resource('/jsonapi/story/:storyID');
+	    $scope.storyModel.get({"storyID":passed_in_storyID}, function(response){
+            $scope.story_name = response.name;
+	    });	
+    }
 
     var abc = 0;
 
