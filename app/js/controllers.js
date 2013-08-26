@@ -557,6 +557,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.countryModel = $resource('/jsonapi/all_countries');
 	$scope.countryModel.get({}, function(response){
 		$scope.ListAllCountries = response.countries;	
+		$scope.chLocation = {type : $scope.ListAllCountries[1].id};
 	});
 	
 	// difficulty levels
@@ -582,6 +583,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
 
+	
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -687,7 +689,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-
+		console.log($scope.chLocation);
 		if($scope.chLocation!=""){
 			$scope.newChallenge.allowedCountries.push($scope.chLocation);
 		}    
@@ -703,7 +705,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			$scope.newChallengeID = response.id;
 		});
 		
-		setTimeout('window.location="index.html#/challenges"',1000);
+		//setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
 	
