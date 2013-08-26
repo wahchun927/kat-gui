@@ -1043,26 +1043,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		//alert($scope.challenge_msg_submission);
 		//alert($scope.attachment_Name);
 
-		$http.post('/jsonapi/challenge_submit?challenge_id='+$scope.challenge_msg_submission, 
-					JSON.stringify({
-						player_message:$scope.player_msg,
-						attachmentName:$scope.attachment_Name,
-						attachmentContent:$scope.attachment_content
-					}), 
-					{
-						withCredentials: true,
-						headers: {'Content-Type': undefined},
-						transformRequest: angular.identity
-					}).success(function (data,status,headers,config){
-						window.console.log(data);
-						alert("You are successfully submitted your message");
-					}).error(function (data, status, headers, config){
-						window.console.log(data);
-						alert("You are unable to submit your message");
-					});
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/submit_challenge_message/'+$scope.challenge_msg_submission, {
+							player_message:$scope.player_msg
+		}).success(function (data, status, headers, config) {
+			window.console.log(data);
+			alert("You are successfully submitted your message");
+		}).error(function (data, status, headers, config) {
+			window.console.log(data);
+			alert("You are unable to submit your message");
+		});
 	}
 
-	$scope.set_file = function(element){
+	/*$scope.set_file = function(element){
 		$scope.files = new FormData();
 		$scope.file_name = '';
    		$scope.$apply(function($scope) {
@@ -1073,7 +1066,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     		$scope.files.append("file", element.files[0]);
       	});
 
-	}
+	}*/
 
 
 	//*******************************Miscellaneous Functions*********************************
