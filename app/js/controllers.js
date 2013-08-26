@@ -572,7 +572,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.challengeTypes.push({'challengeType':'Quest','name':'Quest Challenge'});
 	$scope.challengeTypes.push({'challengeType':'Habit','name':'Habit Challenge'});	
 	
-	$scope.challengeType="Badge";
+	$scope.chType="Badge";
 	$scope.chName="";
 	$scope.chDescription="";
 	$scope.badges = [null, null, null, null, null, null];
@@ -665,7 +665,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     {
 		
 		$scope.newChallenge = {};
-		$scope.newChallenge.challengeType = $scope.challengeType;
+		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
 		$scope.newChallenge.publicMessage = $scope.chPubMsg;
 		$scope.newChallenge.privateMessage = $scope.chPriMsg;
@@ -707,7 +707,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			$scope.newChallengeID = response.id;
 		});
 		
-		//$location.path("challenges");
+		setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
 	
@@ -866,7 +866,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	//4. My Creation - Challenges others Made	
 	$scope.others_challenges= function(){
 			
-		
 		$scope.challengeModel = $resource('/jsonapi/list_challenges');			
 		
 		$scope.challengeModel.get({}, function(response){
@@ -1044,26 +1043,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		//alert($scope.challenge_msg_submission);
 		//alert($scope.attachment_Name);
 
-		$http.post('/jsonapi/challenge_submit?challenge_id='+$scope.challenge_msg_submission, 
-					JSON.stringify({
-						player_message:$scope.player_msg,
-						attachmentName:$scope.attachment_Name,
-						attachmentContent:$scope.attachment_content
-					}), 
-					{
-						withCredentials: true,
-						headers: {'Content-Type': undefined},
-						transformRequest: angular.identity
-					}).success(function (data,status,headers,config){
-						window.console.log(data);
-						alert("You are successfully submitted your message");
-					}).error(function (data, status, headers, config){
-						window.console.log(data);
-						alert("You are unable to submit your message");
-					});
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/submit_challenge_message/'+$scope.challenge_msg_submission, {
+							player_message:$scope.player_msg
+		}).success(function (data, status, headers, config) {
+			window.console.log(data);
+			alert("You are successfully submitted your message");
+		}).error(function (data, status, headers, config) {
+			window.console.log(data);
+			alert("You are unable to submit your message");
+		});
 	}
 
-	$scope.set_file = function(element){
+	/*$scope.set_file = function(element){
 		$scope.files = new FormData();
 		$scope.file_name = '';
    		$scope.$apply(function($scope) {
@@ -1074,7 +1066,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     		$scope.files.append("file", element.files[0]);
       	});
 
-	}
+	}*/
 
 
 	//*******************************Miscellaneous Functions*********************************
@@ -1091,7 +1083,21 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	    window.onresize = function(){
 	        $scope.$apply();
 	    }	
-
+		
+		$scope.archieveChallenge = function(challenge_id,sDate,eDate){
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
+							description:"archived",
+							startDate:sDate,
+							endDate:eDate
+			}).success(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			}).error(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			});
+			
+			window.location.reload();
+		};
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
@@ -2522,7 +2528,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
 			$scope.publishStatus = response.published;
-			$cookieStore.put("editStory", response);
+			$cookieStore.put("editStory", response.id);
+			console.log(response.id);
 			$scope.editOrCreate = "edit";
 		}); 
 	}
@@ -2551,7 +2558,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  $scope.newStory.supported_paths = $scope.supportedPaths;
       
 	  if($scope.editOrCreate == "edit"){
-			$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$scope.currentStoryID = $cookieStore.get("editStory");
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
@@ -2624,7 +2631,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 
   
 
-		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$scope.currentStoryID = $cookieStore.get("editStory");
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 						name:$scope.newStory.name,
@@ -2666,7 +2673,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		$scope.newStory.videos = stories;
 		$scope.newStory.published = publish;
 		
-		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$scope.currentStoryID = $cookieStore.get("editStory");
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http.post('/jsonapi/story/'+storyID, {
 							name:$scope.newStory.name,
@@ -2675,6 +2682,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 							published:publish,
 							archived:true
 		}).success(function (data, status, headers, config) {
+			alert("success");
 			$scope.registration_response = data;
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
