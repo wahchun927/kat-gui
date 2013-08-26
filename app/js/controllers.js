@@ -707,7 +707,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			$scope.newChallengeID = response.id;
 		});
 		
-		//$location.path("challenges");
+		setTimeout('window.location="index.html#/challenges"',500);
 		
     };
 	
@@ -1090,7 +1090,21 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	    window.onresize = function(){
 	        $scope.$apply();
 	    }	
-
+		
+		$scope.archieveChallenge = function(challenge_id,sDate,eDate){
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
+							description:"archived",
+							startDate:sDate,
+							endDate:eDate
+			}).success(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			}).error(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			});
+			
+			window.location.reload();
+		};
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
