@@ -150,19 +150,19 @@ input:hover{
 									<h4 class="well well-small" align="center" id="well-c">#3. Select a Language</h4>
 								</div>
 								<div class="well well-small">	
-									<div style="height:220px;overflow:auto;margin-top:5px" ng-hide="difficulty=='Drag-n-Drop'">
+									<div style="height:220px;overflow:auto;margin-top:5px" ng-hide="$parent.difficulty=='Drag-n-Drop'">
 										<div ng-repeat="item in paths.paths" id="paths" ng-init="pathSelection()">
 											<label>
-												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,path_ID,paths.paths.length)" ng-model="$parent.path_ID" name="is_private" value="{{item.id}}" id="path">
+												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_ID,paths.paths.length)" ng-model="$parent.path_ID" name="is_private" value="{{item.id}}" id="path">
 												<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 												<h4>{{item.name}}</h4>
 											</label>		
 										</div>
 									</div>
-									<div style="height:220px;overflow:auto;margin-top:5px" ng-show="difficulty=='Drag-n-Drop'">
+									<div style="height:220px;overflow:auto;margin-top:5px" ng-show="$parent.difficulty=='Drag-n-Drop'">
 										<div  ng-repeat="item in mobile_paths" id="paths" ng-init="pathSelection()" >
 											<label>
-												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,path_ID,paths.paths.length)" ng-model="$parent.path_ID" name="is_private" value="{{item.path_id}}" id="path">
+												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_ID,paths.paths.length)" ng-model="$parent.path_ID" name="is_private" value="{{item.path_id}}" id="path">
 												<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImg"/ >
 												<h4>{{item.name}}</h4>
 											</label>		
@@ -175,24 +175,21 @@ input:hover{
 									<tr>
 										<td align="center">
 											</br></br>
-											<div  ng-show="!difficulty || !path_name || !story_name || !player">
+											<div  ng-show="!difficulty || !path_ID || !storyid || !player.nickname">
 											<!-- <form action="#storyboard"> -->
 												<button class="btn disabled" style="width: 145px"><h1>Go!</h1></button>
+												<span class="label label-info" align="left" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">
+													<b><i>Please select</i></b>
+													</br></br>
+													Diffculty : {{difficulty}}
+													</br>
+													Path Name : {{path_name}}
+													</br>
+													Story Name : {{story_name}}
+												</span>
 											<!-- </form> -->
 											</div>
-											
-<!-- 											<span class="label label-info" align="left" ng-show="currentURL.indexOf('difficulty') > -1 && currentURL.indexOf('path_name') > -1 && currentURL.indexOf('difficulty') > -1">
- -->											
-											<span class="label label-info" align="left" ng-show="!path_name || !story_name || !difficulty"> 
-												<b><i>Please select</i></b>
-												</br></br>
-												Diffculty : {{difficulty}}
-												</br>
-												Path Name : {{path_name}}
-												</br>
-												Story Name : {{story_name}}
-											</span>
-											<div  ng-show="difficulty && path_name && story_name && player">
+											<div  ng-show="difficulty && path_ID && storyid && player.nickname">
 											<!-- <form action="#storyboard"> -->
 												<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_ID,difficulty)" style="width: 145px"><h1>Go!</h1></button>
 											<!-- </form> -->
@@ -292,10 +289,10 @@ input:hover{
 									<tr><td align="center">
 									</br></br>
 									
-									<div  ng-show="!difficulty || !path_id || !storyid">
+									<div  ng-show="!difficulty || !path_id || !storyid || !player.nickname">
 									<!-- <form action="#storyboard"> -->
 										<button class="btn disabled" style="width: 100px"><h1>Go!</h1></button>
-										<span class="label label-info" align="left" ng-show="currentURL.indexOf('difficulty') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">
+										<span class="label label-info" align="left" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">
 											<b><i>Please select</i></b>
 											</br></br>
 											Diffculty : {{difficulty}}
@@ -307,7 +304,7 @@ input:hover{
 									<!-- </form> -->
 									</div>
 									
-									<div  ng-show="difficulty && path_id && storyid">
+									<div  ng-show="difficulty && path_id && storyid && player.nickname">
 									<!-- <form action="#storyboard"> -->
 										<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_id,difficulty)" style="width: 100px"><h1>Go!</h1></button>
 									<!-- </form> -->

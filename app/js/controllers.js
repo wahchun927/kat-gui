@@ -41,12 +41,20 @@ function Ctrl($scope) {
 function PlayerController($scope,$resource,$location,$cookieStore){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.player = $resource('/jsonapi/player').get();
-	$scope.gender = "";
 	$scope.tags = $resource('/jsonapi/tags').get();
     $scope.$watch('player', function() {
     	$scope.current_country = $scope.player.country;
     },true);
-
+	
+	$scope.addTag = function(addedTag){
+		if($scope.player.tags.indexOf(addedTag) > -1){
+			alert("This tag is alread in the list, please select antoher one!");
+		}
+		else{
+			$scope.player.tags.push(addedTag);
+		}
+  	};
+	
 	$scope.firstLoad=function(paid){
 		if($scope.player.nickname){
    			$location.search('storyID', null);
@@ -57,16 +65,6 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 		}
 		else{
 			alert("Please login with FaceBook or Google Account first!");
-		}
-	};
-	
-	$scope.addTag = function(addedTag){
-	    if($scope.player.tags.indexOf(addedTag) > -1){
-			
-			alert("This tag is alread in the list, please select antoher one!");
-		}
-		else{
-			$scope.player.tags.push(addedTag);
 		}
 	};
 	
@@ -217,16 +215,16 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.difficulty = "";
 		$scope.path_ID = "";
 		$scope.path_name = "";
+		$scope.currentURL = location.href;
 		
 		setTimeout(function () {
-			$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 			$scope.paths = $scope.paths_unfiltered;
 			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 3);
 			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
 			$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
 		    //Including details=1 returns the nested problemset progress.
-		    $scope.PathModel.get({"pathID":$scope.paths_unfiltered.paths[0].id,"details":1}, function(response){
+		    $scope.PathModel.get({"pathID":$scope.abc,"details":1}, function(response){
 		        $scope.path_progress = response;
 		    });
 		    $('#largeSelectPlay').click();
@@ -234,31 +232,30 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     };
 
 	//Try to only fetch what you need in the init of the controller.
-	//$scope.filter_path_id=function(){
-		if(location.href.indexOf("difficulty") > -1){
-			$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-			setTimeout(function () {
-				$scope.difficulty = $scope.passed_in_difficulty;
-			}, 2000);
-		}
+	if(location.href.indexOf("difficulty") > -1){
+		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
+		setTimeout(function () {
+			$scope.difficulty = $scope.passed_in_difficulty;
+		}, 2000);
+	}
 
-		if(location.href.indexOf("path_ID") > -1){
-			var passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
-			setTimeout(function () {
-				$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID)};
-				$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 1);
-				if($scope.paths_grouped.length == 0){
-					$scope.mobile_paths = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
-					$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
-				}
-				$('#largeSelectPlay').click();
-			}, 2000);
+	if(location.href.indexOf("path_ID") > -1){
+		var passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
+		setTimeout(function () {
+			$scope.paths = {paths: $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID)};
+			$scope.paths_grouped = $filter('groupBy')($scope.paths.paths, 1);
+			if($scope.paths_grouped.length == 0){
+				$scope.mobile_paths = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
+				$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
+			}
+			$('#largeSelectPlay').click();
 			$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
-		    $scope.pathModel.get({"path_ID":passed_in_path_ID}, function(response){
+		    $scope.pathModel.get({"pathID":passed_in_path_ID}, function(response){
+		    	console.log(response);
 		    	$scope.path_name = response.path.name;
 		    });
-		}
-	//}
+		}, 2000);
+	}
 
 	// this method add background color to the selected images 
 	$scope.practiceSelection=function(){
@@ -386,7 +383,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.changePath = function (pathid){
 		$scope.path_ID = pathid;
 		$scope.update_path_progress(pathid);
-		if(pathid != undefined && $scope.difficulty != ""){
+		if(pathid != "" && $scope.difficulty != ""){
 			$location.search({path_ID: pathid, difficulty: $scope.difficulty});
 		}
 	};
@@ -394,7 +391,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	//change the difficulty level as well as the path level detail table
 	$scope.changeDifficulty = function(difficulty){
 		$scope.difficulty = difficulty;
-		if(difficulty != undefined && $scope.path_ID != ""){
+		if(difficulty != "" && $scope.path_ID != ""){
 			$location.search({path_ID: $scope.path_ID, difficulty: difficulty});
 		}
 	};
@@ -563,10 +560,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	// retrieve all countries
 	$scope.countryModel = $resource('/jsonapi/all_countries');
 	$scope.countryModel.get({}, function(response){
-		$scope.ListAllCountries = {
-		"value": response.countries[10].id, 
-		"values": response.countries
-		};		
+		$scope.ListAllCountries = response.countries;	
 	});
 	
 	// difficulty levels
@@ -578,7 +572,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.challengeTypes.push({'challengeType':'Quest','name':'Quest Challenge'});
 	$scope.challengeTypes.push({'challengeType':'Habit','name':'Habit Challenge'});	
 	
-	$scope.challengeType="Badge";
+	$scope.chType="Badge";
 	$scope.chName="";
 	$scope.chDescription="";
 	$scope.badges = [null, null, null, null, null, null];
@@ -671,7 +665,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     {
 		
 		$scope.newChallenge = {};
-		$scope.newChallenge.challengeType = $scope.challengeType;
+		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
 		$scope.newChallenge.publicMessage = $scope.chPubMsg;
 		$scope.newChallenge.privateMessage = $scope.chPriMsg;
@@ -713,7 +707,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			$scope.newChallengeID = response.id;
 		});
 		
-		//$location.path("challenges");
+		setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
 	
@@ -872,7 +866,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	//4. My Creation - Challenges others Made	
 	$scope.others_challenges= function(){
 			
-		
 		$scope.challengeModel = $resource('/jsonapi/list_challenges');			
 		
 		$scope.challengeModel.get({}, function(response){
@@ -1097,7 +1090,21 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	    window.onresize = function(){
 	        $scope.$apply();
 	    }	
-
+		
+		$scope.archieveChallenge = function(challenge_id,sDate,eDate){
+			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+			$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
+							description:"archived",
+							startDate:sDate,
+							endDate:eDate
+			}).success(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			}).error(function (data, status, headers, config) {
+				$scope.registration_response = data;
+			});
+			
+			window.location.reload();
+		};
 }
 
 function NormalGameController($scope,$resource,$cookieStore){
@@ -2443,7 +2450,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.supportedPaths = [];
 	$scope.supportedPathNames = [];
 	$scope.story_name = "";
-	$scope.path_name  = "";
 	$scope.currentURL = "";
 	
     $scope.StoryModel = $resource('/jsonapi/story');
@@ -2469,19 +2475,17 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
 
-    //$scope.filter_story_id = function(){
-        if(location.href.indexOf("storyID") > -1){
-		  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-		  	$scope.currentURL = location.href;
-			setTimeout(function () {
-				$scope.questStoryList = [$filter('filter')($scope.stories, passed_in_storyID)];
-		    }, 2000);
-		    $scope.storyModel = $resource('/jsonapi/story/:storyID');
-		    $scope.storyModel.get({"storyID":passed_in_storyID}, function(response){
-	            $scope.story_name = response.name;
-		    });	
-	    }
-    //};
+    if(location.href.indexOf("storyID") > -1){
+	  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+	  	$scope.currentURL = location.href;
+		setTimeout(function () {
+			$scope.questStoryList = [$filter('filter')($scope.stories, passed_in_storyID)];
+	    }, 2000);
+	    $scope.storyModel = $resource('/jsonapi/story/:storyID');
+	    $scope.storyModel.get({"storyID":passed_in_storyID}, function(response){
+            $scope.story_name = response.name;
+	    });	
+    }
 
     var abc = 0;
 
@@ -2531,7 +2535,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
 			$scope.publishStatus = response.published;
-			$cookieStore.put("editStory", response);
+			$cookieStore.put("editStory", response.id);
+			console.log(response.id);
 			$scope.editOrCreate = "edit";
 		}); 
 	}
@@ -2560,7 +2565,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  $scope.newStory.supported_paths = $scope.supportedPaths;
       
 	  if($scope.editOrCreate == "edit"){
-			$scope.currentStoryID = $cookieStore.get("editStory").id;
+			$scope.currentStoryID = $cookieStore.get("editStory");
 			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 							name:$scope.newStory.name,
@@ -2633,7 +2638,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 
   
 
-		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$scope.currentStoryID = $cookieStore.get("editStory");
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http.post('/jsonapi/story/'+$scope.currentStoryID, {
 						name:$scope.newStory.name,
@@ -2646,10 +2651,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});
-		//Just reload the stories. 
-		$scope.myStorylist(); 
-		//window.location = "index.html#/story";
-		//window.location.reload();
+	
+		window.location.reload();
 	};
 
 	$scope.deleteVideo=function(id){
@@ -2677,7 +2680,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		$scope.newStory.videos = stories;
 		$scope.newStory.published = publish;
 		
-		$scope.currentStoryID = $cookieStore.get("editStory").id;
+		$scope.currentStoryID = $cookieStore.get("editStory");
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http.post('/jsonapi/story/'+storyID, {
 							name:$scope.newStory.name,
@@ -2686,45 +2689,21 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 							published:publish,
 							archived:true
 		}).success(function (data, status, headers, config) {
+			alert("success");
 			$scope.registration_response = data;
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});	
-		//Just reload the story list. 
-		$scope.myStorylist();
-		//window.location = "index.html#/story";
-		//window.location.reload();
+		window.location.reload();
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
-		$scope.storyModel = $resource('/jsonapi/story/:storyID');
-		$scope.storyModel.get({"storyID":storyID}, function(response){
-	        $scope.story_name = response.name;
-		});	
-		
-		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
-		$scope.pathModel.get({"path_ID":path_ID}, function(response){
-		    $scope.path_name = response.name;
-			console.log(response);
-		});
-		
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
-		$scope.storyModel = $resource('/jsonapi/story/:storyID');
-		$scope.storyModel.get({"storyID":storyID}, function(response){
-	        $scope.story_name = response.name;
-		});	
-		
-		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
-		$scope.pathModel.get({"pathID":path_ID}, function(response){
-			$scope.path_name = response.name;
-			console.log(response);
-		});
-		
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}

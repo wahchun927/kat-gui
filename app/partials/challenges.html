@@ -45,12 +45,13 @@
 	<!--My Creations : Challenges I've Made -->
 	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
 	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:20%;}
-	th.ChallengesIMade_Location,td.ChallengesIMade_Location		{width:20%;}
+	th.ChallengesIMade_Location,td.ChallengesIMade_Location		{width:10%;}
 	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:10%;}
 	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:10%;}
 	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:10%;}
 	th.ChallengesIMade_Publish,td.ChallengesIMade_Publish		{width:10%;}                                                                                         
 	th.ChallengesIMade_Share,td.ChallengesIMade_Share			{width:10%;}
+	th.ChallengesIMade_Remove,td.ChallengesIMade_Remove			{width:10%;}
 	
    
  
@@ -94,7 +95,7 @@
 						</div>
 						<div style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden">									
 							<table class="table table-hover" ng-init="list_challenges();">														
-								<tr ng-repeat="challenge in ListAllChallenges">
+								<tr ng-repeat="challenge in ListAllChallenges" ng-hide = "challenge.description=='archived'">
 									<td class="OpenC_Type">{{challenge.challengeType}}</th>
 									<td class="OpenC_Name">{{challenge.name}}</td>
 									<td class="OpenC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
@@ -127,7 +128,7 @@
 						</div>
 						<div  style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >
 								<table class="table table-hover" ng-init="registered_challenges()">
-									<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges">
+									<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges" ng-hide = "Acceptedchallenge.description=='archived'">
 										<td class="AcceptedC_Type">{{Acceptedchallenge.challengeType}}</td>
 										<td class="AcceptedC_Name">{{Acceptedchallenge.name}}</td>	
 										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
@@ -152,30 +153,32 @@
 									<th class="ChallengesIMade_Location">Location</th> 
 									<th class="ChallengesIMade_StartDate">Start Date</th>
 									<th class="ChallengesIMade_EndDate">End Date</th>
-									<th class="ChallengesIMade_Review">Review</th>
 									<th class="ChallengesIMade_Publish">Publish</th>                                                                                              
 									<th class="ChallengesIMade_Share">Share</th>
+									<th class="ChallengesIMade_Review">Review</th>
+									<th class="ChallengesIMade_Remove">Archive</th>
 								</tr>                                   
 							</table> 
 						</div>
 					 
 						<div style="height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >																					
 							<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
-								<tr ng-repeat="myChallenge in ListMyChallenges">
+								<tr ng-repeat="myChallenge in ListMyChallenges" ng-hide = "myChallenge.description=='archived'";>
 									<td class="ChallengesIMade_Type">{{myChallenge.challengeType}}</td>
 									<td class="ChallengesIMade_Name">{{myChallenge.name}}</td>
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">Worldwide</td>	
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0"><image ng-src="{{myChallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
 									<td class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
 									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
+									<td  class="ChallengesIMade_Publish">Published</td>
+									<td  class="ChallengesIMade_Share">Shared</td>  
 									<td class="ChallengesIMade_Review">
 										<div class="btn-group">																			
 											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" ng-click="goToChallengeStats(myChallenge.challenge_id)">Stats</button>
-											<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
+											<button class="btn btn-danger" a data-target="#tab2create" ng-click="goToChallengeEdit()">Edit</button>
 										</div>																	
 									</td>
-									<td  class="ChallengesIMade_Publish">Published</td>
-									<td  class="ChallengesIMade_Share">Shared</td>                                                                                     
+									<td  class="ChallengesIMade_Remove"><button class="btn btn-info" a data-target="#tab2create" ng-click="archieveChallenge(myChallenge.challenge_id,myChallenge.startDate,myChallenge.endDate)">Delete</button></td>  									
 								</tr>                                                                
 							</table>							  
 						</div>
