@@ -168,7 +168,7 @@
 			<div style="overflow-x:hidden" ng-show="submittedPlayers.length>0">
 				<table class="table table-condensed">
 					<tr>
-						<th class="SubmittedPlayers_SN">{{S/N}}</th>
+						<th class="SubmittedPlayers_SN">S/N</th>
 						<th class="SubmittedPlayers_Name">Name</th>
 						<th class="SubmittedPlayers_Location">Location</th>						
 						<th class="SubmittedPlayers_RegDate">Registration Date</th>	
@@ -180,17 +180,17 @@
 					<tr ng-repeat="subPlayer in submittedPlayers">
 						<td class="SubmittedPlayers_SN">{{$index+1}}</td>
 						<td class="SubmittedPlayers_Name">
-							<span align="center"><input type="image" ng-src="{{regPlayer.gravatar}}" height="35px"/ >
+							<span align="center"><input type="image" ng-src="{{subPlayer.gravatar}}" height="35px"/ >
 							&nbsp&nbsp</span>
 							<span align="center">{{regPlayer.nickname}}</span>
 						</td>
 						<td class="SubmittedPlayers_Location">">
-							<span align="center"><input type="image" ng-src="{{regPlayer.countryFlagURL}}" height="25px"/ >
+							<span align="center"><input type="image" ng-src="{{subPlayer.countryFlagURL}}" height="25px"/ >
 							</span>
 						</td>
-						<td class="SubmittedPlayers_RegDate">{{regPlayer.playerRegisteredDate}}</td>
-						<td class="SubmittedPlayers_UnlockedDate">{{regPlayer.playerUnlockedDate}}</td>
-						<td class="SubmittedPlayers_Msg">{{regPlayer.playerFeedback}}</td>
+						<td class="SubmittedPlayers_RegDate">{{subPlayer.playerRegisteredDate}}</td>
+						<td class="SubmittedPlayers_UnlockedDate">{{subPlayer.playerUnlockedDate}}</td>
+						<td class="SubmittedPlayers_Msg">{{subPlayer.playerFeedback}}</td>
 					</tr>
 				</table>
 			</div>
