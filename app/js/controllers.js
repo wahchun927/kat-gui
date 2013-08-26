@@ -248,12 +248,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				$scope.mobile_paths = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
 				$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
 			}
+			$scope.path_name = $scope.paths.paths[0].name;
 			$('#largeSelectPlay').click();
-			$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
-		    $scope.pathModel.get({"pathID":passed_in_path_ID}, function(response){
-		    	console.log(response);
-		    	$scope.path_name = response.path.name;
-		    });
 		}, 2000);
 	}
 
@@ -2473,11 +2469,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  	$scope.currentURL = location.href;
 		setTimeout(function () {
 			$scope.questStoryList = [$filter('filter')($scope.stories, passed_in_storyID)];
+			$scope.storyModel = $resource('/jsonapi/story/:storyID');
+			$scope.story_name = $scope.questStoryList[0][0].name;
 	    }, 2000);
-	    $scope.storyModel = $resource('/jsonapi/story/:storyID');
-	    $scope.storyModel.get({"storyID":passed_in_storyID}, function(response){
-            $scope.story_name = response.name;
-	    });	
     }
 
     var abc = 0;
