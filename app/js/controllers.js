@@ -707,7 +707,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			$scope.newChallengeID = response.id;
 		});
 		
-		setTimeout('window.location="index.html#/challenges"',500);
+		setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
 	
