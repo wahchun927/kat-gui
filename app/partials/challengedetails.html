@@ -168,7 +168,7 @@
 			<div style="overflow-x:hidden" ng-show="submittedPlayers.length>0">
 				<table class="table table-condensed">
 					<tr>
-						<th class="SubmittedPlayers_SN">S/N</th>
+						<th class="SubmittedPlayers_SN">{{S/N}}</th>
 						<th class="SubmittedPlayers_Name">Name</th>
 						<th class="SubmittedPlayers_Location">Location</th>						
 						<th class="SubmittedPlayers_RegDate">Registration Date</th>	
@@ -188,9 +188,9 @@
 							<span align="center"><input type="image" ng-src="{{regPlayer.countryFlagURL}}" height="25px"/ >
 							</span>
 						</td>
-						<td class="SubmittedPlayers_RegDate">{{regPlayer}}</td>
-						<td class="SubmittedPlayers_UnlockedDate">{{regPlayer}}</td>
-						<td class="SubmittedPlayers_Msg">Hi There!</td>
+						<td class="SubmittedPlayers_RegDate">{{regPlayer.playerRegisteredDate}}</td>
+						<td class="SubmittedPlayers_UnlockedDate">{{regPlayer.playerUnlockedDate}}</td>
+						<td class="SubmittedPlayers_Msg">{{regPlayer.playerFeedback}}</td>
 					</tr>
 				</table>
 			</div>
