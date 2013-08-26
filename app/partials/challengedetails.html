@@ -180,17 +180,17 @@
 					<tr ng-repeat="subPlayer in submittedPlayers">
 						<td class="SubmittedPlayers_SN">{{$index+1}}</td>
 						<td class="SubmittedPlayers_Name">
-							<span align="center"><input type="image" ng-src="{{regPlayer.gravatar}}" height="35px"/ >
+							<span align="center"><input type="image" ng-src="{{subPlayer.gravatar}}" height="35px"/ >
 							&nbsp&nbsp</span>
 							<span align="center">{{regPlayer.nickname}}</span>
 						</td>
 						<td class="SubmittedPlayers_Location">">
-							<span align="center"><input type="image" ng-src="{{regPlayer.countryFlagURL}}" height="25px"/ >
+							<span align="center"><input type="image" ng-src="{{subPlayer.countryFlagURL}}" height="25px"/ >
 							</span>
 						</td>
-						<td class="SubmittedPlayers_RegDate">{{regPlayer}}</td>
-						<td class="SubmittedPlayers_UnlockedDate">{{regPlayer}}</td>
-						<td class="SubmittedPlayers_Msg">Hi There!</td>
+						<td class="SubmittedPlayers_RegDate">{{subPlayer.playerRegisteredDate}}</td>
+						<td class="SubmittedPlayers_UnlockedDate">{{subPlayer.playerUnlockedDate}}</td>
+						<td class="SubmittedPlayers_Msg">{{subPlayer.playerFeedback}}</td>
 					</tr>
 				</table>
 			</div>
