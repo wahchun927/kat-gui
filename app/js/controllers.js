@@ -248,12 +248,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				$scope.mobile_paths = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
 				$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 1);
 			}
+			$scope.path_name = $scope.paths.paths[0].name;
 			$('#largeSelectPlay').click();
-			$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
-		    $scope.pathModel.get({"pathID":passed_in_path_ID}, function(response){
-		    	console.log(response);
-		    	$scope.path_name = response.path.name;
-		    });
 		}, 2000);
 	}
 
@@ -561,6 +557,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.countryModel = $resource('/jsonapi/all_countries');
 	$scope.countryModel.get({}, function(response){
 		$scope.ListAllCountries = response.countries;	
+		$scope.chLocation = {type : $scope.ListAllCountries[1].id};
 	});
 	
 	// difficulty levels
@@ -586,6 +583,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
 
+	
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -691,7 +689,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-
+		console.log($scope.chLocation);
 		if($scope.chLocation!=""){
 			$scope.newChallenge.allowedCountries.push($scope.chLocation);
 		}    
@@ -707,7 +705,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			$scope.newChallengeID = response.id;
 		});
 		
-		setTimeout('window.location="index.html#/challenges"',1000);
+		//setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
 	
@@ -1043,26 +1041,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		//alert($scope.challenge_msg_submission);
 		//alert($scope.attachment_Name);
 
-		$http.post('/jsonapi/challenge_submit?challenge_id='+$scope.challenge_msg_submission, 
-					JSON.stringify({
-						player_message:$scope.player_msg,
-						attachmentName:$scope.attachment_Name,
-						attachmentContent:$scope.attachment_content
-					}), 
-					{
-						withCredentials: true,
-						headers: {'Content-Type': undefined},
-						transformRequest: angular.identity
-					}).success(function (data,status,headers,config){
-						window.console.log(data);
-						alert("You are successfully submitted your message");
-					}).error(function (data, status, headers, config){
-						window.console.log(data);
-						alert("You are unable to submit your message");
-					});
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/submit_challenge_message/'+$scope.challenge_msg_submission, {
+							player_message:$scope.player_msg
+		}).success(function (data, status, headers, config) {
+			window.console.log(data);
+			alert("You are successfully submitted your message");
+		}).error(function (data, status, headers, config) {
+			window.console.log(data);
+			alert("You are unable to submit your message");
+		});
 	}
 
-	$scope.set_file = function(element){
+	/*$scope.set_file = function(element){
 		$scope.files = new FormData();
 		$scope.file_name = '';
    		$scope.$apply(function($scope) {
@@ -1073,7 +1064,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     		$scope.files.append("file", element.files[0]);
       	});
 
-	}
+	}*/
 
 
 	//*******************************Miscellaneous Functions*********************************
@@ -2480,11 +2471,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	  	$scope.currentURL = location.href;
 		setTimeout(function () {
 			$scope.questStoryList = [$filter('filter')($scope.stories, passed_in_storyID)];
+			$scope.storyModel = $resource('/jsonapi/story/:storyID');
+			$scope.story_name = $scope.questStoryList[0][0].name;
 	    }, 2000);
-	    $scope.storyModel = $resource('/jsonapi/story/:storyID');
-	    $scope.storyModel.get({"storyID":passed_in_storyID}, function(response){
-            $scope.story_name = response.name;
-	    });	
     }
 
     var abc = 0;
