@@ -61,6 +61,7 @@
             </div>
             <div class="well well-small" align="center" ng-show="single_challenge.challenge._playerRegistered == true">
                 <p>You are already registered for this challenge!!</p>
+				<p><a type = "button" ng-click = "goToGeneratedURL(single_challenge)">Play Challenge Game</a></p>
             </div>
             <div align="center" ng-show="single_challenge.challenge._playerRegistered == false">
                 <button type="button" class="btn btn-primary" style="height: 33px; width: 250px" ng-click="register_me(single_challenge.challenge.challenge_id)">Register Me!</button>
