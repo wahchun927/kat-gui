@@ -540,6 +540,7 @@ function BadgeController($scope,$resource){
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore,$http){
+	$scope.defaultCountry = "";
 	//variable for badge challenge
 	$resource('/jsonapi/get_game_paths').get({},function(response){
 		$scope.paths = response;
@@ -552,12 +553,12 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	});
 		
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
-	
 	// retrieve all countries
 	$scope.countryModel = $resource('/jsonapi/all_countries');
 	$scope.countryModel.get({}, function(response){
 		$scope.ListAllCountries = response.countries;	
 		$scope.chLocation = {type : $scope.ListAllCountries[1].id};
+		$scope.defaultCountry = $scope.chLocation.type;
 	});
 	
 	// difficulty levels
@@ -689,12 +690,14 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-		console.log($scope.chLocation);
-		if($scope.chLocation!=""){
-			$scope.newChallenge.allowedCountries.push($scope.chLocation);
+		console.log($scope.chLocation.type + " " +$scope.defaultCountry);
+		if($scope.chLocation.type==$scope.defaultCountry){
+			$scope.newChallenge.allowedCountries = [];
+			$scope.newChallenge.worldwide = 1;
 		}    
 		else{
-			$scope.newChallenge.allowedCountries = [];
+			$scope.newChallenge.allowedCountries.push($scope.chLocation.type);
+			$scope.newChallenge.worldwide = 0;
 		}
 	
 		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
