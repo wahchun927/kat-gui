@@ -551,7 +551,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			
 	    }	
 	});
-		
+	$scope.mobilePaths = $resource('/jsonapi/mobile_paths').query();
+	
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
 	// retrieve all countries
 	$scope.countryModel = $resource('/jsonapi/all_countries');
@@ -699,15 +700,75 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			$scope.newChallenge.allowedCountries.push($scope.chLocation.type);
 			$scope.newChallenge.worldwide = 0;
 		}
-	
-		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-		new_challenge.$save(function(response){
-			$scope.challenge = response;
-			console.log("new badge "+response);
-			$scope.newChallengeID = response.id;
-		});
-		
+		if($scope.newChallenge.name==""){
+			alert("The challenge name cannot be empty!");
+		}
+		else if($scope.newChallenge.description==""){
+			alert("The challenge description cannot be empty!");
+		}
+		else if($scope.newChallenge.publicMessage==""){
+			alert("The challenge public Message cannot be empty!");
+		}
+		else if($scope.newChallenge.privateMessage==""){
+			alert("The challenge private Message cannot be empty!");
+		}
+		else{
+			//validate attribute of badge challenge
+			if($scope.newChallenge.challengeType=='Badge'){
+
+				if($scope.newChallenge.unlockRequiredBadges[0]==null){
+					alert("Please choose at least one badge!");
+				}
+				else{
+					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+					new_challenge.$save(function(response){
+						$scope.challenge = response;
+						console.log("new badge "+response);
+						$scope.newChallengeID = response.id;
+					});
+				}
+			}
+			//validate attribute of habit challenge
+			else if($scope.newChallenge.challengeType=='Habit'){
+				if($scope.newChallenge.pathID==""){
+					alert("Please choose the language!");
+				}
+				else if($scope.newChallenge.problemsPerDay==""){
+					alert("Please choose the number of problems Per Day!");
+				}
+				else if($scope.newChallenge.totalDays==""){
+					alert("Please choose the total number of days!");
+				}
+				else{
+					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+					new_challenge.$save(function(response){
+						$scope.challenge = response;
+						console.log("new badge "+response);
+						$scope.newChallengeID = response.id;
+					});
+				}
+			}
+			//validate attribute of quest challenge
+			else if($scope.newChallenge.challengeType=='Quest'){
+				if($scope.newChallenge.pathID==""){
+					alert("Please choose the Path ID!");
+				}
+				else if($scope.newChallenge.storyID==""){
+				    alert("Please choose the Story ID!");
+				}
+				else{
+					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+					new_challenge.$save(function(response){
+						$scope.challenge = response;
+						console.log("new badge "+response);
+						$scope.newChallengeID = response.id;
+					});
+				}
+			}
+		}
 		//setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
@@ -1100,6 +1161,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			window.location.reload();
 		};
 }
+
 
 function NormalGameController($scope,$resource,$cookieStore){
         //$scope.currentProblem
