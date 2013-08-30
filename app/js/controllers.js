@@ -1115,7 +1115,7 @@ function NormalGameController($scope,$resource,$cookieStore){
         */
         $scope.skip_problem_count = 0;
         $scope.current_problem_index = 0;
-        $scope.permutation = "12345"; 
+        $scope.permutation = "12345";
 
         if($cookieStore.get("name")){
           $scope.qid = $cookieStore.get("name").id; //retrieve quest id from Storyboard page
@@ -1258,6 +1258,8 @@ function NormalGameController($scope,$resource,$cookieStore){
             $scope.current_problem_index = $scope.game.problemIDs.indexOf($scope.current_problem);
             $scope.solution1 = $scope.game.problems.problems[$scope.current_problem_index].skeleton;
             $scope.solution_check_result = null;
+            var editor = ace.edit("editor");
+            editor.getSession().setMode("ace/mode/" + $scope.game.problems.problems[$scope.current_problem_index].interface.codeHighlightKey);
           }else{
             $scope.current_problem=null;
             $scope.current_problem_index = null;
