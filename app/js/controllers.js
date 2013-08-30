@@ -663,7 +663,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
-		
 		$scope.newChallenge = {};
 		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
@@ -715,7 +714,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		else{
 			//validate attribute of badge challenge
 			if($scope.newChallenge.challengeType=='Badge'){
-
+				$scope.newChallenge.pathID = $scope.selectedPath[0];
 				if($scope.newChallenge.unlockRequiredBadges[0]==null){
 					alert("Please choose at least one badge!");
 				}
@@ -1161,7 +1160,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 			window.location.reload();
 		};
 		
-	//url generation in registration page
 	$scope.goToGeneratedURL = function(single_challenge){
 		$scope.challengeURL = "";
 		console.log(single_challenge);
