@@ -47,12 +47,8 @@ function PlayerController($scope,$resource,$location,$cookieStore){
     },true);
 	
 	$scope.addTag = function(addedTag){
-		if($scope.player.tags.indexOf(addedTag) > -1){
-			alert("This tag is alread in the list, please select antoher one!");
-		}
-		else{
-			$scope.player.tags.push(addedTag);
-		}
+			$scope.player.tags = addedTag.split(",");
+
   	};
 	
 	$scope.firstLoad=function(paid){
