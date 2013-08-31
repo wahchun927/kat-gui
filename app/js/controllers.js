@@ -1570,6 +1570,8 @@ function PracticeGameController($scope,$resource,$cookieStore){
             $scope.current_problem_index = $scope.game.problemIDs.indexOf($scope.current_problem);
             $scope.solution1 = $scope.game.problems.problems[$scope.current_problem_index].skeleton;
             $scope.solution_check_result = null;
+            var editor = ace.edit("editorPractice");
+            editor.getSession().setMode("ace/mode/" + $scope.game.problems.problems[$scope.current_problem_index].interface.codeHighlightKey);
           }else{
             $scope.current_problem=null;
             $scope.current_problem_index = null;
