@@ -659,6 +659,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
+		alert($scope.selectedPath[0]);
 		$scope.newChallenge = {};
 		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
@@ -2989,7 +2990,10 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 	$scope.feedback_sent = false;
 	//$scope.title = "Some feedback on SingPath";
 	//$scope.description = "I just wanted to let you know that ..";	
-
+	$scope.hideModal = function(){
+      $('#thanks').modal('hide');
+	  window.location.reload();
+    };
 	$scope.create_feedback = function(title,des,type){
 		console.log(title+" "+des+" "+type);
 		$scope.newFeedback = {};
@@ -3003,7 +3007,7 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 			new_feedback.$save(function(response){
 				$scope.feedback = response;
 				//Hide the form
-				$scope.feedback_sent = true;
+				$('#thanks').modal('show');
 				//$('#thanks').modal('show');
 				//window.location.reload();				
 			});		
