@@ -778,13 +778,16 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
       $location.path("challenges");
 
     };
-     $scope.goToRegistration=function(challenge_id)
+     $scope.goToRegistration = function(challenge_id)
     {
     	$cookieStore.put("challengeID", challenge_id)
     	$location.path("registration");
 
     };
-	
+	$scope.goToChallengeEdit = function(challenge_id){
+	    $cookieStore.put("challengeID", challenge_id)
+    	$location.path("challengeCreator");
+	}
 	$scope.goToChallengeStats=function(challenge_id)
     {
     	$cookieStore.put("challengeID", challenge_id)
