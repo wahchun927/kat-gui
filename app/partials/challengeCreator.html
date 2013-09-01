@@ -134,14 +134,8 @@
                     <tr>
                         <th>Story Name</th>
                         <th>
-							<select ng-model="storyID" ng-options="story.id as story.name for story in pubStories"></select>			
+							<select ng-model="storyID" ng-options="story.id as story.name for story in pubStories" ng-init="storyID=pubStories[0].id"></select>			
 						</th>
-                    </tr>
-                    <tr>
-                        <th>Path</th>
-                        <th>
-							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
-                        </th>
                     </tr>
                     <tr>
                         <th>Level</th>
@@ -149,7 +143,18 @@
 							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
                         </th>
                     </tr>
-
+                    <tr ng-show="difficulty!='Drag-n-Drop'">
+                        <th>Path</th>
+                        <th>
+							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+                        </th>
+                    </tr>
+                    <tr ng-show="difficulty=='Drag-n-Drop'">
+                        <th>Path</th>
+                        <th>
+							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                        </th>
+                    </tr>
                 </table>
         </div>
         <div class="span6 well" id="habitChallenge" ng-show="chType=='Habit'">
@@ -159,15 +164,21 @@
                 <br>
                 <table>
                     <tr>
+                        <th>Difficulty</th>
+                        <th>
+							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Drag-n-Drop'"></select>
+                        </th>
+                    </tr>
+                    <tr ng-show="difficulty!='Drag-n-Drop'">
                         <th>Language</th>
                         <th>
 							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
-                    <tr>
-                        <th>Difficulty</th>
+                    <tr ng-show="difficulty=='Drag-n-Drop'">
+                        <th>Language</th>
                         <th>
-							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
+							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                         </th>
                     </tr>
                     <tr>
