@@ -376,10 +376,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	$scope.changePath = function (pathid){
 		$scope.path_ID = pathid;
 		$scope.update_path_progress(pathid);
+	    $scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":pathid}, function(response){
 	    	$scope.current_path_name = response.path.name;
 	    });
-	    $scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		if(pathid != "" && $scope.difficulty != ""){
 			$location.search({path_ID: pathid, difficulty: $scope.difficulty});
 		}
