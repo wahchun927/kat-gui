@@ -1110,6 +1110,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		}).success(function (data, status, headers, config) {
 			window.console.log(data);
 			alert("You are successfully submitted your message");
+			$location.path("challenges");
 		}).error(function (data, status, headers, config) {
 			window.console.log(data);
 			alert("You are unable to submit your message");
