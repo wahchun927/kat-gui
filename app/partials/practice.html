@@ -222,6 +222,13 @@ li{ list-style:none; }
 									</br>
 									Path Name : {{path_name}}
 								</span>
+								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') == -1 && currentURL.indexOf('difficulty') == -1">
+									<b><i>You are going to play</i></b>
+									</br></br>
+									Diffculty : {{difficulty}}
+									</br>
+									Path Name : {{practice_path_name}}
+								</span>
 								<!-- </form> -->
 							</td></tr>
 							<tr><td>
@@ -384,6 +391,13 @@ li{ list-style:none; }
 									Diffculty : {{difficulty}}
 									</br>
 									Path Name : {{path_name}}
+								</span>
+								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') == -1 && currentURL.indexOf('difficulty') == -1">
+									<b><i>You are going to play</i></b>
+									</br></br>
+									Diffculty : {{difficulty}}
+									</br>
+									Path Name : {{practice_path_name}}
 								</span>
 								<!-- </form> -->
 							</td></tr>
