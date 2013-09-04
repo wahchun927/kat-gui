@@ -784,7 +784,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	
     $scope.goToChallengeD=function()
     {
-      $location.path("challengedetails");
+      $location.path("challengestatistics");
 
     };
     $scope.backtoChallenges=function()
@@ -805,7 +805,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.goToChallengeStats=function(challenge_id)
     {
     	$cookieStore.put("challengeID", challenge_id)
-    	$location.path("challengedetails");
+    	$location.path("challengestatistics");
 
     };
 	
@@ -987,17 +987,17 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	
 	
 	
-	//3. Challengedetails.html - Load stats for each challenge
+	//3. challengestatistics.html - Load stats for each challenge
 	$scope.all_players= function(){
 		var challengeId = $cookieStore.get("challengeID");
 		//alert(challengeId);
 	
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players
 			$scope.all_the_players = [];
 			console.log($scope.challengePlayers.length);
-			//$scope.RegDate=challengeDetails.substring(0,9).trim();
+			//$scope.RegDate=challengestatistics.substring(0,9).trim();
 			for(var i=0;i<$scope.challengePlayers.length;i++){
 				var full_date = $scope.challengePlayers[i].playerRegisteredDate;
 				var exact_date = full_date.lastIndexOf(' ');
@@ -1012,8 +1012,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		var challengeId = $cookieStore.get("challengeID");
 		//alert(challengeId);
 
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;
 			$scope.challenge_id_display = response.challenge.description;	
 			$scope.registeredPlayers=[];
@@ -1033,8 +1033,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		//3c. Unlocked players	
 	$scope.unlocked_players= function(){
 		var challengeId = $cookieStore.get("challengeID");
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.unlockedPlayers=[];
 			//if playerUnlocked=true
@@ -1057,8 +1057,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		//3d. Submitted players	 
 	$scope.submitted_players= function(){
 		var challengeId = $cookieStore.get("challengeID");
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.submittedPlayers=[];
 			//if playerSubmitted=true
@@ -1086,8 +1086,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		var challengeId = $cookieStore.get("challengeID");
 		//var $scope.player_challenge_details = {};
 		//alert(challengeId);
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;
 
 			console.log("number of registered players" + $scope.challengePlayers.length);
