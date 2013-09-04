@@ -157,9 +157,17 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 					"tags":$scope.player.tags,
                     "gender":$scope.player.gender};
 
-        $scope.UpdateProfile = $resource('/jsonapi/update_player_profile');
-        var item = new $scope.UpdateProfile(data);
-        $scope.item = item.$save(); 
+        $http.post("/jsonapi/update_player_profile", data)
+            .success(function (data, status, headers, config) {
+                window.console.log(data);
+                $scope.player = data;
+
+            }).error(function (data, status, headers, config) {
+                $scope.status = status;
+            }); 
+            
+        //$route.reload('profile');
+        window.location.reload('profile')
     };
     
     $scope.log_event = function($event){  
