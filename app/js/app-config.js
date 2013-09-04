@@ -8,7 +8,7 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
     $routeProvider.when('/teach', {templateUrl: 'partials/teach.html', controller: IndexController});
     $routeProvider.when('/storyboard', {templateUrl: 'partials/storyboard.html', controller: IndexController});
     $routeProvider.when('/story', {templateUrl: 'partials/story.html', controller: IndexController});
-	$routeProvider.when('/challengedetails', {templateUrl: 'partials/challengedetails.html', controller: IndexController});
+	$routeProvider.when('/challengestatistics', {templateUrl: 'partials/challengestatistics.html', controller: IndexController});
 	$routeProvider.when('/ranking', {templateUrl: 'partials/ranking.html', controller: IndexController});
 	$routeProvider.when('/registration', {templateUrl: 'partials/registration.html', controller: IndexController});
     $routeProvider.when('/challengeCreator', {templateUrl: 'partials/challengeCreator.html', controller: IndexController});

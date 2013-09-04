@@ -112,11 +112,11 @@ describe('Loading all partials defined by routings', function() {
       if (pauseAll) pause();
   });
 
-  it('should render challengedetails when user navigates to #challengedetails', function() {
+  it('should render challengestatistics when user navigates to #challengestatistics', function() {
       
-      browser().navigateTo('#challengedetails');
+      browser().navigateTo('#challengestatistics');
       
-      expect(browser().location().url()).toBe("/challengedetails");
+      expect(browser().location().url()).toBe("/challengestatistics");
       //You can select all the text from all h5 or any other html element
       //expect(element('.ng-binding').text()).
       //  toMatch("Welcome, Ruijun!");
