@@ -47,10 +47,10 @@
 	
 	th.SubmittedPlayers_SN, td.SubmittedPlayers_SN{width:5%;}
     th.SubmittedPlayers_Name, td.SubmittedPlayers_Name{width:15%;}
-    th.SubmittedPlayers_Location, td.SubmittedPlayers_Location{width:10%;}
-    th.SubmittedPlayers_RegDate, td.SubmittedPlayers_RegDate{width:15%;}
-	th.SubmittedPlayers_UnlockedDate, td.SubmittedPlayers_UnlockedDate{width:15%;}
-    th.SubmittedPlayers_Msg, td.SubmittedPlayers_Msg{width:40%;}
+    th.SubmittedPlayers_Location, td.SubmittedPlayers_Location{width:15%;}
+    th.SubmittedPlayers_RegDate, td.SubmittedPlayers_RegDate{width:17.5%;}
+	th.SubmittedPlayers_UnlockedDate, td.SubmittedPlayers_UnlockedDate{width:17.5%;}
+    th.SubmittedPlayers_Msg, td.SubmittedPlayers_Msg{width:30%;}
 
 
 </style>
@@ -81,12 +81,12 @@
 					<tr ng-repeat="player in challengePlayers">
 						<td class="AllPlayers_SN">{{$index+1}}</td>
 						<td class="AllPlayers_Name">
-							<span align="center"><input type="image" ng-src="{{player.gravatar}}" height="35px"/ >
+							<span align="left"><input type="image" ng-src="{{player.gravatar}}" height="35px"/ >
 							&nbsp&nbsp</span>
-							<span align="center">{{player.nickname}}</span>
+							<span align="left">{{player.nickname}}</span>
 						</td>
 						<td class="AllPlayers_Location">
-							<span align="center"><input type="image" ng-src="{{player.countryFlagURL}}" height="25px"/ >
+							<span align="center"><input type="image" ng-src="{{player.countryFlagURL}}" height="35px"/ >
 							</span>
 						</td>						
 						<td class="AllPlayers_RegDate">{{player.playerRegisteredDate}}</td>
@@ -113,12 +113,12 @@
 					<tr ng-repeat="regPlayer in registeredPlayers">
 						<td class="RegisteredPlayers_SN">{{$index+1}}</td>
 						<td class="RegisteredPlayers_Name">
-							<span align="center"><input type="image" ng-src="{{regPlayer.gravatar}}" height="35px"/ >
+							<span align="left"><input type="image" ng-src="{{regPlayer.gravatar}}" height="35px"/ >
 							&nbsp&nbsp</span>
-							<span align="center">{{regPlayer.nickname}}</span>
+							<span align="left">{{regPlayer.nickname}}</span>
 						</td>
 						<td class="RegisteredPlayers_Location">
-							<span align="center"><input type="image" ng-src="{{regPlayer.countryFlagURL}}" height="25px"/ >
+							<span align="center"><input type="image" ng-src="{{regPlayer.countryFlagURL}}" height="35px"/ >
 							&nbsp&nbsp</span>
 						</td>
 						<td class="RegisteredPlayers_RegDate">{{regPlayer.playerRegisteredDate}}</td>	
@@ -146,12 +146,12 @@
 					<tr ng-repeat="unlockedPlayer in unlockedPlayers">
 						<td class="UnlockedPlayers_SN">{{$index+1}}</td>
 						<td class="UnlockedPlayers_Name">
-							<span align="center"><input type="image" ng-src="{{unlockedPlayer.gravatar}}" height="35px"/ >
+							<span align="left"><input type="image" ng-src="{{unlockedPlayer.gravatar}}" height="35px"/ >
 							&nbsp&nbsp</span>
-							<span align="center">{{unlockedPlayer.nickname}}</span>
+							<span align="left">{{unlockedPlayer.nickname}}</span>
 						</td>
 						<td class="UnlockedPlayers_Location">
-							<span align="center"><input type="image" ng-src="{{unlockedPlayer.countryFlagURL}}" height="25px"/ >
+							<span align="center"><input type="image" ng-src="{{unlockedPlayer.countryFlagURL}}" height="35px"/ >
 							&nbsp&nbsp</span>
 						</td>
 						<td class="UnlockedPlayers_RegDate">{{unlockedPlayer.playerRegisteredDate}}</td>
@@ -185,7 +185,7 @@
 							<span align="center">{{subPlayer.nickname}}</span>
 						</td>
 						<td class="SubmittedPlayers_Location">
-							<span align="center"><input type="image" ng-src="{{subPlayer.countryFlagURL}}" height="25px"/ >
+							<span align="center"><input type="image" ng-src="{{subPlayer.countryFlagURL}}" height="35px"/ >
 							</span>
 						</td>
 						<td class="SubmittedPlayers_RegDate">{{subPlayer.playerRegisteredDate}}</td>

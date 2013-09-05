@@ -38,7 +38,7 @@ function Ctrl($scope) {
   $scope.color = 'blue';
 }
 
-function PlayerController($scope,$resource,$location,$cookieStore){
+function PlayerController($scope,$resource,$location,$cookieStore,$http){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.player = $resource('/jsonapi/player').get();
 	$scope.tags = $resource('/jsonapi/tags').get();
