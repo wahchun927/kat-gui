@@ -442,8 +442,13 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			}
 		}
 		else{
-			console.log("Please clear previous level problems to unlock this level!");
+			$('#levelBlock').modal('show');
+			//console.log("Please clear previous level problems to unlock this level!");
 		}
+	};
+	
+	$scope.hideModal = function(){
+		$('#levelBlock').modal('hide');
 	};
 			
     $scope.get_player_progress = function(){
