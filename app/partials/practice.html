@@ -36,7 +36,7 @@ H5 {FONT-SIZE: 11pt;}
 }
 
 .selected {
-  background-color: #C0C0C0;
+  background-color: #545454;
 }
 
 #paths input {
@@ -222,6 +222,13 @@ li{ list-style:none; }
 									</br>
 									Path Name : {{path_name}}
 								</span>
+								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') == -1 && currentURL.indexOf('difficulty') == -1">
+									<b><i>You are going to play</i></b>
+									</br></br>
+									Diffculty : {{difficulty}}
+									</br>
+									Path Name : {{practice_path_name}}
+								</span>
 								<!-- </form> -->
 							</td></tr>
 							<tr><td>
@@ -385,6 +392,13 @@ li{ list-style:none; }
 									</br>
 									Path Name : {{path_name}}
 								</span>
+								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') == -1 && currentURL.indexOf('difficulty') == -1">
+									<b><i>You are going to play</i></b>
+									</br></br>
+									Diffculty : {{difficulty}}
+									</br>
+									Path Name : {{practice_path_name}}
+								</span>
 								<!-- </form> -->
 							</td></tr>
 							<tr><td>
@@ -399,6 +413,14 @@ li{ list-style:none; }
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="levelBlock" style="display:none">    		
+		<div class="modal-body" style="color:black">
+			Please clear previous level problems to unlock this level!
+		</div>
+		<div class="modal-footer">
+			<a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click='hideModal()'>Back</button></a>
 		</div>
 	</div>
 </div>

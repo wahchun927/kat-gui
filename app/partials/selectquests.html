@@ -53,7 +53,7 @@
 }
 
 .selected {
-    background-color: #C0C0C0;
+    background-color: #545454;
 }
 
 #paths input {
@@ -107,7 +107,7 @@ input:hover{
 				                <!-- Three columns of text below the carousel -->
 								<div class="container">
 									<div class="row">	
-										<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColor($first)">
+										<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColor()">
 											<label class="radio">
 											<input type="radio" style="visibility:hidden" ng-click="updateURL(storyid,difficulty,path_ID)" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 											<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
@@ -150,7 +150,7 @@ input:hover{
 									<h4 class="well well-small" align="center" id="well-c">#3. Select a Language</h4>
 								</div>
 								<div class="well well-small">	
-									<div style="height:220px;overflow:auto;margin-top:5px" ng-hide="$parent.difficulty=='Drag-n-Drop'">
+									<div style="height:220px;overflow:auto;margin-top:5px" ng-hide="difficulty=='Drag-n-Drop'">
 										<div ng-repeat="item in paths.paths" id="paths" ng-init="pathSelection()">
 											<label>
 												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_ID,paths.paths.length)" ng-model="$parent.path_ID" name="is_private" value="{{item.id}}" id="path">
@@ -159,7 +159,7 @@ input:hover{
 											</label>		
 										</div>
 									</div>
-									<div style="height:220px;overflow:auto;margin-top:5px" ng-show="$parent.difficulty=='Drag-n-Drop'">
+									<div style="height:220px;overflow:auto;margin-top:5px" ng-show="difficulty=='Drag-n-Drop'">
 										<div  ng-repeat="item in mobile_paths" id="paths" ng-init="pathSelection()" >
 											<label>
 												<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_ID,paths.paths.length)" ng-model="$parent.path_ID" name="is_private" value="{{item.path_id}}" id="path">
@@ -192,6 +192,15 @@ input:hover{
 											<div  ng-show="difficulty && path_ID && storyid && player.nickname">
 											<!-- <form action="#storyboard"> -->
 												<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_ID,difficulty)" style="width: 145px"><h1>Go!</h1></button>
+												<span class="label label-info" align="left">
+													<b><i>You are going to play</i></b>
+													</br></br>
+													Diffculty : {{difficulty}}
+													</br>
+													Path Name : {{quest_path_name}}
+													</br>
+													Story Name : {{current_story_name}}
+												</span>
 											<!-- </form> -->
 											</div>
 										</td>
@@ -262,7 +271,7 @@ input:hover{
 										<h4 class="well well-small" align="center" id="well-c">#3. Select a Language</h4>
 									</div>
 									<div class="well well-small">
-										<div style="height:220px;overflow:auto" id="pathsSmall" ng-hide="$parent.difficulty=='Drag-n-Drop'">
+										<div style="height:220px;overflow:auto" id="pathsSmall" ng-hide="difficulty=='Drag-n-Drop'">
 											<div  ng-repeat="item in paths.paths" ng-init="pathSelectionSmall()">
 												<label>
 													<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_id,paths.paths.length)" ng-model="$parent.path_id" name="is_private" value="{{item.id}}" id="path">
@@ -271,7 +280,7 @@ input:hover{
 												</label>		
 											</div>
 										</div>
-										<div style="height:220px;overflow:auto" id="pathsSmall" ng-show="$parent.difficulty=='Drag-n-Drop'">
+										<div style="height:220px;overflow:auto" id="pathsSmall" ng-show="difficulty=='Drag-n-Drop'">
 											<div  ng-repeat="item in mobile_paths" ng-init="pathSelectionSmall()" >
 												<label>
 													<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_id,paths.paths.length)" ng-model="$parent.path_id" name="is_private" value="{{item.path_id}}" id="path">
@@ -307,6 +316,15 @@ input:hover{
 									<div  ng-show="difficulty && path_id && storyid && player.nickname">
 									<!-- <form action="#storyboard"> -->
 										<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_id,difficulty)" style="width: 100px"><h1>Go!</h1></button>
+										<span class="label label-info" align="left">
+											<b><i>You are going to play</i></b>
+											</br></br>
+											Diffculty : {{difficulty}}
+											</br>
+											Path Name : {{quest_path_name}}
+											</br>
+											Story Name : {{current_story_name}}
+										</span>
 									<!-- </form> -->
 									</div>
 									</td></tr>					

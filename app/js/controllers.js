@@ -38,7 +38,7 @@ function Ctrl($scope) {
   $scope.color = 'blue';
 }
 
-function PlayerController($scope,$resource,$location,$cookieStore){
+function PlayerController($scope,$resource,$location,$cookieStore,$http){
 	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
     $scope.player = $resource('/jsonapi/player').get();
 	$scope.tags = $resource('/jsonapi/tags').get();
@@ -157,9 +157,17 @@ function PlayerController($scope,$resource,$location,$cookieStore){
 					"tags":$scope.player.tags,
                     "gender":$scope.player.gender};
 
-        $scope.UpdateProfile = $resource('/jsonapi/update_player_profile');
-        var item = new $scope.UpdateProfile(data);
-        $scope.item = item.$save(); 
+        $http.post("/jsonapi/update_player_profile", data)
+            .success(function (data, status, headers, config) {
+                window.console.log(data);
+                $scope.player = data;
+
+            }).error(function (data, status, headers, config) {
+                $scope.status = status;
+            }); 
+            
+        //$route.reload('profile');
+        window.location.reload('profile')
     };
     
     $scope.log_event = function($event){  
@@ -211,6 +219,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.difficulty = "";
 		$scope.path_ID = "";
 		$scope.path_name = "";
+		$scope.practice_path_name = "";
 		$scope.currentURL = location.href;
 		
 		setTimeout(function () {
@@ -378,6 +387,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		if(pathid != "" && $scope.difficulty != ""){
 			$location.search({path_ID: pathid, difficulty: $scope.difficulty});
 		}
+		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
+		$scope.pathModel.get({"path_ID":pathid}, function(response){
+	    	$scope.practice_path_name = response.path.name;
+	    });
 	};
 	
 	//change the difficulty level as well as the path level detail table
@@ -429,8 +442,13 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			}
 		}
 		else{
-			console.log("Please clear previous level problems to unlock this level!");
+			$('#levelBlock').modal('show');
+			//console.log("Please clear previous level problems to unlock this level!");
 		}
+	};
+	
+	$scope.hideModal = function(){
+		$('#levelBlock').modal('hide');
 	};
 			
     $scope.get_player_progress = function(){
@@ -535,7 +553,7 @@ function BadgeController($scope,$resource){
 
 
 //to the list of challenges EDITED by viTech
-function ChallengeController($scope,$resource,$location,$cookieStore,$http){
+function ChallengeController($scope,$resource,$location,$cookieStore,$http,$route){
 	$scope.defaultCountry = "";
 	//variable for badge challenge
 	$resource('/jsonapi/get_game_paths').get({},function(response){
@@ -771,7 +789,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	
     $scope.goToChallengeD=function()
     {
-      $location.path("challengedetails");
+      $location.path("challengestatistics");
 
     };
     $scope.backtoChallenges=function()
@@ -792,7 +810,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	$scope.goToChallengeStats=function(challenge_id)
     {
     	$cookieStore.put("challengeID", challenge_id)
-    	$location.path("challengedetails");
+    	$location.path("challengestatistics");
 
     };
 	
@@ -893,8 +911,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     		$scope.registered_this_challenge = response;
 
     	});
-    	//$location.path("registration");
-    	window.location = "index.html#/challenges";
+    	$route.reload('registration');
+    	//window.location = "index.html#/registration";
+
 
     };
 	
@@ -974,17 +993,17 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 	
 	
 	
-	//3. Challengedetails.html - Load stats for each challenge
+	//3. challengestatistics.html - Load stats for each challenge
 	$scope.all_players= function(){
 		var challengeId = $cookieStore.get("challengeID");
 		//alert(challengeId);
 	
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players
 			$scope.all_the_players = [];
 			console.log($scope.challengePlayers.length);
-			//$scope.RegDate=challengeDetails.substring(0,9).trim();
+			//$scope.RegDate=challengestatistics.substring(0,9).trim();
 			for(var i=0;i<$scope.challengePlayers.length;i++){
 				var full_date = $scope.challengePlayers[i].playerRegisteredDate;
 				var exact_date = full_date.lastIndexOf(' ');
@@ -999,8 +1018,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		var challengeId = $cookieStore.get("challengeID");
 		//alert(challengeId);
 
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;
 			$scope.challenge_id_display = response.challenge.description;	
 			$scope.registeredPlayers=[];
@@ -1020,8 +1039,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		//3c. Unlocked players	
 	$scope.unlocked_players= function(){
 		var challengeId = $cookieStore.get("challengeID");
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.unlockedPlayers=[];
 			//if playerUnlocked=true
@@ -1044,8 +1063,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		//3d. Submitted players	 
 	$scope.submitted_players= function(){
 		var challengeId = $cookieStore.get("challengeID");
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;	
 			$scope.submittedPlayers=[];
 			//if playerSubmitted=true
@@ -1073,8 +1092,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		var challengeId = $cookieStore.get("challengeID");
 		//var $scope.player_challenge_details = {};
 		//alert(challengeId);
-		$scope.challengeDetailsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
-		$scope.challengeDetailsModel.get({"challengeId" :challengeId}, function(response){
+		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
+		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;
 
 			console.log("number of registered players" + $scope.challengePlayers.length);
@@ -1110,6 +1129,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
 		}).success(function (data, status, headers, config) {
 			window.console.log(data);
 			alert("You are successfully submitted your message");
+			$location.path("challenges");
 		}).error(function (data, status, headers, config) {
 			window.console.log(data);
 			alert("You are unable to submit your message");
@@ -2509,7 +2529,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 }
 
 //Test story controller. Normally use GenericController
-function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
+function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$route){
 	$scope.arrayVideo = [];
 	$scope.Videos = [];
 	$scope.newStoryID = "";
@@ -2527,6 +2547,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 	$scope.supportedPaths = [];
 	$scope.supportedPathNames = [];
 	$scope.story_name = "";
+	$scope.current_story_name = "";
+	$scope.quest_path_name = "";
 	$scope.currentURL = "";
 	
     $scope.StoryModel = $resource('/jsonapi/story');
@@ -2661,7 +2683,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 				$scope.newStoryID = response.id;
 			});
 		}
-		window.location.reload();
+		$route.reload('story');
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
@@ -2768,13 +2790,17 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});	
-		window.location.reload();
+		$route.reload('story');
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
+		$scope.storyModel = $resource('/jsonapi/story/:storyID');
+	    $scope.storyModel.get({"storyID":storyID}, function(response){
+            $scope.current_story_name = response.name;
+	    });
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
@@ -2795,6 +2821,10 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 			}
 			$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		}
+		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
+		$scope.pathModel.get({"path_ID":path_ID}, function(response){
+	    	$scope.quest_path_name = response.path.name;
+	    });
     }
 	
 	$scope.goToStory=function()

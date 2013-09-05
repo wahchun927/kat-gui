@@ -8,7 +8,7 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
     $routeProvider.when('/teach', {templateUrl: 'partials/teach.html', controller: IndexController});
     $routeProvider.when('/storyboard', {templateUrl: 'partials/storyboard.html', controller: IndexController});
     $routeProvider.when('/story', {templateUrl: 'partials/story.html', controller: IndexController});
-	$routeProvider.when('/challengedetails', {templateUrl: 'partials/challengedetails.html', controller: IndexController});
+	$routeProvider.when('/challengestatistics', {templateUrl: 'partials/challengestatistics.html', controller: IndexController});
 	$routeProvider.when('/ranking', {templateUrl: 'partials/ranking.html', controller: IndexController});
 	$routeProvider.when('/registration', {templateUrl: 'partials/registration.html', controller: IndexController});
     $routeProvider.when('/challengeCreator', {templateUrl: 'partials/challengeCreator.html', controller: IndexController});
@@ -16,6 +16,11 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
 	$routeProvider.when('/create', {templateUrl: 'partials/create_paths_and_levels.html', controller: IndexController});
     $routeProvider.when('/videos', {templateUrl: 'partials/videos.html', controller: IndexController});
     $routeProvider.when('/feedback', {templateUrl: 'partials/feedback.html', controller: IndexController});
+    $routeProvider.when('/b1', {templateUrl: 'bisa/b1.html', controller: IndexController});
+    $routeProvider.when('/b2', {templateUrl: 'bisa/b2.html', controller: IndexController});
+    $routeProvider.when('/b3', {templateUrl: 'bisa/b3.html', controller: IndexController});
+    $routeProvider.when('/b4', {templateUrl: 'bisa/b4.html', controller: IndexController});
+    $routeProvider.when('/b5', {templateUrl: 'bisa/b5.html', controller: IndexController});
     $routeProvider.otherwise({redirectTo: '/home'});
 }]);
 

@@ -34,13 +34,14 @@
     th.OpenC_Register, td.OpenC_Register					{width:10%;}
 	
 	<!--All Challenges : Registered Challenge-->
-    th.AcceptedC_Type, td.AcceptedC_Type					{width:20%;}
-    th.AcceptedC_Name, td.AcceptedC_Name					{width:20%;}
-	th.AcceptedC_Location, td.AcceptedC_Location			{width:20%;}
+    th.AcceptedC_Type, td.AcceptedC_Type					{width:10%;}
+    th.AcceptedC_Name, td.AcceptedC_Name					{width:15%;}
+	th.AcceptedC_Location, td.AcceptedC_Location			{width:10%;}
     th.AcceptedC_StartDate, td.AcceptedC_StartDate			{width:10%;}
     th.AcceptedC_EndDate, td.AcceptedC_EndDate				{width:10%;}
 	th.AcceptedC_Status, td.AcceptedC_Status				{width:10%;}
-	th.AcceptedC_Outcome, td.AcceptedC_Outcome				{width:10%;}	
+	th.AcceptedC_Outcome, td.AcceptedC_Outcome				{width:10%;}
+	th.AcceptedC_Msg, td.AcceptedC_Msg						{width:25%;}	
 
 	<!--My Creations : Challenges I've Made -->
 	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
@@ -122,6 +123,7 @@
 										<th class="AcceptedC_EndDate">EndDate</th>
 										<th class="AcceptedC_Status">Status</th>
 										<th class="AcceptedC_Outcome">Outcome</th>
+										<th class="AcceptedC_Msg">Submitted Message</th>
 
 									</tr>                                   
 							</table> 
@@ -138,6 +140,9 @@
 										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
 										<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
 										<td class="AcceptedC_Outcome" ng-hide ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
+										<td class="AcceptedC_Msg" ng-show ="Acceptedchallenge._playerUnlocked">{{Acceptedchallenge.playerFeedback}}</td>
+										<td class="AcceptedC_Msg" ng-hide ="Acceptedchallenge._playerUnlocked">You have not submitted any messages!</td>
+
 									</tr>  
 								</table>
 						</div>
