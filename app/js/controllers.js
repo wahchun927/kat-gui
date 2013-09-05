@@ -548,7 +548,7 @@ function BadgeController($scope,$resource){
 
 
 //to the list of challenges EDITED by viTech
-function ChallengeController($scope,$resource,$location,$cookieStore,$http){
+function ChallengeController($scope,$resource,$location,$cookieStore,$http,$route){
 	$scope.defaultCountry = "";
 	//variable for badge challenge
 	$resource('/jsonapi/get_game_paths').get({},function(response){
@@ -906,8 +906,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http){
     		$scope.registered_this_challenge = response;
 
     	});
-    	//$location.path("registration");
-    	window.location = "index.html#/challenges";
+    	$route.reload('registration');
+    	//window.location = "index.html#/registration";
+
 
     };
 	
@@ -2523,7 +2524,7 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 }
 
 //Test story controller. Normally use GenericController
-function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
+function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$route){
 	$scope.arrayVideo = [];
 	$scope.Videos = [];
 	$scope.newStoryID = "";
@@ -2677,7 +2678,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 				$scope.newStoryID = response.id;
 			});
 		}
-		window.location.reload();
+		$route.reload('story');
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
@@ -2784,7 +2785,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter){
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
 		});	
-		window.location.reload();
+		$route.reload('story');
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
