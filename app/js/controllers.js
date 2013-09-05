@@ -47,8 +47,16 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
     },true);
 	
 	$scope.addTag = function(addedTag){
-			$scope.player.tags = addedTag.split(",");
-
+		$scope.taglist = addedTag.split(",");
+		for(var i=0;i<$scope.taglist.length;i++){
+			if($scope.player.tags.indexOf($scope.taglist[i]) > -1){
+				alert("Duplicate tag is not allowed!");
+			}
+			else{
+				$scope.player.tags.push($scope.taglist[i]);
+			}
+		}
+		$scope.taglist=[];
   	};
 	
 	$scope.firstLoad=function(paid){
