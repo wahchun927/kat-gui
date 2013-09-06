@@ -195,7 +195,7 @@
 	<div class="row-fluid">
 	<div class="span12 well well-small">
 		
-		<div class="tabbable">
+		<div class="tabbable" ng-controller="PathController" ng-init="update_path_details();get_player_progress();list()">
 		  <ul class="nav nav-tabs">
 			<li class="tabspacing active">
 			  <a data-target="#quest" data-toggle="tab">Quest</a>
@@ -209,7 +209,7 @@
 		  </ul>
 		  <div class="tab-content">
 			<div class="tab-pane active" id="quest" ng-controller="QuestController">
-			    <div width="400px"style="width:98.7%; height:30px;" ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
+			    <div width="400px"style="width:98.7%; height:30px;" ng-model="filter">
 					<table class="table table-condensed">
 						<tr>
 							<th class="name">Quest Name</th>
@@ -234,7 +234,7 @@
 					</table>		
 				</div>
 			</div>
-			<div class="tab-pane" id="practice" ng-controller="PathController">
+			<div class="tab-pane" id="practice">
 			  <div width="400px"style="width:98.7%; height:30px">
 				<table class="table table-condensed">
 					<tr>
