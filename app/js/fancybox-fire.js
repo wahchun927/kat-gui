@@ -1,6 +1,10 @@
+var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+
 // Fires whenever a player has finished loading
 function onPlayerReady(event) {
-    event.target.playVideo();
+    if(!iOS){
+        event.target.playVideo();
+    }
 }
 
 // Fires when the player's state changes.
