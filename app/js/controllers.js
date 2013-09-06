@@ -624,7 +624,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
 	$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
-	dd= dd+1;
 	$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
 	
 	//retrieve published and user's own stories
