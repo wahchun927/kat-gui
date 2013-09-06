@@ -47,8 +47,16 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
     },true);
 	
 	$scope.addTag = function(addedTag){
-			$scope.player.tags = addedTag.split(",");
-
+		$scope.taglist = addedTag.split(",");
+		for(var i=0;i<$scope.taglist.length;i++){
+			if($scope.player.tags.indexOf($scope.taglist[i]) > -1){
+				alert("Duplicate tag is not allowed!");
+			}
+			else{
+				$scope.player.tags.push($scope.taglist[i]);
+			}
+		}
+		$scope.taglist=[];
   	};
 	
 	$scope.firstLoad=function(paid){
@@ -149,11 +157,19 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
 		}
 	};
 	
+	//retrieve country list for update profile purpose
+	$scope.countryModel = $resource('/jsonapi/all_countries');
+	$scope.countryModel.get({}, function(response){
+		$scope.ListAllCountries = response.countries;	
+		$scope.chLocation = {type : $scope.ListAllCountries[1].flagUrl};
+	});
+	
     $scope.update_player_profile = function($event){  
   
         var data = {"nickname":$scope.player.nickname,
                     "professional":$scope.player.professional,
                     "about":$scope.player.about,
+					"countryFlagURL":$scope.chLocation.type,
 					"tags":$scope.player.tags,
                     "gender":$scope.player.gender};
 
@@ -608,7 +624,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
 	$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
-	dd= dd+1;
 	$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
 	
 	//retrieve published and user's own stories
@@ -797,7 +812,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
       $location.path("challenges");
 
     };
-     $scope.goToRegistration = function(challenge_id)
+    $scope.goToRegistration = function(challenge_id)
     {
     	$cookieStore.put("challengeID", challenge_id)
     	$location.path("registration");
@@ -1183,16 +1198,15 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.goToGeneratedURL = function(single_challenge){
 		$scope.challengeURL = "";
 		console.log(single_challenge);
-			alert(single_challenge.challenge.storyID);
-		if(single_challenge.challengeType=="Quest"){
+		if(single_challenge.challenge.challengeType=="Quest"){
 			$scope.challengeURL = "index.html#/quests?storyID=" + single_challenge.challenge.storyID + "&difficulty="+ single_challenge.challenge.difficulty + "&path_ID=" + single_challenge.challenge.pathID;
 			window.location = $scope.challengeURL;
 		}
-		else if(single_challenge.challengeType=="Habit"){
+		else if(single_challenge.challenge.challengeType=="Habit"){
 			$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.challenge.pathID + "&difficulty="+ single_challenge.challenge.difficulty;
 			window.location = $scope.challengeURL;
 		}
-		else if(single_challenge.challengeType=="Badge"){
+		else if(single_challenge.challenge.challengeType=="Badge"){
 			$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.challenge.pathID + "&difficulty="+ single_challenge.challenge.difficulty;
 			window.location = $scope.challengeURL;
 		}
