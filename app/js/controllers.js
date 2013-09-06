@@ -157,19 +157,13 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
 		}
 	};
 	
-	//retrieve country list for update profile purpose
-	$scope.countryModel = $resource('/jsonapi/all_countries');
-	$scope.countryModel.get({}, function(response){
-		$scope.ListAllCountries = response.countries;	
-		$scope.chLocation = {type : $scope.ListAllCountries[1].flagUrl};
-	});
 	
     $scope.update_player_profile = function($event){  
   
         var data = {"nickname":$scope.player.nickname,
                     "professional":$scope.player.professional,
                     "about":$scope.player.about,
-					"countryFlagURL":$scope.chLocation.type,
+					"location":$scope.player.location,
 					"tags":$scope.player.tags,
                     "gender":$scope.player.gender};
 
