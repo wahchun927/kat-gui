@@ -1,6 +1,6 @@
 // Fires whenever a player has finished loading
 function onPlayerReady(event) {
-    //event.target.playVideo();
+    event.target.playVideo();
 }
 
 // Fires when the player's state changes.
