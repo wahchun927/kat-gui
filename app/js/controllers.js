@@ -47,8 +47,16 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
     },true);
 	
 	$scope.addTag = function(addedTag){
-			$scope.player.tags = addedTag.split(",");
-
+		$scope.taglist = addedTag.split(",");
+		for(var i=0;i<$scope.taglist.length;i++){
+			if($scope.player.tags.indexOf($scope.taglist[i]) > -1){
+				alert("Duplicate tag is not allowed!");
+			}
+			else{
+				$scope.player.tags.push($scope.taglist[i]);
+			}
+		}
+		$scope.taglist=[];
   	};
 	
 	$scope.firstLoad=function(paid){
@@ -149,11 +157,19 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
 		}
 	};
 	
+	//retrieve country list for update profile purpose
+	$scope.countryModel = $resource('/jsonapi/all_countries');
+	$scope.countryModel.get({}, function(response){
+		$scope.ListAllCountries = response.countries;	
+		$scope.chLocation = {type : $scope.ListAllCountries[1].flagUrl};
+	});
+	
     $scope.update_player_profile = function($event){  
   
         var data = {"nickname":$scope.player.nickname,
                     "professional":$scope.player.professional,
                     "about":$scope.player.about,
+					"countryFlagURL":$scope.chLocation.type,
 					"tags":$scope.player.tags,
                     "gender":$scope.player.gender};
 
@@ -608,7 +624,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
 	$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
-	dd= dd+1;
 	$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
 	
 	//retrieve published and user's own stories
