@@ -812,7 +812,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
       $location.path("challenges");
 
     };
-     $scope.goToRegistration = function(challenge_id)
+    $scope.goToRegistration = function(challenge_id)
     {
     	$cookieStore.put("challengeID", challenge_id)
     	$location.path("registration");
@@ -1198,16 +1198,15 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.goToGeneratedURL = function(single_challenge){
 		$scope.challengeURL = "";
 		console.log(single_challenge);
-			alert(single_challenge.challenge.storyID);
-		if(single_challenge.challengeType=="Quest"){
+		if(single_challenge.challenge.challengeType=="Quest"){
 			$scope.challengeURL = "index.html#/quests?storyID=" + single_challenge.challenge.storyID + "&difficulty="+ single_challenge.challenge.difficulty + "&path_ID=" + single_challenge.challenge.pathID;
 			window.location = $scope.challengeURL;
 		}
-		else if(single_challenge.challengeType=="Habit"){
+		else if(single_challenge.challenge.challengeType=="Habit"){
 			$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.challenge.pathID + "&difficulty="+ single_challenge.challenge.difficulty;
 			window.location = $scope.challengeURL;
 		}
-		else if(single_challenge.challengeType=="Badge"){
+		else if(single_challenge.challenge.challengeType=="Badge"){
 			$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.challenge.pathID + "&difficulty="+ single_challenge.challenge.difficulty;
 			window.location = $scope.challengeURL;
 		}
