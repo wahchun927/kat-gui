@@ -283,7 +283,7 @@
 							<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
 							<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
 							<td class="AcceptedC_Outcome">
-								<button id="resume" class="btn btn-info">Resume!</button>
+								<button id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
 							</td>
 						</tr>  
 					</table>
