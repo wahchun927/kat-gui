@@ -100,7 +100,7 @@
 									<td class="OpenC_Type">{{challenge.challengeType}}</th>
 									<td class="OpenC_Name">{{challenge.name}}</td>
 									<td class="OpenC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
-									<td class="OpenC_Location" ng-show="challenge.worldwide==0"><image ng-src="{{challenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
+									<td class="OpenC_Location" ng-show="challenge.worldwide==0">{{challenge.allowedCountries[0]}}</td>									
 									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
 									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
 									<td class="OpenC_Register" ng-show="challenge._playerRegistered==false" ><button class="btn btn-success" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)"> To register</button></td>

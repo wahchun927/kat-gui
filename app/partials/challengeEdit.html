@@ -119,8 +119,11 @@
                 </tr>
                 <tr>
                     <th style="text-align:left;">Location</th>
-                    <th>
-						<select ng-model="chLocation.type" ng-options="country.id as country.countryName for country in ListAllCountries"></select>
+                    <th ng-controller="PlayerController">
+						<select id="a" ng-model="chLocation">
+							<option value="World Wide">World Wide</option>
+							<option value="{{player.country}}">{{player.country}}</option>
+						</select>
 					</th>
                 </tr>
             </table>
