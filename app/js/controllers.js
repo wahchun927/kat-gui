@@ -1104,8 +1104,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
 		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;
+			$scope.challengeDetails = response.challenge;
 
-			console.log("number of registered players" + $scope.challengePlayers.length);
+			console.log("private message = " + $scope.challengeDetails.registeredMessage);
 
 			$scope.player_info = $resource('/jsonapi/player');
 			$scope.player_info.get({},function(response){
