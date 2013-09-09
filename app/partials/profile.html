@@ -319,7 +319,7 @@
 		    </ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="myChallenges" ng-controller="ChallengeController">
-					<div width="400px" style="width:98.7%; height:30px;">
+					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed" >
 							<tr>
 								<th class="ChallengesIMade_Type">Type</th>
@@ -333,7 +333,7 @@
 							</tr>                                   
 						</table> 
 					</div>				 
-					<div style="overflow-y:auto;overflow-x:hidden">																					
+					<div style="width:99.7%%; height:270px;overflow-y:auto;overflow-x:hidden">					
 						<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
 							<tr ng-repeat="myChallenge in ListMyChallenges">
 								<td class="ChallengesIMade_Type">Quest</td>
@@ -360,7 +360,7 @@
 				</div>
 			
 				<div class="tab-pane" id="myStories" align="center" ng-controller="StoryController">
-					<div style="overflow-x:hidden">
+					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed">
 							<tr style="border-top: solid white; border-bottom: solid white;">
 								<th class="story_name">Name</th>
@@ -370,7 +370,8 @@
 								<th class="story_archive">Archive</th> 
 							</tr>  
 						</table> 
-						<div>
+					</div>
+					<div style="width:99.7%%; height:270px;overflow-y:auto;overflow-x:hidden">
 							<table class="table table-hover" ng-init="myStorylist()" ng-hide="player.isAdmin">
 								<a ng-repeat="video in myVideos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
 								<tr ng-repeat="story in myStories" ng-hide="story.archived">
@@ -408,8 +409,7 @@
 											<button class="btn btn-info" a ng-click = "deleteStory(story.id, story.name, story.description, story.videos, story.published)">Delete</button>
 									</td>
 								</tr>
-							</table>
-						</div>						
+							</table>					
 					</div>
 					<div align="right">
 						<button type="button" class="btn btn-primary" ng-click="goToStory()">Create a Story!</button>
