@@ -161,21 +161,21 @@
 							<tr>                               
 							<div ng-model="python" ng-init="python='10030'"> </div>
 							<td class="BadgeName" id="pathHeading">Python</td>
-							<td class="BadgeImage pull-left" ng-repeat="(key,value) in playerBadges.badges|filter:python">
+							<td class="BadgeImage" ng-repeat="(key,value) in playerBadges.badges|filter:python">
 							 <img ng-src="{{value.imageURL}}"/>
 							</td> 
 						  </tr>  
 						  <tr>                                  
 							<ng-model="bPython" ng-init="bPython='6920762'">
 							<td class="BadgeName" id="pathHeading">Beginner Python</td> 
-							<td class="BadgeImage pull-left" ng-repeat="badge in playerBadges.badges|filter:bPython">
+							<td class="BadgeImage" ng-repeat="badge in playerBadges.badges|filter:bPython">
 								<img ng-src="{{badge.imageURL}}"/>
 							</td> 
 						  </tr> 
 						  <tr >
 							<ng-model="ruby" ng-init="ruby='2462233'"> 
 							<td class="BadgeName" id="pathHeading">Ruby</td>
-							<td class="BadgeImage pull-left" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
+							<td class="BadgeImage" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
 							 <img ng-src="{{value.imageURL}}"/>
 							</td> 
 						  </tr>
@@ -189,7 +189,7 @@
 						  <tr > 
 							<ng-model="java" ng-init="java='2243213'"> 
 							<td class="BadgeName" id="pathHeading"> Java</td>
-							<td class="BadgeImage pull-left" ng-repeat="(key,value) in playerBadges.badges|filter:java">
+							<td class="BadgeImage" ng-repeat="(key,value) in playerBadges.badges|filter:java">
 							 <img ng-src="{{value.imageURL}}">
 							</td> 
 						  </tr>   
