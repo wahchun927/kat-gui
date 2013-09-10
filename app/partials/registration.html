@@ -107,7 +107,9 @@
                         </span>
                         <span ng-show="player_challenge_details.playerUnlocked">
                             Well done for unlocking the challenge!
-                            <div>
+                            <br>
+                            <div align="center" ng-show="player_challenge_details.playerSubmitted">
+                                <span ng-bind="challengeDetails.privateMessage"></span>
                             </div>
                         </span>
                         <br>

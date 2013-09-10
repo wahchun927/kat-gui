@@ -35,7 +35,9 @@
         overflow:auto;  
     }
 
-    th.a, td.a {text-align: left;}
+    <!--My Badges
+	th.BadgeName,td.BadgeName 			{width:15%;}
+	th.BadgeImage,td.BadgeImage			{width:85%;}
 	
 	.tabbable{
 	text-align:center;
@@ -52,14 +54,15 @@
     th.continue, td.continue{width:20%; vertical-align:middle; }
 	
 	<!--My Creations : Challenges I've Made -->
-	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;text-align:center;vertical-align:middle;}
-	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:20%;text-align:center;vertical-align:middle;}
-	th.ChallengesIMade_Location,td.ChallengesIMade_Location		{width:20%;text-align:center;vertical-align:middle;}
-	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:10%;text-align:center;vertical-align:middle;}
-	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:10%;text-align:center;vertical-align:middle;}
-	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:10%;text-align:center;vertical-align:middle;}
-	th.ChallengesIMade_Publish,td.ChallengesIMade_Publish		{width:10%;text-align:center;vertical-align:middle;}                                                                                         
-	th.ChallengesIMade_Share,td.ChallengesIMade_Share			{width:10%;text-align:center;vertical-align:middle;}
+	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
+	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:20%;}
+	th.ChallengesIMade_Location,td.ChallengesIMade_Location		{width:10%;}
+	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:10%;}
+	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:10%;}
+	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:10%;}
+	th.ChallengesIMade_Publish,td.ChallengesIMade_Publish		{width:10%;}                                                                                         
+	th.ChallengesIMade_Share,td.ChallengesIMade_Share			{width:10%;}
+	th.ChallengesIMade_Remove,td.ChallengesIMade_Remove			{width:10%;}
 	
 	<!--All Challenges : Registered Challenge-->
     th.AcceptedC_Type, td.AcceptedC_Type					{width:20%;}
@@ -69,11 +72,11 @@
     th.AcceptedC_EndDate, td.AcceptedC_EndDate				{width:15%;}
 	th.AcceptedC_Outcome, td.AcceptedC_Outcome				{width:15%;}	
 	
-	th.story_name, td.story_name{width:20%;text-align:center;vertical-align:middle;}
-    th.story_vid, td.story_vid{width:15%;text-align:center;vertical-align:middle;}
-    th.story_status, td.story_status{width:15%;text-align:center;vertical-align:middle;}
-    th.story_review, td.story_review{width:25%;text-align:center;vertical-align:middle;}
-    th.story_archive, td.story_archive{width:20%;text-align:center;vertical-align:middle;}
+	th.story_name, td.story_name{width:20%;}
+    th.story_vid, td.story_vid{width:15%;}
+    th.story_status, td.story_status{width:15%;}
+    th.story_review, td.story_review{width:30%;}
+    th.story_archive, td.story_archive{width:20%;}
 		
 	#heading{
 		text-align:center;vertical-align:middle;		
@@ -119,7 +122,16 @@
 						</div>
 						<div class="row-fluid">
 						<div class="span12">
-							<div class="span5" id="heading">Location:</div><div class="span7"> <image ng-src="{{player.countryFlagURL}}"; width = 30px; height= 30px;/> &nbsp <span ng-bind="player.country"></span> </div>
+							<div class="span4" id="heading">Title:</div>
+							<div class="span8">&nbsp
+								<span ng-show="player.professional==0">Student</span>
+								<span ng-show="player.professional==1">Professional</span>
+							</div>
+						</div>
+						</div>
+						<div class="row-fluid">
+						<div class="span12">
+							<div class="span5" id="heading">Location:</div><div class="span7"> <image ng-src="{{player.location}}"; width = 30px; height= 30px;/></div>
 						</div>
 						</div>
 						<div class="row-fluid">
@@ -149,37 +161,37 @@
 						<tbody align="left">  
 							<tr>                               
 							<div ng-model="python" ng-init="python='10030'"> </div>
-							<td class="a" id="pathHeading">Python</td>
-							<td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:python">
-							 <img ng-src="{{value.imageURL}}"/>
+							<td class="BadgeName" id="pathHeading">Python</td>
+							<td class="BadgeImage" ng-repeat="(key,value) in playerBadges.badges|filter:python">
+								<span><img ng-src="{{value.imageURL}}"/></span>
 							</td> 
 						  </tr>  
 						  <tr>                                  
 							<ng-model="bPython" ng-init="bPython='6920762'">
-							<td class="a" id="pathHeading">Beginner Python</td> 
-							<td class="a" ng-repeat="badge in playerBadges.badges|filter:bPython">
-								<img ng-src="{{badge.imageURL}}"/>
+							<td class="BadgeName" id="pathHeading">Beginner Python</td> 
+							<td class="BadgeImage" ng-repeat="badge in playerBadges.badges|filter:bPython">
+								<span><img ng-src="{{badge.imageURL}}"/></span>
 							</td> 
 						  </tr> 
 						  <tr >
 							<ng-model="ruby" ng-init="ruby='2462233'"> 
-							<td class="a" id="pathHeading">Ruby</td>
-							<td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
-							 <img ng-src="{{value.imageURL}}"/>
+							<td class="BadgeName" id="pathHeading">Ruby</td>
+							<td class="BadgeImage" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
+								<span><img ng-src="{{value.imageURL}}"/></span>
 							</td> 
 						  </tr>
 						  <tr >  
 							<ng-model="javaScript" ng-init="javaScript='2473247'"> 
-							<td class="a" id="pathHeading"> JavaScript</td>
-							<td ng-repeat="(key,value) in playerBadges.badges|filter:javaScript">
-							 <img ng-src="{{value.imageURL}}">
+							<td class="BadgeName" id="pathHeading"> JavaScript</td>
+							<td class="BadgeImage pull-left" ng-repeat="(key,value) in playerBadges.badges|filter:javaScript">
+								<span><img ng-src="{{value.imageURL}}"></span>
 							</td> 
 						  </tr>
 						  <tr > 
 							<ng-model="java" ng-init="java='2243213'"> 
-							<td class="a" id="pathHeading"> Java</td>
-							<td class="a" ng-repeat="(key,value) in playerBadges.badges|filter:java">
-							 <img ng-src="{{value.imageURL}}">
+							<td class="BadgeName" id="pathHeading"> Java</td>
+							<td class="BadgeImage" ng-repeat="(key,value) in playerBadges.badges|filter:java">
+								<span><img ng-src="{{value.imageURL}}"></span>
 							</td> 
 						  </tr>   
 						</tbody>
@@ -195,7 +207,7 @@
 	<div class="row-fluid">
 	<div class="span12 well well-small">
 		
-		<div class="tabbable">
+		<div class="tabbable" ng-controller="PathController" ng-init="update_path_details();get_player_progress();list()">
 		  <ul class="nav nav-tabs">
 			<li class="tabspacing active">
 			  <a data-target="#quest" data-toggle="tab">Quest</a>
@@ -209,7 +221,7 @@
 		  </ul>
 		  <div class="tab-content">
 			<div class="tab-pane active" id="quest" ng-controller="QuestController">
-			    <div width="400px"style="width:98.7%; height:30px;" ng-controller="PathController" ng-init="update_path_details();get_player_progress()" ng-model="filter">
+			    <div width="400px"style="width:98.7%; height:30px;" ng-model="filter">
 					<table class="table table-condensed">
 						<tr>
 							<th class="name">Quest Name</th>
@@ -234,7 +246,7 @@
 					</table>		
 				</div>
 			</div>
-			<div class="tab-pane" id="practice" ng-controller="PathController">
+			<div class="tab-pane" id="practice">
 			  <div width="400px"style="width:98.7%; height:30px">
 				<table class="table table-condensed">
 					<tr>
@@ -283,7 +295,7 @@
 							<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
 							<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
 							<td class="AcceptedC_Outcome">
-								<button id="resume" class="btn btn-info">Resume!</button>
+								<button id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
 							</td>
 						</tr>  
 					</table>
@@ -308,7 +320,7 @@
 		    </ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="myChallenges" ng-controller="ChallengeController">
-					<div width="400px" style="width:98.7%; height:30px;">
+					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed" >
 							<tr>
 								<th class="ChallengesIMade_Type">Type</th>
@@ -316,30 +328,32 @@
 								<th class="ChallengesIMade_Location">Location</th> 
 								<th class="ChallengesIMade_StartDate">Start Date</th>
 								<th class="ChallengesIMade_EndDate">End Date</th>
-								<th class="ChallengesIMade_Review">Review</th>
 								<th class="ChallengesIMade_Publish">Publish</th>                                                                                              
 								<th class="ChallengesIMade_Share">Share</th>
+								<th class="ChallengesIMade_Review">Review</th>
+								<th class="ChallengesIMade_Remove">Archive</th>
 							</tr>                                   
 						</table> 
 					</div>				 
-					<div style="overflow-y:auto;overflow-x:hidden">																					
+					<div style="width:99.7%%; height:270px;overflow-y:auto;overflow-x:hidden">					
 						<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
-							<tr ng-repeat="myChallenge in ListMyChallenges">
-								<td class="ChallengesIMade_Type">Quest</td>
-								<td class="ChallengesIMade_Name">{{myChallenge.name}}</td>
-								<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">Worldwide</td>	
-								<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0"><image ng-src="{{myChallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
-								<td class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
-								<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
-								<td class="ChallengesIMade_Review">
-									<div class="btn-group">																			
-										<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" ng-click="goToChallengeStats(myChallenge.challenge_id)">Stats</button>
-										<button class="btn btn-danger" a data-target="#tab2create">Edit</button>
-									</div>																	
-								</td>
-								<td  class="ChallengesIMade_Publish">Published</td>
-								<td  class="ChallengesIMade_Share">Shared</td>                                                                                     
-							</tr>                                                                
+							<tr ng-repeat="myChallenge in ListMyChallenges" ng-hide = "myChallenge.description=='archived'";>
+									<td class="ChallengesIMade_Type">{{myChallenge.challengeType}}</td>
+									<td class="ChallengesIMade_Name">{{myChallenge.name}}</td>
+									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">World Wide</td>	
+									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0">{{player.country}}</td>									
+									<td class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
+									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
+									<td  class="ChallengesIMade_Publish">Published</td>
+									<td  class="ChallengesIMade_Share">Shared</td>  
+									<td class="ChallengesIMade_Review">
+										<div class="btn-group">																			
+											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" ng-click="goToChallengeStats(myChallenge.challenge_id)">Stats</button>
+											<button class="btn btn-danger" a data-target="#tab2create" ng-click="goToChallengeEdit(myChallenge.challenge_id)">Edit</button>
+										</div>																	
+									</td>
+									<td  class="ChallengesIMade_Remove"><button class="btn btn-info" a data-target="#tab2create" ng-click="archieveChallenge(myChallenge.challenge_id,myChallenge.startDate,myChallenge.endDate)">Delete</button></td>  									
+								</tr>                                                                        
 						</table>							  
 					</div>	
 					<!--Create button-->
@@ -349,7 +363,7 @@
 				</div>
 			
 				<div class="tab-pane" id="myStories" align="center" ng-controller="StoryController">
-					<div style="overflow-x:hidden">
+					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed">
 							<tr style="border-top: solid white; border-bottom: solid white;">
 								<th class="story_name">Name</th>
@@ -359,7 +373,8 @@
 								<th class="story_archive">Archive</th> 
 							</tr>  
 						</table> 
-						<div>
+					</div>
+					<div style="width:99.7%%; height:270px;overflow-y:auto;overflow-x:hidden" align="center">
 							<table class="table table-hover" ng-init="myStorylist()" ng-hide="player.isAdmin">
 								<a ng-repeat="video in myVideos" id="video" class="fancybox fancybox.iframe" style="display:none" rel="fancybox fancybox.iframe" ng-href="http://www.youtube.com/embed/{{video}}?enablejsapi=1&wmode=opaque"></a>
 								<tr ng-repeat="story in myStories" ng-hide="story.archived">
@@ -393,12 +408,11 @@
 											<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 										</div>
 									</td>
-									<td class="c6"> 
+									<td  class="story_archive"> 
 											<button class="btn btn-info" a ng-click = "deleteStory(story.id, story.name, story.description, story.videos, story.published)">Delete</button>
 									</td>
 								</tr>
-							</table>
-						</div>						
+							</table>					
 					</div>
 					<div align="right">
 						<button type="button" class="btn btn-primary" ng-click="goToStory()">Create a Story!</button>
@@ -436,7 +450,13 @@
             </td>
         </tr>
         <tr>
-            <td>Occupation:</td>
+            <td>Location:</td> 
+            <td>
+                <input type="text" ng-model="player.location">
+            </td>
+        </tr>
+        <tr>
+            <td>Title:</td>
             <td>
                 <select ng-model="player.professional">
                   <option value="1">Professional</option>
