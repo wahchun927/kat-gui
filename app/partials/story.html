@@ -125,7 +125,7 @@
 								<p>Story Title :</p>
 						</div>
 						<div class="span10">
-							<input class="span8" type="text" ng-model="Title">{{Title}}</p> 	
+							<input class="span8" type="text" ng-model="Title"></p> 	
 						</div>
 					</div>
 				</div>
@@ -224,6 +224,7 @@
 							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="Title && description && Videos[0]" ng-click="create_story(Title,description)">Save</button>
 							<button class="btn btn-primary  disabled" type="button" style="height: 30px;width: 100px;" ng-show="!Title || !description || !Videos[0]">save</button>
 							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="player.isAdmin && publishStatus==false" ng-click="publish_story(Title,description)">Publish</button> 
+							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="player.isAdmin && publishStatus==true" ng-click="unpublish_story(Title,description)">unPublish</button> 
 							</div>
 						</div>
 					</div>
