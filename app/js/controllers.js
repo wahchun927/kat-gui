@@ -2895,6 +2895,32 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		window.location.reload();
 	};
 
+	$scope.unpublish_story = function(title,des){
+	   $scope.newStory = {};
+	   $scope.newStory.name = title;
+	   $scope.newStory.description = des;
+	   $scope.newStory.videos = $scope.Videos;
+	   $scope.newStory.published = true;
+
+  
+
+		$scope.currentStoryID = $cookieStore.get("editStory");
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+						name:$scope.newStory.name,
+						description:$scope.newStory.description,
+						videos:$scope.newStory.videos,
+						published:false,
+						archived:false
+		}).success(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		}).error(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		});
+	
+		window.location.reload();
+	};	
+	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
 	};
