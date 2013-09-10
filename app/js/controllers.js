@@ -698,7 +698,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
-		alert($scope.selectedPath[0]);
 		$scope.newChallenge = {};
 		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
@@ -762,6 +761,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 						console.log("new badge "+response);
 						$scope.newChallengeID = response.id;
 					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 			//validate attribute of habit challenge
@@ -783,6 +783,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 						console.log("new badge "+response);
 						$scope.newChallengeID = response.id;
 					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 			//validate attribute of quest challenge
@@ -801,12 +802,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 						console.log("new badge "+response);
 						$scope.newChallengeID = response.id;
 					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 		}
+		
 		//setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
+	
+	$scope.hideSuccessModal = function(){
+		$('#challengeCreated').modal('hide');
+		window.location="index.html#/challenges";
+	};
 	
     $scope.goToChallengeD=function()
     {
@@ -2820,8 +2828,14 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
    	$scope.addVideo=function(videoURL){
 		if(videoURL.length==42){
 			//Videos for the purpose of story creation
-			$scope.Videos.push(videoURL.substring(31));
-			$scope.videoURL="";
+			if($scope.Videos.indexOf(videoURL.substring(31)) > -1){
+				alert("The video is already in the list!");
+				$scope.videoURL="";
+			}
+			else{
+				$scope.Videos.push(videoURL.substring(31));
+				$scope.videoURL="";
+			}
 		}
 		else{
 			alert("Please put in a valid YouTube URL!");
@@ -2881,6 +2895,32 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		window.location.reload();
 	};
 
+	$scope.unpublish_story = function(title,des){
+	   $scope.newStory = {};
+	   $scope.newStory.name = title;
+	   $scope.newStory.description = des;
+	   $scope.newStory.videos = $scope.Videos;
+	   $scope.newStory.published = true;
+
+  
+
+		$scope.currentStoryID = $cookieStore.get("editStory");
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+						name:$scope.newStory.name,
+						description:$scope.newStory.description,
+						videos:$scope.newStory.videos,
+						published:false,
+						archived:false
+		}).success(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		}).error(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		});
+	
+		window.location.reload();
+	};	
+	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
 	};
