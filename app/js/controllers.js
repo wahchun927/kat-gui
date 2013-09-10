@@ -674,6 +674,18 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
         });
 	}
 
+	
+	$scope.loadEditChallenge = function(){
+	
+		var open_challenge_ID = $cookieStore.get("challengeID"); 
+		if( open_challenge_ID != null){
+			$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
+			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
+   			$scope.challengeToEdit = response;  
+			});
+		};
+	};
+	
     $scope.goToChallengeCreator=function()
     {
       $location.path("challengeCreator");
@@ -1226,7 +1238,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
 									startDate:sDate,
-									endDate:eDate
+									endDate:eDate,
+									name:$scope.challengeToEdit.challenge.name
 					}).success(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					}).error(function (data, status, headers, config) {
