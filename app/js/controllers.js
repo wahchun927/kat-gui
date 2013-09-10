@@ -2820,8 +2820,14 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
    	$scope.addVideo=function(videoURL){
 		if(videoURL.length==42){
 			//Videos for the purpose of story creation
-			$scope.Videos.push(videoURL.substring(31));
-			$scope.videoURL="";
+			if($scope.Videos.indexOf(videoURL.substring(31)) > -1){
+				alert("The video is already in the list!");
+				$scope.videoURL="";
+			}
+			else{
+				$scope.Videos.push(videoURL.substring(31));
+				$scope.videoURL="";
+			}
 		}
 		else{
 			alert("Please put in a valid YouTube URL!");
