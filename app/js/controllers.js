@@ -698,7 +698,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
-		alert($scope.selectedPath[0]);
 		$scope.newChallenge = {};
 		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
@@ -762,6 +761,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 						console.log("new badge "+response);
 						$scope.newChallengeID = response.id;
 					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 			//validate attribute of habit challenge
@@ -783,6 +783,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 						console.log("new badge "+response);
 						$scope.newChallengeID = response.id;
 					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 			//validate attribute of quest challenge
@@ -801,12 +802,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 						console.log("new badge "+response);
 						$scope.newChallengeID = response.id;
 					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 		}
+		
 		//setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
+	
+	$scope.hideSuccessModal = function(){
+		$('#challengeCreated').modal('hide');
+		window.location="index.html#/challenges";
+	};
 	
     $scope.goToChallengeD=function()
     {
