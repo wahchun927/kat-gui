@@ -578,13 +578,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.mobilePaths = $resource('/jsonapi/mobile_paths').query();
 	
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
-	// retrieve all countries
-	$scope.countryModel = $resource('/jsonapi/all_countries');
-	$scope.countryModel.get({}, function(response){
-		$scope.ListAllCountries = response.countries;	
-		$scope.chLocation = {type : $scope.ListAllCountries[1].id};
-		$scope.defaultCountry = $scope.chLocation.type;
-	});
 	
 	// difficulty levels
 	$scope.levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];
@@ -600,7 +593,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.chDescription="";
 	$scope.badges = [null, null, null, null, null, null];
 	$scope.selectedPath = [null, null, null, null, null, null];
-	$scope.chLocation = "-";
+	$scope.chLocation = "";
 	$scope.pathID="";
 	$scope.storyID="";
 	$scope.difficulty="";
@@ -608,7 +601,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.totalDays="";
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
-
 	
 	var today = new Date();
 	var dd = today.getDate();
@@ -725,14 +717,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-		console.log($scope.chLocation.type + " " +$scope.defaultCountry);
-		if($scope.chLocation.type==$scope.defaultCountry){
-			$scope.newChallenge.allowedCountries = [];
-			$scope.newChallenge.worldwide = 1;
+		if($scope.chLocation == "1"){
+			$scope.newChallenge.worldwide = "1";
 		}    
 		else{
-			$scope.newChallenge.allowedCountries.push($scope.chLocation.type);
-			$scope.newChallenge.worldwide = 0;
+			$scope.newChallenge.worldwide = "0";
 		}
 		if($scope.newChallenge.name==""){
 			alert("The challenge name cannot be empty!");
