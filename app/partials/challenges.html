@@ -100,7 +100,7 @@
 									<td class="OpenC_Type">{{challenge.challengeType}}</th>
 									<td class="OpenC_Name">{{challenge.name}}</td>
 									<td class="OpenC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
-									<td class="OpenC_Location" ng-show="challenge.worldwide==0">{{challenge.allowedCountries[0]}}</td>									
+									<td class="OpenC_Location" ng-show="challenge.worldwide==0">{{player.country}}</td>									
 									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
 									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
 									<td class="OpenC_Register" ng-show="challenge._playerRegistered==false" ><button class="btn btn-success" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)"> To register</button></td>
@@ -134,7 +134,7 @@
 										<td class="AcceptedC_Type">{{Acceptedchallenge.challengeType}}</td>
 										<td class="AcceptedC_Name">{{Acceptedchallenge.name}}</td>	
 										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
-										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==0"><image ng-src="{{Acceptedchallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
+										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==0">{{player.country}}</td>									
 										<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
 										<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
 										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
@@ -171,8 +171,8 @@
 								<tr ng-repeat="myChallenge in ListMyChallenges" ng-hide = "myChallenge.description=='archived'";>
 									<td class="ChallengesIMade_Type">{{myChallenge.challengeType}}</td>
 									<td class="ChallengesIMade_Name">{{myChallenge.name}}</td>
-									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">Worldwide</td>	
-									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0"><image ng-src="{{myChallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
+									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">World Wide</td>	
+									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0">{{player.country}}</td>									
 									<td class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
 									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
 									<td  class="ChallengesIMade_Publish">Published</td>

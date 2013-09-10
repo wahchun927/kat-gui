@@ -94,7 +94,7 @@
                 </tr>
                 <tr>
                     <th style="text-align:left;">Challenge Name:</th>
-                    <th><input type="text" ng-model="challengeToEdit.challenge.name" ng-init=""></th>
+                    <th><input type="text" ng-model="challengeToEdit.challenge.name"></th>
                 </tr>
                 <tr>
                     <th style="text-align:left;">Challenge Description:</th>
@@ -113,14 +113,14 @@
                 <tr>
                     <th style="text-align:left;">Private Message:</th>
                     <th>
-                        <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "challengeToEdit.challenge.privateMessage">
+                        <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "challengeToEdit.challenge.privateMessage[0]">
                         </textarea>
                     </th>
                 </tr>
                 <tr>
                     <th style="text-align:left;">Location</th>
                     <th ng-controller="PlayerController">
-						<select id="a" ng-model="chLocation">
+						<select ng-model="chLocation">
 							<option value="World Wide">World Wide</option>
 							<option value="{{player.country}}">{{player.country}}</option>
 						</select>
@@ -137,25 +137,25 @@
                     <tr>
                         <th>Story Name</th>
                         <th>
-							<select ng-model="storyID" ng-options="story.id as story.name for story in pubStories"></select>			
+							<select ng-model="challengeToEdit.challenge.storyID" ng-options="story.id as story.name for story in pubStories"></select>			
 						</th>
                     </tr>
                     <tr>
                         <th>Level</th>
                         <th>
-							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
+							<select ng-model="challengeToEdit.challenge.difficulty" ng-options="level.id as level.name for level in levels"></select>
                         </th>
                     </tr>
                     <tr ng-show="difficulty!='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
                     <tr ng-show="difficulty=='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                         </th>
                     </tr>
                 </table>
@@ -169,31 +169,31 @@
                     <tr>
                         <th>Difficulty</th>
                         <th>
-							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Drag-n-Drop'"></select>
+							<select ng-model="challengeToEdit.challenge.difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Drag-n-Drop'"></select>
                         </th>
                     </tr>
                     <tr ng-show="difficulty!='Drag-n-Drop'">
                         <th>Language</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
                     <tr ng-show="difficulty=='Drag-n-Drop'">
                         <th>Language</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                         </th>
                     </tr>
                     <tr>
                         <th>Problems per day</th>
                         <th>
-							<select ng-model="problemsPerDay" ng-options="day.id as day.name for day in days"></select>
+							<select ng-model="challengeToEdit.challenge.problemsPerDay" ng-options="day.id as day.name for day in days"></select>
                         </th>
                     </tr>
                     <tr>
                         <th>Total Number of Days</th>
                         <th>
-							<select ng-model="totalDays" ng-options="day.id as day.name for day in days"></select>
+							<select ng-model="challengeToEdit.challenge.totalDays" ng-options="day.id as day.name for day in days"></select>
                         </th>
                     </tr>
                     <tr>
@@ -206,10 +206,10 @@
                 <table>
                     <tr ng-repeat="x in [0,1,2,3,4,5]">
 						<th>
-							<select ng-model="selectedPath[x]" ng-options="path.id as path.name for path in paths.paths"></select>
+							<select ng-model="challengeToEdit.challenge.unlockRequiredPaths[x]" ng-options="path.id as path.name for path in paths.paths"></select>
 						</th>
                         <th>
-							<select ng-model="badges[x]" ng-options="badge.id as badge.description for badge in theBadges[selectedPath[x]]"></select>
+							<select ng-model="challengeToEdit.challenge.unlockRequiredBadges[x]" ng-options="badge.id as badge.description for badge in theBadges[challengeToEdit.challenge.unlockRequiredPaths[x]]"></select>
                         </th>
                     </tr>
                 </table>
@@ -233,7 +233,7 @@
                 </table>
         </div>
         <div class="span6 well" id="finish">
-			<button class="btn btn-primary" ng-click="editChallenge();">Save</button>
+			<button class="btn btn-primary" ng-click="editChallenge(challengeToEdit.challenge.challenge_id,chStartDate,chEndDate);">Save</button>
         </div> 
 
     </div>
