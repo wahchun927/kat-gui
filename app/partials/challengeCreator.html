@@ -118,11 +118,11 @@
                     </th>
                 </tr>
                 <tr>
-                    <th style="text-align:left;">Location</th>
-                    <th ng-controller="PlayerController">
-						<select id="a" ng-model="chLocation">
-							<option value="World Wide">World Wide</option>
-							<option value="{{player.country}}">{{player.country}}</option>
+                    <th style="text-align:left;">Location{{chLocation}}</th>
+                    <th>
+						<select ng-model="chLocation">
+							<option value="1">World Wide</option>
+							<option value="0">{{player.country}}</option>
 						</select>
 					</th>
                 </tr>
