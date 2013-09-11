@@ -722,6 +722,25 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		}    
 		else{
 			$scope.newChallenge.worldwide = "0";
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+			$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;
+				
+				$scope.player_info = $resource('/jsonapi/player');
+				$scope.player_info.get({},function(response){
+					$scope.player = response;
+				console.log($scope.ListAllCountries + $scope.player.countryCode);
+				
+					for(var i=0;i<$scope.ListAllCountries.length;i++){
+						if($scope.ListAllCountries[i].countryCode == $scope.player.countryCode)
+						{
+							$scope.newChallenge.allowedCountries.push($scope.ListAllCountries[i].id);
+							break;
+						}
+					}	
+					
+				});				
+			});
 		}
 		if($scope.newChallenge.name==""){
 			alert("The challenge name cannot be empty!");
@@ -743,13 +762,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					alert("Please choose at least one badge!");
 				}
 				else{
-					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-					new_challenge.$save(function(response){
-						$scope.challenge = response;
-						console.log("new badge "+response);
-						$scope.newChallengeID = response.id;
-					});
 					$('#challengeCreated').modal('show');
 				}
 			}
@@ -765,13 +777,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					alert("Please choose the total number of days!");
 				}
 				else{
-					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-					new_challenge.$save(function(response){
-						$scope.challenge = response;
-						console.log("new badge "+response);
-						$scope.newChallengeID = response.id;
-					});
 					$('#challengeCreated').modal('show');
 				}
 			}
@@ -784,13 +789,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				    alert("Please choose the Story ID!");
 				}
 				else{
-					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-					new_challenge.$save(function(response){
-						$scope.challenge = response;
-						console.log("new badge "+response);
-						$scope.newChallengeID = response.id;
-					});
 					$('#challengeCreated').modal('show');
 				}
 			}
@@ -801,6 +799,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     };
 	
 	$scope.hideSuccessModal = function(){
+		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+		new_challenge.$save(function(response){
+			$scope.challenge = response;
+			console.log("new badge "+response);
+			$scope.newChallengeID = response.id;
+		});
 		$('#challengeCreated').modal('hide');
 		window.location="index.html#/challenges";
 	};
@@ -1202,11 +1207,12 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		
 	$scope.editChallenge = function(challenge_id,sDate,eDate){
 	
-		if($scope.chLocation=="" || $scope.chLocation=="World Wide" ){
+		if($scope.chLocation=="" || $scope.chLocation=="1" ){
 			$scope.challengeToEdit.challenge.worldwide = 1;
 		}    
 		else{
 			$scope.challengeToEdit.challenge.worldwide = 0;
+			
 		}
 		
 		if($scope.challengeToEdit.challenge.name==""){
@@ -1242,7 +1248,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					//window.location.reload();
+					window.location="index.html#/challenges";
 				}
 			}
 			//validate attribute of habit challenge
@@ -1274,7 +1280,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					//window.location.reload();
+					window.location="index.html#/challenges";
 				}
 			}
 			//validate attribute of quest challenge
@@ -1302,7 +1308,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					//window.location.reload();
+					window.location="index.html#/challenges";
 				}
 			}
 		}
