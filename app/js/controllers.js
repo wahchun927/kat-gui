@@ -578,13 +578,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.mobilePaths = $resource('/jsonapi/mobile_paths').query();
 	
     $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
-	// retrieve all countries
-	$scope.countryModel = $resource('/jsonapi/all_countries');
-	$scope.countryModel.get({}, function(response){
-		$scope.ListAllCountries = response.countries;	
-		$scope.chLocation = {type : $scope.ListAllCountries[1].id};
-		$scope.defaultCountry = $scope.chLocation.type;
-	});
 	
 	// difficulty levels
 	$scope.levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];
@@ -600,7 +593,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.chDescription="";
 	$scope.badges = [null, null, null, null, null, null];
 	$scope.selectedPath = [null, null, null, null, null, null];
-	$scope.chLocation = "-";
+	$scope.chLocation = "";
 	$scope.pathID="";
 	$scope.storyID="";
 	$scope.difficulty="";
@@ -608,7 +601,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	$scope.totalDays="";
 	$scope.chPubMsg="";
 	$scope.chPriMsg="";
-
 	
 	var today = new Date();
 	var dd = today.getDate();
@@ -674,6 +666,18 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
         });
 	}
 
+	
+	$scope.loadEditChallenge = function(){
+	
+		var open_challenge_ID = $cookieStore.get("challengeID"); 
+		if( open_challenge_ID != null){
+			$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
+			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
+   			$scope.challengeToEdit = response;  
+			});
+		};
+	};
+	
     $scope.goToChallengeCreator=function()
     {
       $location.path("challengeCreator");
@@ -686,7 +690,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
-		alert($scope.selectedPath[0]);
 		$scope.newChallenge = {};
 		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
@@ -714,14 +717,30 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			    $scope.newChallenge.unlockRequiredBadges.push($scope.badges[i]);
 			}
 		}
-		console.log($scope.chLocation.type + " " +$scope.defaultCountry);
-		if($scope.chLocation.type==$scope.defaultCountry){
-			$scope.newChallenge.allowedCountries = [];
-			$scope.newChallenge.worldwide = 1;
+		if($scope.chLocation == "1"){
+			$scope.newChallenge.worldwide = "1";
 		}    
 		else{
-			$scope.newChallenge.allowedCountries.push($scope.chLocation.type);
-			$scope.newChallenge.worldwide = 0;
+			$scope.newChallenge.worldwide = "0";
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+			$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;
+				
+				$scope.player_info = $resource('/jsonapi/player');
+				$scope.player_info.get({},function(response){
+					$scope.player = response;
+				console.log($scope.ListAllCountries + $scope.player.countryCode);
+				
+					for(var i=0;i<$scope.ListAllCountries.length;i++){
+						if($scope.ListAllCountries[i].countryCode == $scope.player.countryCode)
+						{
+							$scope.newChallenge.allowedCountries.push($scope.ListAllCountries[i].id);
+							break;
+						}
+					}	
+					
+				});				
+			});
 		}
 		if($scope.newChallenge.name==""){
 			alert("The challenge name cannot be empty!");
@@ -743,13 +762,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					alert("Please choose at least one badge!");
 				}
 				else{
-					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-					new_challenge.$save(function(response){
-						$scope.challenge = response;
-						console.log("new badge "+response);
-						$scope.newChallengeID = response.id;
-					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 			//validate attribute of habit challenge
@@ -764,13 +777,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					alert("Please choose the total number of days!");
 				}
 				else{
-					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-					new_challenge.$save(function(response){
-						$scope.challenge = response;
-						console.log("new badge "+response);
-						$scope.newChallengeID = response.id;
-					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 			//validate attribute of quest challenge
@@ -782,19 +789,26 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				    alert("Please choose the Story ID!");
 				}
 				else{
-					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-					new_challenge.$save(function(response){
-						$scope.challenge = response;
-						console.log("new badge "+response);
-						$scope.newChallengeID = response.id;
-					});
+					$('#challengeCreated').modal('show');
 				}
 			}
 		}
+		
 		//setTimeout('window.location="index.html#/challenges"',1000);
 		
     };
+	
+	$scope.hideSuccessModal = function(){
+		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+		new_challenge.$save(function(response){
+			$scope.challenge = response;
+			console.log("new badge "+response);
+			$scope.newChallengeID = response.id;
+		});
+		$('#challengeCreated').modal('hide');
+		window.location="index.html#/challenges";
+	};
 	
     $scope.goToChallengeD=function()
     {
@@ -814,8 +828,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     };
 	$scope.goToChallengeEdit = function(challenge_id){
 	    $cookieStore.put("challengeID", challenge_id)
-    	$location.path("challengeCreator");
+    	$location.path("challengeEdit");
 	}
+	
 	$scope.goToChallengeStats=function(challenge_id)
     {
     	$cookieStore.put("challengeID", challenge_id)
@@ -1104,8 +1119,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.challengestatisticsModel = $resource('/jsonapi/list_challenge_players?challenge_id=:challengeId');		
 		$scope.challengestatisticsModel.get({"challengeId" :challengeId}, function(response){
 			$scope.challengePlayers = response.players;
+			$scope.challengeDetails = response.challenge;
 
-			console.log("number of registered players" + $scope.challengePlayers.length);
+			console.log("private message = " + $scope.challengeDetails.registeredMessage);
 
 			$scope.player_info = $resource('/jsonapi/player');
 			$scope.player_info.get({},function(response){
@@ -1188,6 +1204,115 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			
 			window.location.reload();
 		};
+		
+	$scope.editChallenge = function(challenge_id,sDate,eDate){
+	
+		if($scope.chLocation=="" || $scope.chLocation=="1" ){
+			$scope.challengeToEdit.challenge.worldwide = 1;
+		}    
+		else{
+			$scope.challengeToEdit.challenge.worldwide = 0;
+			
+		}
+		
+		if($scope.challengeToEdit.challenge.name==""){
+			alert("The challenge name cannot be empty!");
+		}
+		else if($scope.challengeToEdit.challenge.description==""){
+			alert("The challenge description cannot be empty!");
+		}
+		else if($scope.challengeToEdit.challenge.publicMessage==""){
+			alert("The challenge public Message cannot be empty!");
+		}
+		else{
+			//validate attribute of badge challenge
+			if($scope.challengeToEdit.challenge.challengeType=='Badge'){
+				$scope.challengeToEdit.challenge.pathID = $scope.challengeToEdit.challenge.unlockRequiredPaths[0];
+				if($scope.challengeToEdit.challenge.unlockRequiredBadges[0]==null){
+					alert("Please choose at least one badge!");
+				}
+				else{
+					$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+					$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
+									unlockRequiredBadges:$scope.challengeToEdit.challenge.unlockRequiredBadges,
+									unlockRequiredPaths:$scope.challengeToEdit.challenge.unlockRequiredPaths,
+									challengeType:$scope.challengeToEdit.challenge.challengeType,
+									description:$scope.challengeToEdit.challenge.description,
+									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									startDate:sDate,
+									endDate:eDate,
+									name:$scope.challengeToEdit.challenge.name
+					}).success(function (data, status, headers, config) {
+						$scope.registration_response = data;
+					}).error(function (data, status, headers, config) {
+						$scope.registration_response = data;
+					});
+					window.location="index.html#/challenges";
+				}
+			}
+			//validate attribute of habit challenge
+			else if($scope.challengeToEdit.challenge.challengeType=='Habit'){
+				if($scope.challengeToEdit.challenge.pathID==""){
+					alert("Please choose the language!");
+				}
+				else if($scope.challengeToEdit.challenge.problemsPerDay==""){
+					alert("Please choose the number of problems Per Day!");
+				}
+				else if($scope.challengeToEdit.challenge.totalDays==""){
+					alert("Please choose the total number of days!");
+				}
+				else{
+					$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+					$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
+									totalDays:$scope.challengeToEdit.challenge.totalDays,
+									problemsPerDay:$scope.challengeToEdit.challenge.problemsPerDay,
+									difficulty:$scope.challengeToEdit.challenge.difficulty,
+									pathID:$scope.challengeToEdit.challenge.pathID,
+									challengeType:$scope.challengeToEdit.challenge.challengeType,
+									description:$scope.challengeToEdit.challenge.description,
+									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									startDate:sDate,
+									endDate:eDate
+					}).success(function (data, status, headers, config) {
+						$scope.registration_response = data;
+					}).error(function (data, status, headers, config) {
+						$scope.registration_response = data;
+					});
+					window.location="index.html#/challenges";
+				}
+			}
+			//validate attribute of quest challenge
+			else if($scope.$scope.challengeToEdit.challenge.challengeType=='Quest'){
+				if($scope.$scope.challengeToEdit.challenge.pathID==""){
+					alert("Please choose the Path ID!");
+				}
+				else if($scope.$scope.challengeToEdit.challenge.storyID==""){
+				    alert("Please choose the Story ID!");
+				}
+				else{
+					$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+					$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
+									storyID:$scope.challengeToEdit.challenge.storyID,
+									difficulty:$scope.challengeToEdit.challenge.difficulty,
+									pathID:$scope.challengeToEdit.challenge.pathID,
+									challengeType:$scope.challengeToEdit.challenge.challengeType,
+									description:$scope.challengeToEdit.challenge.description,
+									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									startDate:sDate,
+									endDate:eDate
+					}).success(function (data, status, headers, config) {
+						$scope.registration_response = data;
+					}).error(function (data, status, headers, config) {
+						$scope.registration_response = data;
+					});
+					window.location="index.html#/challenges";
+				}
+			}
+		}
+	};
 		
 	$scope.goToGeneratedURL = function(single_challenge){
 		$scope.challengeURL = "";
@@ -2698,8 +2823,14 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
    	$scope.addVideo=function(videoURL){
 		if(videoURL.length==42){
 			//Videos for the purpose of story creation
-			$scope.Videos.push(videoURL.substring(31));
-			$scope.videoURL="";
+			if($scope.Videos.indexOf(videoURL.substring(31)) > -1){
+				alert("The video is already in the list!");
+				$scope.videoURL="";
+			}
+			else{
+				$scope.Videos.push(videoURL.substring(31));
+				$scope.videoURL="";
+			}
 		}
 		else{
 			alert("Please put in a valid YouTube URL!");
@@ -2759,6 +2890,32 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		window.location.reload();
 	};
 
+	$scope.unpublish_story = function(title,des){
+	   $scope.newStory = {};
+	   $scope.newStory.name = title;
+	   $scope.newStory.description = des;
+	   $scope.newStory.videos = $scope.Videos;
+	   $scope.newStory.published = true;
+
+  
+
+		$scope.currentStoryID = $cookieStore.get("editStory");
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+						name:$scope.newStory.name,
+						description:$scope.newStory.description,
+						videos:$scope.newStory.videos,
+						published:false,
+						archived:false
+		}).success(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		}).error(function (data, status, headers, config) {
+			$scope.registration_response = data;
+		});
+	
+		window.location.reload();
+	};	
+	
 	$scope.deleteVideo=function(id){
 		$scope.Videos.splice(id, 1);
 	};

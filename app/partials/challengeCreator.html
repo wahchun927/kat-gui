@@ -120,7 +120,10 @@
                 <tr>
                     <th style="text-align:left;">Location</th>
                     <th>
-						<select ng-model="chLocation.type" ng-options="country.id as country.countryName for country in ListAllCountries">{{chLocation}}</select>
+						<select ng-model="chLocation">
+							<option value="1">World Wide</option>
+							<option value="0">{{player.country}}</option>
+						</select>
 					</th>
                 </tr>
             </table>
@@ -238,6 +241,15 @@
         </div> 
 
     </div>
+<div class="modal fade" id="challengeCreated" style="display:none">    		
+	<div class="modal-body" style="color:black">
+		You have successfully create a challenge!
+	</div>
+	<div class="modal-footer">
+		<a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click="hideSuccessModal()">Ok</button></a>
+    </div>
+</div>
+
 </div><!-- End of container which contains 'largeProfile' -->
 <br>
 <br>
