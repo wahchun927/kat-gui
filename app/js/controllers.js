@@ -39,12 +39,14 @@ function Ctrl($scope) {
 }
 
 function PlayerController($scope,$resource,$location,$cookieStore,$http){
-	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-    $scope.player = $resource('/jsonapi/player').get();
-	$scope.tags = $resource('/jsonapi/tags').get();
-    $scope.$watch('player', function() {
-    	$scope.current_country = $scope.player.country;
-    },true);
+	$scope.list=function(){
+		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+	    $scope.player = $resource('/jsonapi/player').get();
+		$scope.tags = $resource('/jsonapi/tags').get();
+	    $scope.$watch('player', function() {
+	    	$scope.current_country = $scope.player.country;
+	    },true);
+	};
 	
 	$scope.addTag = function(addedTag){
 		$scope.taglist = addedTag.split(",");
@@ -2508,16 +2510,26 @@ function JsonRecordController($scope,$resource){
 
 //The quest controller returns a players quests or specific quest
 function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
-  	$scope.paths = $resource('/jsonapi/get_game_paths').get();
-  	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-    $scope.quests = new Array();
-    $scope.changeRoute = 'normal_play_page.html';
-    $scope.name = $cookieStore.get("name");
-    if($cookieStore.get("name")){
-      $scope.questID = $cookieStore.get("name").id;//retrieve quest id from Storyboard page
-    }
-    //$scope.difficulty = "Drag-n-Drop";
-    //$scope.pathDes = "Python";
+
+	$scope.QuestModel = $resource('/jsonapi/quest/:id');
+    
+    //A method to fetch a generic model and id. 
+    
+    $scope.fetch = function(id){
+      $scope.quest = $scope.QuestModel.get({'id':id});
+    };
+
+    $scope.list = function(){
+      $scope.quests = $scope.QuestModel.query();
+      $scope.paths = $resource('/jsonapi/get_game_paths').get();
+	  $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+	  $scope.quests = new Array();
+	  $scope.changeRoute = 'normal_play_page.html';
+	  $scope.name = $cookieStore.get("name");
+	  if($cookieStore.get("name")){
+	    $scope.questID = $cookieStore.get("name").id;//retrieve quest id from Storyboard page
+	  }
+    };
 
 	$scope.pathSelection=function(){
 	  $('#pathSel input:image').click(function() {
@@ -2577,22 +2589,6 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 		$location.search('path_ID', null);
         $location.path('storyboard');
       });
-    };
-
-    $scope.QuestModel = $resource('/jsonapi/quest/:id');
-    
-    //A method to fetch a generic model and id. 
-    
-    $scope.fetch = function(id){
-      $scope.quest = $scope.QuestModel.get({'id':id});
-    };
-
-    $scope.list = function(){
-      $scope.quests = $scope.QuestModel.query();
-      //}
-      //$scope.QuestModel.query({}, function(response){
-      //    $scope.quests = response;
-      //});
     };
     
     $scope.create_quest_game_from_QuestController = function(questID){
