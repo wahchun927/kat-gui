@@ -104,7 +104,7 @@
 			<div class="span12" id="heading">Profile</div>
 			</div>		
 			<div class="row-fluid">
-				<div class="span12" ng-controller="PlayerController" id="playerProfile">
+				<div class="span12" ng-controller="PlayerController" id="playerProfile" ng-init="list()">
 					<div class="span4" >
 						<image ng-src="{{player.gravatar}}"; width = 80px; height= 100px;/> <br> <br> 
 						<div ng-model="player.nickname"style="text-align: center;" id="heading"> <span ng-bind="player.nickname"></span> </div>
@@ -228,7 +228,7 @@
 			</li>    
 		  </ul>
 		  <div class="tab-content">
-			<div class="tab-pane active" id="quest" ng-controller="QuestController">
+			<div class="tab-pane active" id="quest" ng-controller="QuestController" ng-init="list()">
 			    <div width="400px"style="width:98.7%; height:30px;" ng-model="filter">
 					<table class="table table-condensed">
 						<tr>
@@ -370,7 +370,7 @@
 					</div>
 				</div>
 			
-				<div class="tab-pane" id="myStories" align="center" ng-controller="StoryController">
+				<div class="tab-pane" id="myStories" align="center" ng-controller="StoryController" ng-init="list()">
 					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed">
 							<tr style="border-top: solid white; border-bottom: solid white;">
@@ -435,7 +435,7 @@
 </div>
 
 
-<div class="modal fade" id="edit_profile" style="display:none" ng-controller="PlayerController">
+<div class="modal fade" id="edit_profile" style="display:none" ng-controller="PlayerController" ng-init="list()">
   <div class="modal-header">
     <h4>Edit Profile<h4>
   </div>
