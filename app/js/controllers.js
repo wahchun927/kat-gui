@@ -179,7 +179,7 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
             }); 
             
         //$route.reload('profile');
-        window.location.reload('profile')
+        //window.location.reload('profile')
     };
     
     $scope.log_event = function($event){  
@@ -2525,7 +2525,6 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
       $scope.quests = $scope.QuestModel.query();
       $scope.paths = $resource('/jsonapi/get_game_paths').get();
 	  $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-	  $scope.quests = new Array();
 	  $scope.changeRoute = 'normal_play_page.html';
 	  $scope.name = $cookieStore.get("name");
 	  if($cookieStore.get("name")){
