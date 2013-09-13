@@ -179,7 +179,7 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
             }); 
             
         //$route.reload('profile');
-        window.location.reload('profile')
+        //window.location.reload('profile')
     };
     
     $scope.log_event = function($event){  
