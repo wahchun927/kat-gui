@@ -367,20 +367,25 @@
 <script src="../js/admin-controllers.js"></script> 
 <script src="../js/ace-directive.js" type="text/javascript"></script>  
 <script src="../js/analytics.js"></script>
-<script src="../js/app-config.js"></script>          
+<script src="../js/ui-ace.js"></script>  
+<script src="../js/app-config.js"></script>  
 <script src="../js/app.js"></script> 
 
-<!-- Conditionally load test files -->  
+
+<!-- For testing -->
 <script type="text/javascript">
     console.log("Current location "+document.location.host);
-    if(document.location.host == "localhost:8000" || document.location.host == "localhost" || document.location.host == "smu-sis.github.io"){
-      console.log("loading test data from app-test.js");
-      document.write('<script src="../../test/app-test.js"> </'+'script> ');
+
+
+    if(document.location.search.indexOf("test_with=") !== -1) {
+      //Pull the name of the test config from teh url. test_with=test_module.js#
+      test_module = document.location.search.split('test_with=')[1].split('#')[0];
+      console.log("loading test data from "+test_module);
+      document.write('<script src="../../test/'+test_module+'"> </'+'script> ');
       document.write('<script src="../../test/lib/angular/angular-mocks.js"> </'+'script>  ');
     }
-</script>
-<!--<script src="../test/app-test.js"></script>  -->  
-<!--<script src="../test/lib/angular/angular-mocks.js"></script> --> 
+
+</script> 
 
 <script src="../js/cookies.js"></script>   
 

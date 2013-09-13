@@ -3021,6 +3021,7 @@ function TournamentController($scope,$resource,$http){
     $scope.TournamentHeatGameModel = $resource('/jsonapi/create_game/heatID/:heatID');
     
     $scope.TournamentHeatModel = $resource('/jsonapi/get_heat_ranking');
+    //$scope.Tournament = $resource('/jsonapi/tournament/tournamentID');
     $scope.tournamentID = null;
     //$scope.heatID = 12883052;
     $scope.heat = null;
@@ -3033,6 +3034,11 @@ function TournamentController($scope,$resource,$http){
           });
     };
 
+	$scope.fetch_heat_with_time = function(heatID,time){
+          $scope.TournamentHeatModel.get({"heatID":heatID, "time":time}, function(response){
+              $scope.heat = response;
+          });
+	}
     $scope.create_heat_game = function(){
           $scope.TournamentHeatGameModel.get({"heatID":$scope.heat.heatID}, function(response){
               $scope.game = response;
