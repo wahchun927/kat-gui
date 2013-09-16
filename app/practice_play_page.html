@@ -540,42 +540,41 @@
       </div> 
       <!-- /.container -->    
     </div>
-
+      <br>
       <div ng-controller="PracticeDnDController" id="dndGame">
-
-        <div class="row-fluid" ng-controller="PathController">
-            <div class="span9 progess-inner" id="well-c">
-              <div class="span3" align="center" >&nbsp;&nbsp;&nbsp;&nbsp;Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
-
-              </div>
-              <div class="span8 no-space" align="left"> 
-                <div class="progress progress-success" align="left">
-                  <div class="bar" style="width:{{count = (current_level_progress/total_level_progress)*100 |number:0}}%;">
+      <div class="row-fluid">
+        <div class="span12 well well-small">
+          <div class="row-fluid" ng-controller="PathController">
+              <div class="span9" id="well-c">
+                <div class="span3" align="left" >Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
+                </div>
+                <div align="left"> 
+                  <div class="progress progress-success" align="left">
+                    <div class="bar" style="width:{{count = (current_level_progress/total_level_progress)*100 |number:0}}%;">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="span3 progess-inner" align="left" id="well-c">
-              <font>
-                <p>
-                  &nbsp;&nbsp;&nbsp;&nbsp;Game progress 
-                  &nbsp; <span ng-bind="game.numSolvedProblems"></span> of <span ng-bind="game.numProblems"></span>
-                </p>
-              </font>
-            </div>
+              <div class="span3" align="left" id="well-c">
+                <font>
+                  <p>
+                    Game progress 
+                    &nbsp; <span ng-bind="game.numSolvedProblems"></span> of <span ng-bind="game.numProblems"></span>
+                  </p>
+                </font>
+              </div>
           </div>
           <div class="row-fluid">
-            <div class="span9 well">
-                  <div>
-                    <h4>Current Practice Question</h4>
-                  </div> 
-                  <font face="verdana" size="3">              
-                    &nbsp;&nbsp;Name: <span ng-bind="game.problems.problems[current_problem_index].name"></span>
-                    <br>&nbsp;&nbsp;Description: <span ng-bind="game.problems.problems[current_problem_index].description"></span>
-                  </font>
+            <div class="span9" style="border: 1px solid #DBDACB;">
+              <h5>Current Practice Question</h5> 
+              <font>              
+                &nbsp;Name: <span ng-bind="game.problems.problems[current_problem_index].name"></span>
+                <br>
+                &nbsp;Description: <span ng-bind="game.problems.problems[current_problem_index].description"></span>
+              </font>
             </div>
             <div class="span3 ">
-              <div class="span12 well well-small">
+              <div class="span12" style="border: 1px solid #DBDACB;">
                 <font>
                   &nbsp;&nbsp;Path Name: <span ng-bind="nameOfPath"></span>
                   <br>
@@ -583,15 +582,16 @@
                   <br>
                   &nbsp;&nbsp;Difficulty: <span ng-bind="gameDifficulty"></span>
                 </font>
-
               </div>
-              <div class="span12" align="center">
-                    <p>
-                      <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;&nbsp;&nbsp;Skip&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                    </p>
+              <div class="span12" align="center" style="padding-top:10px">
+                <p>
+                  <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;&nbsp;&nbsp;Skip&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                </p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
 
         <div id="loading" display="none">
