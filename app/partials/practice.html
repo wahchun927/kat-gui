@@ -128,7 +128,7 @@ li{ list-style:none; }
 				<div class="span12">
 				
 					<div class="span4" align="center">
-						<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{difficulty}}</h4>
+						<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</h4>
 						<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</h4>
 						<div class="well well-small" id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];">					
 							<span ng-repeat="item in levels">
@@ -217,7 +217,7 @@ li{ list-style:none; }
 								</br></br>
 								<!-- <form action="#storyboard"> -->
 								<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 145px"><h5>Continue Path</h5></button>
-								<span class="label label-info" align="left">
+								<span class="label label-info" align="left" ng-show="difficulty && practice_path_name">
 									<b><i>You are going to play</i></b>
 									</br></br>
 									Diffculty : {{difficulty}}
@@ -293,7 +293,7 @@ li{ list-style:none; }
 				<div class="span12">
 				
 					<div class="span3 lead well well-small" align="center">
-						<h5 id="gradient1" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{difficulty}}</h5>
+						<h5 id="gradient1" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</h5>
 						<h5 id="gradient1" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</h5>
 						<hr>
 						<div id="levelsmall" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
@@ -382,7 +382,7 @@ li{ list-style:none; }
 								</br></br>
 								<!-- <form action="#storyboard"> -->
 								<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 110px"><H5>Continue Path</H5></button>
-								<span class="label label-info" align="left">
+								<span class="label label-info" align="left" ng-show="difficulty && practice_path_name">
 									<b><i>You are going to play</i></b>
 									</br></br>
 									Diffculty : {{difficulty}}
