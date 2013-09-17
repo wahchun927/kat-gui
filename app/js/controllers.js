@@ -230,7 +230,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.lvlName = 1;
 		$scope.difficulty = "";
 		$scope.path_ID = "";
-		$scope.path_name = "";
+		$scope.path_name = "a Language";
 		$scope.practice_path_name = "";
 		$scope.currentURL = location.href;
 		
@@ -2676,7 +2676,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.name = $cookieStore.get("name");
 	$scope.supportedPaths = [];
 	$scope.supportedPathNames = [];
-	$scope.story_name = "";
+	$scope.story_name = "a Story";
 	$scope.current_story_name = "";
 	$scope.quest_path_name = "";
 	$scope.currentURL = "";
