@@ -2981,6 +2981,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				}
 			}
 			$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
+			if($scope.updatedStoryList.indexOf(storyID) == -1){
+				alert("Selected path does not support your previous selection of story, please reselect a story");
+			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":path_ID}, function(response){
