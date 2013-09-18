@@ -580,7 +580,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	
 	// difficulty levels
 	$scope.levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];
-	$scope.days = [{'name':'1', 'id':'1'},{'name':'2','id':'2'},{'name':'3', 'id':'3'},{'name':'4','id':'4'},{'name':'5','id':'5'},{'name':'6','id':'6'},{'name':'7','id':'7'},{'name':'8','id':'8'},{'name':'9','id':'9'},{'name':'10','id':'10'}];
+	$scope.days = [{'name':1, 'id':1},{'name':2,'id':2},{'name':3, 'id':3},{'name':4,'id':4},{'name':5,'id':5},{'name':6,'id':6},{'name':7,'id':7},{'name':8,'id':8},{'name':9,'id':9},{'name':10,'id':10}];
 	//variable for challenge creation
 	$scope.challengeTypes = [];
 	$scope.challengeTypes.push({'challengeType':'Badge','name':'Badge Challenge'});
@@ -1206,11 +1206,31 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		
 	$scope.editChallenge = function(challenge_id,sDate,eDate){
 	
-		if($scope.chLocation=="" || $scope.chLocation=="1" ){
+		if($scope.challengeToEdit.challenge.allowedCountries.length=="0" ){
 			$scope.challengeToEdit.challenge.worldwide = 1;
+			$scope.challengeToEdit.challenge.allowedCountries = [];
 		}    
 		else{
 			$scope.challengeToEdit.challenge.worldwide = 0;
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+			$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;
+				$scope.player_info = $resource('/jsonapi/player');
+				$scope.player_info.get({},function(response){
+					$scope.player = response;
+				console.log($scope.ListAllCountries + $scope.player.countryCode);
+				
+					for(var i=0;i<$scope.ListAllCountries.length;i++){
+						if($scope.ListAllCountries[i].countryCode == $scope.player.countryCode)
+						{
+							alert("hello");
+							$scope.challengeToEdit.challenge.allowedCountries[0] = $scope.ListAllCountries[i].id;
+							break;
+						}
+					}	
+					
+				});				
+			});
 			
 		}
 		
@@ -1239,6 +1259,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									startDate:sDate,
 									endDate:eDate,
 									name:$scope.challengeToEdit.challenge.name
@@ -1272,6 +1293,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									name:$scope.challengeToEdit.challenge.name,
+									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									startDate:sDate,
 									endDate:eDate
 					}).success(function (data, status, headers, config) {
@@ -1283,11 +1306,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				}
 			}
 			//validate attribute of quest challenge
-			else if($scope.$scope.challengeToEdit.challenge.challengeType=='Quest'){
-				if($scope.$scope.challengeToEdit.challenge.pathID==""){
+			else if($scope.challengeToEdit.challenge.challengeType=='Quest'){
+				if($scope.challengeToEdit.challenge.pathID==""){
 					alert("Please choose the Path ID!");
 				}
-				else if($scope.$scope.challengeToEdit.challenge.storyID==""){
+				else if($scope.challengeToEdit.challenge.storyID==""){
 				    alert("Please choose the Story ID!");
 				}
 				else{
@@ -1300,6 +1323,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
+									name:$scope.challengeToEdit.challenge.name,
 									startDate:sDate,
 									endDate:eDate
 					}).success(function (data, status, headers, config) {
