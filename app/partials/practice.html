@@ -78,7 +78,8 @@ li{ list-style:none; }
 <div ng-controller="PathController" ng-init="list();">
 	<div id="largeSelectPlay">
 	    <div class="container" >
-		<h4 class="well well-small" align="center" id="well-c">#1. Pick a Path!</h4>
+		<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#1. Pick {{path_name}}!</h4>
+		<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#1. Pick a Path!</h4>
 		</div>
 		<div id="myCarousel" class="carousel slide" ng-hide="difficulty=='Drag-n-Drop'">
 			<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
@@ -127,7 +128,8 @@ li{ list-style:none; }
 				<div class="span12">
 				
 					<div class="span4" align="center">
-						<div style="margin-bottom:-15px"><h4 class="well well-small" id="well-c">#2. Select a difficulty Level</h4></div>
+						<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</h4>
+						<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</h4>
 						<div class="well well-small" id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];">					
 							<span ng-repeat="item in levels">
 								<label class="radio">
@@ -215,14 +217,7 @@ li{ list-style:none; }
 								</br></br>
 								<!-- <form action="#storyboard"> -->
 								<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 145px"><h5>Continue Path</h5></button>
-								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">
-									<b><i>Please select</i></b>
-									</br></br>
-									Diffculty : {{difficulty}}
-									</br>
-									Path Name : {{path_name}}
-								</span>
-								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') == -1 && currentURL.indexOf('difficulty') == -1">
+								<span class="label label-info" align="left" ng-show="difficulty && practice_path_name">
 									<b><i>You are going to play</i></b>
 									</br></br>
 									Diffculty : {{difficulty}}
@@ -248,7 +243,8 @@ li{ list-style:none; }
 
 	<div id="smallSelectPlay">
 		<div class="container" >
-		<H5 class="well well-small" align="center" id="well-c">#1. Pick a Path!</H5>
+		<h5 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#1. Pick {{path_name}}!</h5>
+		<h5 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#1. Pick a Path!</h5>
 		</div>
 		<div id="myCarouselSmall" class="carousel slide" ng-hide="difficulty=='Drag-n-Drop'">
 			<div class="carousel-inner" style="position:relative;left:0px;z-index:0" class="ng-scope">
@@ -297,7 +293,8 @@ li{ list-style:none; }
 				<div class="span12">
 				
 					<div class="span3 lead well well-small" align="center">
-						<div id="gradient1"><H5>#2. Select a difficulty Level</H5></div> 
+						<h5 id="gradient1" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</h5>
+						<h5 id="gradient1" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</h5>
 						<hr>
 						<div id="levelsmall" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
 							<span ng-repeat="item in levels">
@@ -385,14 +382,7 @@ li{ list-style:none; }
 								</br></br>
 								<!-- <form action="#storyboard"> -->
 								<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 110px"><H5>Continue Path</H5></button>
-								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">
-									<b><i>Please select</i></b>
-									</br></br>
-									Diffculty : {{difficulty}}
-									</br>
-									Path Name : {{path_name}}
-								</span>
-								<span class="label label-info" align="left" ng-show="currentURL.indexOf('path_ID') == -1 && currentURL.indexOf('difficulty') == -1">
+								<span class="label label-info" align="left" ng-show="difficulty && practice_path_name">
 									<b><i>You are going to play</i></b>
 									</br></br>
 									Diffculty : {{difficulty}}

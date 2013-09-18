@@ -96,7 +96,7 @@ input:hover{
 		<div ng-controller="PathController" ng-init="list();get_player_progress();">
 			<div id="largeSelectPlay">
 				<div class="container" >
-					<h4 class="well well-small" align="center" id="well-c">#1. Pick a Story!</h4>
+					<h4 class="well well-small" align="center" id="well-c">#1. Pick {{story_name}}!</h4>
 				</div>
 				<div>&nbsp;</div>	 
 			  
@@ -130,7 +130,8 @@ input:hover{
 						<div class="span12">
 				            <div class="span4" align="center">
 								<div style="margin-bottom:-15px">
-									<h4 class="well well-small" align="center" id="well-c">#2 Select Difficulty!</h4>
+									<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2 Select {{passed_in_difficulty}}!</h4>
+									<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') == -1">#2 Select Difficulty!</h4>
 								</div>
 								<div class="well well-small">
 									<div id="levels"  style="height:220px;" class="btn-group " data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
@@ -147,7 +148,7 @@ input:hover{
 							    <!-- select path for non-drag n drop-game -->
 							<div class="span4" align="center" id="pathSel">
 								<div style="margin-bottom:-15px">
-									<h4 class="well well-small" align="center" id="well-c">#3. Select a Language</h4>
+									<h4 class="well well-small" align="center" id="well-c">#3. Select {{path_name}}</h4>
 								</div>
 								<div class="well well-small">	
 									<div style="height:220px;overflow:auto;margin-top:5px" ng-hide="difficulty=='Drag-n-Drop'">
@@ -178,15 +179,6 @@ input:hover{
 											<div  ng-show="!difficulty || !path_ID || !storyid || !player.nickname">
 											<!-- <form action="#storyboard"> -->
 												<button class="btn disabled" style="width: 145px"><h1>Go!</h1></button>
-												<span class="label label-info" align="left" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">
-													<b><i>Please select</i></b>
-													</br></br>
-													Diffculty : {{difficulty}}
-													</br>
-													Path Name : {{path_name}}
-													</br>
-													Story Name : {{story_name}}
-												</span>
 											<!-- </form> -->
 											</div>
 											<div  ng-show="difficulty && path_ID && storyid && player.nickname">
@@ -217,7 +209,7 @@ input:hover{
 			<div id="smallSelectPlay">
 				
 				<div class="container" >
-					<h4 class="well well-small" align="center" id="well-c">#1. Pick a Story!</h4>
+					<h4 class="well well-small" align="center" id="well-c">#1. Pick {{story_name}}!</h4>
 				</div>  
 
 				<div>
@@ -251,7 +243,8 @@ input:hover{
 							<div class="span12">
 								<div class="span4" align="center">
 									<div style="margin-bottom:-15px">
-										<h4 class="well well-small" align="center" id="well-c">#2 Select Difficulty!</h4>
+										<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2 Select {{passed_in_difficulty}}!</h4>
+										 <h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') == -1">#2 Select Difficulty!</h4>
 									 </div>
 									<div class="well well-small">
 										<div id="levelsmall" style="height:220px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
@@ -268,7 +261,7 @@ input:hover{
 									<!-- select path for quest game -->					
 								<div class="span6" align="center" id="small-pathSel">
 									<div style="margin-bottom:-15px">
-										<h4 class="well well-small" align="center" id="well-c">#3. Select a Language</h4>
+										<h4 class="well well-small" align="center" id="well-c">#3. Select {{path_name}}</h4>
 									</div>
 									<div class="well well-small">
 										<div style="height:220px;overflow:auto" id="pathsSmall" ng-hide="difficulty=='Drag-n-Drop'">
@@ -301,15 +294,6 @@ input:hover{
 									<div  ng-show="!difficulty || !path_id || !storyid || !player.nickname">
 									<!-- <form action="#storyboard"> -->
 										<button class="btn disabled" style="width: 100px"><h1>Go!</h1></button>
-										<span class="label label-info" align="left" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">
-											<b><i>Please select</i></b>
-											</br></br>
-											Diffculty : {{difficulty}}
-											</br>
-											Path Name : {{path_name}}
-											</br>
-											Story Name : {{story_name}}
-										</span>
 									<!-- </form> -->
 									</div>
 									

@@ -230,7 +230,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.lvlName = 1;
 		$scope.difficulty = "";
 		$scope.path_ID = "";
-		$scope.path_name = "";
+		$scope.path_name = "a Language";
 		$scope.practice_path_name = "";
 		$scope.currentURL = location.href;
 		
@@ -251,9 +251,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	//Try to only fetch what you need in the init of the controller.
 	if(location.href.indexOf("difficulty") > -1){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
-		setTimeout(function () {
-			$scope.difficulty = $scope.passed_in_difficulty;
-		}, 2000);
 	}
 
 	if(location.href.indexOf("path_ID") > -1){
@@ -2676,7 +2673,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.name = $cookieStore.get("name");
 	$scope.supportedPaths = [];
 	$scope.supportedPathNames = [];
-	$scope.story_name = "";
+	$scope.story_name = "a Story";
 	$scope.current_story_name = "";
 	$scope.quest_path_name = "";
 	$scope.currentURL = "";
@@ -2984,6 +2981,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				}
 			}
 			$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
+			if($scope.updatedStoryList.indexOf(storyID) == -1){
+				alert("Selected path does not support your previous selection of story, please reselect a story");
+			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":path_ID}, function(response){
