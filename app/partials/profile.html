@@ -56,13 +56,11 @@
 	
 	<!--My Creations : Challenges I've Made -->
 	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
-	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:20%;}
+	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:25%;}
 	th.ChallengesIMade_Location,td.ChallengesIMade_Location		{width:10%;}
-	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:10%;}
-	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:10%;}
-	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:10%;}
-	th.ChallengesIMade_Publish,td.ChallengesIMade_Publish		{width:10%;}                                                                                         
-	th.ChallengesIMade_Share,td.ChallengesIMade_Share			{width:10%;}
+	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:15%;}
+	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:15%;}
+	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:15%;}	
 	th.ChallengesIMade_Remove,td.ChallengesIMade_Remove			{width:10%;}
 	
 	<!--All Challenges : Registered Challenge-->
@@ -335,9 +333,7 @@
 								<th class="ChallengesIMade_Name">Name</th>
 								<th class="ChallengesIMade_Location">Location</th> 
 								<th class="ChallengesIMade_StartDate">Start Date</th>
-								<th class="ChallengesIMade_EndDate">End Date</th>
-								<th class="ChallengesIMade_Publish">Publish</th>                                                                                              
-								<th class="ChallengesIMade_Share">Share</th>
+								<th class="ChallengesIMade_EndDate">End Date</th>								
 								<th class="ChallengesIMade_Review">Review</th>
 								<th class="ChallengesIMade_Remove">Archive</th>
 							</tr>                                   
@@ -351,9 +347,7 @@
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">World Wide</td>	
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0">{{player.country}}</td>									
 									<td class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
-									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
-									<td  class="ChallengesIMade_Publish">Published</td>
-									<td  class="ChallengesIMade_Share">Shared</td>  
+									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>									 
 									<td class="ChallengesIMade_Review">
 										<div class="btn-group">																			
 											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" ng-click="goToChallengeStats(myChallenge.challenge_id)">Stats</button>
