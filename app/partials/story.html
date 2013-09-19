@@ -1,4 +1,5 @@
 <style>
+<style>
     .table td, .table th {
         border: none;
 		text-align:center;
@@ -149,7 +150,7 @@
 							<div class="span10">															
 								<div class="input-append">
 									<input class="span8" id="appendedInputButtons" ng-model="videoURL" type="text"></input>
-									<button class="btn" type="button-primary" ng-click="addVideo(videoURL)">+</button>									
+									<button class="btn" type="button-primary" ng-click="addVideo(videoURL)">Add Video</button>									
 								</div>													
 							</div> 
 						</div>
@@ -159,10 +160,22 @@
 					<div class="row-fluid">
 						<div class="span12">
 							<div class="span2">
-								<p>Supported Paths : 							
+								<p>Languages for which story can be used for in Quest :  </p>						
 							</div>
-							<div class="span10">	
-								<span class="label label-info" ng-repeat="path in supportedPathNames">{{path}}</span>&nbsp;							
+							<div class="span10">
+								<div class="span5">Drag & Drop :
+									<div class="input-append ">									
+										<select ng-model="supportPath1" ng-options="path1.path_id as path1.name for path1 in mobile_paths"></select>
+										<button class="btn" type="button-primary" ng-click="addPath(supportPath1,'Beginner')">Add</button>
+									</div>
+								</div>
+								
+								<div class="span5">Normal :
+									<div class="input-append">									
+										<select ng-model="supportPath2" ng-options="path2.id as path2.name for path2 in paths_unfiltered.paths"></select>
+										<button class="btn" type="button-primary" ng-click="addPath(supportPath2, 'Normal')">Add</button>				
+									</div>	
+								</div>
 							</div> 
 						</div>
 					</div>
@@ -171,13 +184,7 @@
 							<div class="span2">
 							</div>
 							<div class="span10">															
-								<div class="input-append">
-									<select ng-model="supportPath1" ng-options="path1.path_id as path1.name for path1 in mobile_paths"></select>
-									<button class="btn" type="button-primary" ng-click="addPath(supportPath1,'Beginner')">+Beginner Path</button>
-									
-									<select ng-model="supportPath2" ng-options="path2.id as path2.name for path2 in paths_unfiltered.paths"></select>
-									<button class="btn" type="button-primary" ng-click="addPath(supportPath2, 'Normal')">+Normal Path</button>				
-								</div>													
+								<span class="label label-info" ng-repeat="path in supportedPathNames">{{path}}</span>&nbsp;												
 							</div> 
 						</div>
 					</div>
