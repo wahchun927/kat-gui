@@ -12,7 +12,7 @@
     }
     
     .tabspacing{
-        width:33.333%;
+        width:25%;
 	}
 
     
@@ -24,6 +24,7 @@
     tbody{
         overflow:auto;  
     }
+	
 	
 	<!--All Challenges : Open Challenge-->
 	th.OpenC_Type, td.OpenC_Type							{width:20%;}
@@ -45,13 +46,11 @@
 
 	<!--My Creations : Challenges I've Made -->
 	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
-	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:20%;}
+	th.ChallengesIMade_Name, td.ChallengesIMade_Name			{width:25%;}
 	th.ChallengesIMade_Location,td.ChallengesIMade_Location		{width:10%;}
-	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:10%;}
-	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:10%;}
-	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:10%;}
-	th.ChallengesIMade_Publish,td.ChallengesIMade_Publish		{width:10%;}                                                                                         
-	th.ChallengesIMade_Share,td.ChallengesIMade_Share			{width:10%;}
+	th.ChallengesIMade_StartDate,td.ChallengesIMade_StartDate 	{width:15%;}
+	th.ChallengesIMade_EndDate,td.ChallengesIMade_EndDate		{width:15%;}
+	th.ChallengesIMade_Review,td.ChallengesIMade_Review			{width:15%;}	
 	th.ChallengesIMade_Remove,td.ChallengesIMade_Remove			{width:10%;}
 	
    
@@ -76,6 +75,9 @@
 					<li class="tabspacing">
 					  <a data-target="#Mine" data-toggle="tab">Challenges I've Made</a>
 					</li> 
+					 
+					 <button type="button" class="btn btn-primary" id="createChallenge" ng-click="goToChallengeCreator()">Create a Challenge!</button></a>
+				
 					
 				</ul>
 				<div class="tab-content" id="top-content">				
@@ -103,8 +105,8 @@
 									<td class="OpenC_Location" ng-show="challenge.worldwide==0">{{player.country}}</td>									
 									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
 									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
-									<td class="OpenC_Register" ng-show="challenge._playerRegistered==false" ><button class="btn btn-success" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)"> To register</button></td>
-									<td class="OpenC_Register" ng-show="challenge._playerRegistered==true"><button class="btn btn-danger" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)">Registered</button></td>
+									<td class="OpenC_Register" ng-show="challenge._playerRegistered==false" ><button class="btn btn-danger" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)"> Register</button></td>
+									<td class="OpenC_Register" ng-show="challenge._playerRegistered==true"><button class="btn btn-info" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)">Resume</button></td>
 
 								</tr>           
 							</table>																	
@@ -139,7 +141,7 @@
 										<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
 										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
 										<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
-										<td class="AcceptedC_Outcome" ng-hide ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonLocked_on.png"/></td>
+										<td class="AcceptedC_Outcome" ng-hide ="Acceptedchallenge._playerUnlocked"><button class="btn btn-info" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)">Resume</button></td>
 										<td class="AcceptedC_Msg" ng-show ="Acceptedchallenge._playerUnlocked">{{Acceptedchallenge.playerFeedback}}</td>
 										<td class="AcceptedC_Msg" ng-hide ="Acceptedchallenge._playerUnlocked">You have not submitted any messages!</td>
 
@@ -157,9 +159,7 @@
 									<th class="ChallengesIMade_Name">Name</th>
 									<th class="ChallengesIMade_Location">Location</th> 
 									<th class="ChallengesIMade_StartDate">Start Date</th>
-									<th class="ChallengesIMade_EndDate">End Date</th>
-									<th class="ChallengesIMade_Publish">Publish</th>                                                                                              
-									<th class="ChallengesIMade_Share">Share</th>
+									<th class="ChallengesIMade_EndDate">End Date</th>									
 									<th class="ChallengesIMade_Review">Review</th>
 									<th class="ChallengesIMade_Remove">Archive</th>
 								</tr>                                   
@@ -174,9 +174,7 @@
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">World Wide</td>	
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==0">{{player.country}}</td>									
 									<td class="ChallengesIMade_StartDate">{{myChallenge.startDate}}</td>
-									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>
-									<td  class="ChallengesIMade_Publish">Published</td>
-									<td  class="ChallengesIMade_Share">Shared</td>  
+									<td class="ChallengesIMade_EndDate">{{myChallenge.endDate}}</td>									
 									<td class="ChallengesIMade_Review">
 										<div class="btn-group">																			
 											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" ng-click="goToChallengeStats(myChallenge.challenge_id)">Stats</button>
@@ -190,11 +188,6 @@
 						
 					</div>
 				</div>
-						<br>
-						<!--Create button-->
-						<div align="right"  ng-controller="ChallengeController">
-							<button type="button" class="btn btn-primary" style="height: 33px; width: 150px" ng-click="goToChallengeCreator()">Create a Challenge</button>
-						</div>
 			</div>
 
         </div>
