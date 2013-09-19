@@ -119,10 +119,10 @@
                 </tr>
                 <tr>
                     <th style="text-align:left;">Location</th>
-                    <th ng-controller="PlayerController">
-						<select ng-model="chLocation">
-							<option value="World Wide">World Wide</option>
-							<option value="{{player.country}}">{{player.country}}</option>
+                    <th>
+						<select ng-model="challengeToEdit.challenge.allowedCountries.length">
+							<option value="0">World Wide</option>
+							<option value="1">{{player.country}}</option>
 						</select>
 					</th>
                 </tr>
@@ -146,13 +146,13 @@
 							<select ng-model="challengeToEdit.challenge.difficulty" ng-options="level.id as level.name for level in levels"></select>
                         </th>
                     </tr>
-                    <tr ng-show="difficulty!='Drag-n-Drop'">
+                    <tr ng-show="challengeToEdit.challenge.difficulty!='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
 							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
-                    <tr ng-show="difficulty=='Drag-n-Drop'">
+                    <tr ng-show="challengeToEdit.challenge.difficulty=='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
 							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
@@ -172,13 +172,13 @@
 							<select ng-model="challengeToEdit.challenge.difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Drag-n-Drop'"></select>
                         </th>
                     </tr>
-                    <tr ng-show="difficulty!='Drag-n-Drop'">
+                    <tr ng-show="challengeToEdit.challenge.difficulty!='Drag-n-Drop'">
                         <th>Language</th>
                         <th>
 							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
-                    <tr ng-show="difficulty=='Drag-n-Drop'">
+                    <tr ng-show="challengeToEdit.challenge.difficulty=='Drag-n-Drop'">
                         <th>Language</th>
                         <th>
 							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
