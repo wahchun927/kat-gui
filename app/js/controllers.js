@@ -964,7 +964,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				}
 			});
 
-			console.log($scope.ListMyChallenges);
         });
     };
 	
@@ -1069,17 +1068,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.challengePlayers = response.players;	
 			$scope.unlockedPlayers=[];
 			//if playerUnlocked=true
-			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerUnlocked==true){
-					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
-					var exact_date = full_date.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+			for(var i=0;i<=$scope.challengePlayers.length;i++){
+				if($scope.challengePlayers[i]){
+					if($scope.challengePlayers[i].playerUnlocked==true){
+						var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+						var exact_date = full_date.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
 
-					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
-					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+						var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+						var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
 
-					$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
+						$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
+					}
 				}
 			}
         });	
@@ -1093,17 +1094,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.challengePlayers = response.players;	
 			$scope.submittedPlayers=[];
 			//if playerSubmitted=true
-			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerSubmitted==true){
-					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
-					var exact_date = full_date.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+			for(var i=0;i<=$scope.challengePlayers.length;i++){	
+				if($scope.challengePlayers[i]){
+					if($scope.challengePlayers[i].playerSubmitted==true){
+						var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+						var exact_date = full_date.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
 
-					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
-					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+						var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+						var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
 
-					$scope.submittedPlayers.push($scope.challengePlayers[i]);				
+						$scope.submittedPlayers.push($scope.challengePlayers[i]);				
+					}
 				}
 			}
         });	
