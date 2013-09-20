@@ -2707,6 +2707,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.initialShow = "";
 	
 	$scope.list = function(){
+		$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.StoryModel = $resource('/jsonapi/story');
 
 	    $scope.StoryModel.query({}, function(response){
@@ -2754,7 +2755,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){
+     $scope.addQuestColor=function(){vnbm
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
@@ -2788,6 +2789,16 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
 			$scope.publishStatus = response.published;
+			$scope.supportedPaths = response.supported_paths;
+			$scope.supportedPathNames = [];
+			  
+			for(var i=0;i<response.supported_paths.length;i++){
+				$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+				//Including details=1 returns the nested problemset progress.
+				$scope.PathModel.get({"pathID":response.supported_paths[i],"details":1}, function(response1){
+					$scope.supportedPathNames.push(response1.path.name);
+				});      
+			} 
 			$cookieStore.put("editStory", response.id);
 			console.log(response.id);
 			$scope.editOrCreate = "edit";
