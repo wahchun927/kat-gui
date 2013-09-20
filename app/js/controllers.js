@@ -2844,8 +2844,28 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
-   	$scope.addVideo=function(videoURL){
-		if(videoURL.length==42){
+		$scope.addVideo=function(videoURL){
+			//get videoID
+			var video_id = videoURL.substring(videoURL.length-11);
+			
+			var req = new XMLHttpRequest();
+			req.open('GET', 'http://gdata.youtube.com/feeds/api/videos/'+video_id, false); 
+			req.send();
+			if(req.status == 200 && video_id.length==11) {
+				if($scope.Videos.indexOf(video_id) > -1){
+					alert("The video is already in the list!");
+					$scope.videoURL="";
+				}
+				else{
+					$scope.Videos.push(video_id);
+					$scope.videoURL="";
+				}
+			}
+			else{
+				alert("The video url is not valid!");
+				$scope.videoURL="";
+			}
+/* 		if(videoURL.length==42){
 			//Videos for the purpose of story creation
 			if($scope.Videos.indexOf(videoURL.substring(31)) > -1){
 				alert("The video is already in the list!");
@@ -2858,7 +2878,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		}
 		else{
 			alert("Please put in a valid YouTube URL!");
-		}
+		} */
 	}
 		
     ////Enable reordering of rows under sequence column, & save the order	   
