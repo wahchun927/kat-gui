@@ -261,11 +261,11 @@
                 <table>
                     <tr>
                         <th>Start Date</th>
-                        <th><input type="text" name="startDate"  ng-model="chStartDate"></th>
+                        <th><input type="text" name="startDate"  ng-model="chStartDate" datepicker readonly/></th>
                     </tr>
                     <tr>
                         <th>End Date</th>
-                        <th><input type="text" name="endDate"  ng-model="chEndDate"></th>
+                        <th><input type="text" name="endDate"  ng-model="chEndDate" datepicker readonly/></th>
                     </tr>
 
                 </table>
@@ -290,9 +290,6 @@
         <a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click="hideSuccessModal()">Ok</button></a>
     </div>
 </div>
-  <h1> Selected date: {{date}}</h1>
-  
-  <input type="text" ng-model="date" datepicker />
 </div><!-- End of container which contains 'largeProfile' -->
 <br>
 <br>

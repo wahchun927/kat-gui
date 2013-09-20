@@ -706,7 +706,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.newChallenge.difficulty=$scope.difficulty;
 		$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
 		$scope.newChallenge.totalDays=$scope.totalDays;
-		
+		var endDate = new Date($scope.newChallenge.endDate);
+		var startDate = new Date($scope.newChallenge.startDate);
 		//badge challenge
 		$scope.newChallenge.unlockRequiredBadges = [];
 		
@@ -754,6 +755,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		}
 		else if($scope.newChallenge.privateMessage==""){
 			alert("The challenge private Message cannot be empty!");
+		}
+		else if($scope.newChallenge.endDate<$scope.newChallenge.startDate){
+			alert("The start date should earlier than end date!");
 		}
 		else{
 			//validate attribute of badge challenge
