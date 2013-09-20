@@ -963,6 +963,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				
 				}
 			});
+
+			console.log($scope.ListMyChallenges);
         });
     };
 	
