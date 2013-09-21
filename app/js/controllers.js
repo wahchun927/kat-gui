@@ -563,6 +563,7 @@ function BadgeController($scope,$resource){
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore,$http,$route){
+
 	$scope.loading = function(){
 
 		$scope.defaultCountry = "";
@@ -610,8 +611,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		var yyyy = today.getFullYear();
 		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
-		$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
-		$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
+		$scope.chStartDate= dd+'-'+ mm +'-'+yyyy;
+		$scope.chEndDate= dd+'-'+ mm +'-'+yyyy;;
 		
 		//retrieve published and user's own stories
 		$scope.pubStories = [];
@@ -675,6 +676,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
 			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
    			$scope.challengeToEdit = response;  
+			$scope.pathID = $scope.challengeToEdit.challenge.pathID;
 			});
 		};
 	};
@@ -706,7 +708,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.newChallenge.difficulty=$scope.difficulty;
 		$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
 		$scope.newChallenge.totalDays=$scope.totalDays;
-		
+		var endDate = new Date($scope.newChallenge.endDate);
+		var startDate = new Date($scope.newChallenge.startDate);
 		//badge challenge
 		$scope.newChallenge.unlockRequiredBadges = [];
 		
@@ -754,6 +757,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		}
 		else if($scope.newChallenge.privateMessage==""){
 			alert("The challenge private Message cannot be empty!");
+		}
+		else if($scope.newChallenge.endDate<$scope.newChallenge.startDate){
+			alert("The start date should earlier than end date!");
 		}
 		else{
 			//validate attribute of badge challenge
@@ -965,6 +971,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				
 				}
 			});
+
         });
     };
 	
@@ -1069,17 +1076,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.challengePlayers = response.players;	
 			$scope.unlockedPlayers=[];
 			//if playerUnlocked=true
-			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerUnlocked==true){
-					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
-					var exact_date = full_date.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+			for(var i=0;i<=$scope.challengePlayers.length;i++){
+				if($scope.challengePlayers[i]){
+					if($scope.challengePlayers[i].playerUnlocked==true){
+						var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+						var exact_date = full_date.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
 
-					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
-					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+						var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+						var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
 
-					$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
+						$scope.unlockedPlayers.push($scope.challengePlayers[i]);				
+					}
 				}
 			}
         });	
@@ -1093,17 +1102,19 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.challengePlayers = response.players;	
 			$scope.submittedPlayers=[];
 			//if playerSubmitted=true
-			for(var i=0;i<=$scope.challengePlayers.length;i++){					
-				if($scope.challengePlayers[i].playerSubmitted==true){
-					var full_date = $scope.challengePlayers[i].playerRegisteredDate;
-					var exact_date = full_date.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
+			for(var i=0;i<=$scope.challengePlayers.length;i++){	
+				if($scope.challengePlayers[i]){
+					if($scope.challengePlayers[i].playerSubmitted==true){
+						var full_date = $scope.challengePlayers[i].playerRegisteredDate;
+						var exact_date = full_date.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerRegisteredDate = full_date.substring(0,exact_date);
 
-					var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
-					var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
-					$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
+						var full_date_unlock = $scope.challengePlayers[i].playerUnlockedDate;
+						var exact_date_unlock = full_date_unlock.lastIndexOf(' ');
+						$scope.challengePlayers[i].playerUnlockedDate = full_date_unlock.substring(0,exact_date_unlock);
 
-					$scope.submittedPlayers.push($scope.challengePlayers[i]);				
+						$scope.submittedPlayers.push($scope.challengePlayers[i]);				
+					}
 				}
 			}
         });	
@@ -1275,7 +1286,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			}
 			//validate attribute of habit challenge
 			else if($scope.challengeToEdit.challenge.challengeType=='Habit'){
-				if($scope.challengeToEdit.challenge.pathID==""){
+				if($scope.pathID==""){
 					alert("Please choose the language!");
 				}
 				else if($scope.challengeToEdit.challenge.problemsPerDay==""){
@@ -1290,7 +1301,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									totalDays:$scope.challengeToEdit.challenge.totalDays,
 									problemsPerDay:$scope.challengeToEdit.challenge.problemsPerDay,
 									difficulty:$scope.challengeToEdit.challenge.difficulty,
-									pathID:$scope.challengeToEdit.challenge.pathID,
+									pathID:$scope.pathID,
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
@@ -1356,6 +1367,30 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			window.location = $scope.challengeURL;
 		}
 	}
+	$scope.$watch('pathID', function() {
+		$scope.pubStories = [];
+		$scope.StoryModel = $resource('/jsonapi/story');
+		$scope.StoryModel.query({}, function(response){
+			$scope.stories = response;
+			for(var i=0;i<$scope.stories.length;i++){
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.pathID) <= -1){
+					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+					$scope.pubStories.push(aStory);
+				}				
+			}
+		}); 
+		
+		$scope.myStoryModel = $resource('/jsonapi/player_stories');
+		$scope.myStoryModel.query({}, function(response){
+			$scope.myStories = response;
+			for(var i=0;i<$scope.myStories.length;i++){
+				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.pathID) <= -1){
+					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+					$scope.pubStories.push(aStory);
+				}				
+			}	
+		});	
+	});
 }
 
 
@@ -2707,6 +2742,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.initialShow = "";
 	
 	$scope.list = function(){
+		$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.StoryModel = $resource('/jsonapi/story');
 
 	    $scope.StoryModel.query({}, function(response){
@@ -2754,7 +2790,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){
+     $scope.addQuestColor=function(){vnbm
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
@@ -2788,6 +2824,16 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
 			$scope.publishStatus = response.published;
+			$scope.supportedPaths = response.supported_paths;
+			$scope.supportedPathNames = [];
+			  
+			for(var i=0;i<response.supported_paths.length;i++){
+				$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+				//Including details=1 returns the nested problemset progress.
+				$scope.PathModel.get({"pathID":response.supported_paths[i],"details":1}, function(response1){
+					$scope.supportedPathNames.push(response1.path.name);
+				});      
+			} 
 			$cookieStore.put("editStory", response.id);
 			console.log(response.id);
 			$scope.editOrCreate = "edit";
@@ -2844,8 +2890,28 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
-   	$scope.addVideo=function(videoURL){
-		if(videoURL.length==42){
+		$scope.addVideo=function(videoURL){
+			//get videoID
+			var video_id = videoURL.substring(videoURL.length-11);
+			
+			var req = new XMLHttpRequest();
+			req.open('GET', 'http://gdata.youtube.com/feeds/api/videos/'+video_id, false); 
+			req.send();
+			if(req.status == 200 && video_id.length==11) {
+				if($scope.Videos.indexOf(video_id) > -1){
+					alert("The video is already in the list!");
+					$scope.videoURL="";
+				}
+				else{
+					$scope.Videos.push(video_id);
+					$scope.videoURL="";
+				}
+			}
+			else{
+				alert("The video url is not valid!");
+				$scope.videoURL="";
+			}
+/* 		if(videoURL.length==42){
 			//Videos for the purpose of story creation
 			if($scope.Videos.indexOf(videoURL.substring(31)) > -1){
 				alert("The video is already in the list!");
@@ -2858,7 +2924,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		}
 		else{
 			alert("Please put in a valid YouTube URL!");
-		}
+		} */
 	}
 		
     ////Enable reordering of rows under sequence column, & save the order	   

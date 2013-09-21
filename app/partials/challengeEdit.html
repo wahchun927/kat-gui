@@ -135,12 +135,6 @@
                 <br>
                 <table>
                     <tr>
-                        <th>Story Name</th>
-                        <th>
-							<select ng-model="challengeToEdit.challenge.storyID" ng-options="story.id as story.name for story in pubStories"></select>			
-						</th>
-                    </tr>
-                    <tr>
                         <th>Level</th>
                         <th>
 							<select ng-model="challengeToEdit.challenge.difficulty" ng-options="level.id as level.name for level in levels"></select>
@@ -149,14 +143,20 @@
                     <tr ng-show="challengeToEdit.challenge.difficulty!='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
-							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
                     <tr ng-show="challengeToEdit.challenge.difficulty=='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
-							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                         </th>
+                    </tr>
+                    <tr>
+                        <th>Story Name</th>
+                        <th>
+							<select ng-model="challengeToEdit.challenge.storyID" ng-options="story.id as story.name for story in pubStories"></select>			
+						</th>
                     </tr>
                 </table>
         </div>
@@ -223,17 +223,17 @@
                 <table>
                     <tr>
                         <th>Start Date</th>
-                        <th><input type="text" name="startDate"  ng-model="chStartDate"></th>
+                        <th><input type="text" name="startDate"  ng-model="challengeToEdit.challenge.startDate" datepicker readonly/></th>
                     </tr>
                     <tr>
                         <th>End Date</th>
-                        <th><input type="text" name="endDate"  ng-model="chEndDate"></th>
+                        <th><input type="text" name="endDate"  ng-model="challengeToEdit.challenge.endDate" datepicker readonly/></th>
                     </tr>
 
                 </table>
         </div>
         <div class="span6 well" id="finish">
-			<button class="btn btn-primary" ng-click="editChallenge(challengeToEdit.challenge.challenge_id,chStartDate,chEndDate);">Save</button>
+			<button class="btn btn-primary" ng-click="editChallenge(challengeToEdit.challenge.challenge_id,challengeToEdit.challenge.startDate,challengeToEdit.challenge.endDate);">Save</button>
         </div> 
 
     </div>
