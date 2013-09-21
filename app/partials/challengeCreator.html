@@ -169,12 +169,6 @@
                 <div class="well well-small">
                     <table>
                         <tr>
-                            <th>Story Name</th>
-                            <th>
-                                <select ng-model="storyID" ng-options="story.id as story.name for story in pubStories" ng-init="storyID=pubStories[0].id"></select>         
-                            </th>
-                        </tr>
-                        <tr>
                             <th>Level</th>
                             <th>
                                 <select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
@@ -190,6 +184,12 @@
                             <th>Path</th>
                             <th>
                                 <select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Story Name</th>
+                            <th>
+                                <select ng-model="storyID" ng-options="story.id as story.name for story in pubStories" ng-init="storyID=pubStories[0].id"></select>         
                             </th>
                         </tr>
                     </table>

@@ -563,6 +563,7 @@ function BadgeController($scope,$resource){
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore,$http,$route){
+
 	$scope.loading = function(){
 
 		$scope.defaultCountry = "";
@@ -610,8 +611,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		var yyyy = today.getFullYear();
 		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
-		$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
-		$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
+		$scope.chStartDate= dd+'-'+ mm +'-'+yyyy;
+		$scope.chEndDate= dd+'-'+ mm +'-'+yyyy;;
 		
 		//retrieve published and user's own stories
 		$scope.pubStories = [];
@@ -675,6 +676,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
 			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
    			$scope.challengeToEdit = response;  
+			$scope.pathID = $scope.challengeToEdit.challenge.pathID;
 			});
 		};
 	};
@@ -1284,7 +1286,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			}
 			//validate attribute of habit challenge
 			else if($scope.challengeToEdit.challenge.challengeType=='Habit'){
-				if($scope.challengeToEdit.challenge.pathID==""){
+				if($scope.pathID==""){
 					alert("Please choose the language!");
 				}
 				else if($scope.challengeToEdit.challenge.problemsPerDay==""){
@@ -1299,7 +1301,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									totalDays:$scope.challengeToEdit.challenge.totalDays,
 									problemsPerDay:$scope.challengeToEdit.challenge.problemsPerDay,
 									difficulty:$scope.challengeToEdit.challenge.difficulty,
-									pathID:$scope.challengeToEdit.challenge.pathID,
+									pathID:$scope.pathID,
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
@@ -1365,6 +1367,30 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			window.location = $scope.challengeURL;
 		}
 	}
+	$scope.$watch('pathID', function() {
+		$scope.pubStories = [];
+		$scope.StoryModel = $resource('/jsonapi/story');
+		$scope.StoryModel.query({}, function(response){
+			$scope.stories = response;
+			for(var i=0;i<$scope.stories.length;i++){
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.pathID) <= -1){
+					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+					$scope.pubStories.push(aStory);
+				}				
+			}
+		}); 
+		
+		$scope.myStoryModel = $resource('/jsonapi/player_stories');
+		$scope.myStoryModel.query({}, function(response){
+			$scope.myStories = response;
+			for(var i=0;i<$scope.myStories.length;i++){
+				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.pathID) <= -1){
+					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+					$scope.pubStories.push(aStory);
+				}				
+			}	
+		});	
+	});
 }
 
 
