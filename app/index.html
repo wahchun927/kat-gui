@@ -490,8 +490,8 @@
         //This is where you want the user redirected back to. 
         console.log("Current location for login redirect "+document.location.href);
         //Come back to the current page after login. 
-        redirect_url = document.location.href;
-        //redirect_url = "http://"+document.location.host+"/fyp/app/index.html";
+        //redirect_url = document.location.href;
+        redirect_url = "http://"+document.location.host+"/kat-gui/app/index.html#/profile";
         
         janrain.settings.tokenUrl = auth_url+'?target='+redirect_url;
 
