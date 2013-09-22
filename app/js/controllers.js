@@ -646,11 +646,24 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     if( open_challenge_ID != null){
     	$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
    		$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
-   			$scope.single_challenge = response;  
+   			$scope.single_challenge = response; 
 
-   				
+   			//To retrieve story name by using story ID
+   			var storyID = $scope.single_challenge.challenge.storyID; 
+   			$scope.get_story_for_name_conversion = $resource('/jsonapi/story/:storyID');
+   			$scope.get_story_for_name_conversion.get({"storyID":storyID},function(response){
+   				$scope.selected_Story_Name = response;
+   			})
+
+   			//To retrieve pathName by using path ID
+   			var pathID = $scope.single_challenge.challenge.pathID;
+   			$scope.get_path_for_name_conversion = $resource('/jsonapi/get_path_progress/:pathID');
+   			$scope.get_path_for_name_conversion.get({"pathID":pathID},function(response){
+   				$scope.selected_Path_Name = response;
+   			})
+
    		
-	    	//fetch the badge img url's 
+	    	//To fetch the badge img url's by using badge ID from required badge
 	        $scope.get_all_badges = $resource('/jsonapi/all_badges');
 	        $scope.get_all_badges.get({},function(response){
 	        	$scope.all_the_badges = response;
@@ -3127,7 +3140,9 @@ function TournamentController($scope,$resource,$http){
     $scope.tournamentID = null;
     //$scope.heatID = 12883052;
     $scope.heat = null;
-    
+    $scope.round = null;
+    $scope.roundDirty = false;
+
     //A method to fetch a generic model and id. 
     //Pass in ID
     $scope.fetch_heat = function(heatID){
@@ -3166,11 +3181,97 @@ function TournamentController($scope,$resource,$http){
         });
     };
 
-    $scope.play_tournament = function(){
-          alert("Preparing to launch tournament game.");
-          //$scope.TournamentModel.query({}, function(response){
-          //    $scope.tournaments = response;
-          //});
+    $scope.create_tournament = function(){
+          console.log("Create tournament not implemented yet.");
+    };
+    $scope.update_tournament = function(tournamentID){
+          console.log("Edit tournament not implemented yet.");
+          //http://281.singpath.appspot.com/jsonapi/updateTournament
+    };
+	$scope.fetch_tournament = function(tournamentID){
+          $resource('/jsonapi/tournament/:tournamentID').get({"tournamentID":tournamentID}, function(response){
+              $scope.tournament = response;
+          });
+
+    };
+
+
+	$scope.add_round = function(tournamentID){
+          $scope.roundDirty = false;
+          var data = {'timelimit':3600,
+      					  'description':'Update this description',
+      					  'problemIDs':[],
+      					  'tournamentID':tournamentID}
+          $scope.NewRound = $resource('/jsonapi/add_or_update_round');
+		  var new_round = new $scope.NewRound(data);
+		  new_round.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+			 	$scope.round = response;
+			 }
+		  });	
+          
+    };
+    $scope.update_round = function(roundID){
+          $scope.roundDirty = false;
+          var data = {"timelimit":3600,
+      				  "problemIDs":$scope.round.problemIDs,
+      				  "description":$scope.round.description}
+          $scope.NewRound = $resource('/jsonapi/add_or_update_round/'+roundID);
+		  var new_round = new $scope.NewRound(data);
+		  new_round.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+			 	$scope.round = response;
+			 }
+		  });
+    };
+	$scope.fetch_round = function(roundID){
+          $resource('/jsonapi/round/:roundID').get({"roundID":roundID}, function(response){
+              $scope.round = response;
+              $scope.roundDirty = false;
+          });
+    };
+
+	$scope.set_round_countdown = function(roundID,seconds){
+          console.log("Start round not implemented yet.");
+    };
+	
+    $scope.reset_round = function(roundID){
+        console.log("Reset round not implemented yet.");
+    };
+    $scope.remove_problem_from_round = function(problemID){
+    	$scope.roundDirty = true;
+    	var index = $scope.round.problemIDs.indexOf(problemID);
+    	if (index > -1) {
+    		$scope.round.problemIDs.splice(index, 1);
+		}
+
+    };
+    $scope.move_problem_down_in_round = function(problemID){
+    	$scope.roundDirty = true;
+    	var index = $scope.round.problemIDs.indexOf(problemID);
+    	if (index > -1 && index < $scope.round.problemIDs.length-1) {
+    		var temp = $scope.round.problemIDs[index];
+    		var temp2 = $scope.round.problemIDs[index+1];
+    		$scope.round.problemIDs[index] = temp2;
+    		$scope.round.problemIDs[index+1] = temp;	
+
+		}
+    };
+    $scope.move_problem_up_in_round = function(problemID){
+    	$scope.roundDirty = true;
+    	var index = $scope.round.problemIDs.indexOf(problemID);
+    	if (index > 0) {
+    		var temp = $scope.round.problemIDs[index];
+    		var temp2 = $scope.round.problemIDs[index-1];
+    		$scope.round.problemIDs[index] = temp2;
+    		$scope.round.problemIDs[index-1] = temp;	
+		}
     };
 
 }
