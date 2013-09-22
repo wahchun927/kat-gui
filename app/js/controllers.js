@@ -646,11 +646,24 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     if( open_challenge_ID != null){
     	$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
    		$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
-   			$scope.single_challenge = response;  
+   			$scope.single_challenge = response; 
 
-   				
+   			//To retrieve story name by using story ID
+   			var storyID = $scope.single_challenge.challenge.storyID; 
+   			$scope.get_story_for_name_conversion = $resource('/jsonapi/story/:storyID');
+   			$scope.get_story_for_name_conversion.get({"storyID":storyID},function(response){
+   				$scope.selected_Story_Name = response;
+   			})
+
+   			//To retrieve pathName by using path ID
+   			var pathID = $scope.single_challenge.challenge.pathID;
+   			$scope.get_path_for_name_conversion = $resource('/jsonapi/get_path_progress/:pathID');
+   			$scope.get_path_for_name_conversion.get({"pathID":pathID},function(response){
+   				$scope.selected_Path_Name = response;
+   			})
+
    		
-	    	//fetch the badge img url's 
+	    	//To fetch the badge img url's by using badge ID from required badge
 	        $scope.get_all_badges = $resource('/jsonapi/all_badges');
 	        $scope.get_all_badges.get({},function(response){
 	        	$scope.all_the_badges = response;
