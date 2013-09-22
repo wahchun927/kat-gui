@@ -169,12 +169,6 @@
                 <div class="well well-small">
                     <table>
                         <tr>
-                            <th>Story Name</th>
-                            <th>
-                                <select ng-model="storyID" ng-options="story.id as story.name for story in pubStories" ng-init="storyID=pubStories[0].id"></select>         
-                            </th>
-                        </tr>
-                        <tr>
                             <th>Level</th>
                             <th>
                                 <select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
@@ -190,6 +184,12 @@
                             <th>Path</th>
                             <th>
                                 <select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Story Name</th>
+                            <th>
+                                <select ng-model="storyID" ng-options="story.id as story.name for story in pubStories" ng-init="storyID=pubStories[0].id"></select>         
                             </th>
                         </tr>
                     </table>
@@ -261,11 +261,11 @@
                 <table>
                     <tr>
                         <th>Start Date</th>
-                        <th><input type="text" name="startDate"  ng-model="chStartDate"></th>
+                        <th><input type="text" name="startDate"  ng-model="chStartDate" datepicker readonly/></th>
                     </tr>
                     <tr>
                         <th>End Date</th>
-                        <th><input type="text" name="endDate"  ng-model="chEndDate"></th>
+                        <th><input type="text" name="endDate"  ng-model="chEndDate" datepicker readonly/></th>
                     </tr>
 
                 </table>
@@ -290,10 +290,10 @@
         <a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click="hideSuccessModal()">Ok</button></a>
     </div>
 </div>
-
 </div><!-- End of container which contains 'largeProfile' -->
 <br>
 <br>
 <div class="container" id="smallProfile" style="position:relative;">
-    
+<!-- You can use the global $strapConfig to set defaults -->
+   
 </div><!-- End of container which contains 'smallProfile' -->
