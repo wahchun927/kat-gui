@@ -83,7 +83,7 @@
 <hr>
 
 
-<div ng-controller="TournamentController" ng-init="fetch_tournaments();tournamentID=12877002;fetch_heat(14922866);">
+<div ng-controller="TournamentController" ng-init="fetch_tournaments();tournamentID=14938747;fetch_heat(14922866);fetch_tournament(14938747)">
     Tournament Controller<br>
     Open Tournaments
     <ol>
@@ -96,6 +96,54 @@
     <input type="text" ng-model="tournamentPassword">
     <input type="submit" value="Register" ng-click="register_for_tournament()"><br>
     Registration Result: {{registration_response}}
+    <br>
+    TournamentID: {{tournamentID}}<br>
+    Tournament: <pre>{{tournament}}</pre><br>
+    <input type="submit" value="Fetch Tournament" ng-click="fetch_tournament(tournamentID)"><br>
+    TournamentID: {{tournament.tournamentID}}<br>
+    description: <input type="text" ng-model="tournament.description"><br>
+    smallPicture: <input type="text" ng-model="tournament.smallPicture"><br>
+    longTitle: <input type="text" ng-model="tournament.longTitle"><br>
+    shortTitle: <input type="text" ng-model="tournament.shortTitle"><br>
+    largePicture: <input type="text" ng-model="tournament.largePicture"><br>
+    tournamentType: <input type="text" ng-model="tournament.tournamentType"><br>
+    <br>
+    <input type="submit" value="Update Current Tournament" ng-click="update_tournament(tournamentID)"> 
+    or 
+    <input type="submit" value="Create New Tournament" ng-click="create_tournament()"><br>
+    Currnent Tournament Rounds
+
+    <ol>
+      <li ng-repeat="entry in tournament.rounds">
+         <b>{{entry.description}} </b>
+         NumProblems {{entry.problemIDs.length}} 
+         <input type="submit" value="Edit Round" ng-click="fetch_round(entry.roundID)"> 
+      <li>
+    </ol>
+    <br>
+    <div ng-show="round">
+      Current Round ID: {{round.roundID}}<br>
+      description: <input type="text" ng-model="round.description"><br>
+      ProblemIDs: {{round.problemIDs}}<br>
+      <input type="submit" value="Update Round" ng-click="update_round(round.roundID)"><br>
+
+      <ol>
+        <li ng-repeat="problemID in round.problemIDs">
+          {{round.problemDetails[problemID].name}} ({{problemID}})
+          <input type="submit" value="Remove Problem" ng-click="remove_problem_from_round(problemID)">
+          <input type="submit" value="Move Up" ng-click="move_problem_up_in_round(problemID)">
+          <input type="submit" value="Move Down" ng-click="move_problem_down_in_round(problemID)">
+          <br>
+          {{round.problemDetails[problemID].description}}<br>
+          
+        </li>
+      </ol>
+      
+    </div>
+    <input type="submit" value="Add New Round" ng-click="add_round(tournamentID)"><br>
+    <input type="submit" value="Set Round Countdown" ng-click="set_round_countdown(roundID,seconds)"><br>
+    <input type="submit" value="Reset Round" ng-click="reset_round(roundID)"><br>
+    
     <br>
     Get last results for Heat 14922866
     <input type="submit" value="Update" ng-click="fetch_heat(14922866);"><br>
