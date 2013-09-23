@@ -215,8 +215,15 @@ li{ list-style:none; }
 						<table align="center">
 							<tr><td align="center">
 								</br></br>
-								<!-- <form action="#storyboard"> -->
-								<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 145px"><h5>Continue Path</h5></button>
+								<!--Continue-->
+								<div  ng-show="!difficulty || !practice_path_name">
+									<button class="btn disabled" style="width: 145px"><h5>Continue Path</h5></button>									
+								</div>
+
+								<div  ng-show="difficulty && practice_path_name">
+									<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 145px"><h5>Continue Path</h5></button>									
+								</div>
+								
 								<span class="label label-info" align="left" ng-show="difficulty && practice_path_name">
 									<b><i>You are going to play</i></b>
 									</br></br>
@@ -224,7 +231,6 @@ li{ list-style:none; }
 									</br>
 									Path Name : {{practice_path_name}}
 								</span>
-								<!-- </form> -->
 							</td></tr>
 							<tr><td>
 								</br>
