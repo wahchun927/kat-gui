@@ -2803,7 +2803,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){vnbm
+     $scope.addQuestColor=function(){
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
