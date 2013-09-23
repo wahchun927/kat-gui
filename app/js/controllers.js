@@ -222,6 +222,10 @@ function InterfaceController($scope,$resource){
 
 function PathController($scope,$resource,$cookieStore,$location,$filter){
 	//Assuming this is what you wanted by calling list in ng-init
+    $scope.fetch_game_paths = function(){
+		$scope.game_paths = $resource('/jsonapi/get_game_paths').get();		
+    };
+
     $scope.list = function(){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
@@ -535,7 +539,9 @@ function ProblemController($scope,$resource){
         //$scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID});
         $scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID, "details":1});
     };
-
+	$scope.get_problems_for_problemset = function(problemsetID){
+        $scope.problems = $resource('/jsonapi/problems/'+problemsetID).get();
+    };
     $scope.get_contributed_problems = function(){
         $scope.ContributedProblemsModel = $resource('/jsonapi/contributed_problems');
           
@@ -3261,6 +3267,16 @@ function TournamentController($scope,$resource,$http){
               $scope.round = response;
               $scope.roundDirty = false;
           });
+    };
+
+	$scope.add_problem_to_round = function(problemID){
+          $scope.roundDirty = true;
+          $scope.round.problemIDs.push(problemID);
+          $scope.round.problemDetails[problemID] = {};
+      	  
+          $scope.round.problemDetails[problemID].description = "Placeholder description until reloaded.";
+      	  $scope.round.problemDetails[problemID].name = "Placeholder name until reloaded.";
+              
     };
 
 	$scope.set_round_countdown = function(roundID,seconds){
