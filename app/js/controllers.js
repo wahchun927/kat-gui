@@ -2803,7 +2803,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){vnbm
+     $scope.addQuestColor=function(){
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
@@ -3182,11 +3182,49 @@ function TournamentController($scope,$resource,$http){
     };
 
     $scope.create_tournament = function(){
-          console.log("Create tournament not implemented yet.");
+          $scope.tournamentDirty = false;
+          var data = {"description":"description",
+                       "password": "password",
+                       "shortTitle":"shortTitle",
+                       "longTitle": "longTitle",
+                       "smallPicture": "smallPicture",
+                       "largePicture": "largePicture",
+                       "status": "Closed",
+                       "type": "Normal"}
+          $scope.NewTournament = $resource('/jsonapi/add_or_update_tournament');
+		  var new_tournament = new $scope.NewTournament(data);
+		  new_tournament.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+
+			 	$scope.tournament = response;
+			 }
+		  });	
     };
+
     $scope.update_tournament = function(tournamentID){
-          console.log("Edit tournament not implemented yet.");
-          //http://281.singpath.appspot.com/jsonapi/updateTournament
+          $scope.tournamentDirty = false;
+          var data = {"description":$scope.tournament.description,
+                       "password": $scope.tournament.password,
+                       "shortTitle":$scope.tournament.shortTitle,
+                       "longTitle": $scope.tournament.longTitle,
+                       "smallPicture":$scope.tournament.smallPicture,
+                       "largePicture": $scope.tournament.largePicture,
+                       "status":$scope.tournament.status,
+                       "type": $scope.tournament.type}
+          $scope.NewTournament = $resource('/jsonapi/add_or_update_tournament/'+tournamentID);
+		  var new_tournament = new $scope.NewTournament(data);
+		  new_tournament.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+			 	//$scope.tournament = response;
+			 	$scope.fetch_tournament(tournamentID); //Using legacy fetch. 
+			 }
+		  });
     };
 	$scope.fetch_tournament = function(tournamentID){
           $resource('/jsonapi/tournament/:tournamentID').get({"tournamentID":tournamentID}, function(response){
@@ -3226,7 +3264,8 @@ function TournamentController($scope,$resource,$http){
 		  	 	console.log(response.error)
 		  	 }
 		  	 else{
-			 	$scope.round = response;
+			 	//$scope.round = response;
+			 	$scope.fetch_round(roundID);//Using legacy fetch
 			 }
 		  });
     };
