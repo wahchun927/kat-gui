@@ -127,6 +127,30 @@
       ProblemIDs: {{round.problemIDs}}<br>
       <input type="submit" value="Update Round" ng-click="update_round(round.roundID)"><br>
 
+  <div ng-controller="ProblemController">
+    
+    <div ng-controller="ProblemsetController">
+        
+      <div ng-controller="PathController" ng-init="fetch_game_paths()">
+        Select a Path
+         <select ng-model="problemPath" ng-options="item.id as item.description for item in game_paths.paths" ng-change="get_problemsets(problemPath)"></select> 
+         problemPath {{problemPath}}
+
+        <br>
+        Select a Level
+          <select ng-model="problemLevel" ng-options="level.id as level.description for level in problemsets.problemsets" ng-change="get_problems_for_problemset(problemLevel)"></select> 
+          problemLevel {{problemLevel}}
+         
+        <br>
+        Select a Problem
+          <select ng-model="problemID" ng-options="problem.id as problem.name for problem in problems.problems"></select> 
+          problemID {{problemID}}
+          <br>
+          <input type="submit" value="Add Problem" ng-click="add_problem_to_round(problemID)">
+         </div>
+      </div>
+    </div>
+
       <ol>
         <li ng-repeat="problemID in round.problemIDs">
           {{round.problemDetails[problemID].name}} ({{problemID}})
