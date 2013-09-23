@@ -555,15 +555,31 @@ function ProblemController($scope,$resource){
 
 
 function BadgeController($scope,$resource){
-    $scope.playerBadges = $resource('/jsonapi/badges_for_current_player').get();
-	
-	$scope.list_paths= function(){
-		$scope.pathModel = $resource('/jsonapi/get_game_paths');		
-		$scope.pathModel.get({}, function(response){
-			$scope.ListAllPaths = response.paths;			
-        });		
-    };
-	
+	$scope.loadAllBadges = function(){
+		$scope.badgepathNames = [];
+		$scope.badgepathIDs = [];
+		$resource('/jsonapi/badges_for_current_player').get({},function(response){
+			$scope.playerBadges = response.badges;
+			for( var i=0; i<$scope.playerBadges.length; i++){
+				if($scope.badgepathIDs.indexOf($scope.playerBadges[i].pathID) <= -1){
+					$scope.badgepathIDs.push($scope.playerBadges[i].pathID);
+					
+					$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+					//Including details=1 returns the nested problemset progress.
+					$scope.PathModel.get({"pathID":$scope.playerBadges[i].pathID}, function(response1){
+					$scope.badgepathNames.push(response1.path.name);
+					});					
+				}
+			}	
+			$scope.list_paths= function(){
+				$scope.pathModel = $resource('/jsonapi/get_game_paths');		
+				$scope.pathModel.get({}, function(response){
+					$scope.ListAllPaths = response.paths;			
+				});		
+			};
+		});
+	};
 }
 
 
