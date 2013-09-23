@@ -9,6 +9,37 @@
         background-color: #DCD9CD;
     }
 
+    .bootCamp{
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #000000;
+        background-image: -moz-linear-gradient(#5D5E53, #373835);
+        background-image: -webkit-linear-gradient(#5D5E53, #373835);
+        background-image: linear-gradient(#5D5E53, #373835);
+        background-image: -o-linear-gradient(top, #5D5E53, #373835);
+        background-image: -webkit-gradient(linear, 0 0, 0 80%, from(#5D5E53), to(#373835));
+        background-repeat: repeat-x;
+        border: 1px solid #677c89;
+        border-bottom-color: #6b808d;
+        border-radius: 6px 6px 0 0;
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
+        margin: 0;
+        padding: 2px 2px;
+        position: relative;
+        text-align: center;
+    }
+
+    .bootcamp-body {
+        padding: 10px 10px 10px 10px;
+        background-color: #F9F9F9;
+        overflow: hidden;
+        border-style: solid;
+        border-width: 1px 1px 2px 2px;
+        border-color: #333333 #333333 #333333 #333333;
+        border-radius: 5px 5px 5px 5px;
+
+    }
     .bs-docs-example::after
     {
         content: "Challenge Description";
@@ -16,11 +47,11 @@
         top: 0px;
         left: 1px;
         padding: 3px 7px;
-        font-size: 12px;
+        font-size: 16px;
         font-weight: bold;
         background-color: transparent;
         border: 1px solid #000000;
-        color: #9DA0A4;
+        color: black;
         -webkit-border-radius: 4px 0 4px 0;
         -moz-border-radius: 4px 0 4px 0;
         border-radius: 4px 0 4px 0;
@@ -71,188 +102,198 @@
 
 </style>
 <br>
-<div class="container" id="largeProfile" style="position:relative;" ng-controller="ChallengeController">
+<div class="container" style="position:relative;" ng-controller="ChallengeController" ng-init="loading();">
     <div class="row-fluid">
-        <div class="span12 well bs-docs-example" id="challengeDescription">
+        <div class="span12 bootcamp-body bs-docs-example" id="challengeDescription">
             <br>
             Either you can create a quest challenge, badge challenge or habit challenge to get the individual or group to get engaged in practicing programming languages or developing development skills. It can be either via invitation or open challenge.
         </div>
     </div>
+    <br>
+
     <div class="row-fluid" ng-init="chType='Badge'">
-        <div class="span6 well" >
-            <div style="border-top: solid white; border-bottom: solid white;">
-                <h4 align="center">Challenge Details</h4>
+        <div class="span6" >
+            <div class="bootCamp">
+                <p>Challenge Details</p>
             </div>
-            <br>
-            <table class="table-condensed">
-                <tr>
-                    <th style="text-align:left;">Challenge Type:</th>
-                    <th>
-						<select ng-model="chType" ng-options="chType.challengeType as chType.name for chType in challengeTypes"></select>
-                    </th>
-					
-                </tr>
-                <tr>
-                    <th style="text-align:left;">Challenge Name:</th>
-                    <th><input type="text" placeholder="Challenge Name" ng-model="chName"></th>
-                </tr>
-                <tr>
-                    <th style="text-align:left;">Challenge Description:</th>
-                    <th>
-                         <textarea rows="4" cols="120" placeholder="This is where you will add the description of your challenge. e.g. Pizza night this Friday for all those who unlock level 5 Python or a job description." ng-model="chDescription">
-                        </textarea>
-                    </th>
-                </tr>
-                <tr>
-                    <th style="text-align:left;">Public Message:</th>
-                    <th>
-                        <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "chPubMsg">
-                        </textarea>
-                    </th>
-                </tr>
-                <tr>
-                    <th style="text-align:left;">Private Message:</th>
-                    <th>
-                        <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "chPriMsg">
-                        </textarea>
-                    </th>
-                </tr>
-                <tr>
-                    <th style="text-align:left;">Location</th>
-                    <th>
-						<select ng-model="chLocation">
-							<option value="1">World Wide</option>
-							<option value="0">{{player.country}}</option>
-						</select>
-					</th>
-                </tr>
-            </table>
-        </div>
-        <div class="span6 well" id="questChallenge" ng-show="chType=='Quest'">
-                <div style="border-top: solid white; border-bottom: solid white;">
-                    <h4 align="center">Level of Proficiency Needed</h4>
-                </div> 
-                <br>
-                <table>
+            <div class="well well-small">
+                <table class="table-condensed">
                     <tr>
-                        <th>Story Name</th>
+                        <th style="text-align:left;">Challenge Type:</th>
                         <th>
-							<select ng-model="storyID" ng-options="story.id as story.name for story in pubStories" ng-init="storyID=pubStories[0].id"></select>			
-						</th>
+                            <select ng-model="chType" ng-options="chType.challengeType as chType.name for chType in challengeTypes"></select>
+                        </th>
+                        
                     </tr>
                     <tr>
-                        <th>Level</th>
+                        <th style="text-align:left;">Challenge Name:</th>
+                        <th><input type="text" placeholder="Challenge Name" ng-model="chName"></th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left;">Challenge Description:</th>
                         <th>
-							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
+                             <textarea rows="4" cols="120" placeholder="This is where you will add the description of your challenge. e.g. Pizza night this Friday for all those who unlock level 5 Python or a job description." ng-model="chDescription">
+                            </textarea>
                         </th>
                     </tr>
-                    <tr ng-show="difficulty!='Drag-n-Drop'">
-                        <th>Path</th>
+                    <tr>
+                        <th style="text-align:left;">Public Message:</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+                            <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "chPubMsg">
+                            </textarea>
                         </th>
                     </tr>
-                    <tr ng-show="difficulty=='Drag-n-Drop'">
-                        <th>Path</th>
+                    <tr>
+                        <th style="text-align:left;">Private Message:</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                            <textarea rows="4" cols="80" placeholder = "This is where you will add a message for anyone who is eligible to look at your challenge to see a public message." ng-model = "chPriMsg">
+                            </textarea>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left;">Location</th>
+                        <th>
+                            <select ng-model="chLocation">
+                                <option value="1">World Wide</option>
+                                <option value="0">{{player.country}}</option>
+                            </select>
                         </th>
                     </tr>
                 </table>
+            </div>
         </div>
-        <div class="span6 well" id="habitChallenge" ng-show="chType=='Habit'">
-                <div style="border-top: solid white; border-bottom: solid white;">
-                    <h4 align="center">Level of Proficiency Needed</h4>
+        <div class="span6" id="questChallenge" ng-show="chType=='Quest'">
+                <div class="bootCamp">
+                    <p>Level of Proficiency Needed</p>
                 </div> 
-                <br>
-                <table>
-                    <tr>
-                        <th>Difficulty</th>
-                        <th>
-							<select ng-model="difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Drag-n-Drop'"></select>
-                        </th>
-                    </tr>
-                    <tr ng-show="difficulty!='Drag-n-Drop'">
-                        <th>Language</th>
-                        <th>
-							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
-                        </th>
-                    </tr>
-                    <tr ng-show="difficulty=='Drag-n-Drop'">
-                        <th>Language</th>
-                        <th>
-							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Problems per day</th>
-                        <th>
-							<select ng-model="problemsPerDay" ng-options="day.id as day.name for day in days"></select>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Total Number of Days</th>
-                        <th>
-							<select ng-model="totalDays" ng-options="day.id as day.name for day in days"></select>
-                        </th>
-                    </tr>
-                    <tr>
-                </table>
+                <div class="well well-small">
+                    <table>
+                        <tr>
+                            <th>Level</th>
+                            <th>
+                                <select ng-model="difficulty" ng-options="level.id as level.name for level in levels"></select>
+                            </th>
+                        </tr>
+                        <tr ng-show="difficulty!='Drag-n-Drop'">
+                            <th>Path</th>
+                            <th>
+                                <select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+                            </th>
+                        </tr>
+                        <tr ng-show="difficulty=='Drag-n-Drop'">
+                            <th>Path</th>
+                            <th>
+                                <select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Story Name</th>
+                            <th>
+                                <select ng-model="storyID" ng-options="story.id as story.name for story in pubStories" ng-init="storyID=pubStories[0].id"></select>         
+                            </th>
+                        </tr>
+                    </table>
+                </div>
         </div>
-        <div class="span6 well" id="badgeChallenge" ng-show="chType=='Badge'">
-                <div style="border-top: solid white; border-bottom: solid white;">
-                <h4 align="center">Badges to Earn</h4>
+        <div class="span6" id="habitChallenge" ng-show="chType=='Habit'">
+                <div class="bootCamp">
+                    <p>Level of Proficiency Needed</p>
                 </div> 
-                <table>
-                    <tr ng-repeat="x in [0,1,2,3,4,5]">
-						<th>
-							<select ng-model="selectedPath[x]" ng-options="path.id as path.name for path in paths.paths"></select>
-						</th>
-                        <th>
-							<select ng-model="badges[x]" ng-options="badge.id as badge.description for badge in theBadges[selectedPath[x]]"></select>
-                        </th>
-                    </tr>
-                </table>
+                <div class="well well-small">
+                    <table>
+                        <tr>
+                            <th align="left">Difficulty</th>
+                            <th>
+                                <select ng-model="difficulty" ng-options="level.id as level.name for level in levels" ng-init="difficulty='Drag-n-Drop'"></select>
+                            </th>
+                        </tr>
+                        <tr ng-show="difficulty!='Drag-n-Drop'">
+                            <th align="left">Language</th>
+                            <th>
+                                <select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+                            </th>
+                        </tr>
+                        <tr ng-show="difficulty=='Drag-n-Drop'">
+                            <th align="left">Language</th>
+                            <th>
+                                <select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th align="left">Problems per day</th>
+                            <th>
+                                <select ng-model="problemsPerDay" ng-options="day.id as day.name for day in days"></select>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th align="left">Total Number of Days</th>
+                            <th>
+                                <select ng-model="totalDays" ng-options="day.id as day.name for day in days"></select>
+                            </th>
+                        </tr>
+                        <tr>
+                    </table>
+                </div>
+        </div>
+        <div class="span6" id="badgeChallenge" ng-show="chType=='Badge'">
+                <div class="bootCamp">
+                    <p>Badges to Earn</p>
+                </div> 
+                <div class="well well-small">
+                    <table>
+                        <tr ng-repeat="x in [0,1,2,3,4,5]">
+                            <th>
+                                <select ng-model="selectedPath[x]" ng-options="path.id as path.name for path in paths.paths"></select>
+                            </th>
+                            <th>
+                                <select ng-model="badges[x]" ng-options="badge.id as badge.description for badge in theBadges[selectedPath[x]]"></select>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
         </div>  
         <br>
-        <br>
-        <div class="span6 well" id="challengeDate">
-            <div style="border-top: solid white; border-bottom: solid white;">
-                <h4 align="center">Dates</h4>
-                </div> 
+        <div class="span6" id="challengeDate">
+            <div class="bootCamp">
+                <p>Dates</p>
+            </div> 
+            <div class="well well-small">
                 <table>
                     <tr>
                         <th>Start Date</th>
-                        <th><input type="text" name="startDate"  ng-model="chStartDate"></th>
+                        <th><input type="text" name="startDate"  ng-model="chStartDate" datepicker readonly/></th>
                     </tr>
                     <tr>
                         <th>End Date</th>
-                        <th><input type="text" name="endDate"  ng-model="chEndDate"></th>
+                        <th><input type="text" name="endDate"  ng-model="chEndDate" datepicker readonly/></th>
                     </tr>
 
                 </table>
+            </div>
         </div>
-        <div class="span6 well" id="finish">
-            <div style="border-top: solid white; border-bottom: solid white;">
-                <h4 align="center">Finished</h4>
+        <div class="span6" id="finish">
+            <div class="bootCamp">
+                <p>Finished</p>
             </div> 
-            <p>Once you have selected the appropriate action to follow your challenge and who it is attended to reach please hit the submit button to make it live attract those people</p>
-            <button class="btn btn-primary" ng-click="goToChallengeSummary();">Submit</button>
+            <div class="well well-small">
+                <p>Once you have selected the appropriate action to follow your challenge and who it is attended to reach please hit the submit button to make it live attract those people</p>
+                <button class="btn btn-primary" ng-click="goToChallengeSummary();">Submit</button>
+            </div>
         </div> 
 
     </div>
-<div class="modal fade" id="challengeCreated" style="display:none">    		
-	<div class="modal-body" style="color:black">
-		You have successfully create a challenge!
-	</div>
-	<div class="modal-footer">
-		<a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click="hideSuccessModal()">Ok</button></a>
+<div class="modal fade" id="challengeCreated" style="display:none">         
+    <div class="modal-body" style="color:black">
+        You have successfully create a challenge!
+    </div>
+    <div class="modal-footer">
+        <a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click="hideSuccessModal()">Ok</button></a>
     </div>
 </div>
-
 </div><!-- End of container which contains 'largeProfile' -->
 <br>
 <br>
 <div class="container" id="smallProfile" style="position:relative;">
-    
+<!-- You can use the global $strapConfig to set defaults -->
+   
 </div><!-- End of container which contains 'smallProfile' -->

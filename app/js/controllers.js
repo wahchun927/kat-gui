@@ -563,79 +563,82 @@ function BadgeController($scope,$resource){
 
 //to the list of challenges EDITED by viTech
 function ChallengeController($scope,$resource,$location,$cookieStore,$http,$route){
-	$scope.defaultCountry = "";
-	//variable for badge challenge
-	$resource('/jsonapi/get_game_paths').get({},function(response){
-		$scope.paths = response;
-		$scope.theBadges = {};
-			
-	    for( var i=0; i<$scope.paths.paths.length; i++){
-			$scope.theBadges[$scope.paths.paths[i].id] = $scope.paths.paths[i].badges;
-			
-	    }	
-	});
-	$scope.mobilePaths = $resource('/jsonapi/mobile_paths').query();
-	
-    $scope.listChallenges = $resource('/jsonapi/list_challenges').get();
-	
-	// difficulty levels
-	$scope.levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];
-	$scope.days = [{'name':'1', 'id':'1'},{'name':'2','id':'2'},{'name':'3', 'id':'3'},{'name':'4','id':'4'},{'name':'5','id':'5'},{'name':'6','id':'6'},{'name':'7','id':'7'},{'name':'8','id':'8'},{'name':'9','id':'9'},{'name':'10','id':'10'}];
-	//variable for challenge creation
-	$scope.challengeTypes = [];
-	$scope.challengeTypes.push({'challengeType':'Badge','name':'Badge Challenge'});
-	$scope.challengeTypes.push({'challengeType':'Quest','name':'Quest Challenge'});
-	$scope.challengeTypes.push({'challengeType':'Habit','name':'Habit Challenge'});	
-	
-	$scope.chType="Badge";
-	$scope.chName="";
-	$scope.chDescription="";
-	$scope.badges = [null, null, null, null, null, null];
-	$scope.selectedPath = [null, null, null, null, null, null];
-	$scope.chLocation = "";
-	$scope.pathID="";
-	$scope.storyID="";
-	$scope.difficulty="";
-	$scope.problemsPerDay="";
-	$scope.totalDays="";
-	$scope.chPubMsg="";
-	$scope.chPriMsg="";
-	
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
 
-	var yyyy = today.getFullYear();
-	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
+	$scope.loading = function(){
 
-	$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
-	$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
-	
-	//retrieve published and user's own stories
-	$scope.pubStories = [];
- 	$scope.StoryModel = $resource('/jsonapi/story');
-    $scope.StoryModel.query({}, function(response){
-        $scope.stories = response;
-		for(var i=0;i<$scope.stories.length;i++){
-			if($scope.stories[i].published==true && $scope.stories[i].archived == false){
-				var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
-				$scope.pubStories.push(aStory);
-			}				
-		}
-    }); 
-	
-	$scope.myStoryModel = $resource('/jsonapi/player_stories');
-	$scope.myStoryModel.query({}, function(response){
-		$scope.myStories = response;
-		for(var i=0;i<$scope.myStories.length;i++){
-			if($scope.myStories[i].published == false && $scope.myStories[i].archived == false){
-				var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
-				$scope.pubStories.push(aStory);
-			}				
-		}	
-	});	
+		$scope.defaultCountry = "";
+		//variable for badge challenge
+		$resource('/jsonapi/get_game_paths').get({},function(response){
+			$scope.paths = response;
+			$scope.theBadges = {};
+				
+			for( var i=0; i<$scope.paths.paths.length; i++){
+				$scope.theBadges[$scope.paths.paths[i].id] = $scope.paths.paths[i].badges;
+				
+			}	
+		});
+		$scope.mobilePaths = $resource('/jsonapi/mobile_paths').query();
+		
+		$scope.listChallenges = $resource('/jsonapi/list_challenges').get();
+		
+		// difficulty levels
+		$scope.levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];
+		$scope.days = [{'name':1, 'id':1},{'name':2,'id':2},{'name':3, 'id':3},{'name':4,'id':4},{'name':5,'id':5},{'name':6,'id':6},{'name':7,'id':7},{'name':8,'id':8},{'name':9,'id':9},{'name':10,'id':10}];
+		//variable for challenge creation
+		$scope.challengeTypes = [];
+		$scope.challengeTypes.push({'challengeType':'Badge','name':'Badge Challenge'});
+		$scope.challengeTypes.push({'challengeType':'Quest','name':'Quest Challenge'});
+		$scope.challengeTypes.push({'challengeType':'Habit','name':'Habit Challenge'});	
+		
+		$scope.chType="Badge";
+		$scope.chName="";
+		$scope.chDescription="";
+		$scope.badges = [null, null, null, null, null, null];
+		$scope.selectedPath = [null, null, null, null, null, null];
+		$scope.chLocation = "";
+		$scope.pathID="";
+		$scope.storyID="";
+		$scope.difficulty="";
+		$scope.problemsPerDay="";
+		$scope.totalDays="";
+		$scope.chPubMsg="";
+		$scope.chPriMsg="";
+		
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
 
+		var yyyy = today.getFullYear();
+		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
+
+		$scope.chStartDate= dd+'-'+ mm +'-'+yyyy;
+		$scope.chEndDate= dd+'-'+ mm +'-'+yyyy;;
+		
+		//retrieve published and user's own stories
+		$scope.pubStories = [];
+		$scope.StoryModel = $resource('/jsonapi/story');
+		$scope.StoryModel.query({}, function(response){
+			$scope.stories = response;
+			for(var i=0;i<$scope.stories.length;i++){
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false){
+					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+					$scope.pubStories.push(aStory);
+				}				
+			}
+		}); 
+		
+		$scope.myStoryModel = $resource('/jsonapi/player_stories');
+		$scope.myStoryModel.query({}, function(response){
+			$scope.myStories = response;
+			for(var i=0;i<$scope.myStories.length;i++){
+				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false){
+					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+					$scope.pubStories.push(aStory);
+				}				
+			}	
+		});	
 	
+	}
 	
 	// To display particular challenge in the registration page
    
@@ -643,11 +646,24 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     if( open_challenge_ID != null){
     	$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
    		$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
-   			$scope.single_challenge = response;  
+   			$scope.single_challenge = response; 
 
-   				
+   			//To retrieve story name by using story ID
+   			var storyID = $scope.single_challenge.challenge.storyID; 
+   			$scope.get_story_for_name_conversion = $resource('/jsonapi/story/:storyID');
+   			$scope.get_story_for_name_conversion.get({"storyID":storyID},function(response){
+   				$scope.selected_Story_Name = response;
+   			})
+
+   			//To retrieve pathName by using path ID
+   			var pathID = $scope.single_challenge.challenge.pathID;
+   			$scope.get_path_for_name_conversion = $resource('/jsonapi/get_path_progress/:pathID');
+   			$scope.get_path_for_name_conversion.get({"pathID":pathID},function(response){
+   				$scope.selected_Path_Name = response;
+   			})
+
    		
-	    	//fetch the badge img url's 
+	    	//To fetch the badge img url's by using badge ID from required badge
 	        $scope.get_all_badges = $resource('/jsonapi/all_badges');
 	        $scope.get_all_badges.get({},function(response){
 	        	$scope.all_the_badges = response;
@@ -667,12 +683,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 
 	
 	$scope.loadEditChallenge = function(){
-	
+		$scope.loading();
 		var open_challenge_ID = $cookieStore.get("challengeID"); 
 		if( open_challenge_ID != null){
 			$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
 			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
    			$scope.challengeToEdit = response;  
+			$scope.pathID = $scope.challengeToEdit.challenge.pathID;
 			});
 		};
 	};
@@ -704,7 +721,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.newChallenge.difficulty=$scope.difficulty;
 		$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
 		$scope.newChallenge.totalDays=$scope.totalDays;
-		
+		var endDate = new Date($scope.newChallenge.endDate);
+		var startDate = new Date($scope.newChallenge.startDate);
 		//badge challenge
 		$scope.newChallenge.unlockRequiredBadges = [];
 		
@@ -752,6 +770,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		}
 		else if($scope.newChallenge.privateMessage==""){
 			alert("The challenge private Message cannot be empty!");
+		}
+		else if($scope.newChallenge.endDate<$scope.newChallenge.startDate){
+			alert("The start date should earlier than end date!");
 		}
 		else{
 			//validate attribute of badge challenge
@@ -1211,11 +1232,31 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		
 	$scope.editChallenge = function(challenge_id,sDate,eDate){
 	
-		if($scope.chLocation=="" || $scope.chLocation=="1" ){
+		if($scope.challengeToEdit.challenge.allowedCountries.length=="0" ){
 			$scope.challengeToEdit.challenge.worldwide = 1;
+			$scope.challengeToEdit.challenge.allowedCountries = [];
 		}    
 		else{
 			$scope.challengeToEdit.challenge.worldwide = 0;
+			$scope.countryModel = $resource('/jsonapi/all_countries');
+			$scope.countryModel.get({}, function(response){
+				$scope.ListAllCountries = response.countries;
+				$scope.player_info = $resource('/jsonapi/player');
+				$scope.player_info.get({},function(response){
+					$scope.player = response;
+				console.log($scope.ListAllCountries + $scope.player.countryCode);
+				
+					for(var i=0;i<$scope.ListAllCountries.length;i++){
+						if($scope.ListAllCountries[i].countryCode == $scope.player.countryCode)
+						{
+							alert("hello");
+							$scope.challengeToEdit.challenge.allowedCountries[0] = $scope.ListAllCountries[i].id;
+							break;
+						}
+					}	
+					
+				});				
+			});
 			
 		}
 		
@@ -1244,6 +1285,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									startDate:sDate,
 									endDate:eDate,
 									name:$scope.challengeToEdit.challenge.name
@@ -1257,7 +1299,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			}
 			//validate attribute of habit challenge
 			else if($scope.challengeToEdit.challenge.challengeType=='Habit'){
-				if($scope.challengeToEdit.challenge.pathID==""){
+				if($scope.pathID==""){
 					alert("Please choose the language!");
 				}
 				else if($scope.challengeToEdit.challenge.problemsPerDay==""){
@@ -1272,11 +1314,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									totalDays:$scope.challengeToEdit.challenge.totalDays,
 									problemsPerDay:$scope.challengeToEdit.challenge.problemsPerDay,
 									difficulty:$scope.challengeToEdit.challenge.difficulty,
-									pathID:$scope.challengeToEdit.challenge.pathID,
+									pathID:$scope.pathID,
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									name:$scope.challengeToEdit.challenge.name,
+									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									startDate:sDate,
 									endDate:eDate
 					}).success(function (data, status, headers, config) {
@@ -1288,11 +1332,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				}
 			}
 			//validate attribute of quest challenge
-			else if($scope.$scope.challengeToEdit.challenge.challengeType=='Quest'){
-				if($scope.$scope.challengeToEdit.challenge.pathID==""){
+			else if($scope.challengeToEdit.challenge.challengeType=='Quest'){
+				if($scope.challengeToEdit.challenge.pathID==""){
 					alert("Please choose the Path ID!");
 				}
-				else if($scope.$scope.challengeToEdit.challenge.storyID==""){
+				else if($scope.challengeToEdit.challenge.storyID==""){
 				    alert("Please choose the Story ID!");
 				}
 				else{
@@ -1305,6 +1349,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
+									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
+									name:$scope.challengeToEdit.challenge.name,
 									startDate:sDate,
 									endDate:eDate
 					}).success(function (data, status, headers, config) {
@@ -1334,6 +1380,30 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			window.location = $scope.challengeURL;
 		}
 	}
+	$scope.$watch('pathID', function() {
+		$scope.pubStories = [];
+		$scope.StoryModel = $resource('/jsonapi/story');
+		$scope.StoryModel.query({}, function(response){
+			$scope.stories = response;
+			for(var i=0;i<$scope.stories.length;i++){
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.pathID) <= -1){
+					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+					$scope.pubStories.push(aStory);
+				}				
+			}
+		}); 
+		
+		$scope.myStoryModel = $resource('/jsonapi/player_stories');
+		$scope.myStoryModel.query({}, function(response){
+			$scope.myStories = response;
+			for(var i=0;i<$scope.myStories.length;i++){
+				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.pathID) <= -1){
+					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+					$scope.pubStories.push(aStory);
+				}				
+			}	
+		});	
+	});
 }
 
 
@@ -2685,6 +2755,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.initialShow = "";
 	
 	$scope.list = function(){
+		$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.StoryModel = $resource('/jsonapi/story');
 
 	    $scope.StoryModel.query({}, function(response){
@@ -2732,7 +2803,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){
+     $scope.addQuestColor=function(){vnbm
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
@@ -2766,6 +2837,16 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			$scope.Title = response.name;
 			$scope.Videos = response.videos;
 			$scope.publishStatus = response.published;
+			$scope.supportedPaths = response.supported_paths;
+			$scope.supportedPathNames = [];
+			  
+			for(var i=0;i<response.supported_paths.length;i++){
+				$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+				//Including details=1 returns the nested problemset progress.
+				$scope.PathModel.get({"pathID":response.supported_paths[i],"details":1}, function(response1){
+					$scope.supportedPathNames.push(response1.path.name);
+				});      
+			} 
 			$cookieStore.put("editStory", response.id);
 			console.log(response.id);
 			$scope.editOrCreate = "edit";
@@ -2822,8 +2903,28 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
-   	$scope.addVideo=function(videoURL){
-		if(videoURL.length==42){
+		$scope.addVideo=function(videoURL){
+			//get videoID
+			var video_id = videoURL.substring(videoURL.length-11);
+			
+			var req = new XMLHttpRequest();
+			req.open('GET', 'http://gdata.youtube.com/feeds/api/videos/'+video_id, false); 
+			req.send();
+			if(req.status == 200 && video_id.length==11) {
+				if($scope.Videos.indexOf(video_id) > -1){
+					alert("The video is already in the list!");
+					$scope.videoURL="";
+				}
+				else{
+					$scope.Videos.push(video_id);
+					$scope.videoURL="";
+				}
+			}
+			else{
+				alert("The video url is not valid!");
+				$scope.videoURL="";
+			}
+/* 		if(videoURL.length==42){
 			//Videos for the purpose of story creation
 			if($scope.Videos.indexOf(videoURL.substring(31)) > -1){
 				alert("The video is already in the list!");
@@ -2836,7 +2937,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		}
 		else{
 			alert("Please put in a valid YouTube URL!");
-		}
+		} */
 	}
 		
     ////Enable reordering of rows under sequence column, & save the order	   
@@ -3039,7 +3140,9 @@ function TournamentController($scope,$resource,$http){
     $scope.tournamentID = null;
     //$scope.heatID = 12883052;
     $scope.heat = null;
-    
+    $scope.round = null;
+    $scope.roundDirty = false;
+
     //A method to fetch a generic model and id. 
     //Pass in ID
     $scope.fetch_heat = function(heatID){
@@ -3078,11 +3181,136 @@ function TournamentController($scope,$resource,$http){
         });
     };
 
-    $scope.play_tournament = function(){
-          alert("Preparing to launch tournament game.");
-          //$scope.TournamentModel.query({}, function(response){
-          //    $scope.tournaments = response;
-          //});
+    $scope.create_tournament = function(){
+          $scope.tournamentDirty = false;
+          var data = {"description":"description",
+                       "password": "password",
+                       "shortTitle":"shortTitle",
+                       "longTitle": "longTitle",
+                       "smallPicture": "smallPicture",
+                       "largePicture": "largePicture",
+                       "status": "Closed",
+                       "type": "Normal"}
+          $scope.NewTournament = $resource('/jsonapi/add_or_update_tournament');
+		  var new_tournament = new $scope.NewTournament(data);
+		  new_tournament.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+
+			 	$scope.tournament = response;
+			 }
+		  });	
+    };
+
+    $scope.update_tournament = function(tournamentID){
+          $scope.tournamentDirty = false;
+          var data = {"description":$scope.tournament.description,
+                       "password": $scope.tournament.password,
+                       "shortTitle":$scope.tournament.shortTitle,
+                       "longTitle": $scope.tournament.longTitle,
+                       "smallPicture":$scope.tournament.smallPicture,
+                       "largePicture": $scope.tournament.largePicture,
+                       "status":$scope.tournament.status,
+                       "type": $scope.tournament.type}
+          $scope.NewTournament = $resource('/jsonapi/add_or_update_tournament/'+tournamentID);
+		  var new_tournament = new $scope.NewTournament(data);
+		  new_tournament.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+			 	//$scope.tournament = response;
+			 	$scope.fetch_tournament(tournamentID); //Using legacy fetch. 
+			 }
+		  });
+    };
+	$scope.fetch_tournament = function(tournamentID){
+          $resource('/jsonapi/tournament/:tournamentID').get({"tournamentID":tournamentID}, function(response){
+              $scope.tournament = response;
+          });
+
+    };
+
+
+	$scope.add_round = function(tournamentID){
+          $scope.roundDirty = false;
+          var data = {'timelimit':3600,
+      					  'description':'Update this description',
+      					  'problemIDs':[],
+      					  'tournamentID':tournamentID}
+          $scope.NewRound = $resource('/jsonapi/add_or_update_round');
+		  var new_round = new $scope.NewRound(data);
+		  new_round.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+			 	$scope.round = response;
+			 }
+		  });	
+          
+    };
+    $scope.update_round = function(roundID){
+          $scope.roundDirty = false;
+          var data = {"timelimit":3600,
+      				  "problemIDs":$scope.round.problemIDs,
+      				  "description":$scope.round.description}
+          $scope.NewRound = $resource('/jsonapi/add_or_update_round/'+roundID);
+		  var new_round = new $scope.NewRound(data);
+		  new_round.$save(function(response){
+		  	 if(response.error) {
+		  	 	console.log(response.error)
+		  	 }
+		  	 else{
+			 	//$scope.round = response;
+			 	$scope.fetch_round(roundID);//Using legacy fetch
+			 }
+		  });
+    };
+	$scope.fetch_round = function(roundID){
+          $resource('/jsonapi/round/:roundID').get({"roundID":roundID}, function(response){
+              $scope.round = response;
+              $scope.roundDirty = false;
+          });
+    };
+
+	$scope.set_round_countdown = function(roundID,seconds){
+          console.log("Start round not implemented yet.");
+    };
+	
+    $scope.reset_round = function(roundID){
+        console.log("Reset round not implemented yet.");
+    };
+    $scope.remove_problem_from_round = function(problemID){
+    	$scope.roundDirty = true;
+    	var index = $scope.round.problemIDs.indexOf(problemID);
+    	if (index > -1) {
+    		$scope.round.problemIDs.splice(index, 1);
+		}
+
+    };
+    $scope.move_problem_down_in_round = function(problemID){
+    	$scope.roundDirty = true;
+    	var index = $scope.round.problemIDs.indexOf(problemID);
+    	if (index > -1 && index < $scope.round.problemIDs.length-1) {
+    		var temp = $scope.round.problemIDs[index];
+    		var temp2 = $scope.round.problemIDs[index+1];
+    		$scope.round.problemIDs[index] = temp2;
+    		$scope.round.problemIDs[index+1] = temp;	
+
+		}
+    };
+    $scope.move_problem_up_in_round = function(problemID){
+    	$scope.roundDirty = true;
+    	var index = $scope.round.problemIDs.indexOf(problemID);
+    	if (index > 0) {
+    		var temp = $scope.round.problemIDs[index];
+    		var temp2 = $scope.round.problemIDs[index-1];
+    		$scope.round.problemIDs[index] = temp2;
+    		$scope.round.problemIDs[index-1] = temp;	
+		}
     };
 
 }
