@@ -222,6 +222,10 @@ function InterfaceController($scope,$resource){
 
 function PathController($scope,$resource,$cookieStore,$location,$filter){
 	//Assuming this is what you wanted by calling list in ng-init
+    $scope.fetch_game_paths = function(){
+		$scope.game_paths = $resource('/jsonapi/get_game_paths').get();		
+    };
+
     $scope.list = function(){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
@@ -535,7 +539,9 @@ function ProblemController($scope,$resource){
         //$scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID});
         $scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID, "details":1});
     };
-
+	$scope.get_problems_for_problemset = function(problemsetID){
+        $scope.problems = $resource('/jsonapi/problems/'+problemsetID).get();
+    };
     $scope.get_contributed_problems = function(){
         $scope.ContributedProblemsModel = $resource('/jsonapi/contributed_problems');
           
@@ -2903,41 +2909,27 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
-		$scope.addVideo=function(videoURL){
-			//get videoID
-			var video_id = videoURL.substring(videoURL.length-11);
-			
-			var req = new XMLHttpRequest();
-			req.open('GET', 'http://gdata.youtube.com/feeds/api/videos/'+video_id, false); 
-			req.send();
-			if(req.status == 200 && video_id.length==11) {
-				if($scope.Videos.indexOf(video_id) > -1){
-					alert("The video is already in the list!");
-					$scope.videoURL="";
-				}
-				else{
-					$scope.Videos.push(video_id);
-					$scope.videoURL="";
-				}
-			}
-			else{
-				alert("The video url is not valid!");
-				$scope.videoURL="";
-			}
-/* 		if(videoURL.length==42){
-			//Videos for the purpose of story creation
-			if($scope.Videos.indexOf(videoURL.substring(31)) > -1){
+	$scope.addVideo=function(videoURL){
+		//get videoID
+		var video_id = videoURL.substring(videoURL.length-11);
+		
+		var req = new XMLHttpRequest();
+		req.open('GET', 'http://gdata.youtube.com/feeds/api/videos/'+video_id, false); 
+		req.send();
+		if(req.status == 200 && video_id.length==11) {
+			if($scope.Videos.indexOf(video_id) > -1){
 				alert("The video is already in the list!");
 				$scope.videoURL="";
 			}
 			else{
-				$scope.Videos.push(videoURL.substring(31));
+				$scope.Videos.push(video_id);
 				$scope.videoURL="";
 			}
 		}
 		else{
-			alert("Please put in a valid YouTube URL!");
-		} */
+			alert("The video url is not valid!");
+			$scope.videoURL="";
+		}
 	}
 		
     ////Enable reordering of rows under sequence column, & save the order	   
@@ -3101,6 +3093,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				$scope.initialShow = false;
 			}
 		}
+		$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":path_ID}, function(response){
 	    	$scope.quest_path_name = response.path.name;
@@ -3274,6 +3267,16 @@ function TournamentController($scope,$resource,$http){
               $scope.round = response;
               $scope.roundDirty = false;
           });
+    };
+
+	$scope.add_problem_to_round = function(problemID){
+          $scope.roundDirty = true;
+          $scope.round.problemIDs.push(problemID);
+          $scope.round.problemDetails[problemID] = {};
+      	  
+          $scope.round.problemDetails[problemID].description = "Placeholder description until reloaded.";
+      	  $scope.round.problemDetails[problemID].name = "Placeholder name until reloaded.";
+              
     };
 
 	$scope.set_round_countdown = function(roundID,seconds){
