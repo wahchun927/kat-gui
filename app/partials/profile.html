@@ -753,7 +753,7 @@
         <tr>
             <td>Location:</td> 
             <td>
-                <input type="text" ng-model="player.location">
+                <input type="text" ng-model="player.country">
             </td>
         </tr>
         <tr>
@@ -767,16 +767,17 @@
         </tr>
         <tr>
             <td>Tags:</td>
-			<td><span class="label label-info" ng-repeat="tag in player.tags">{{tag}}</span></td>
-		</tr>
-		<tr>
-			<td></td>
-            <td>
+			<td>
 				<div class="input-append">
 				<input ng-model="addedTag" type="text" placeholder="tag1,tag2"></input>
 				<button class="btn" type="button-primary" ng-click="addTag(addedTag)">+</button>
 				</div>
             </td>
+			
+		</tr>
+		<tr>
+			<td></td>
+            <td><span class="label label-info" ng-repeat="tag in player.tags">{{tag}}</span></td>
         </tr>
         <tr>
             <td>About:</td> 
