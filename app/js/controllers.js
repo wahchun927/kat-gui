@@ -977,8 +977,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     		$scope.registered_this_challenge = response;
 
     	});
-    	$route.reload('registration');
-    	//window.location = "index.html#/registration";
+    	//$route.reload('registration');
+    	window.location = "index.html#/registration";
+    	
 
 
     };
