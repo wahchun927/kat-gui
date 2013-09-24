@@ -179,7 +179,7 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
             }); 
             
         //$route.reload('profile');
-        //window.location.reload('profile')
+        window.location.reload('profile')
     };
     
     $scope.log_event = function($event){  
@@ -222,6 +222,10 @@ function InterfaceController($scope,$resource){
 
 function PathController($scope,$resource,$cookieStore,$location,$filter){
 	//Assuming this is what you wanted by calling list in ng-init
+    $scope.fetch_game_paths = function(){
+		$scope.game_paths = $resource('/jsonapi/get_game_paths').get();		
+    };
+
     $scope.list = function(){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
@@ -535,7 +539,9 @@ function ProblemController($scope,$resource){
         //$scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID});
         $scope.problems = $scope.ProblemModel.get({"problemsetID":$scope.problemsetID, "details":1});
     };
-
+	$scope.get_problems_for_problemset = function(problemsetID){
+        $scope.problems = $resource('/jsonapi/problems/'+problemsetID).get();
+    };
     $scope.get_contributed_problems = function(){
         $scope.ContributedProblemsModel = $resource('/jsonapi/contributed_problems');
           
@@ -549,15 +555,31 @@ function ProblemController($scope,$resource){
 
 
 function BadgeController($scope,$resource){
-    $scope.playerBadges = $resource('/jsonapi/badges_for_current_player').get();
-	
-	$scope.list_paths= function(){
-		$scope.pathModel = $resource('/jsonapi/get_game_paths');		
-		$scope.pathModel.get({}, function(response){
-			$scope.ListAllPaths = response.paths;			
-        });		
-    };
-	
+	$scope.loadAllBadges = function(){
+		$scope.badgepathNames = [];
+		$scope.badgepathIDs = [];
+		$resource('/jsonapi/badges_for_current_player').get({},function(response){
+			$scope.playerBadges = response.badges;
+			for( var i=0; i<$scope.playerBadges.length; i++){
+				if($scope.badgepathIDs.indexOf($scope.playerBadges[i].pathID) <= -1 && $scope.playerBadges[i].pathID != null){
+					$scope.badgepathIDs.push($scope.playerBadges[i].pathID);
+					
+					$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+					//Including details=1 returns the nested problemset progress.
+					$scope.PathModel.get({"pathID":$scope.playerBadges[i].pathID}, function(response1){
+					$scope.badgepathNames.push(response1.path.name);
+					});					
+				}
+			}	
+			$scope.list_paths= function(){
+				$scope.pathModel = $resource('/jsonapi/get_game_paths');		
+				$scope.pathModel.get({}, function(response){
+					$scope.ListAllPaths = response.paths;			
+				});		
+			};
+		});
+	};
 }
 
 
@@ -1284,6 +1306,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
 									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									startDate:sDate,
@@ -1318,6 +1341,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
 									name:$scope.challengeToEdit.challenge.name,
 									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
@@ -1348,6 +1372,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
 									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									name:$scope.challengeToEdit.challenge.name,
@@ -3261,6 +3286,16 @@ function TournamentController($scope,$resource,$http){
               $scope.round = response;
               $scope.roundDirty = false;
           });
+    };
+
+	$scope.add_problem_to_round = function(problemID){
+          $scope.roundDirty = true;
+          $scope.round.problemIDs.push(problemID);
+          $scope.round.problemDetails[problemID] = {};
+      	  
+          $scope.round.problemDetails[problemID].description = "Placeholder description until reloaded.";
+      	  $scope.round.problemDetails[problemID].name = "Placeholder name until reloaded.";
+              
     };
 
 	$scope.set_round_countdown = function(roundID,seconds){
