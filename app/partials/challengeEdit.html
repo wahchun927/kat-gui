@@ -143,13 +143,13 @@
                     <tr ng-show="challengeToEdit.challenge.difficulty!='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							<select ng-model="chaPathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
                     <tr ng-show="challengeToEdit.challenge.difficulty=='Drag-n-Drop'">
                         <th>Path</th>
                         <th>
-							<select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+							<select ng-model="chaPathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                         </th>
                     </tr>
                     <tr>
@@ -175,13 +175,13 @@
                     <tr ng-show="challengeToEdit.challenge.difficulty!='Drag-n-Drop'">
                         <th>Language</th>
                         <th>
-							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+							<select ng-model="chaPathID" ng-options="path.id as path.name for path in paths.paths"></select>
                         </th>
                     </tr>
                     <tr ng-show="challengeToEdit.challenge.difficulty=='Drag-n-Drop'">
                         <th>Language</th>
                         <th>
-							<select ng-model="challengeToEdit.challenge.pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+							<select ng-model="chaPathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                         </th>
                     </tr>
                     <tr>
