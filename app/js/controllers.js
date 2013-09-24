@@ -561,7 +561,7 @@ function BadgeController($scope,$resource){
 		$resource('/jsonapi/badges_for_current_player').get({},function(response){
 			$scope.playerBadges = response.badges;
 			for( var i=0; i<$scope.playerBadges.length; i++){
-				if($scope.badgepathIDs.indexOf($scope.playerBadges[i].pathID) <= -1){
+				if($scope.badgepathIDs.indexOf($scope.playerBadges[i].pathID) <= -1 && $scope.playerBadges[i].pathID != null){
 					$scope.badgepathIDs.push($scope.playerBadges[i].pathID);
 					
 					$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
