@@ -633,8 +633,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		var yyyy = today.getFullYear();
 		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
 
-		$scope.chStartDate= dd+'-'+ mm +'-'+yyyy;
-		$scope.chEndDate= dd+'-'+ mm +'-'+yyyy;;
+		$scope.chStartDate= dd+'/'+ mm +'/'+yyyy;
+		$scope.chEndDate= dd+'/'+ mm +'/'+yyyy;;
 		
 		//retrieve published and user's own stories
 		$scope.pubStories = [];
@@ -678,7 +678,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
    			})
 
    			//To retrieve pathName by using path ID
-   			var PathID = $scope.single_challenge.challenge.pathID;
+   			var pathID = $scope.single_challenge.challenge.pathID;
    			$scope.get_path_for_name_conversion = $resource('/jsonapi/get_path_progress/:pathID');
    			$scope.get_path_for_name_conversion.get({"pathID":pathID},function(response){
    				$scope.selected_Path_Name = response;
@@ -781,6 +781,16 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				});				
 			});
 		}
+		
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
+
+		$scope.todayDate= dd+'/'+ mm +'/'+yyyy;
+		
 		if($scope.newChallenge.name==""){
 			alert("The challenge name cannot be empty!");
 		}
@@ -793,7 +803,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		else if($scope.newChallenge.privateMessage==""){
 			alert("The challenge private Message cannot be empty!");
 		}
-		else if($scope.newChallenge.endDate<$scope.newChallenge.startDate){
+		else if($scope.newChallenge.endDate <= $scope.newChallenge.startDate && $scope.newChallenge.startDate >= $scope.todayDate){
 			alert("The start date should earlier than end date!");
 		}
 		else{
@@ -1254,7 +1264,15 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		};
 		
 	$scope.editChallenge = function(challenge_id,sDate,eDate){
-	
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+
+		var yyyy = today.getFullYear();
+		if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} 
+
+		var todayDate= dd+'/'+ mm +'/'+yyyy;
+		
 		if($scope.challengeToEdit.challenge.allowedCountries.length=="0" ){
 			$scope.challengeToEdit.challenge.worldwide = 1;
 			$scope.challengeToEdit.challenge.allowedCountries = [];
@@ -1288,6 +1306,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		}
 		else if($scope.challengeToEdit.challenge.publicMessage==""){
 			alert("The challenge public Message cannot be empty!");
+		}
+		else if(sDate <= eDate && sDate >= todayDate){
+			alert("Please select a valid date!");
 		}
 		else{
 			//validate attribute of badge challenge
