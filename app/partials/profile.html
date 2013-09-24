@@ -150,63 +150,26 @@
 			
 		<!--Badges-->
 		<div class="span9 well well-small" id="badgesTable">
-			<div  ng-controller="BadgeController" width="100%" >
+			<div  ng-controller="BadgeController" width="100%" ng-init = "loadAllBadges()">
 				<div class="row-fluid">
-				<div class="span12" id="heading">Badges</div>
+					<div class="span12" id="heading">Badges</div>
 				</div>
 				<div class="row-fluid">
-				<div class="span12"  style="overflow:auto;width:100%">	
-					<table id="badgesList" class="table table-condensed">
-						<tr>                               
-							<div ng-model="python" ng-init="python='10030'"> </div>
-							<td class="BadgeName" id="pathHeading">Python</td>
-							<td class="BadgeImage">
-								<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges.badges|filter:python">
-									<img align="left"  ng-src="{{value.imageURL}}">
-								</div>
-							</td> 
-						</tr>  
-						<tr>                                  
-							<ng-model="bPython" ng-init="bPython='6920762'">
-							<td class="BadgeName" id="pathHeading">Beginner Python</td> 
-							<td class="BadgeImage">
-								<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges.badges|filter:bPython">
-									<img align="left"  ng-src="{{value.imageURL}}">
-								</div>
-							</td> 
-						</tr> 
-						<tr >
-							<ng-model="ruby" ng-init="ruby='2462233'"> 
-							<td class="BadgeName" id="pathHeading">Ruby</td>
-							<td class="BadgeImage">
-								<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges.badges|filter:ruby">
-									<img align="left"  ng-src="{{value.imageURL}}">
-								</div>
-							</td> 
-						</tr>
-						<tr ng-model="javaScript" ng-init="javaScript='2473247'">
-							<td class="BadgeName" id="pathHeading"> JavaScript</td>
-							<td class="BadgeImage">
-								<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges.badges|filter:javaScript">
-									<img align="left"  ng-src="{{value.imageURL}}">
-								</div>
-							</td> 
-						</tr>
-						<tr > 
-							<ng-model="java" ng-init="java='2243213'"> 
-							<td class="BadgeName" id="pathHeading"> Java</td>
-							<td class="BadgeImage">
-								<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges.badges|filter:java">
-									<img align="left"  ng-src="{{value.imageURL}}">
-								</div>
-							</td> 
-						</tr> 
-					</table>
-				</div>				  
-            </div>
-		</div>			
-		
-	</div>
+					<div class="span12"  style="overflow:auto;width:100%">	
+						<table id="badgesList" class="table table-condensed">
+							<tr ng-repeat = "pathID in badgepathIDs">                               
+								<td class="BadgeName" id="pathHeading">{{badgepathNames[$index]}}</td>
+								<td class="BadgeImage">
+									<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges|filter:pathID">
+										<img align="left"  ng-src="{{value.imageURL}}">
+									</div>
+								</td> 
+							</tr>
+						</table>
+					</div>				  
+				</div>
+			</div>			
+		</div>	
 	</div>
 	
 	<!--Quest,Path,Challenges-->
