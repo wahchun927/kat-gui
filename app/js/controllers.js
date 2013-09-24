@@ -179,7 +179,7 @@ function PlayerController($scope,$resource,$location,$cookieStore,$http){
             }); 
             
         //$route.reload('profile');
-        //window.location.reload('profile')
+        window.location.reload('profile')
     };
     
     $scope.log_event = function($event){  
@@ -1306,6 +1306,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
 									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									startDate:sDate,
@@ -1340,6 +1341,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
 									name:$scope.challengeToEdit.challenge.name,
 									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
@@ -1370,6 +1372,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
+									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
 									worldwide:$scope.challengeToEdit.challenge.worldwide,
 									allowedCountries:$scope.challengeToEdit.challenge.allowedCountries,
 									name:$scope.challengeToEdit.challenge.name,
