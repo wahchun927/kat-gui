@@ -1464,7 +1464,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.myStoryModel.query({}, function(response){
 			$scope.myStories = response;
 			for(var i=0;i<$scope.myStories.length;i++){
-				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.chaPathID) <= -1){
+				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.myStories[i].supported_paths.indexOf($scope.chaPathID) <= -1){
 					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
 					$scope.pubStories.push(aStory);
 				}				
@@ -2652,6 +2652,9 @@ function JsonRecordController($scope,$resource){
 //The quest controller returns a players quests or specific quest
 function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 
+	$scope.quests = "";
+	$scope.createNewQuestFlag = false;
+
 	$scope.QuestModel = $resource('/jsonapi/quest/:id');
     
     //A method to fetch a generic model and id. 
@@ -2684,51 +2687,51 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	    $(this).addClass('selected');
 	  });
 	}
+
     //Create quest
     $scope.create_quest = function(storyID,path_id,difficulty){
-/*       //alert("storyID "+storyID+" pathID "+ pathID+" difficult "+difficulty);
-      $scope.SaveResource = $resource('/jsonapi/rest/quest', 
-                    {}, 
-                    {'save': { method: 'POST',    params: {} }});
-      
-      var newQuest = {"name":"New Quest",
-                      "storyID": storyID,
-                      "pathID":pathID,
-                      "difficulty":difficulty};
-      $scope.$watch('location.search()', function() {
-        $scope.target = ($location.search()).target;
-      }, true);
-      var item = new $scope.SaveResource(newQuest);
-      item.$save(function(response) {
-        $scope.quest = response;
-        //alert("Should redirect to next page with quest ID="+response.id);
-        $scope.$parent.flash = response.id;
-        $cookieStore.put("name", response.storyID);
-        $location.search('questID',response.id).path('storyboard')
-        $scope.list();
-      }); */
 	  
       $scope.$watch('location.search()', function() {
         $scope.target = ($location.search()).target;
       }, true);
-	  
-      $scope.newQuest = {}
-      $scope.newQuest.storyID = storyID;
-	  $scope.newQuest.pathID = path_id;
-      $scope.newQuest.difficulty = difficulty;
-      $scope.NewQuest = $resource('/jsonapi/quest');
-      var new_quest = new $scope.NewQuest($scope.newQuest);
-      
-      new_quest.$save(function(response){
-        $scope.quest = response;
-        $cookieStore.put("name", response);
-  	    $cookieStore.put("type", "questGame");
-        $scope.list();
-        $location.search('storyID', null);
-		$location.search('difficulty', null);
-		$location.search('path_ID', null);
-        $location.path('storyboard');
-      });
+
+      for(var i=0;i<$scope.quests.length;i++){
+		//adding the filter on supported path logic. 
+		if(storyID==$scope.quests[i].story && path_id==$scope.quests[i].path && difficulty==$scope.quests[i].difficulty){
+		    $cookieStore.put("name", $scope.quests[i]);
+		  	$cookieStore.put("type", "questGame");
+		    $scope.list();
+		    $location.search('storyID', null);
+			$location.search('difficulty', null);
+			$location.search('path_ID', null);
+		    $location.path('storyboard');
+		    break;
+		}
+		else{
+			$scope.createNewQuestFlag = true;
+		}			
+	  }	
+
+	  if($scope.createNewQuestFlag){
+	  	$scope.newQuest = {}
+	    $scope.newQuest.storyID = storyID;
+		$scope.newQuest.pathID = path_id;
+	    $scope.newQuest.difficulty = difficulty;
+	    $scope.NewQuest = $resource('/jsonapi/quest');
+	    var new_quest = new $scope.NewQuest($scope.newQuest);
+	      
+	    new_quest.$save(function(response){
+	      $scope.quest = response;
+	      $cookieStore.put("name", response);
+	  	  $cookieStore.put("type", "questGame");
+	      $scope.list();
+	      $location.search('storyID', null);
+		  $location.search('difficulty', null);
+		  $location.search('path_ID', null);
+	      $location.path('storyboard');
+	    });
+	  }
+
     };
     
     $scope.create_quest_game_from_QuestController = function(questID){
