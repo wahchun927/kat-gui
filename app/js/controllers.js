@@ -712,8 +712,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
 				$scope.challengeToEdit = response;  
 				$scope.chaPathID = $scope.challengeToEdit.challenge.pathID;
-				$scope.challengeToEdit.challenge.startDate = $scope.challengeToEdit.challenge.startDate.split("-").join("/");
-				$scope.challengeToEdit.challenge.endDate = $scope.challengeToEdit.challenge.endDate.split("-").join("/");
+				$scope.challengeToEdit.challenge.startDate = $scope.challengeToEdit.challenge.startDate.split("-").reverse().join("/");
+				$scope.challengeToEdit.challenge.endDate = $scope.challengeToEdit.challenge.endDate.split("-").reverse().join("/");
 			});
 		};
 	};
@@ -1349,10 +1349,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									name:$scope.challengeToEdit.challenge.name
 					}).success(function (data, status, headers, config) {
 						$scope.registration_response = data;
+						$('#challengeEdited').modal('show');
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					window.location="index.html#/challenges";
 				}
 			}
 			//validate attribute of habit challenge
@@ -1388,7 +1388,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					window.location="index.html#/challenges";
 				}
 			}
 			//validate attribute of quest challenge
@@ -1416,15 +1415,20 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									endDate:eDate
 					}).success(function (data, status, headers, config) {
 						$scope.registration_response = data;
+						$('#challengeEdited').modal('show');
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					window.location="index.html#/challenges";
 				}
 			}
 		}
 	};
-		
+	
+	$scope.hideEditSuccessModal = function(){
+		$('#challengeEdited').modal('hide');
+		window.location="index.html#/challenges";
+	}
+	
 	$scope.goToGeneratedURL = function(single_challenge){
 		$scope.challengeURL = "";
 		console.log(single_challenge);
