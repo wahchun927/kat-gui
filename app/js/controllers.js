@@ -230,8 +230,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 		$scope.abc = $cookieStore.get("pid");
-		$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 		$scope.lvlName = 1;
+		$scope.player_progress = "";
 		$scope.difficulty = "";
 		$scope.path_ID = "";
 		$scope.path_name = "a Language";
@@ -465,7 +465,9 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	};
 			
     $scope.get_player_progress = function(){
-        $scope.player_progress = $resource('/jsonapi/get_player_progress').get();
+    	setTimeout(function () {			
+			$scope.player_progress = $resource('/jsonapi/get_player_progress').get();
+		}, 500);
     };
     //$scope.get_player_progress();
 
@@ -480,7 +482,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 		setTimeout(function () {			
 			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
-		}, 2000);
+		}, 500);
     };
     
 	//update path progress for 14 inch window size
