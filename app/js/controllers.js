@@ -230,8 +230,8 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 		$scope.abc = $cookieStore.get("pid");
-		$scope.player_progress = $resource('/jsonapi/get_all_path_progress').query();
 		$scope.lvlName = 1;
+		$scope.player_progress = "";
 		$scope.difficulty = "";
 		$scope.path_ID = "";
 		$scope.path_name = "a Language";
@@ -465,7 +465,9 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	};
 			
     $scope.get_player_progress = function(){
-        $scope.player_progress = $resource('/jsonapi/get_player_progress').get();
+    	setTimeout(function () {			
+			$scope.player_progress = $resource('/jsonapi/get_player_progress').get();
+		}, 500);
     };
     //$scope.get_player_progress();
 
@@ -480,7 +482,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
         $scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
 		setTimeout(function () {			
 			$scope.mobile_paths_grouped = $filter('groupBy')($scope.mobile_paths, 3);
-		}, 2000);
+		}, 500);
     };
     
 	//update path progress for 14 inch window size
@@ -712,8 +714,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
 				$scope.challengeToEdit = response;  
 				$scope.chaPathID = $scope.challengeToEdit.challenge.pathID;
-				$scope.challengeToEdit.challenge.startDate = $scope.challengeToEdit.challenge.startDate.split("-").join("/");
-				$scope.challengeToEdit.challenge.endDate = $scope.challengeToEdit.challenge.endDate.split("-").join("/");
+				$scope.challengeToEdit.challenge.startDate = $scope.challengeToEdit.challenge.startDate.split("-").reverse().join("/");
+				$scope.challengeToEdit.challenge.endDate = $scope.challengeToEdit.challenge.endDate.split("-").reverse().join("/");
 			});
 		};
 	};
@@ -1349,10 +1351,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									name:$scope.challengeToEdit.challenge.name
 					}).success(function (data, status, headers, config) {
 						$scope.registration_response = data;
+						$('#challengeEdited').modal('show');
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					window.location="index.html#/challenges";
 				}
 			}
 			//validate attribute of habit challenge
@@ -1388,7 +1390,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					window.location="index.html#/challenges";
 				}
 			}
 			//validate attribute of quest challenge
@@ -1416,15 +1417,20 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									endDate:eDate
 					}).success(function (data, status, headers, config) {
 						$scope.registration_response = data;
+						$('#challengeEdited').modal('show');
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
-					window.location="index.html#/challenges";
 				}
 			}
 		}
 	};
-		
+	
+	$scope.hideEditSuccessModal = function(){
+		$('#challengeEdited').modal('hide');
+		window.location="index.html#/challenges";
+	}
+	
 	$scope.goToGeneratedURL = function(single_challenge){
 		$scope.challengeURL = "";
 		console.log(single_challenge);

@@ -228,15 +228,15 @@
 				</div>
 				<div style="height:270px;overflow-y:auto;overflow-x:hidden" ng-model="filter">
 					<table class="table table-hover">
-						<tr ng-repeat="path in player_progress" ng-init="count(0);">							   
-							<td class="name">{{path.path.name}}</td>
-							<td class="myprogress">{{path.currentPlayerProgress}}/{{path.problemsInPath}}
+						<tr ng-repeat="path in player_progress.paths" ng-init="count(0);">	   
+							<td class="name">{{path.name}}</td>
+							<td class="myprogress">{{path.solvedProblems}}/{{path.problemsInPath}}
 								<div class="progress progress-success">
-									<div class="bar" style="width:{{count = (path.currentPlayerProgress/path.problemsInPath)*100 |number:0}}%"></div>
+									<div class="bar" style="width:{{count = (path.solvedProblems/path.problemsInPath)*100 |number:0}}%"></div>
 								</div>
 							</td>
 							<td class="continue">
-								<button id="resume" class="btn btn-info" ng-click = "resumePracticeGame(path.path.id,path.path.name,5)">Resume!</button>
+								<button id="resume" class="btn btn-info" ng-click = "resumePracticeGame(path.id,path.name,5)">Resume!</button>
 							</td>                                 
 						</tr>									 
 					</table>				
