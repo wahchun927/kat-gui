@@ -197,7 +197,7 @@
                     <tr>
                         <th style="text-align:left;">Location</th>
                         <th>
-                            <select ng-model="chLocation">
+                            <select ng-model="chLocation" ng-init = "chLocation=1">
                                 <option value="1">World Wide</option>
                                 <option value="0">{{player.country}}</option>
                             </select>
@@ -304,12 +304,12 @@
             <div class="well well-small">
                 <table>
                     <tr>
-                        <th>Start Date</th>
-                        <th><input type="text" name="startDate"  ng-model="chStartDate" datepicker readonly/></th>
+                        <th>Start Date:</th>
+                        <th><input type="text" name="startDate"  ng-model="chStartDate" datepicker readonly style="cursor:pointer"><i class="icon-calendar"></i></input></th>
                     </tr>
                     <tr>
-                        <th>End Date</th>
-                        <th><input type="text" name="endDate"  ng-model="chEndDate" datepicker readonly/></th>
+                        <th>End Date:</th>
+                        <th><input type="text" name="endDate"  ng-model="chEndDate" datepicker readonly style="cursor:pointer"><i class="icon-calendar"></i></input></th>
                     </tr>
 
                 </table>

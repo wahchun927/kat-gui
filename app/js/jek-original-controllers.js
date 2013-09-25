@@ -803,7 +803,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		else if($scope.newChallenge.privateMessage==""){
 			alert("The challenge private Message cannot be empty!");
 		}
-		else if($scope.newChallenge.endDate < $scope.newChallenge.startDate && $scope.newChallenge.startDate < $scope.todayDate){
+		else if($scope.newChallenge.endDate <= $scope.newChallenge.startDate && $scope.newChallenge.startDate >= $scope.todayDate){
 			alert("The start date should earlier than end date!");
 		}
 		else{
@@ -987,8 +987,9 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     		$scope.registered_this_challenge = response;
 
     	});
-    	$route.reload('registration');
-    	//window.location = "index.html#/registration";
+    	//$route.reload('registration');
+    	window.location = "index.html#/registration";
+    	
 
 
     };
@@ -3091,7 +3092,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
-		$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3127,11 +3127,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				}
 			}
 			if($scope.alertFlag){
-				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
-				$scope.storyid = null;
+				alert("Selected path does not support your previous selection of story, please reselect a story");
 				$scope.initialShow = false;
 			}
 		}
+		$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":path_ID}, function(response){
 	    	$scope.quest_path_name = response.path.name;
@@ -3522,3 +3522,158 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 		}				
 	};
 }
+<<<<<<< HEAD
+
+function ProblemContributionAdminController($scope,$resource,$cookieStore,$location,$http,$filter){
+	$scope.contentShownCollapsed = false;
+	$scope.contentShownValue = "Click above buttons to start";
+	 $scope.contributions = [
+    {
+      name: "Jekanath",
+      date: "3rd September 2013",
+      language: "Python",
+      path: "4",
+      level: "2",
+      difficulty: "Easy",
+      problemname: "Problem Name!",
+      text: "Problem Description Text"
+    },
+    {
+      name: "Sherlyn",
+      date: "5th September 2013"
+    },
+    {
+      name: "Jerald",
+      date: "25th September 2013"
+    },
+    {
+      name: "Hwan Heo",
+      date: "13th September 2013"
+    },
+    {
+      name: "William",
+      date: "8th October 2013"
+    },
+    {
+      name: "Tony",
+      date: "5th August 2013"
+    }
+  ];
+
+ $scope.alerts = [
+    
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({type : "success" , msg: "Contribution accepted!"});
+  };
+
+$scope.rejectAlert = function() {
+    $scope.alerts.push({type : "danger" , msg: "Contribution rejected!"});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+
+ $scope.modal = {content: 'Hello Modal', saved: false};
+  $scope.viaService = function() {
+    // do something
+    var modal = $modal({
+      template: 'modal.html',
+      show: true,
+      backdrop: 'static',
+      scope: $scope
+    });
+  }
+  $scope.parentController = function(dismiss) {
+    console.warn(arguments);
+    // do something
+    dismiss();
+  }
+
+$scope.showSolution = function() {
+    $scope.contentShownValue = "Solution";
+    
+  };
+
+  $scope.showSkeleton = function() {
+    $scope.contentShownValue = "Skeleton";
+  };
+  $scope.showExample = function() {
+    $scope.contentShownValue = "Example";
+  };
+  $scope.showPublicTests = function() {
+    $scope.contentShownValue = "Public Test";
+  };
+  $scope.showPrivateTests = function() {
+    $scope.contentShownValue = "Private Test";
+  };
+
+}
+
+function ProblemContributionEditController($scope,$resource,$cookieStore,$location,$http,$filter){
+	$scope.openStatus = true;
+
+	$scope.flipStatus = function() {
+    $scope.openStatus.push = false;
+    $scope.addAlert();
+  };
+
+  $scope.alerts = [
+    
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({type : "success" , msg: "Your details have been successfully saved!"});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+
+
+  
+	
+}
+
+function MasteryCoachingQuizController($scope,$resource,$cookieStore,$location,$http,$filter,$timeout){
+
+	$scope.countUpTimer = 0;
+	$scope.currentLevel = 3;
+	$scope.percent = $scope.currentLevel / 15 * 100;
+
+	$scope.problemName = "Problem Name";
+	$scope.problemDescription = "Problem Description";
+
+	$scope.textcaptions = "Test Text captions for user!";
+	$scope.sampleanswer = "<!--Given Example-->";
+	$scope.outcome = "<!--Sample Outcome-->";
+
+	$scope.selectedAudioFile = "bisa/lib/sound/test.mp3";
+	$scope.playAudio = function () {
+    var audio = document.getElementById("speechAudio");
+    audio.load();
+    audio.play();
+    var mytimeout = $timeout($scope.onTimeout,1000);
+	}
+
+	$scope.onTimeout = function(){
+        $scope.countUpTimer++;
+        mytimeout = $timeout($scope.onTimeout,1000);
+    }
+
+    
+
+	$scope.stopAudio = function () {
+    var audio = document.getElementById("speechAudio");
+    audio.pause();
+    $timeout.cancel(mytimeout);
+	}
+
+
+
+}
+
+=======
+>>>>>>> upstream/master

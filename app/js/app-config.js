@@ -22,7 +22,14 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
     $routeProvider.when('/b3', {templateUrl: 'bisa/b3.html', controller: IndexController});
     $routeProvider.when('/b4', {templateUrl: 'bisa/b4.html', controller: IndexController});
     $routeProvider.when('/b5', {templateUrl: 'bisa/b5.html', controller: IndexController});
+    $routeProvider.when('/problemcontribution', {templateUrl: 'bisa/problemcontribution.html', controller: IndexController});
+    $routeProvider.when('/problemcontribution_edit', {templateUrl: 'bisa/problemcontribution_edit.html', controller: IndexController});
+    $routeProvider.when('/problemcontribution_admin', {templateUrl: 'bisa/problemcontribution_admin.html', controller: IndexController});
+    $routeProvider.when('/masterycoaching', {templateUrl: 'bisa/masterycoaching.html', controller: IndexController});
+    $routeProvider.when('/masterycoaching_quiz', {templateUrl: 'bisa/masterycoaching_quiz.html', controller: IndexController});
     $routeProvider.otherwise({redirectTo: '/home'});
+    
+
 }]);
 
 myAppConfig.run(function($rootScope, $location) {
