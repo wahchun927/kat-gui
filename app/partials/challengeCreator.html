@@ -197,7 +197,7 @@
                     <tr>
                         <th style="text-align:left;">Location</th>
                         <th>
-                            <select ng-model="chLocation">
+                            <select ng-model="chLocation" ng-init = "chLocation=1">
                                 <option value="1">World Wide</option>
                                 <option value="0">{{player.country}}</option>
                             </select>
