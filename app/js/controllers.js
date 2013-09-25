@@ -1001,6 +1001,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     	$scope.to_register_challenge = $resource('/jsonapi/register_challenge/?challenge_id=:to_register');
     	$scope.to_register_challenge.get({"to_register":to_register},function(response){
     		$scope.registered_this_challenge = response;
+    		console.log("Checking player registration status : " +  $scope.registered_this_challenge);
 
     	});
     	$route.reload('registration');
