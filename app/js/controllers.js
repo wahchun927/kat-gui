@@ -1266,21 +1266,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	        $scope.$apply();
 	    }	
 		
-		$scope.archieveChallenge = function(challenge_id,sDate,eDate){
-			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-			$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
-							description:"archived",
-							startDate:sDate,
-							endDate:eDate
-			}).success(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			}).error(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			});
-			
-			window.location.reload();
-		};
-		
 	$scope.editChallenge = function(challenge_id,sDate,eDate){
 		var today = new Date();
 		var dd = today.getDate();
