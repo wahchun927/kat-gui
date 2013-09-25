@@ -712,6 +712,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
 				$scope.challengeToEdit = response;  
 				$scope.chaPathID = $scope.challengeToEdit.challenge.pathID;
+				$scope.challengeToEdit.challenge.startDate = $scope.challengeToEdit.challenge.startDate.split("-").join("/");
+				$scope.challengeToEdit.challenge.endDate = $scope.challengeToEdit.challenge.endDate.split("-").join("/");
 			});
 		};
 	};
@@ -814,6 +816,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					alert("Please choose at least one badge!");
 				}
 				else{
+					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+					new_challenge.$save(function(response){
+						$scope.challenge = response;
+						console.log("new badge "+response);
+						$scope.newChallengeID = response.id;
+					});
 					$('#challengeCreated').modal('show');
 				}
 			}
@@ -829,6 +838,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					alert("Please choose the total number of days!");
 				}
 				else{
+					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+					new_challenge.$save(function(response){
+						$scope.challenge = response;
+						console.log("new badge "+response);
+						$scope.newChallengeID = response.id;
+					});
 					$('#challengeCreated').modal('show');
 				}
 			}
@@ -841,6 +857,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				    alert("Please choose the Story ID!");
 				}
 				else{
+					$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
+					var new_challenge = new $scope.NewChallenge($scope.newChallenge);
+					new_challenge.$save(function(response){
+						$scope.challenge = response;
+						console.log("new badge "+response);
+						$scope.newChallengeID = response.id;
+					});
 					$('#challengeCreated').modal('show');
 				}
 			}
@@ -851,13 +874,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     };
 	
 	$scope.hideSuccessModal = function(){
-		$scope.NewChallenge = $resource('/jsonapi/save_edit_challenge');
-		var new_challenge = new $scope.NewChallenge($scope.newChallenge);
-		new_challenge.$save(function(response){
-			$scope.challenge = response;
-			console.log("new badge "+response);
-			$scope.newChallengeID = response.id;
-		});
 		$('#challengeCreated').modal('hide');
 		window.location="index.html#/challenges";
 	};
@@ -1367,6 +1383,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									endDate:eDate
 					}).success(function (data, status, headers, config) {
 						$scope.registration_response = data;
+						$('#challengeEdited').modal('show');
 					}).error(function (data, status, headers, config) {
 						$scope.registration_response = data;
 					});
