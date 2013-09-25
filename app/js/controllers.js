@@ -708,10 +708,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.loading();
 		var open_challenge_ID = $cookieStore.get("challengeID"); 
 		if( open_challenge_ID != null){
-			$scope.get_open_challenge = $resource('/jsonapi/get_challenge?challenge_id=:open_challenge_ID');
+			$scope.get_open_challenge = $resource('/jsonapi/get_challenge_for_edit?challenge_id=:open_challenge_ID');
 			$scope.get_open_challenge.get({"open_challenge_ID":open_challenge_ID}, function(response){
-   			$scope.challengeToEdit = response;  
-			$scope.chaPathID = $scope.challengeToEdit.challenge.pathID;
+				$scope.challengeToEdit = response;  
+				$scope.chaPathID = $scope.challengeToEdit.challenge.pathID;
 			});
 		};
 	};
