@@ -1,4 +1,5 @@
 <style>
+<style>
     .table td, .table th {
         border: none;
 		text-align:center;
@@ -47,7 +48,7 @@
     th.v5, td.v5{width:20%; vertical-align:middle;}
 </style>
 
-<div class="container" style="position:relative;" ng-controller = "StoryController">
+<div class="container" style="position:relative;" ng-controller = "StoryController" ng-init="list()">
 	<br>
 	<br>
 	<div class="row">
@@ -125,7 +126,7 @@
 								<p>Story Title :</p>
 						</div>
 						<div class="span10">
-							<input class="span8" type="text" ng-model="Title">{{Title}}</p> 	
+							<input class="span8" type="text" ng-model="Title"></p> 	
 						</div>
 					</div>
 				</div>
@@ -149,47 +150,41 @@
 							<div class="span10">															
 								<div class="input-append">
 									<input class="span8" id="appendedInputButtons" ng-model="videoURL" type="text"></input>
-									<button class="btn" type="button-primary" ng-click="addVideo(videoURL)">+</button>									
+									<button class="btn" type="button-primary" ng-click="addVideo(videoURL)">Add Video</button>									
 								</div>													
 							</div> 
 						</div>
 					</div>
 					</br>
 					<!--Restricted Paths-->
-					<div class="row-fluid" ng-controller="PathController">
+					<div class="row-fluid">
 						<div class="span12">
 							<div class="span2">
-								<p>Supported Paths : 							
+								<p>Languages for which story can be used for in Quest :  </p>						
 							</div>
-							<div class="span10">	
-								<span class="label label-info" ng-repeat="path in supportedPathNames">{{path}}</span>&nbsp;							
+							<div class="span10">
+								<div class="span5">Drag & Drop :
+									<div class="input-append ">									
+										<select ng-model="supportPath1" ng-options="path1.path_id as path1.name for path1 in mobile_paths"></select>
+										<button class="btn" type="button-primary" ng-click="addPath(supportPath1,'Beginner')">Add</button>
+									</div>
+								</div>
+								
+								<div class="span5">Normal :
+									<div class="input-append">									
+										<select ng-model="supportPath2" ng-options="path2.id as path2.name for path2 in paths_unfiltered.paths"></select>
+										<button class="btn" type="button-primary" ng-click="addPath(supportPath2, 'Normal')">Add</button>				
+									</div>	
+								</div>
 							</div> 
 						</div>
 					</div>
-					<div class="row-fluid" ng-controller="PathController">
+					<div class="row-fluid" ng-init="list()">
 						<div class="span12">
 							<div class="span2">
 							</div>
 							<div class="span10">															
-								<div class="input-append">
-									<select ng-model="supportPath1" ng-options="path1.path_id as path1.name for path1 in mobile_paths"></select>
-									<button class="btn" type="button-primary" ng-click="addPath(supportPath1,'Beginner')">+Beginner Path</button>
-									
-									<select ng-model="supportPath2" ng-options="path2.id as path2.name for path2 in paths_unfiltered.paths"></select>
-									<button class="btn" type="button-primary" ng-click="addPath(supportPath2, 'Normal')">+Normal Path</button>
-<!-- 									<input class="span8" ng-model="videoURL" type="text"></input>
-									<li class="btn dropdown">                  
-					                	<a href="" class="dropdown-toggle" data-toggle="dropdown">Paths</a>
-					                    <ul class="dropdown-menu">
-					                    	<li ng-repeat="path in mobile_paths">
-						                      ID: {{path.path_id}} Name: {{path.name}}
-						                    </li>
-					                    	<li ng-repeat="path in paths_unfiltered.paths">
-						                      ID: {{path.id}} Name: {{path.name}}
-						                    </li>
-					                    </ul>                
-					                </li>		 -->						
-								</div>													
+								<span class="label label-info" ng-repeat="path in supportedPathNames">{{path}}</span>&nbsp;												
 							</div> 
 						</div>
 					</div>
@@ -220,10 +215,11 @@
 										</td>
 									</tr>																
 							</table> 
-							<div align="right" ng-controller = "PlayerController">
+							<div align="right">
 							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="Title && description && Videos[0]" ng-click="create_story(Title,description)">Save</button>
 							<button class="btn btn-primary  disabled" type="button" style="height: 30px;width: 100px;" ng-show="!Title || !description || !Videos[0]">save</button>
 							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="player.isAdmin && publishStatus==false" ng-click="publish_story(Title,description)">Publish</button> 
+							<button class="btn btn-primary" type="button" style="height: 30px;width: 100px;" ng-show="player.isAdmin && publishStatus==true" ng-click="unpublish_story(Title,description)">unPublish</button> 
 							</div>
 						</div>
 					</div>
