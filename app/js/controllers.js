@@ -803,7 +803,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		else if($scope.newChallenge.privateMessage==""){
 			alert("The challenge private Message cannot be empty!");
 		}
-		else if($scope.newChallenge.endDate <= $scope.newChallenge.startDate && $scope.newChallenge.startDate >= $scope.todayDate){
+		else if($scope.newChallenge.endDate < $scope.newChallenge.startDate && $scope.newChallenge.startDate < $scope.todayDate){
 			alert("The start date should earlier than end date!");
 		}
 		else{
