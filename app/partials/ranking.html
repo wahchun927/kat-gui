@@ -154,9 +154,9 @@ th.crCountry{width:65%; text-align:center;}
 th.crUsers{width:30%; text-align:center;}
 
 td.crRankList{width:05%; text-align:center;}
-td.crPicList{width:50%; text-align:right;}
-td.crCountrynameList{width:60%; text-align:left;}
-td.crPlayernumberList{width:30%; text-align:center;}
+td.crPicList{width:20%; text-align:right;}
+td.crCountrynameList{width:55%; text-align:left;}
+td.crPlayernumberList{width:20%; text-align:center;}
 
 td.crsmall_rank{width:05%; text-align:center;}
 td.crsmall_pic{width:20%; text-align:right;}
@@ -181,8 +181,8 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 									<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">						
 										<div class="item" ng-repeat="paths in paths_grouped" ng-class="{active : $first}">
 											<!--all languages-->
-											<div class="span1"> </div>
-											<div class="span3"  ng-init="pathSelectRank(0)" ng-show="$index==0">
+											<div class="span2"> </div>
+											<div class="span2"  ng-init="pathSelectRank(0)" ng-show="$index==0">
 												<label class="radio">
 												<input style="visibility:hidden" type="radio" name="optionsRadios" ng-click = "get_path_ranks(AllLanguages)" ng-model="$parent.pathid" id="AllLanguages" value="AllLanguages" >
 												<input class="well well-small" type="image" ng-src="img/language/AllLanguages.png" alt="" id="pathImg"/>
