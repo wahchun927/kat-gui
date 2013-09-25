@@ -40,18 +40,50 @@
         border-radius: 5px 5px 5px 5px;
 
     }
-    .bs-docs-example::after
+    .badgeChallenge::after
     {
-        content: "Challenge Description";
+        content: "Badge Challenge Description";
         position: absolute;
         top: 0px;
         left: 1px;
         padding: 3px 7px;
         font-size: 16px;
         font-weight: bold;
-        background-color: transparent;
+        background-color: #5D5E53;
         border: 1px solid #000000;
-        color: black;
+        color: white;
+        -webkit-border-radius: 4px 0 4px 0;
+        -moz-border-radius: 4px 0 4px 0;
+        border-radius: 4px 0 4px 0;
+    }
+    .questChallenge::after
+    {
+        content: "Quest Challenge Description";
+        position: absolute;
+        top: 0px;
+        left: 1px;
+        padding: 3px 7px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #5D5E53;
+        border: 1px solid #000000;
+        color: white;
+        -webkit-border-radius: 4px 0 4px 0;
+        -moz-border-radius: 4px 0 4px 0;
+        border-radius: 4px 0 4px 0;
+    }
+    .habitChallenge::after
+    {
+        content: "Habit Challenge Description";
+        position: absolute;
+        top: 0px;
+        left: 1px;
+        padding: 3px 7px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #5D5E53;
+        border: 1px solid #000000;
+        color: white;
         -webkit-border-radius: 4px 0 4px 0;
         -moz-border-radius: 4px 0 4px 0;
         border-radius: 4px 0 4px 0;
@@ -104,9 +136,21 @@
 <br>
 <div class="container" style="position:relative;" ng-controller="ChallengeController" ng-init="loading();">
     <div class="row-fluid">
-        <div class="span12 bootcamp-body bs-docs-example" id="challengeDescription">
+        <div ng-show="chType=='Badge'" class="span12 bootcamp-body badgeChallenge" id="challengeDescription">
             <br>
-            Either you can create a quest challenge, badge challenge or habit challenge to get the individual or group to get engaged in practicing programming languages or developing development skills. It can be either via invitation or open challenge.
+            You are able to create a Badge Challenge where the player has to earn certain level of proficiency in order to overcome that challenge. For instance, if you challenge a player to get Python Level 5 badge, he/she has to earn to complete that challenge.
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div ng-show="chType=='Quest'" class="span12 bootcamp-body questChallenge" id="challengeDescription">
+            <br>
+            You are able to create a Quest Challenge where the player has to play a specific story with a particular path and stated difficulty level. Hence the challenge will push the player level of proficieny beyond his/her boundary. Moreover, Story will aspire the player to spend more time in that specific path.  
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div ng-show="chType=='Habit'" class="span12 bootcamp-body habitChallenge" id="challengeDescription">
+            <br>
+            You are able to create a Habit Challenge where the player has to play keep playing specific language with given difficulty level. In addition. number of problems per day with given time frame will allow the player to get hooked.  
         </div>
     </div>
     <br>
@@ -177,13 +221,13 @@
                         <tr ng-show="difficulty!='Drag-n-Drop'">
                             <th>Path</th>
                             <th>
-                                <select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+                                <select ng-model="chaPathID" ng-options="path.id as path.name for path in paths.paths"></select>
                             </th>
                         </tr>
                         <tr ng-show="difficulty=='Drag-n-Drop'">
                             <th>Path</th>
                             <th>
-                                <select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                                <select ng-model="chaPathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                             </th>
                         </tr>
                         <tr>
@@ -210,13 +254,13 @@
                         <tr ng-show="difficulty!='Drag-n-Drop'">
                             <th align="left">Language</th>
                             <th>
-                                <select ng-model="pathID" ng-options="path.id as path.name for path in paths.paths"></select>
+                                <select ng-model="chaPathID" ng-options="path.id as path.name for path in paths.paths"></select>
                             </th>
                         </tr>
                         <tr ng-show="difficulty=='Drag-n-Drop'">
                             <th align="left">Language</th>
                             <th>
-                                <select ng-model="pathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
+                                <select ng-model="chaPathID" ng-options="path.path_id as path.name for path in mobilePaths"></select>
                             </th>
                         </tr>
                         <tr>
@@ -260,12 +304,12 @@
             <div class="well well-small">
                 <table>
                     <tr>
-                        <th>Start Date</th>
-                        <th><input type="text" name="startDate"  ng-model="chStartDate" datepicker readonly/></th>
+                        <th>Start Date:</th>
+                        <th><input type="text" name="startDate"  ng-model="chStartDate" datepicker readonly style="cursor:pointer"><i class="icon-calendar"></i></input></th>
                     </tr>
                     <tr>
-                        <th>End Date</th>
-                        <th><input type="text" name="endDate"  ng-model="chEndDate" datepicker readonly/></th>
+                        <th>End Date:</th>
+                        <th><input type="text" name="endDate"  ng-model="chEndDate" datepicker readonly style="cursor:pointer"><i class="icon-calendar"></i></input></th>
                     </tr>
 
                 </table>
