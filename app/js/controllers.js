@@ -3092,6 +3092,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
+		$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3127,11 +3128,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				}
 			}
 			if($scope.alertFlag){
-				alert("Selected path does not support your previous selection of story, please reselect a story");
+				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
+				$scope.storyid = null;
 				$scope.initialShow = false;
 			}
 		}
-		$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
 		$scope.pathModel.get({"path_ID":path_ID}, function(response){
 	    	$scope.quest_path_name = response.path.name;
