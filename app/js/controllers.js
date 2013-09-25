@@ -1006,8 +1006,8 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     		console.log("Checking player registration status : " +  $scope.registered_this_challenge.info);
 
     	});
-    	$route.reload('registration');
-    	//window.location = "index.html#/registration";
+    	//$route.reload('registration');
+    	window.location.reload("registration");
 
 
     };
