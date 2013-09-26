@@ -2839,7 +2839,24 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					if($scope.stories[i].published==true && $scope.stories[i].archived == false){
 						$scope.pubStories.push($scope.stories[i]);
 					}				
-				}		
+				}
+				if(location.href.indexOf("storyID") > -1){
+				  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
+				  	$scope.pushUnpublishedFlag = true;
+				  	$scope.currentURL = location.href;
+					$scope.story_filtered = $filter('filter')($scope.stories, passed_in_storyID);
+					for(var j=0;j<$scope.pubStories.length;j++){
+						//adding the filter on supported path logic. 
+						if($scope.pubStories[j]==$scope.story_filtered[0]){
+							$scope.pushUnpublishedFlag = false;
+							break;
+						}		
+					}
+					if($scope.pushUnpublishedFlag){
+						$scope.pubStories.push($scope.story_filtered[0]);
+					}
+					$scope.story_name = $scope.story_filtered[0].name;
+			    }
 				$scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
 
 			    $scope.videos = $scope.stories[0].videos;
@@ -2851,15 +2868,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     //We will need a different controller or resource to fetch player stories. 
     //Maybe PlayerStoryModel = $resource('/jsonapi/player_stories');
     //Not this since we still need the public stories. $scope.StoryModel = $resource('/jsonapi/player_stories');
-
-    if(location.href.indexOf("storyID") > -1){
-	  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
-	  	$scope.currentURL = location.href;
-		setTimeout(function () {
-			$scope.story_filtered = $filter('filter')($scope.stories, passed_in_storyID);
-			$scope.story_name = $scope.story_filtered[0].name;
-	    }, 2000);
-    }
 
     var abc = 0;
 
