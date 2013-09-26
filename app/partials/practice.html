@@ -1,5 +1,27 @@
 <p><p>
 <style>
+/* Theme for box heading */
+.bootCamp{
+    color: #ffffff;
+    font-size: 16px;
+    border-bottom-color: #6b808d;
+    border-radius: 6px 6px 6px 6px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
+    margin-top: 4px;
+    margin-bottom: 8px;
+    padding: 8px 8px;
+}
+.bootCampSmall{
+    color: #ffffff;
+    font-size: 14px;
+    border-bottom-color: #6b808d;
+    border-radius: 6px 6px 6px 6px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
+    margin-top: 4px;
+    margin-bottom: 8px;
+    padding: 5px 5px;
+}
+
 
 .radio{
   text-align: center;	
@@ -78,8 +100,8 @@ li{ list-style:none; }
 <div ng-controller="PathController" ng-init="list();">
 	<div id="largeSelectPlay">
 	    <div class="container" >
-		<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#1. Pick {{path_name}}!</h4>
-		<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#1. Pick a Path!</h4>
+		<h4 class="well well-small bootCamp" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#1. Pick {{path_name}}!</h4>
+		<h4 class="well well-small bootCamp" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#1. Pick a Path!</h4>
 		</div>
 		<div id="myCarousel" class="carousel slide" ng-hide="difficulty=='Drag-n-Drop'">
 			<div class="carousel-inner" style="position:relative;left:0px" class="ng-scope">
@@ -90,7 +112,7 @@ li{ list-style:none; }
 							<div class="span4"  ng-repeat="path in paths" ng-init="practiceSelection()">
 								<label class="radio">
 									<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-									<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+									<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 									<h6>{{path.name}}</h6>
 								</label>
 							</div>
@@ -110,7 +132,7 @@ li{ list-style:none; }
 							<div class="span4" ng-repeat="path in mobile_path" ng-init="practiceBeginnerSelection()">
 								<label class="radio">
 									<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.path_id}}">
-									<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+									<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 									<h6>{{path.name}}</h6>
 								</label>
 							</div>
@@ -128,9 +150,9 @@ li{ list-style:none; }
 				<div class="span12">
 				
 					<div class="span4" align="center">
-						<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</h4>
-						<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</h4>
-						<div class="well well-small" id="levels" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];">					
+						<h4 class="well well-small bootCamp" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</h4>
+						<h4 class="well well-small bootCamp" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</h4>
+						<div class="well" id="levels" style="height:235px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}];">					
 							<span ng-repeat="item in levels">
 								<label class="radio">
 								<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
@@ -142,7 +164,7 @@ li{ list-style:none; }
 					</div>
 					<!--display the level, topic name & progress of the player when the path is selected by the player-->
 					<div class="span6" ng-model="$parent.pathName" >
-						<div align="center" style="margin-bottom:-15px" ><h4  class="well well-small" id="well-c">#3. Select a Path Level!</h4></div>
+						<div align="center"><h4  class="well well-small bootCamp">#3. Select a Path Level!</h4></div>
 						<div class = "tabbable well well-small">                      
 						  <ul id="myTab" class="nav nav-tabs">                        
 							<li id="path1" class="tabspacing active">
@@ -249,8 +271,8 @@ li{ list-style:none; }
 
 	<div id="smallSelectPlay">
 		<div class="container" >
-		<h5 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#1. Pick {{path_name}}!</h5>
-		<h5 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('path_ID') == -1">#1. Pick a Path!</h5>
+		<h5 class="well well-small bootCampSmall" align="center" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#1. Pick {{path_name}}!</h5>
+		<h5 class="well well-small bootCampSmall" align="center" ng-show="currentURL.indexOf('path_ID') == -1">#1. Pick a Path!</h5>
 		</div>
 		<div id="myCarouselSmall" class="carousel slide" ng-hide="difficulty=='Drag-n-Drop'">
 			<div class="carousel-inner" style="position:relative;left:0px;z-index:0" class="ng-scope">
