@@ -109,7 +109,7 @@ input:hover{
 									<div class="row">	
 										<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColor()">
 											<label class="radio">
-											<input type="radio" style="visibility:hidden" ng-click="updateURL(storyid,difficulty,path_ID)" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+											<input type="radio" style="visibility:hidden" ng-click="updateURL(storyid,difficulty,path_ID)" name="optionsRadios" ng-model="$parent.$parent.$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 											<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
 											<br>
 											<h4>{{story.name}}</h4>
@@ -184,17 +184,17 @@ input:hover{
 											<div  ng-show="difficulty && path_ID && storyid && player.nickname && initialShow">
 											<!-- <form action="#storyboard"> -->
 												<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_ID,difficulty)" style="width: 145px"><h1>Go!</h1></button>
-												<span class="label label-info" align="left">
-													<b><i>You are going to play</i></b>
-													</br></br>
-													Diffculty : {{difficulty}}
-													</br>
-													Path Name : {{quest_path_name}}
-													</br>
-													Story Name : {{current_story_name}}
-												</span>
 											<!-- </form> -->
 											</div>
+											<span class="label label-info" align="left">
+												<b><i>You are going to play</i></b>
+												</br></br>
+												Diffculty : {{difficulty}}
+												</br>
+												Path Name : {{quest_path_name}}
+												</br>
+												Story Name : {{current_story_name}}
+											</span>
 										</td>
 									</tr>
 								</table>
@@ -221,7 +221,7 @@ input:hover{
 									<div class="row">
 										<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColorSmall()">
 											<label class="radio">
-											<input type="radio" style="visibility:hidden" ng-click="updateURL(storyid,difficulty,path_ID)" name="optionsRadios" ng-model="$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
+											<input type="radio" style="visibility:hidden" ng-click="updateURL(storyid,difficulty,path_ID)" name="optionsRadios" ng-model="$parent.$parent.$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
 											<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
 											<br>
 											<h4>{{story.name}}</h4>
@@ -300,17 +300,18 @@ input:hover{
 									<div  ng-show="difficulty && path_id && storyid && player.nickname">
 									<!-- <form action="#storyboard"> -->
 										<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_id,difficulty)" style="width: 100px"><h1>Go!</h1></button>
-										<span class="label label-info" align="left">
-											<b><i>You are going to play</i></b>
-											</br></br>
-											Diffculty : {{difficulty}}
-											</br>
-											Path Name : {{quest_path_name}}
-											</br>
-											Story Name : {{current_story_name}}
-										</span>
 									<!-- </form> -->
 									</div>
+
+									<span class="label label-info" align="left">
+										<b><i>You are going to play</i></b>
+										</br></br>
+										Diffculty : {{difficulty}}
+										</br>
+										Path Name : {{quest_path_name}}
+										</br>
+										Story Name : {{current_story_name}}
+									</span>
 									</td></tr>					
 									</table>
 								</div>
