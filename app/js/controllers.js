@@ -2849,6 +2849,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 						//adding the filter on supported path logic. 
 						if($scope.pubStories[j]==$scope.story_filtered[0]){
 							$scope.pushUnpublishedFlag = false;
+							break;
 						}		
 					}
 					if($scope.pushUnpublishedFlag){
