@@ -1438,13 +1438,13 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.challengeURL = "";
 			console.log(single_challenge);
 			if(single_challenge.challengeType=="Quest"){
-				$scope.challengeURL = "index.html#/quests?storyID=" + single_challenge.storyID + "&difficulty="+ single_challenge.difficulty + "&path_ID=" + single_challenge.pathID;
+				$scope.challengeURL = "http://www.singpath.com/kat-gui/app/index.html#/quests?storyID=" + single_challenge.storyID + "&difficulty="+ single_challenge.difficulty + "&path_ID=" + single_challenge.pathID;
 			}
 			else if(single_challenge.challengeType=="Habit"){
-				$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.pathID + "&difficulty="+ single_challenge.difficulty;
+				$scope.challengeURL = "http://www.singpath.com/kat-gui/app/index.html#/practice?path_ID=" + single_challenge.pathID + "&difficulty="+ single_challenge.difficulty;
 			}
 			else if(single_challenge.challengeType=="Badge"){
-				$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.pathID + "&difficulty="+ single_challenge.difficulty;
+				$scope.challengeURL = "http://www.singpath.com/kat-gui/app/index.html#/practice?path_ID=" + single_challenge.pathID + "&difficulty="+ single_challenge.difficulty;
 			}
 			$('#shareChallenge').modal('show');
 	};
