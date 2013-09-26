@@ -2844,6 +2844,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 
 	    $scope.StoryModel.query({}, function(response){
 	        $scope.stories = response;
+			$scope.videos = $scope.stories[0].videos;
 	    	setTimeout(function () {
 	    	 	$scope.pubStories = [];
 				for(var i=0;i<$scope.stories.length;i++){
@@ -2871,7 +2872,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			    }
 				$scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
 
-			    $scope.videos = $scope.stories[0].videos;
+			    
 				$scope.$parent.storyid = $scope.stories[abc].id;
 				$('#largeSelectPlay').click();
 	        }, 1500);    
@@ -2961,37 +2962,54 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 
 	//5. Create or edit a Story
     $scope.create_story = function(title,des){
-      $scope.newStory = {};
-      $scope.newStory.name = title;
-  	  $scope.newStory.description = des;
-	  $scope.newStory.videos = $scope.Videos;
-      $scope.newStory.published = false;
-	  $scope.newStory.supported_paths = $scope.supportedPaths;
-      
-	  if($scope.editOrCreate == "edit"){
-			$scope.currentStoryID = $cookieStore.get("editStory");
-			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-			$http.post('/jsonapi/story/'+$scope.currentStoryID, {
-							name:$scope.newStory.name,
-							description:$scope.newStory.description,
-							videos:$scope.newStory.videos,
-							published:$scope.newStory.published,
-							supported_paths: $scope.supportedPaths
-			}).success(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			}).error(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			});
-		}
-		else{
-			$scope.NewStory = $resource('/jsonapi/story');
-			var new_story = new $scope.NewStory($scope.newStory);
-			new_story.$save(function(response){
-				$scope.story = response;
-				$scope.newStoryID = response.id;
-			});
-		}
-		$route.reload('story');
+	
+		$scope.storyNameList = [];
+		$scope.chaModel = $resource('/jsonapi/story');
+		$scope.chaModel.query({}, function(response){
+			$scope.storieslist = response;
+			for(var i=0;i<$scope.storieslist.length;i++){
+				$scope.storyNameList.push($scope.storieslist[i].name);
+			}	
+		
+			console.log($scope.storyNameList);
+			alert("test");
+				$scope.newStory = {};
+				$scope.newStory.name = title;
+				$scope.newStory.description = des;
+				$scope.newStory.videos = $scope.Videos;
+				$scope.newStory.published = false;
+				$scope.newStory.supported_paths = $scope.supportedPaths;
+				
+			if($scope.storyNameList.indexOf(title) > -1){
+				alert("duplicate name!");
+			}
+			else{
+					if($scope.editOrCreate == "edit"){
+						$scope.currentStoryID = $cookieStore.get("editStory");
+						$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+						$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+										name:$scope.newStory.name,
+										description:$scope.newStory.description,
+										videos:$scope.newStory.videos,
+										published:$scope.newStory.published,
+										supported_paths: $scope.supportedPaths
+						}).success(function (data, status, headers, config) {
+							$scope.registration_response = data;
+						}).error(function (data, status, headers, config) {
+							$scope.registration_response = data;
+						});
+					}
+					else{
+						$scope.NewStory = $resource('/jsonapi/story');
+						var new_story = new $scope.NewStory($scope.newStory);
+						new_story.$save(function(response){
+							$scope.story = response;
+							$scope.newStoryID = response.id;
+						});
+					}
+				$route.reload('story');
+			}
+		});
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
