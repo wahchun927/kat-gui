@@ -732,6 +732,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	//save challenge and go to summary page
 	$scope.goToChallengeSummary=function()
     {
+		
 		$scope.newChallenge = {};
 		$scope.newChallenge.challengeType = $scope.chType;
 		$scope.newChallenge.name = $scope.chName;
@@ -1266,21 +1267,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 	        $scope.$apply();
 	    }	
 		
-		$scope.archieveChallenge = function(challenge_id,sDate,eDate){
-			$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-			$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
-							description:"archived",
-							startDate:sDate,
-							endDate:eDate
-			}).success(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			}).error(function (data, status, headers, config) {
-				$scope.registration_response = data;
-			});
-			
-			window.location.reload();
-		};
-		
 	$scope.editChallenge = function(challenge_id,sDate,eDate){
 		var today = new Date();
 		var dd = today.getDate();
@@ -1447,6 +1433,22 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			window.location = $scope.challengeURL;
 		}
 	}
+	
+	$scope.shareURL = function(single_challenge){
+			$scope.challengeURL = "";
+			console.log(single_challenge);
+			if(single_challenge.challengeType=="Quest"){
+				$scope.challengeURL = "index.html#/quests?storyID=" + single_challenge.storyID + "&difficulty="+ single_challenge.difficulty + "&path_ID=" + single_challenge.pathID;
+			}
+			else if(single_challenge.challengeType=="Habit"){
+				$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.pathID + "&difficulty="+ single_challenge.difficulty;
+			}
+			else if(single_challenge.challengeType=="Badge"){
+				$scope.challengeURL = "index.html#/practice?path_ID=" + single_challenge.pathID + "&difficulty="+ single_challenge.difficulty;
+			}
+			$('#shareChallenge').modal('show');
+	};
+	
 	$scope.$watch('chaPathID', function() {
 		$scope.pubStories = [];
 		$scope.StoryModel = $resource('/jsonapi/story');
