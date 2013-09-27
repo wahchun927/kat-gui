@@ -1,7 +1,18 @@
 <br>
 <p></p>
 <style>
-
+/* To remove row line from the tables*/
+table td {
+    border-top: none;
+}
+ .table td, .table th {
+        border: none;
+		text-align:center;
+    }
+    .table tbody tr:hover td,
+    .table tbody tr:hover th {
+      background-color: #DCD9CD;
+    }
 
 .radio{
     text-align: center;	
@@ -151,7 +162,7 @@ td.SolvedList{width:20%; text-align:center;}
 <!--country ranks-->
 th.crRank{width:05%; text-align:center; }
 th.crCountry{width:65%; text-align:center;}
-th.crUsers{width:30%; text-align:center;}
+th.crUsers{width:30%; text-align:left;}
 
 td.crRankList{width:05%; text-align:center;}
 td.crPicList{width:20%; text-align:right;}
@@ -174,7 +185,7 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 			<div class="row-fluid">
 				<div class="span12" >
 					<!-- Carousel for Path -->
-					<div class="span9 well well-small">
+					<div class="span9 ">
 						<div class="row-fluid">
 							<div class="span12" ng-controller="PathController" ng-init="list();$parent.pathID=10030;">
 								<div id="myCarouselRank" class="carousel slide">
@@ -299,47 +310,40 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 						</div>
 					</div>
 					<!-- Country Ranking -->
-					<div class="span3 well well-small" align="center">
-						
-					<div class="tabbable"> 
-						<ul class="nav nav-tabs">
-							<li class="crTabspacing active"><a data-target="CountryRankingLarge" data-toggle="tab">Country Ranking</a></li>
-						</ul>
-						<div class="tab-content">
-						<div class="tab-pane active" id="CountryRankingLarge">
-							<div>
-								<table class="table table-condensed">
-									<tr style="border-top: solid white; border-bottom: solid white;">
-										<th class="crRank">Rank</th>
-										<th class="crCountry">Country</th>
-										<th class="crUsers">Number of Users</th>						
-									</tr>  
-								</table> 
-								<div id="CountryRankingListLarge" style="height:{{window_Height_country}}px;overflow:auto;">
-									<table class="table table-condensed" ng-init="get_country_ranks();" style="height:10px;" >
-											<tr ng-repeat="ranking in countryRank.rankings">
-												<td class="crRankList">
-													{{ranking.rank}}
-												</td>
-												<td class="crPicList"> 
-													<a ng-click="get_countrypath_ranks(ranking.country_code,ranking.countryName)"><image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>
-													</a>
-												</td>
-												<td class="crCountrynameList"> 
-													{{ranking.countryName}}					
-												</td>										
-												<td class="crPlayernumberList">
-													{{ranking.player_num}}
-												</td>                             
-											</tr>		 
-									</table>
-								</div>  
+					<div class="span3" align="center">
+						<div class="bootCamp"> Country Ranking</div>
+						<div class="well well-small">
+							<table class="table table-condensed">
+								<tr style="background-color: #DBDACB">
+								 	<th class="crRank">Rank</th>
+									<th class="crCountry">Country</th>
+									<th class="crUsers">No. of Users</th>						
+								</tr>  
+							</table> 
+							<div id="CountryRankingListLarge" style="height:{{window_Height_country}}px;overflow:auto;">
+								<table class="table table-condensed" ng-init="get_country_ranks();" style="height:10px;" >
+									<tr ng-repeat="ranking in countryRank.rankings">
+										<td class="crRankList">
+											{{ranking.rank}}
+										</td>
+										<td class="crPicList"> 
+											<a ng-click="get_countrypath_ranks(ranking.country_code,ranking.countryName)"><image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>
+											</a>
+										</td>
+										<td class="crCountrynameList"> 
+											{{ranking.countryName}}					
+										</td>										
+										<td class="crPlayernumberList">
+											{{ranking.player_num}}
+										</td>                             
+									</tr>		 
+								</table>
 							</div>
-						</div>				
-						</div>
+						</div>  
 					</div>
-								
-				</div>						
+
+
+					
 				
 				</div>
 			</div>	
@@ -476,45 +480,45 @@ td.crsmall_playernumber{width:30%; text-align:center;}
 
 			
 			<div>
-				<div class="accordion well well-small" id="CountryRankingSmallAccordion">
+				<div class="accordion" id="CountryRankingSmallAccordion">
 					<div class="accordion-group">
 						<div class="accordion-heading">
 						<a class="accordion-toggle" data-toggle="collapse" data-parent="#CountryRankingSmall" data-target="#collapseOne">
-						Country Ranking
+						<div style="font-size: 14px; font-weight: bold"> Country Ranking
 						</a>
 						</div>
 						<div id="collapseOne" class="accordion-body collapse">
 							<div class="accordion-inner">
 								<div>
-									<div id="CountryRankingSmall">
-										<table class="table table-condensed">
-											<tr style="border-top: solid white; border-bottom: solid white;">
-												<th class="cr1small">Rank</th>
-												<th class="cr2small">Country</th>
-												<th class="cr3small">Number of Users</th>						
-											</tr>  
-										</table> 
-										<div id="CountryRankingListSmall">
-											<table class="table table-condensed"  ng-init="get_country_ranks();" >
-												<tr ng-repeat="ranking in countryRank.rankings">
-													<td class="crsmall_rank">
-														{{ranking.rank}}
-													</td>
-													<td class="crsmall_pic"> 
-														<a ng-click="get_countrypath_ranks(ranking.country_code,ranking.countryName)">
-															<image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>
-														</a>
-													</td>
-													<td class="crsmall_countryname"> 
-														{{ranking.countryName}}					
-													</td>										
-													<td class="crsmall_playernumber">
-														{{ranking.player_num}}
-													</td>                                 
-												</tr> 
-											</table>
-										</div>		  
-									</div>				
+									<div class="bootCamp"> Country Ranking</div>
+										<div class="well well-small">
+											<table class="table table-condensed">
+												<tr style="background-color: #DBDACB">
+												 	<th class="crRank">Rank</th>
+													<th class="crCountry">Country</th>
+													<th class="crUsers">No. of Users</th>						
+												</tr>  
+											</table> 
+											<div id="CountryRankingListLarge" style="height:{{window_Height_country}}px;overflow:auto;">
+												<table class="table table-condensed" ng-init="get_country_ranks();" style="height:10px;" >
+													<tr ng-repeat="ranking in countryRank.rankings">
+														<td class="crRankList">
+															{{ranking.rank}}
+														</td>
+														<td class="crPicList"> 
+															<a ng-click="get_countrypath_ranks(ranking.country_code,ranking.countryName)"><image ng-src="{{ranking.flagUrl}}"; width = 30px; height= 30px;/>
+															</a>
+														</td>
+														<td class="crCountrynameList"> 
+															{{ranking.countryName}}					
+														</td>										
+														<td class="crPlayernumberList">
+															{{ranking.player_num}}
+														</td>                             
+													</tr>		 
+												</table>
+											</div>
+										</div>  			
 								</div>	
 							</div>
 						</div>
