@@ -793,9 +793,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					});				
 				});
 			}
-
-			console.log($scope.challengeNameList);
-			alert("test");
 			var today = new Date();
 			var dd = today.getDate();
 			var mm = today.getMonth()+1; //January is 0!
@@ -1326,8 +1323,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		else if($scope.challengeToEdit.challenge.publicMessage==""){
 			alert("The challenge public Message cannot be empty!");
 		}
-		else if(sDate <= eDate && sDate >= todayDate){
-			alert("Please select a valid date!");
+		else if(sDate < todayDate){
+			alert("The start date can not be earlier than today's date!");
+		}
+		else if(eDate < sDate){
+			alert("The start date should earlier than end date!");
 		}
 		else{
 			//validate attribute of badge challenge
@@ -2973,9 +2973,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			for(var i=0;i<$scope.storieslist.length;i++){
 				$scope.storyNameList.push($scope.storieslist[i].name);
 			}	
-		
-			console.log($scope.storyNameList);
-			alert("test");
 				$scope.newStory = {};
 				$scope.newStory.name = title;
 				$scope.newStory.description = des;
