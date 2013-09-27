@@ -303,7 +303,7 @@
 								<th class="ChallengesIMade_StartDate">Start Date</th>
 								<th class="ChallengesIMade_EndDate">End Date</th>								
 								<th class="ChallengesIMade_Review">Review</th>
-								<th class="ChallengesIMade_Remove">Archive</th>
+								<th class="ChallengesIMade_Remove">Share</th>
 							</tr>                                   
 						</table> 
 					</div>				 
@@ -322,7 +322,7 @@
 											<button class="btn btn-danger" a data-target="#tab2create" ng-click="goToChallengeEdit(myChallenge.challenge_id)">Edit</button>
 										</div>																	
 									</td>
-									<td  class="ChallengesIMade_Remove"><button class="btn btn-info" a data-target="#tab2create" ng-click="archieveChallenge(myChallenge.challenge_id,myChallenge.startDate,myChallenge.endDate)">Delete</button></td>  									
+									<td class="ChallengesIMade_Remove"><button class="btn btn-info" ng-click="shareURL(myChallenge)">Share</button></td>									
 								</tr>                                                                        
 						</table>							  
 					</div>	
@@ -330,6 +330,17 @@
 					<!--Create button-->
 					<div align="right">
 							<button type="button" class="btn btn-primary" ng-click="goToChallengeCreator()">Create a Challenge!</button>
+					</div>
+					<div class="modal fade" id="shareChallenge" style="display:none">         
+						<div class="modal-body" style="color:black">
+							<h3>Share the Challenge Link:</h3>
+							<p>
+							{{challengeURL}}
+							</p>
+						</div>
+						<div class="modal-footer">
+							<a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary">Ok</button></a>
+						</div>
 					</div>
 				</div>
 			
