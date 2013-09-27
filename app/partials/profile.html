@@ -262,14 +262,14 @@
 				<div style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
 					<table class="table table-hover" ng-init="registered_challenges()">
 						<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges">
-							<td class="AcceptedC_Type">quest</td>
+							<td class="AcceptedC_Type">{{Acceptedchallenge.challengeType}}</td>
 							<td class="AcceptedC_Name">{{Acceptedchallenge.name}}</td>	
 							<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
 							<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==0"><image ng-src="{{Acceptedchallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
 							<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
 							<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
-							<td class="AcceptedC_Outcome">
-								<button id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
+							<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Habit'">
+								<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(Acceptedchallenge.pathID,5)" class="btn btn-info">Resume!</button>
 							</td>
 						</tr>  
 					</table>

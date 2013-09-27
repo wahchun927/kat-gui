@@ -225,7 +225,17 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     $scope.fetch_game_paths = function(){
 		$scope.game_paths = $resource('/jsonapi/get_game_paths').get();		
     };
+	
+	$scope.resumeHabitChallengeGame = function(chPathID,numPerGame){
+		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
+	    //Including details=1 returns the nested problemset progress.
+	    $scope.PathModel.get({"pathID":chPathID}, function(response){
+		    $scope.path_progress = response;
+			$scope.resumePracticeGame(response.path.id,response.path.name,numPerGame);
+		});
+	};
+	
     $scope.list = function(){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
@@ -3149,7 +3159,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 							published:publish,
 							archived:true
 		}).success(function (data, status, headers, config) {
-			alert("success");
 			$scope.registration_response = data;
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
