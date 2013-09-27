@@ -1,6 +1,28 @@
 <p><p>
 <style>
 
+/* Theme for box heading */
+.bootCamp{
+    color: #ffffff;
+    font-size: 16px;
+    border-bottom-color: #6b808d;
+    border-radius: 6px 6px 6px 6px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
+    margin-top: 4px;
+    margin-bottom: 20px;
+    padding: 8px 8px;
+}
+.bootCampSmall{
+    color: #ffffff;
+    font-size: 14px;
+    border-bottom-color: #6b808d;
+    border-radius: 6px 6px 6px 6px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
+    margin-top: 4px;
+    margin-bottom: 20px;
+    padding: 5px 5px;
+}
+
 .radio{
 	text-align: center;	
 }
@@ -96,7 +118,7 @@ input:hover{
 		<div ng-controller="PathController" ng-init="list();get_player_progress();">
 			<div id="largeSelectPlay">
 				<div class="container" >
-					<h4 class="well well-small" align="center" id="well-c">#1. Pick {{story_name}}!</h4>
+					<h4 class="well well-small bootCamp">#1. Pick {{story_name}}!</h4>
 				</div>
 				<div>&nbsp;</div>	 
 			  
@@ -130,8 +152,8 @@ input:hover{
 						<div class="span12">
 				            <div class="span4" align="center">
 								<div style="margin-bottom:-15px">
-									<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2 Select {{passed_in_difficulty}}!</h4>
-									<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') == -1">#2 Select Difficulty!</h4>
+									<h4 class="well well-small bootCamp" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2 Select {{passed_in_difficulty}}!</h4>
+									<h4 class="well well-small bootCamp" ng-show="currentURL.indexOf('storyID') == -1">#2 Select Difficulty!</h4>
 								</div>
 								<div class="well well-small">
 									<div id="levels"  style="height:220px;" class="btn-group " data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
@@ -148,7 +170,7 @@ input:hover{
 							    <!-- select path for non-drag n drop-game -->
 							<div class="span4" align="center" id="pathSel">
 								<div style="margin-bottom:-15px">
-									<h4 class="well well-small" align="center" id="well-c">#3. Select {{path_name}}</h4>
+									<h4 class="well well-small bootCamp">#3. Select {{path_name}}</h4>
 								</div>
 								<div class="well well-small">	
 									<div style="height:220px;overflow:auto;margin-top:5px" ng-hide="difficulty=='Drag-n-Drop'">
@@ -209,7 +231,7 @@ input:hover{
 			<div id="smallSelectPlay">
 				
 				<div class="container" >
-					<h4 class="well well-small" align="center" id="well-c">#1. Pick {{story_name}}!</h4>
+					<h4 class="well well-small bootCampSmall">#1. Pick {{story_name}}!</h4>
 				</div>  
 
 				<div>
@@ -222,9 +244,9 @@ input:hover{
 										<div class="span4" ng-repeat="story in storylist" ng-init="addQuestColorSmall()">
 											<label class="radio">
 											<input type="radio" style="visibility:hidden" ng-click="updateURL(storyid,difficulty,path_ID)" name="optionsRadios" ng-model="$parent.$parent.$parent.$parent.storyid" id="{{story.id}}" value="{{story.id}}">
-											<input class="well"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
+											<input class="well well-small"type="image" ng-src="{{story.image}}" alt="" id="pathImg"/>
 											<br>
-											<h4>{{story.name}}</h4>
+											<h6>{{story.name}}</h6>
 											</label>
 										</div>
 									</div>
@@ -243,8 +265,8 @@ input:hover{
 							<div class="span12">
 								<div class="span4" align="center">
 									<div style="margin-bottom:-15px">
-										<h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2 Select {{passed_in_difficulty}}!</h4>
-										 <h4 class="well well-small" align="center" id="well-c" ng-show="currentURL.indexOf('storyID') == -1">#2 Select Difficulty!</h4>
+										<h4 class="well well-small bootCampSmall" ng-show="currentURL.indexOf('storyID') > -1 && currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2 Select {{passed_in_difficulty}}!</h4>
+										 <h4 class="well well-small bootCampSmall"ng-show="currentURL.indexOf('storyID') == -1">#2 Select Difficulty!</h4>
 									 </div>
 									<div class="well well-small">
 										<div id="levelsmall" style="height:220px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
@@ -261,15 +283,15 @@ input:hover{
 									<!-- select path for quest game -->					
 								<div class="span6" align="center" id="small-pathSel">
 									<div style="margin-bottom:-15px">
-										<h4 class="well well-small" align="center" id="well-c">#3. Select {{path_name}}</h4>
+										<h4 class="well well-small bootCampSmall">#3. Select {{path_name}}</h4>
 									</div>
 									<div class="well well-small">
 										<div style="height:220px;overflow:auto" id="pathsSmall" ng-hide="difficulty=='Drag-n-Drop'">
 											<div  ng-repeat="item in paths.paths" ng-init="pathSelectionSmall()">
 												<label>
 													<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_id,paths.paths.length)" ng-model="$parent.path_id" name="is_private" value="{{item.id}}" id="path">
-													<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/>
-													<h4>{{item.name}}</h4>
+													<input class="well well-small" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/>
+													<h6>{{item.name}}</h6>
 												</label>		
 											</div>
 										</div>
@@ -277,8 +299,8 @@ input:hover{
 											<div  ng-repeat="item in mobile_paths" ng-init="pathSelectionSmall()" >
 												<label>
 													<input type="radio" style="visibility:hidden" ng-click="updateStroyList(storyid,difficulty,$parent.path_id,paths.paths.length)" ng-model="$parent.path_id" name="is_private" value="{{item.path_id}}" id="path">
-													<input class="well" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
-													<h4>{{item.name}}</h4>
+													<input class="well well-small" type="image" ng-src="img/language/{{item.description.split(' ').join('_')}}.png" id="pathImgSmall"/ >
+													<h6>{{item.name}}</h6>
 												</label>		
 											</div>
 										</div>									
