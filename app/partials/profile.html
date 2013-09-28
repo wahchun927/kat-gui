@@ -262,14 +262,14 @@
 				<div style="width:99.8%; height:270px;overflow-y:auto;overflow-x:hidden" >
 					<table class="table table-hover" ng-init="registered_challenges()">
 						<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges">
-							<td class="AcceptedC_Type">quest</td>
+							<td class="AcceptedC_Type">{{Acceptedchallenge.challengeType}}</td>
 							<td class="AcceptedC_Name">{{Acceptedchallenge.name}}</td>	
 							<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
 							<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==0"><image ng-src="{{Acceptedchallenge.allowedCountries[0]}}"; width = 30px; height= 30px;/></td>									
 							<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
 							<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
-							<td class="AcceptedC_Outcome">
-								<button id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
+							<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Habit'">
+								<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(Acceptedchallenge.pathID,5)" class="btn btn-info">Resume!</button>
 							</td>
 						</tr>  
 					</table>
@@ -303,7 +303,7 @@
 								<th class="ChallengesIMade_StartDate">Start Date</th>
 								<th class="ChallengesIMade_EndDate">End Date</th>								
 								<th class="ChallengesIMade_Review">Review</th>
-								<th class="ChallengesIMade_Remove">Archive</th>
+								<th class="ChallengesIMade_Remove">Share</th>
 							</tr>                                   
 						</table> 
 					</div>				 
@@ -322,7 +322,7 @@
 											<button class="btn btn-danger" a data-target="#tab2create" ng-click="goToChallengeEdit(myChallenge.challenge_id)">Edit</button>
 										</div>																	
 									</td>
-									<td  class="ChallengesIMade_Remove"><button class="btn btn-info" a data-target="#tab2create" ng-click="archieveChallenge(myChallenge.challenge_id,myChallenge.startDate,myChallenge.endDate)">Delete</button></td>  									
+									<td class="ChallengesIMade_Remove"><button class="btn btn-info" ng-click="shareURL(myChallenge)">Share</button></td>									
 								</tr>                                                                        
 						</table>							  
 					</div>	
@@ -330,6 +330,17 @@
 					<!--Create button-->
 					<div align="right">
 							<button type="button" class="btn btn-primary" ng-click="goToChallengeCreator()">Create a Challenge!</button>
+					</div>
+					<div class="modal fade" id="shareChallenge" style="display:none">         
+						<div class="modal-body" style="color:black">
+							<h3>Share the Challenge Link:</h3>
+							<p>
+							{{challengeURL}}
+							</p>
+						</div>
+						<div class="modal-footer">
+							<a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary">Ok</button></a>
+						</div>
 					</div>
 				</div>
 			
