@@ -2740,6 +2740,25 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  });
 	}
 
+	$scope.resumeQuestChallengeGame = function(storyID,path_id,difficulty){
+		var questCreated = true;
+		for(var i=0;i<$scope.quests.length;i++){
+			//adding the filter on supported path logic. 
+			if(storyID==$scope.quests[i].story && path_id==$scope.quests[i].path && difficulty==$scope.quests[i].difficulty){
+				$cookieStore.put("type", "questGame");
+				$cookieStore.put("name", $scope.quests[i]);
+				$location.path('storyboard');
+			}
+			else{
+				questCreated = false;
+			}			
+		}	
+		
+		if(questCreated==false){
+			$scope.create_quest(storyID,path_id,difficulty);
+		}
+	}	
+	
     //Create quest
     $scope.create_quest = function(storyID,path_id,difficulty){
 	  
