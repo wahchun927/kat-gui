@@ -3306,7 +3306,7 @@ function TournamentController($scope,$resource,$http,$cookieStore){
         //Use a normal form post for this legacy API.
         console.log("id "+tournamentID+" "+tournamentPassword);
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-        $http.post("/jsonapi/verify_tournament_password?tournmentID="+tournamentID+"&tournamentPassword="+tournamentPassword, {
+        $http.post("/jsonapi/verify_tournament_password?tournamentID="+tournamentID+"&password="+tournamentPassword, {
             tournamentID: tournamentID,
             password: tournamentPassword
         }).success(function (data, status, headers, config) {
