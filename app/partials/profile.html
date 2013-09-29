@@ -272,7 +272,7 @@
 								<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(Acceptedchallenge.pathID,5)" class="btn btn-info">Resume!</button>
 							</td>
 							<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Quest'">
-								<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(Acceptedchallenge.pathID,5)" class="btn btn-info">Resume!</button>
+								<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(Acceptedchallenge.storyID, Acceptedchallenge.pathID, Acceptedchallenge.difficulty)" class="btn btn-info">Resume!</button>
 							</td>
 						</tr>  
 					</table>
