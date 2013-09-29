@@ -1547,7 +1547,6 @@ function NormalGameController($scope,$resource,$cookieStore){
       });
     };
 
-
     $scope.create_path_game = function(pathID,numProblems){
       $scope.CreateGameModel = $resource('/jsonapi/create_game/pathID/:pathID/numProblems/:numProblems');
       //alert(pathID+" "+numProblems);
@@ -1802,7 +1801,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
     $scope.skip_problem_count = 0;
     $scope.current_problem_index = 0;
     $scope.permutation = "12345"; 
-	
+    
     if($cookieStore.get("name")){
       $scope.LevelID = $cookieStore.get("name"); //retrieve level id from practice page
     }
@@ -1835,9 +1834,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
 	
     //alert($scope.qid);
     $scope.create_practice_game = function(LevelID,numProblems){
-    $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
+      $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
       
-    $scope.CreateGameModel.get({"problemsetID":LevelID,"numProblems":numProblems}, function(response){
+      $scope.CreateGameModel.get({"problemsetID":LevelID,"numProblems":numProblems}, function(response){
         $scope.game = response;
         $scope.update_remaining_problems();
 		});
@@ -1845,9 +1844,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
 
     $scope.create_resolve_problemset_game = function(problemsetID){
-    $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/resolve');
+      $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/resolve');
       
-    $scope.CreateGameModel.get({"problemsetID":problemsetID}, function(response){
+      $scope.CreateGameModel.get({"problemsetID":problemsetID}, function(response){
         $scope.game = response;
         $scope.update_remaining_problems();
 		});
@@ -1868,6 +1867,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
     $scope.update_remaining_problems = function(){
       $scope.remaining_problems = [];
+      console.log("scope.game contains "+$scope.game+"***");
       //loop through problems and find unsolved. Add to remaining_problems.
       for (var i = 0; i < $scope.game.problemIDs.length; i++) {
         if($scope.game.solvedProblemIDs.indexOf($scope.game.problemIDs[i])<0){
@@ -2001,7 +2001,24 @@ function PracticeGameController($scope,$resource,$cookieStore){
       });
     };
 	
-	$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+	//Check for a roundID to see if this is a tournament game. 
+	if($cookieStore.get("roundID")){
+      $scope.roundID = $cookieStore.get("roundID"); 
+      $scope.tournamentGameID = $cookieStore.get("tournamentGameID"); 
+      $scope.fetch($scope.tournamentGameID);
+      //$scope.update_remaining_problems();
+      console.log("Found a roundID in the cache "+$scope.roundID);//retrieve name of the path
+      console.log("Found a gameID in the cache "+$scope.tournamentGameID);//retrieve name of the path
+    
+    }
+
+	//The normal play page is creating a new level game by default when loading this controller.
+	if($scope.roundID){
+		console.log("Not creating a practice game by default since this is a tournament game.");
+	}
+	else{
+		$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+	}
 
 	//to retrieve path info to display on path play page
 	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
@@ -3248,7 +3265,7 @@ function TimeAndAttemptsController($scope,$resource){
     $scope.item = $resource('/jsonapi/attempts_and_time_by_day').get();
 }
 
-function TournamentController($scope,$resource,$http){
+function TournamentController($scope,$resource,$http,$cookieStore){
     $scope.TournamentModel = $resource('/jsonapi/list_open_tournaments');
     $scope.TournamentHeatGameModel = $resource('/jsonapi/create_game/heatID/:heatID');
     
@@ -3285,16 +3302,29 @@ function TournamentController($scope,$resource,$http){
           });
     };
 
-    $scope.register_for_tournament = function(){
+
+
+    $scope.register_for_tournament = function(tournamentID, tournamentPassword){
         //Use a normal form post for this legacy API.
+        console.log("id "+tournamentID+" "+tournamentPassword);
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
         $http.post("/jsonapi/verify_tournament_password", {
-            tournamentID: $scope.tournamentID,
-            password: $scope.tournamentPassword
+            tournamentID: tournamentID,
+            password: tournamentPassword
         }).success(function (data, status, headers, config) {
             $scope.registration_response = data;
+            console.log(data);
+            if (data.failed){
+            	alert(data.failed);
+            }
+            else{
+            	$scope.tournamentID = tournamentID;
+            	$scope.fetch_tournament(tournamentID);
+            }
         }).error(function (data, status, headers, config) {
-            $scope.registration_response = data;
+        	console.log("Error");
+            alert("An error occurred.")
+            console.log(data);
         });
     };
 
@@ -3346,10 +3376,20 @@ function TournamentController($scope,$resource,$http){
 	$scope.fetch_tournament = function(tournamentID){
           $resource('/jsonapi/tournament/:tournamentID').get({"tournamentID":tournamentID}, function(response){
               $scope.tournament = response;
+              //$scope.startTime = new Date("2013-09-29 08:24:46.840830");
+              //$scope.stopTime = new Date("2013-09-29 12:00:11.784760");
+              //console.log(($scope.stopTime - $scope.startTime)/1000);
           });
 
     };
 
+    $scope.get_seconds_to_start = function(startTime, currentTime){
+    	var diff = (new Date(startTime) - new Date(currentTime))/1000;
+    	if (diff > 0){
+    		return diff;
+    	}
+    	else return 0;
+        }
 
 	$scope.add_round = function(tournamentID){
           $scope.roundDirty = false;
@@ -3440,6 +3480,20 @@ function TournamentController($scope,$resource,$http){
 		}
     };
 
+    $scope.create_tournament_round_game = function(roundID){
+      $scope.CreateGameModel = $resource('/jsonapi/launch_game_for_round?round_id='+roundID);
+      $scope.CreateGameModel.get({}, function(response){
+      	$scope.game = response;
+      	console.log(response);
+      	$cookieStore.put("roundID", roundID ); 
+    	$cookieStore.put("tournamentGameID", $scope.game.gameID); 
+    	$cookieStore.put("num", $scope.game.problemIDs.length);
+		$cookieStore.put("type", "practiceGame");
+			
+      	window.location.href = "tournament_play_page.html";
+      });
+    };
+    
 }
 
 
