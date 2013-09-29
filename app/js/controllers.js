@@ -2984,50 +2984,52 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	//5. Create or edit a Story
     $scope.create_story = function(title,des){
 	
-		$scope.storyNameList = [];
-		$scope.chaModel = $resource('/jsonapi/story');
-		$scope.chaModel.query({}, function(response){
-			$scope.storieslist = response;
-			for(var i=0;i<$scope.storieslist.length;i++){
-				$scope.storyNameList.push($scope.storieslist[i].name);
-			}	
-				$scope.newStory = {};
-				$scope.newStory.name = title;
-				$scope.newStory.description = des;
-				$scope.newStory.videos = $scope.Videos;
-				$scope.newStory.published = false;
-				$scope.newStory.supported_paths = $scope.supportedPaths;
-				
-			if($scope.storyNameList.indexOf(title) > -1){
-				alert("duplicate name!");
+	
+		$scope.newStory = {};
+		$scope.newStory.name = title;
+		$scope.newStory.description = des;
+		$scope.newStory.videos = $scope.Videos;
+		$scope.newStory.published = false;
+		$scope.newStory.supported_paths = $scope.supportedPaths;
+
+			if($scope.editOrCreate == "edit"){
+				$scope.currentStoryID = $cookieStore.get("editStory");
+				$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+				$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+								name:$scope.newStory.name,
+								description:$scope.newStory.description,
+								videos:$scope.newStory.videos,
+								published:$scope.newStory.published,
+								supported_paths: $scope.supportedPaths
+				}).success(function (data, status, headers, config) {
+					$scope.registration_response = data;
+					$route.reload('story');
+				}).error(function (data, status, headers, config) {
+					$scope.registration_response = data;
+				});
 			}
-			else{
-					if($scope.editOrCreate == "edit"){
-						$scope.currentStoryID = $cookieStore.get("editStory");
-						$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-						$http.post('/jsonapi/story/'+$scope.currentStoryID, {
-										name:$scope.newStory.name,
-										description:$scope.newStory.description,
-										videos:$scope.newStory.videos,
-										published:$scope.newStory.published,
-										supported_paths: $scope.supportedPaths
-						}).success(function (data, status, headers, config) {
-							$scope.registration_response = data;
-						}).error(function (data, status, headers, config) {
-							$scope.registration_response = data;
-						});
+			else{	
+				$scope.storyNameList = [];
+				$scope.chaModel = $resource('/jsonapi/story');
+				$scope.chaModel.query({}, function(response){
+					$scope.storieslist = response;
+					for(var i=0;i<$scope.storieslist.length;i++){
+						$scope.storyNameList.push($scope.storieslist[i].name);
 					}
-					else{
+					if($scope.storyNameList.indexOf(title) > -1){
+						alert("duplicate name!");
+					}
+					else{	
 						$scope.NewStory = $resource('/jsonapi/story');
 						var new_story = new $scope.NewStory($scope.newStory);
 						new_story.$save(function(response){
 							$scope.story = response;
 							$scope.newStoryID = response.id;
+							$route.reload('story');
 						});
 					}
-				$route.reload('story');
+				});
 			}
-		});
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
