@@ -827,10 +827,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			else if($scope.newChallenge.privateMessage==""){
 				alert("The challenge private Message cannot be empty!");
 			}
-			else if($scope.newChallenge.startDate < $scope.todayDate){
+			else if($scope.newChallenge.startDate.split("/").reverse().join() < $scope.todayDate.split("/").reverse().join()){
 				alert("The start date can not be earlier than today's date!");
 			}
-			else if($scope.newChallenge.endDate < $scope.newChallenge.startDate){
+			else if($scope.newChallenge.endDate.split("/").reverse().join() < $scope.newChallenge.startDate.split("/").reverse().join()){
 				alert("The start date should earlier than end date!");
 			}
 			else{
@@ -1333,10 +1333,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		else if($scope.challengeToEdit.challenge.publicMessage==""){
 			alert("The challenge public Message cannot be empty!");
 		}
-		else if(sDate < todayDate){
+		else if(sDate.split("/").reverse().join() < todayDate.split("/").reverse().join()){
 			alert("The start date can not be earlier than today's date!");
 		}
-		else if(eDate < sDate){
+		else if(eDate.split("/").reverse().join() < sDate.split("/").reverse().join()){
 			alert("The start date should earlier than end date!");
 		}
 		else{
