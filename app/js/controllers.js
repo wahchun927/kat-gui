@@ -1480,10 +1480,14 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.StoryModel.query({}, function(response){
 			$scope.stories = response;
 			for(var i=0;i<$scope.stories.length;i++){
-				if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.chaPathID) <= -1){
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.chaPathID) > -1){
 					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
 					$scope.pubStories.push(aStory);
-				}				
+				}
+				else if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.length==0){
+					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+					$scope.pubStories.push(aStory);					
+				}
 			}
 		}); 
 		
@@ -1491,7 +1495,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.myStoryModel.query({}, function(response){
 			$scope.myStories = response;
 			for(var i=0;i<$scope.myStories.length;i++){
-				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.myStories[i].supported_paths.indexOf($scope.chaPathID) <= -1){
+				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.myStories[i].supported_paths.indexOf($scope.chaPathID) > -1){
+					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+					$scope.pubStories.push(aStory);
+				}
+				else if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.myStories[i].supported_paths.length == 0){
 					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
 					$scope.pubStories.push(aStory);
 				}				
