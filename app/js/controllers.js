@@ -2004,28 +2004,8 @@ function PracticeGameController($scope,$resource,$cookieStore){
       });
     };
 	
-	//Check for a roundID to see if this is a tournament game. 
-	if($cookieStore.get("roundID")){
-      $scope.roundID = $cookieStore.get("roundID"); 
-      $scope.tournamentGameID = $cookieStore.get("tournamentGameID"); 
-      $scope.fetch($scope.tournamentGameID);
-      //$scope.update_remaining_problems();
-      console.log("Found a roundID in the cache "+$scope.roundID);//retrieve name of the path
-      console.log("Found a gameID in the cache "+$scope.tournamentGameID);//retrieve name of the path
-      
-    }
-
-	//The normal play page is creating a new level game by default when loading this controller.
-	if($scope.roundID){
-		console.log("Not creating a practice game by default since this is a tournament game.");
-		//Now clear the cache so that you don't impact future games
-		$cookieStore.put("roundID", null);
-		$cookieStore.put("tournamentGameID",null); 	
-	}
-	else{
-		$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-	}
-
+	$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+	
 	//to retrieve path info to display on path play page
 	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
         var path_id = $scope.path_IDD;
