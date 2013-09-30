@@ -825,7 +825,22 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.newChallenge.pathID=$scope.chaPathID;
 			$scope.newChallenge.difficulty=$scope.difficulty;
 			$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
-			$scope.newChallenge.totalDays=$scope.totalDays;
+			
+			//derive date difference from start date and end date
+			var date1 = new Date($scope.newChallenge.startDate.split("/").reverse().join("/"));
+			var date2 = new Date($scope.newChallenge.endDate.split("/").reverse().join("/"));
+			
+			//// The number of milliseconds in one day
+			var ONE_DAY = 1000 * 60 * 60 * 24
+
+			// Convert both dates to milliseconds
+			var date1_ms = date1.getTime()
+			var date2_ms = date2.getTime()
+
+			// Calculate the difference in milliseconds
+			var difference_ms = Math.abs(date1_ms - date2_ms)
+			
+			$scope.newChallenge.totalDays=Math.round(difference_ms/ONE_DAY)+1;
 			var endDate = new Date($scope.newChallenge.endDate);
 			var startDate = new Date($scope.newChallenge.startDate);
 			//badge challenge
