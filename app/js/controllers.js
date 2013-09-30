@@ -2012,12 +2012,15 @@ function PracticeGameController($scope,$resource,$cookieStore){
       //$scope.update_remaining_problems();
       console.log("Found a roundID in the cache "+$scope.roundID);//retrieve name of the path
       console.log("Found a gameID in the cache "+$scope.tournamentGameID);//retrieve name of the path
-    
+      
     }
 
 	//The normal play page is creating a new level game by default when loading this controller.
 	if($scope.roundID){
 		console.log("Not creating a practice game by default since this is a tournament game.");
+		//Now clear the cache so that you don't impact future games
+		$cookieStore.put("roundID", null);
+		$cookieStore.put("tournamentGameID",null); 	
 	}
 	else{
 		$scope.create_practice_game($scope.LevelID,$scope.numProblems);
