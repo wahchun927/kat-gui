@@ -461,7 +461,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				window.location.href = "practice_play_page.html";
 			}
 			else{
-				window.location.href = "normal_play_page.html";
+				//Hi RJ. Here is the change that I made to help simplify things.
+				//The goal is to simplify every game play page to just use one controller. 
+				window.location.href = "practice_game_play.html";
+				//window.location.href = "normal_play_page.html";
 			}
 		}
 		else{
@@ -1867,7 +1870,6 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
     $scope.update_remaining_problems = function(){
       $scope.remaining_problems = [];
-      console.log("scope.game contains "+$scope.game+"***");
       //loop through problems and find unsolved. Add to remaining_problems.
       for (var i = 0; i < $scope.game.problemIDs.length; i++) {
         if($scope.game.solvedProblemIDs.indexOf($scope.game.problemIDs[i])<0){
@@ -1877,6 +1879,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
       if($scope.remaining_problems.length == 0){
 			
+			//Add a condition to redirect to the tournament result if this is a tournament game. 
 			if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
 				alert("congrats!");
 				window.location.href="index.html#/practice";
@@ -2001,25 +2004,8 @@ function PracticeGameController($scope,$resource,$cookieStore){
       });
     };
 	
-	//Check for a roundID to see if this is a tournament game. 
-	if($cookieStore.get("roundID")){
-      $scope.roundID = $cookieStore.get("roundID"); 
-      $scope.tournamentGameID = $cookieStore.get("tournamentGameID"); 
-      $scope.fetch($scope.tournamentGameID);
-      //$scope.update_remaining_problems();
-      console.log("Found a roundID in the cache "+$scope.roundID);//retrieve name of the path
-      console.log("Found a gameID in the cache "+$scope.tournamentGameID);//retrieve name of the path
-    
-    }
-
-	//The normal play page is creating a new level game by default when loading this controller.
-	if($scope.roundID){
-		console.log("Not creating a practice game by default since this is a tournament game.");
-	}
-	else{
-		$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-	}
-
+	$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+	
 	//to retrieve path info to display on path play page
 	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
         var path_id = $scope.path_IDD;
@@ -2893,7 +2879,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.current_story_name = "";
 	$scope.quest_path_name = "";
 	$scope.currentURL = "";
-	$scope.initialShow = "";
 	
 	$scope.list = function(){
 		$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
@@ -2925,11 +2910,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					if($scope.pushUnpublishedFlag){
 						$scope.pubStories.push($scope.story_filtered[0]);
 					}
-					$scope.story_name = $scope.story_filtered[0].name;
+					if($scope.story_filtered[0]){
+						$scope.story_name = $scope.story_filtered[0].name;
+					}
 			    }
 				$scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
-
-			    
 				$scope.$parent.storyid = $scope.stories[abc].id;
 				$('#largeSelectPlay').click();
 	        }, 1500);    
@@ -3213,7 +3198,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
-		$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3224,7 +3208,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
-    	$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3250,8 +3233,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			}
 			if($scope.alertFlag){
 				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
-				$scope.storyid = null;
-				$scope.initialShow = false;
+				$scope.storyid = undefined;
 			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
@@ -3321,13 +3303,11 @@ function TournamentController($scope,$resource,$http,$cookieStore){
           });
     };
 
-
-
     $scope.register_for_tournament = function(tournamentID, tournamentPassword){
         //Use a normal form post for this legacy API.
         console.log("id "+tournamentID+" "+tournamentPassword);
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-        $http.post("/jsonapi/verify_tournament_password", {
+        $http.post("/jsonapi/register_for_tournament_updated", {
             tournamentID: tournamentID,
             password: tournamentPassword
         }).success(function (data, status, headers, config) {

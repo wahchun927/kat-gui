@@ -198,12 +198,12 @@ input:hover{
 									<tr>
 										<td align="center">
 											</br></br>
-											<div  ng-show="!difficulty || !path_ID || !storyid || !player.nickname || !initialShow">
+											<div  ng-show="!difficulty || !path_ID || !storyid || !player.nickname">
 											<!-- <form action="#storyboard"> -->
 												<button class="btn disabled" style="width: 145px"><h1>Go!</h1></button>
 											<!-- </form> -->
 											</div>
-											<div  ng-show="difficulty && path_ID && storyid && player.nickname && initialShow">
+											<div  ng-show="difficulty && path_ID && storyid && player.nickname">
 											<!-- <form action="#storyboard"> -->
 												<button class="btn btn-primary" ng-click="item.name='New Quest';create_quest(storyid,path_ID,difficulty)" style="width: 145px"><h1>Go!</h1></button>
 											<!-- </form> -->
