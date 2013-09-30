@@ -190,13 +190,6 @@
 							<select ng-model="challengeToEdit.challenge.problemsPerDay" ng-options="day.id as day.name for day in days"></select>
                         </th>
                     </tr>
-                    <tr>
-                        <th>Total Number of Days</th>
-                        <th>
-							<select ng-model="challengeToEdit.challenge.totalDays" ng-options="day.id as day.name for day in days"></select>
-                        </th>
-                    </tr>
-                    <tr>
                 </table>
         </div>
         <div class="span6 well" id="badgeChallenge" ng-show="challengeToEdit.challenge.challengeType=='Badge'">

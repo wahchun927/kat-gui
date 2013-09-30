@@ -1,9 +1,54 @@
 </br>
 </br>
-<div class="container" id="tournament" style="position:relative;">
+<div ng-controller="TournamentController" ng-init="fetch_tournaments()" class="container" id="tournament" style="position:relative;">
+
+	
 	<div class="row-fluid">
 
+		<div ng-show="tournamentID">
+			TournamentID: {{tournament.tournamentID}}<br>
+    		description: {{tournament.description}} <br>
+    		smallPicture: {{tournament.smallPicture}}<br>
+    		longTitle: {{tournament.longTitle}}<br>
+    		shortTitle: {{tournament.shortTitle}}<br>
+    		Status: {{tournament.stats}}<br>
+    		Rounds: {{tournament.rounds.length}}<br>
+    		Registered Players: {{tournament.registeredPlayerIDs.length}}<br>
+    		Rounds: 
+    		<ol>
+    			<li ng-repeat="round in tournament.rounds">
+    			{{round.description}} [{{round.roundID}}], Problems {{round.problemIDs.length}}<br>
+    			Heat {{round.heatID}}, start {{round.heats[0].startTime}}, {{round.heats[0].
+    			currentTime}}<br>
+    			Seconds to start: {{get_seconds_to_start(round.heats[0].startTime, round.heats[0].currentTime);}}
+    			<input type="submit" value="Start Round" ng-click="create_tournament_round_game(round.roundID)">
+    			
+    			</li>
+    		</ol>
+    		Counter = {{count}}<br>
+
+
+		</div>
+		<div ng-show="!tournamentID">
+			
+		
+				Open Tournaments
+			    <ol>
+			      <li ng-repeat="tournament in tournaments | filter: { status: 'open' }">
+			        {{tournament.shortTitle}},{{tournament.description}}, [{{tournament.tournamentID}}],
+			        {{tournament.registeredPlayerIDs.length}} Registered, 
+			        Enter password to join 
+					<input type="text" ng-model="tournamentPassword">
+			        <input type="submit" value="Register" ng-click="register_for_tournament(tournament.tournamentID, tournamentPassword)"><br>
+
+			      </li>
+			    </ol>
+
+		</div>
+		
+
 			<div class="span2">
+
 					<p>We are in the process of adding tournament support to the latest user interface. In the meantime, you can use the previous user interface to create and participate in tournaments.</p>
 			</div>
 			<div class="span9">
