@@ -2879,7 +2879,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.current_story_name = "";
 	$scope.quest_path_name = "";
 	$scope.currentURL = "";
-	$scope.initialShow = "";
 	
 	$scope.list = function(){
 		$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
@@ -2911,11 +2910,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					if($scope.pushUnpublishedFlag){
 						$scope.pubStories.push($scope.story_filtered[0]);
 					}
-					$scope.story_name = $scope.story_filtered[0].name;
+					if($scope.story_filtered[0]){
+						$scope.story_name = $scope.story_filtered[0].name;
+					}
 			    }
 				$scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
-
-			    
 				$scope.$parent.storyid = $scope.stories[abc].id;
 				$('#largeSelectPlay').click();
 	        }, 1500);    
@@ -3199,7 +3198,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
-		$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3210,7 +3208,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
-    	$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3236,8 +3233,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			}
 			if($scope.alertFlag){
 				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
-				$scope.storyid = null;
-				$scope.initialShow = false;
+				$scope.storyid = undefined;
 			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
