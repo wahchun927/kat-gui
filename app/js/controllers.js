@@ -461,7 +461,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				window.location.href = "practice_play_page.html";
 			}
 			else{
-				window.location.href = "normal_play_page.html";
+				//Hi RJ. Here is the change that I made to help simplify things.
+				//The goal is to simplify every game play page to just use one controller. 
+				window.location.href = "practice_game_play.html";
+				//window.location.href = "normal_play_page.html";
 			}
 		}
 		else{
@@ -1867,7 +1870,6 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
     $scope.update_remaining_problems = function(){
       $scope.remaining_problems = [];
-      console.log("scope.game contains "+$scope.game+"***");
       //loop through problems and find unsolved. Add to remaining_problems.
       for (var i = 0; i < $scope.game.problemIDs.length; i++) {
         if($scope.game.solvedProblemIDs.indexOf($scope.game.problemIDs[i])<0){
@@ -1877,6 +1879,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
       if($scope.remaining_problems.length == 0){
 			
+			//Add a condition to redirect to the tournament result if this is a tournament game. 
 			if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
 				alert("congrats!");
 				window.location.href="index.html#/practice";
