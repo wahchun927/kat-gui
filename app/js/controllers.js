@@ -236,6 +236,64 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		});
 	};
 	
+	$scope.resumeBadgeChallengeGame = function(badgeID,numPerGame,difficulty){
+		$scope.badgeModel = $resource('/jsonapi/all_badges');
+
+	    //Including details=1 returns the nested problemset progress.
+	    $scope.badgeModel.get({}, function(response){
+		    $scope.allBadges = response.badges;
+			for(var i=0; i<$scope.allBadges.length; i++){
+				if($scope.allBadges[i].id==badgeID){
+					$scope.chpathid = $scope.allBadges[i].path_id;
+					$scope.levelid = $scope.allBadges[i].problemset_id;
+					$scope.levelNumber = $scope.allBadges[i].awardOrder;
+					//alert($scope.chpathid+" "+$scope.levelid+" "+$scope.levelNumber);
+					break;
+				}
+			}
+			
+			$scope.PathPModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+			//Including details=1 returns the nested problemset progress.
+			$scope.PathPModel.get({"pathID":$scope.chpathid,"details":1}, function(response1){
+				$scope.path_progress = response1;
+				console.log($scope.path_progress.details);
+				for (var i=0;i<$scope.path_progress.details.length;i++)
+				{ 
+					if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
+						$scope.nextLvlNum = $scope.path_progress.details[i].pathorder;
+						break;
+					}
+					else if(i==($scope.path_progress.details.length-1)){
+						$scope.nextLvlNum = i+1;
+						break;
+					}
+				}
+				
+				if($scope.levelNumber<=$scope.nextLvlNum)
+				{
+					$cookieStore.put("name", $scope.levelid);
+					$cookieStore.put("num", numPerGame);
+					$cookieStore.put("type", "practiceGame");
+					$cookieStore.put("level", $scope.levelNumber);		
+					$cookieStore.put("gameDifficulty", difficulty);			
+					$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+					$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
+					if(difficulty == "Drag-n-Drop"){
+						window.location.href = "practice_play_page.html";
+					}
+					else{
+						window.location.href = "normal_play_page.html";
+					}
+				}
+				else{
+					$('#levelBlock').modal('show');
+					//console.log("Please clear previous level problems to unlock this level!");
+				}
+			});
+		});
+	};
+	
     $scope.list = function(){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
