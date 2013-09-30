@@ -225,7 +225,17 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     $scope.fetch_game_paths = function(){
 		$scope.game_paths = $resource('/jsonapi/get_game_paths').get();		
     };
+	
+	$scope.resumeHabitChallengeGame = function(chPathID,numPerGame){
+		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
+	    //Including details=1 returns the nested problemset progress.
+	    $scope.PathModel.get({"pathID":chPathID}, function(response){
+		    $scope.path_progress = response;
+			$scope.resumePracticeGame(response.path.id,response.path.name,numPerGame);
+		});
+	};
+	
     $scope.list = function(){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
@@ -451,7 +461,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				window.location.href = "practice_play_page.html";
 			}
 			else{
-				window.location.href = "normal_play_page.html";
+				//Hi RJ. Here is the change that I made to help simplify things.
+				//The goal is to simplify every game play page to just use one controller. 
+				window.location.href = "practice_game_play.html";
+				//window.location.href = "normal_play_page.html";
 			}
 		}
 		else{
@@ -793,9 +806,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 					});				
 				});
 			}
-
-			console.log($scope.challengeNameList);
-			alert("test");
 			var today = new Date();
 			var dd = today.getDate();
 			var mm = today.getMonth()+1; //January is 0!
@@ -820,10 +830,10 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			else if($scope.newChallenge.privateMessage==""){
 				alert("The challenge private Message cannot be empty!");
 			}
-			else if($scope.newChallenge.startDate < $scope.todayDate){
+			else if($scope.newChallenge.startDate.split("/").reverse().join() < $scope.todayDate.split("/").reverse().join()){
 				alert("The start date can not be earlier than today's date!");
 			}
-			else if($scope.newChallenge.endDate < $scope.newChallenge.startDate){
+			else if($scope.newChallenge.endDate.split("/").reverse().join() < $scope.newChallenge.startDate.split("/").reverse().join()){
 				alert("The start date should earlier than end date!");
 			}
 			else{
@@ -1326,8 +1336,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		else if($scope.challengeToEdit.challenge.publicMessage==""){
 			alert("The challenge public Message cannot be empty!");
 		}
-		else if(sDate <= eDate && sDate >= todayDate){
-			alert("Please select a valid date!");
+		else if(sDate.split("/").reverse().join() < todayDate.split("/").reverse().join()){
+			alert("The start date can not be earlier than today's date!");
+		}
+		else if(eDate.split("/").reverse().join() < sDate.split("/").reverse().join()){
+			alert("The start date should earlier than end date!");
 		}
 		else{
 			//validate attribute of badge challenge
@@ -1470,10 +1483,14 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.StoryModel.query({}, function(response){
 			$scope.stories = response;
 			for(var i=0;i<$scope.stories.length;i++){
-				if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.chaPathID) <= -1){
+				if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.indexOf($scope.chaPathID) > -1){
 					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
 					$scope.pubStories.push(aStory);
-				}				
+				}
+				else if($scope.stories[i].published==true && $scope.stories[i].archived == false && $scope.stories[i].supported_paths.length==0){
+					var aStory = {name: $scope.stories[i].name, id: $scope.stories[i].id};
+					$scope.pubStories.push(aStory);					
+				}
 			}
 		}); 
 		
@@ -1481,7 +1498,11 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.myStoryModel.query({}, function(response){
 			$scope.myStories = response;
 			for(var i=0;i<$scope.myStories.length;i++){
-				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.myStories[i].supported_paths.indexOf($scope.chaPathID) <= -1){
+				if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.myStories[i].supported_paths.indexOf($scope.chaPathID) > -1){
+					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
+					$scope.pubStories.push(aStory);
+				}
+				else if($scope.myStories[i].published == false && $scope.myStories[i].archived == false && $scope.myStories[i].supported_paths.length == 0){
 					var aStory = {name: $scope.myStories[i].name, id: $scope.myStories[i].id};						
 					$scope.pubStories.push(aStory);
 				}				
@@ -1528,7 +1549,6 @@ function NormalGameController($scope,$resource,$cookieStore){
         $scope.update_remaining_problems();
       });
     };
-
 
     $scope.create_path_game = function(pathID,numProblems){
       $scope.CreateGameModel = $resource('/jsonapi/create_game/pathID/:pathID/numProblems/:numProblems');
@@ -1784,7 +1804,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
     $scope.skip_problem_count = 0;
     $scope.current_problem_index = 0;
     $scope.permutation = "12345"; 
-	
+    
     if($cookieStore.get("name")){
       $scope.LevelID = $cookieStore.get("name"); //retrieve level id from practice page
     }
@@ -1817,9 +1837,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
 	
     //alert($scope.qid);
     $scope.create_practice_game = function(LevelID,numProblems){
-    $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
+      $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
       
-    $scope.CreateGameModel.get({"problemsetID":LevelID,"numProblems":numProblems}, function(response){
+      $scope.CreateGameModel.get({"problemsetID":LevelID,"numProblems":numProblems}, function(response){
         $scope.game = response;
         $scope.update_remaining_problems();
 		});
@@ -1827,9 +1847,9 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
 
     $scope.create_resolve_problemset_game = function(problemsetID){
-    $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/resolve');
+      $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/resolve');
       
-    $scope.CreateGameModel.get({"problemsetID":problemsetID}, function(response){
+      $scope.CreateGameModel.get({"problemsetID":problemsetID}, function(response){
         $scope.game = response;
         $scope.update_remaining_problems();
 		});
@@ -1859,6 +1879,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
       if($scope.remaining_problems.length == 0){
 			
+			//Add a condition to redirect to the tournament result if this is a tournament game. 
 			if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
 				alert("congrats!");
 				window.location.href="index.html#/practice";
@@ -1984,7 +2005,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
     };
 	
 	$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-
+	
 	//to retrieve path info to display on path play page
 	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
         var path_id = $scope.path_IDD;
@@ -2705,6 +2726,25 @@ function QuestController($scope,$resource,$location,$routeParams,$cookieStore){
 	  });
 	}
 
+	$scope.resumeQuestChallengeGame = function(storyID,path_id,difficulty){
+		var questCreated = true;
+		for(var i=0;i<$scope.quests.length;i++){
+			//adding the filter on supported path logic. 
+			if(storyID==$scope.quests[i].story && path_id==$scope.quests[i].path && difficulty==$scope.quests[i].difficulty){
+				$cookieStore.put("type", "questGame");
+				$cookieStore.put("name", $scope.quests[i]);
+				$location.path('storyboard');
+			}
+			else{
+				questCreated = false;
+			}			
+		}	
+		
+		if(questCreated==false){
+			$scope.create_quest(storyID,path_id,difficulty);
+		}
+	}	
+	
     //Create quest
     $scope.create_quest = function(storyID,path_id,difficulty){
 	  
@@ -2966,53 +3006,52 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	//5. Create or edit a Story
     $scope.create_story = function(title,des){
 	
-		$scope.storyNameList = [];
-		$scope.chaModel = $resource('/jsonapi/story');
-		$scope.chaModel.query({}, function(response){
-			$scope.storieslist = response;
-			for(var i=0;i<$scope.storieslist.length;i++){
-				$scope.storyNameList.push($scope.storieslist[i].name);
-			}	
-		
-			console.log($scope.storyNameList);
-			alert("test");
-				$scope.newStory = {};
-				$scope.newStory.name = title;
-				$scope.newStory.description = des;
-				$scope.newStory.videos = $scope.Videos;
-				$scope.newStory.published = false;
-				$scope.newStory.supported_paths = $scope.supportedPaths;
-				
-			if($scope.storyNameList.indexOf(title) > -1){
-				alert("duplicate name!");
+	
+		$scope.newStory = {};
+		$scope.newStory.name = title;
+		$scope.newStory.description = des;
+		$scope.newStory.videos = $scope.Videos;
+		$scope.newStory.published = false;
+		$scope.newStory.supported_paths = $scope.supportedPaths;
+
+			if($scope.editOrCreate == "edit"){
+				$scope.currentStoryID = $cookieStore.get("editStory");
+				$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+				$http.post('/jsonapi/story/'+$scope.currentStoryID, {
+								name:$scope.newStory.name,
+								description:$scope.newStory.description,
+								videos:$scope.newStory.videos,
+								published:$scope.newStory.published,
+								supported_paths: $scope.supportedPaths
+				}).success(function (data, status, headers, config) {
+					$scope.registration_response = data;
+					$route.reload('story');
+				}).error(function (data, status, headers, config) {
+					$scope.registration_response = data;
+				});
 			}
-			else{
-					if($scope.editOrCreate == "edit"){
-						$scope.currentStoryID = $cookieStore.get("editStory");
-						$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-						$http.post('/jsonapi/story/'+$scope.currentStoryID, {
-										name:$scope.newStory.name,
-										description:$scope.newStory.description,
-										videos:$scope.newStory.videos,
-										published:$scope.newStory.published,
-										supported_paths: $scope.supportedPaths
-						}).success(function (data, status, headers, config) {
-							$scope.registration_response = data;
-						}).error(function (data, status, headers, config) {
-							$scope.registration_response = data;
-						});
+			else{	
+				$scope.storyNameList = [];
+				$scope.chaModel = $resource('/jsonapi/story');
+				$scope.chaModel.query({}, function(response){
+					$scope.storieslist = response;
+					for(var i=0;i<$scope.storieslist.length;i++){
+						$scope.storyNameList.push($scope.storieslist[i].name);
 					}
-					else{
+					if($scope.storyNameList.indexOf(title) > -1){
+						alert("duplicate name!");
+					}
+					else{	
 						$scope.NewStory = $resource('/jsonapi/story');
 						var new_story = new $scope.NewStory($scope.newStory);
 						new_story.$save(function(response){
 							$scope.story = response;
 							$scope.newStoryID = response.id;
+							$route.reload('story');
 						});
 					}
-				$route.reload('story');
+				});
 			}
-		});
     };
 	
 	//// once video url is added, 1. add new row in the table 2. Obtain video name 3. obtain video length 
@@ -3152,7 +3191,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 							published:publish,
 							archived:true
 		}).success(function (data, status, headers, config) {
-			alert("success");
 			$scope.registration_response = data;
 		}).error(function (data, status, headers, config) {
 			$scope.registration_response = data;
@@ -3232,7 +3270,7 @@ function TimeAndAttemptsController($scope,$resource){
     $scope.item = $resource('/jsonapi/attempts_and_time_by_day').get();
 }
 
-function TournamentController($scope,$resource,$http){
+function TournamentController($scope,$resource,$http,$cookieStore){
     $scope.TournamentModel = $resource('/jsonapi/list_open_tournaments');
     $scope.TournamentHeatGameModel = $resource('/jsonapi/create_game/heatID/:heatID');
     
@@ -3269,16 +3307,27 @@ function TournamentController($scope,$resource,$http){
           });
     };
 
-    $scope.register_for_tournament = function(){
+    $scope.register_for_tournament = function(tournamentID, tournamentPassword){
         //Use a normal form post for this legacy API.
+        console.log("id "+tournamentID+" "+tournamentPassword);
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-        $http.post("/jsonapi/verify_tournament_password", {
-            tournamentID: $scope.tournamentID,
-            password: $scope.tournamentPassword
+        $http.post("/jsonapi/register_for_tournament_updated", {
+            tournamentID: tournamentID,
+            password: tournamentPassword
         }).success(function (data, status, headers, config) {
             $scope.registration_response = data;
+            console.log(data);
+            if (data.failed){
+            	alert(data.failed);
+            }
+            else{
+            	$scope.tournamentID = tournamentID;
+            	$scope.fetch_tournament(tournamentID);
+            }
         }).error(function (data, status, headers, config) {
-            $scope.registration_response = data;
+        	console.log("Error");
+            alert("An error occurred.")
+            console.log(data);
         });
     };
 
@@ -3330,10 +3379,20 @@ function TournamentController($scope,$resource,$http){
 	$scope.fetch_tournament = function(tournamentID){
           $resource('/jsonapi/tournament/:tournamentID').get({"tournamentID":tournamentID}, function(response){
               $scope.tournament = response;
+              //$scope.startTime = new Date("2013-09-29 08:24:46.840830");
+              //$scope.stopTime = new Date("2013-09-29 12:00:11.784760");
+              //console.log(($scope.stopTime - $scope.startTime)/1000);
           });
 
     };
 
+    $scope.get_seconds_to_start = function(startTime, currentTime){
+    	var diff = (new Date(startTime) - new Date(currentTime))/1000;
+    	if (diff > 0){
+    		return diff;
+    	}
+    	else return 0;
+        }
 
 	$scope.add_round = function(tournamentID){
           $scope.roundDirty = false;
@@ -3424,6 +3483,20 @@ function TournamentController($scope,$resource,$http){
 		}
     };
 
+    $scope.create_tournament_round_game = function(roundID){
+      $scope.CreateGameModel = $resource('/jsonapi/launch_game_for_round?round_id='+roundID);
+      $scope.CreateGameModel.get({}, function(response){
+      	$scope.game = response;
+      	console.log(response);
+      	$cookieStore.put("roundID", roundID ); 
+    	$cookieStore.put("tournamentGameID", $scope.game.gameID); 
+    	$cookieStore.put("num", $scope.game.problemIDs.length);
+		$cookieStore.put("type", "practiceGame");
+			
+      	window.location.href = "tournament_play_page.html";
+      });
+    };
+    
 }
 
 
