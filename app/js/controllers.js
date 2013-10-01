@@ -2993,7 +2993,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					//adding the filter on supported path logic. 
 					if($scope.stories[i].published==true && $scope.stories[i].archived == false){
 						$scope.pubStories.push($scope.stories[i]);
-					}				
+					}			
 				}
 				if(location.href.indexOf("storyID") > -1){
 				  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
@@ -3038,7 +3038,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){
+    $scope.addQuestColor=function(){
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
@@ -3334,6 +3334,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			if($scope.alertFlag){
 				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 				$scope.storyid = undefined;
+	            $scope.current_story_name = undefined;
+    			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
 			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
