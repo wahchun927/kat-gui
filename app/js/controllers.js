@@ -3314,7 +3314,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
             	$scope.update_path_flag = false;
 	    	}
             for(var i=0;i<$scope.supported_paths_story.length;i++){
-				if($scope.supported_paths_story[i] == path_ID || $scope.update_path_flag = false){
+				if($scope.supported_paths_story[i] == path_ID || $scope.update_path_flag == false){
 					$scope.update_path_flag = false;
 					break;
 				}
