@@ -106,15 +106,14 @@
 									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
 									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
 									<td class="OpenC_Register" ng-show="challenge._playerRegistered==false" ><button class="btn btn-danger" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)"> Register</button></td>
-									<td class="OpenC_Register" ng-show="challenge._playerRegistered==true"><button class="btn btn-info" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)">Resume</button></td>
-											<td class="AcceptedC_Outcome"  ng-show = "challenge.challengeType=='Habit'&&!challenge._playerUnlocked">
-												<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(challenge.pathID,5)" class="btn btn-info">Resume!</button>
+											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Habit'&&challenge._playerRegistered">
+												<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(challenge.pathID,5)" style="width: 100px" class="btn btn-info">Resume!</button>
 											</td>
-											<td class="AcceptedC_Outcome"  ng-show = "challenge.challengeType=='Badge'&&!challenge._playerUnlocked">
-												<button ng-controller = "PathController" id="resume" ng-click="resumeBadgeChallengeGame(challenge.unlockBadgesNotEarned[0],5,'Easy')" class="btn btn-info">Resume!</button>
+											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Badge'&&challenge._playerRegistered">
+												<button ng-controller = "PathController" id="resume" ng-click="resumeBadgeChallengeGame(challenge.unlockBadgesNotEarned[0],5,'Easy')" style="width: 100px" class="btn btn-info">Resume!</button>
 											</td>
-											<td class="AcceptedC_Outcome"  ng-show = "challenge.challengeType=='Quest'&&!challenge._playerUnlocked">
-												<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(challenge.storyID, challenge.pathID, challenge.difficulty)" class="btn btn-info">Resume!</button>
+											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Quest'&&challenge._playerRegistered">
+												<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(challenge.storyID, challenge.pathID, challenge.difficulty)" style="width: 100px" class="btn btn-info">Resume!</button>
 											</td>
 								</tr>           
 							</table>																	
