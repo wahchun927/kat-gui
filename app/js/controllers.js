@@ -3323,6 +3323,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			if($scope.alertFlag){
 				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 				$scope.storyid = undefined;
+	            $scope.current_story_name = undefined;
+    			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
 			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
