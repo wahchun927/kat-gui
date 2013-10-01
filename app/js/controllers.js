@@ -257,7 +257,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			//Including details=1 returns the nested problemset progress.
 			$scope.PathPModel.get({"pathID":$scope.chpathid,"details":1}, function(response1){
 				$scope.path_progress = response1;
-				console.log($scope.path_progress.details);
+				//console.log($scope.path_progress.details);
 				for (var i=0;i<$scope.path_progress.details.length;i++)
 				{ 
 					if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
@@ -269,7 +269,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 						break;
 					}
 				}
-				
 				if($scope.levelNumber<=$scope.nextLvlNum)
 				{
 					$cookieStore.put("name", $scope.levelid);
@@ -287,8 +286,20 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 					}
 				}
 				else{
-					$('#levelBlock').modal('show');
-					//console.log("Please clear previous level problems to unlock this level!");
+					alert("You haven't unlock the previous badges, please continue unlock all the badges!");
+					$cookieStore.put("name", $scope.levelid);
+					$cookieStore.put("num", numPerGame);
+					$cookieStore.put("type", "practiceGame");
+					$cookieStore.put("level", $scope.nextLvlNum);		
+					$cookieStore.put("gameDifficulty", difficulty);			
+					$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+					$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
+					if(difficulty == "Drag-n-Drop"){
+						window.location.href = "practice_play_page.html";
+					}
+					else{
+						window.location.href = "normal_play_page.html";
+					}
 				}
 			});
 		});
@@ -642,6 +653,7 @@ function BadgeController($scope,$resource){
 					//Including details=1 returns the nested problemset progress.
 					$scope.PathModel.get({"pathID":$scope.playerBadges[i].pathID}, function(response1){
 					$scope.badgepathNames.push(response1.path.name);
+					
 					});					
 				}
 			}	
@@ -693,7 +705,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.chLocation = "";
 		$scope.chaPathID="";
 		$scope.storyID="";
-		$scope.difficulty="";
+		$scope.difficulty="Easy";
 		$scope.problemsPerDay="";
 		$scope.totalDays="";
 		$scope.chPubMsg="";
@@ -1444,6 +1456,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									unlockRequiredBadges:$scope.challengeToEdit.challenge.unlockRequiredBadges,
 									unlockRequiredPaths:$scope.challengeToEdit.challenge.unlockRequiredPaths,
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
+									difficulty:'Easy',
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
@@ -3260,6 +3273,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		$scope.publishStatus = null;
 		$scope.videos = "";
 		$scope.editOrCreate = "create";
+		$scope.supportedPathNames = [];
+		$scope.supportedPaths = [];		
 	};
 	
 	//delete story
