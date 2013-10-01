@@ -236,6 +236,75 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		});
 	};
 	
+	$scope.resumeBadgeChallengeGame = function(badgeID,numPerGame,difficulty){
+		$scope.badgeModel = $resource('/jsonapi/all_badges');
+
+	    //Including details=1 returns the nested problemset progress.
+	    $scope.badgeModel.get({}, function(response){
+		    $scope.allBadges = response.badges;
+			for(var i=0; i<$scope.allBadges.length; i++){
+				if($scope.allBadges[i].id==badgeID){
+					$scope.chpathid = $scope.allBadges[i].path_id;
+					$scope.levelid = $scope.allBadges[i].problemset_id;
+					$scope.levelNumber = $scope.allBadges[i].awardOrder;
+					//alert($scope.chpathid+" "+$scope.levelid+" "+$scope.levelNumber);
+					break;
+				}
+			}
+			
+			$scope.PathPModel = $resource('/jsonapi/get_path_progress/:pathID');
+
+			//Including details=1 returns the nested problemset progress.
+			$scope.PathPModel.get({"pathID":$scope.chpathid,"details":1}, function(response1){
+				$scope.path_progress = response1;
+				//console.log($scope.path_progress.details);
+				for (var i=0;i<$scope.path_progress.details.length;i++)
+				{ 
+					if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
+						$scope.nextLvlNum = $scope.path_progress.details[i].pathorder;
+						break;
+					}
+					else if(i==($scope.path_progress.details.length-1)){
+						$scope.nextLvlNum = i+1;
+						break;
+					}
+				}
+				if($scope.levelNumber<=$scope.nextLvlNum)
+				{
+					$cookieStore.put("name", $scope.levelid);
+					$cookieStore.put("num", numPerGame);
+					$cookieStore.put("type", "practiceGame");
+					$cookieStore.put("level", $scope.levelNumber);		
+					$cookieStore.put("gameDifficulty", difficulty);			
+					$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+					$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
+					if(difficulty == "Drag-n-Drop"){
+						window.location.href = "practice_play_page.html";
+					}
+					else{
+						window.location.href = "normal_play_page.html";
+					}
+				}
+				else{
+					alert("You haven't unlock the previous badges, please continue unlock all the badges!");
+					$cookieStore.put("name", $scope.levelid);
+					$cookieStore.put("num", numPerGame);
+					$cookieStore.put("type", "practiceGame");
+					$cookieStore.put("level", $scope.nextLvlNum);		
+					$cookieStore.put("gameDifficulty", difficulty);			
+					$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+					$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
+					if(difficulty == "Drag-n-Drop"){
+						window.location.href = "practice_play_page.html";
+					}
+					else{
+						window.location.href = "normal_play_page.html";
+					}
+				}
+			});
+		});
+	};
+	
     $scope.list = function(){
     	$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
 		$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
@@ -461,7 +530,10 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 				window.location.href = "practice_play_page.html";
 			}
 			else{
-				window.location.href = "normal_play_page.html";
+				//Hi RJ. Here is the change that I made to help simplify things.
+				//The goal is to simplify every game play page to just use one controller. 
+				window.location.href = "practice_game_play.html";
+				//window.location.href = "normal_play_page.html";
 			}
 		}
 		else{
@@ -764,7 +836,22 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 			$scope.newChallenge.pathID=$scope.chaPathID;
 			$scope.newChallenge.difficulty=$scope.difficulty;
 			$scope.newChallenge.problemsPerDay=$scope.problemsPerDay;
-			$scope.newChallenge.totalDays=$scope.totalDays;
+			
+			//derive date difference from start date and end date
+			var date1 = new Date($scope.newChallenge.startDate.split("/").reverse().join("/"));
+			var date2 = new Date($scope.newChallenge.endDate.split("/").reverse().join("/"));
+			
+			//// The number of milliseconds in one day
+			var ONE_DAY = 1000 * 60 * 60 * 24
+
+			// Convert both dates to milliseconds
+			var date1_ms = date1.getTime()
+			var date2_ms = date2.getTime()
+
+			// Calculate the difference in milliseconds
+			var difference_ms = Math.abs(date1_ms - date2_ms)
+			
+			$scope.newChallenge.totalDays=Math.round(difference_ms/ONE_DAY)+1;
 			var endDate = new Date($scope.newChallenge.endDate);
 			var startDate = new Date($scope.newChallenge.startDate);
 			//badge challenge
@@ -1299,6 +1386,22 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 
 		var todayDate= dd+'/'+ mm +'/'+yyyy;
 		
+			//derive date difference from start date and end date
+			var date1 = new Date(sDate.split("/").reverse().join("/"));
+			var date2 = new Date(eDate.split("/").reverse().join("/"));
+			
+			//// The number of milliseconds in one day
+			var ONE_DAY = 1000 * 60 * 60 * 24
+
+			// Convert both dates to milliseconds
+			var date1_ms = date1.getTime()
+			var date2_ms = date2.getTime()
+
+			// Calculate the difference in milliseconds
+			var difference_ms = Math.abs(date1_ms - date2_ms)
+			
+			var totalNumberOfDays=Math.round(difference_ms/ONE_DAY)+1;
+			
 		if($scope.challengeToEdit.challenge.allowedCountries.length=="0" ){
 			$scope.challengeToEdit.challenge.worldwide = 1;
 			$scope.challengeToEdit.challenge.allowedCountries = [];
@@ -1382,7 +1485,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 				else{
 					$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 					$http.post('/jsonapi/save_edit_challenge/'+challenge_id, {
-									totalDays:$scope.challengeToEdit.challenge.totalDays,
+									totalDays:totalNumberOfDays,
 									problemsPerDay:$scope.challengeToEdit.challenge.problemsPerDay,
 									difficulty:$scope.challengeToEdit.challenge.difficulty,
 									pathID:$scope.chaPathID,
@@ -1867,7 +1970,6 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
     $scope.update_remaining_problems = function(){
       $scope.remaining_problems = [];
-      console.log("scope.game contains "+$scope.game+"***");
       //loop through problems and find unsolved. Add to remaining_problems.
       for (var i = 0; i < $scope.game.problemIDs.length; i++) {
         if($scope.game.solvedProblemIDs.indexOf($scope.game.problemIDs[i])<0){
@@ -1877,6 +1979,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
       if($scope.remaining_problems.length == 0){
 			
+			//Add a condition to redirect to the tournament result if this is a tournament game. 
 			if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
 				alert("congrats!");
 				window.location.href="index.html#/practice";
@@ -2001,25 +2104,8 @@ function PracticeGameController($scope,$resource,$cookieStore){
       });
     };
 	
-	//Check for a roundID to see if this is a tournament game. 
-	if($cookieStore.get("roundID")){
-      $scope.roundID = $cookieStore.get("roundID"); 
-      $scope.tournamentGameID = $cookieStore.get("tournamentGameID"); 
-      $scope.fetch($scope.tournamentGameID);
-      //$scope.update_remaining_problems();
-      console.log("Found a roundID in the cache "+$scope.roundID);//retrieve name of the path
-      console.log("Found a gameID in the cache "+$scope.tournamentGameID);//retrieve name of the path
-    
-    }
-
-	//The normal play page is creating a new level game by default when loading this controller.
-	if($scope.roundID){
-		console.log("Not creating a practice game by default since this is a tournament game.");
-	}
-	else{
-		$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-	}
-
+	$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+	
 	//to retrieve path info to display on path play page
 	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
         var path_id = $scope.path_IDD;
@@ -2893,7 +2979,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	$scope.current_story_name = "";
 	$scope.quest_path_name = "";
 	$scope.currentURL = "";
-	$scope.initialShow = "";
 	
 	$scope.list = function(){
 		$scope.paths_unfiltered = $resource('/jsonapi/get_game_paths').get();
@@ -2908,7 +2993,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					//adding the filter on supported path logic. 
 					if($scope.stories[i].published==true && $scope.stories[i].archived == false){
 						$scope.pubStories.push($scope.stories[i]);
-					}				
+					}			
 				}
 				if(location.href.indexOf("storyID") > -1){
 				  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
@@ -2925,11 +3010,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					if($scope.pushUnpublishedFlag){
 						$scope.pubStories.push($scope.story_filtered[0]);
 					}
-					$scope.story_name = $scope.story_filtered[0].name;
+					if($scope.story_filtered[0]){
+						$scope.story_name = $scope.story_filtered[0].name;
+					}
 			    }
 				$scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
-
-			    
 				$scope.$parent.storyid = $scope.stories[abc].id;
 				$('#largeSelectPlay').click();
 	        }, 1500);    
@@ -2953,7 +3038,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){
+    $scope.addQuestColor=function(){
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
@@ -3213,7 +3298,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
-		$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3224,7 +3308,6 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
-    	$scope.initialShow = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
@@ -3250,8 +3333,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			}
 			if($scope.alertFlag){
 				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
-				$scope.storyid = null;
-				$scope.initialShow = false;
+				$scope.storyid = undefined;
+	            $scope.current_story_name = undefined;
+    			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
 			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
