@@ -257,7 +257,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			//Including details=1 returns the nested problemset progress.
 			$scope.PathPModel.get({"pathID":$scope.chpathid,"details":1}, function(response1){
 				$scope.path_progress = response1;
-				console.log($scope.path_progress.details);
+				//console.log($scope.path_progress.details);
 				for (var i=0;i<$scope.path_progress.details.length;i++)
 				{ 
 					if($scope.path_progress.details[i].problemsInProblemset>$scope.path_progress.details[i].currentPlayerProgress){
@@ -269,7 +269,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 						break;
 					}
 				}
-				
 				if($scope.levelNumber<=$scope.nextLvlNum)
 				{
 					$cookieStore.put("name", $scope.levelid);
@@ -287,8 +286,20 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 					}
 				}
 				else{
-					$('#levelBlock').modal('show');
-					//console.log("Please clear previous level problems to unlock this level!");
+					alert("You haven't unlock the previous badges, please continue unlock all the badges!");
+					$cookieStore.put("name", $scope.levelid);
+					$cookieStore.put("num", numPerGame);
+					$cookieStore.put("type", "practiceGame");
+					$cookieStore.put("level", $scope.nextLvlNum);		
+					$cookieStore.put("gameDifficulty", difficulty);			
+					$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+					$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
+					if(difficulty == "Drag-n-Drop"){
+						window.location.href = "practice_play_page.html";
+					}
+					else{
+						window.location.href = "normal_play_page.html";
+					}
 				}
 			});
 		});
@@ -2982,7 +2993,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					//adding the filter on supported path logic. 
 					if($scope.stories[i].published==true && $scope.stories[i].archived == false){
 						$scope.pubStories.push($scope.stories[i]);
-					}				
+					}			
 				}
 				if(location.href.indexOf("storyID") > -1){
 				  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
@@ -3027,7 +3038,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
     };
 
     // this method add background color to the selected images 
-     $scope.addQuestColor=function(){
+    $scope.addQuestColor=function(){
 		$('#myCarousel input:image').click(function() {
 			$('#myCarousel input:image').removeClass('selected');
 			$(this).addClass('selected');     
@@ -3323,6 +3334,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			if($scope.alertFlag){
 				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 				$scope.storyid = undefined;
+	            $scope.current_story_name = undefined;
+    			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
 			}
 		}
 		$scope.pathModel = $resource('/jsonapi/get_path_progress/:path_ID');
