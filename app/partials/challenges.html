@@ -81,24 +81,19 @@
 					
 				</ul>
 				<div class="tab-content" id="top-content">				
-					
-					<div class="tab-pane active" align="center" id="Open">
-						<div width="400px"style=" width:98.2%; height:30px;">
-							<table class="table table-condensed">
-									<tr>
-										<th class="OpenC_Type">Type</th>
-										<th class="OpenC_Name">Name</th>
-										<th class="OpenC_Location">Location</th>										
-										<th class="OpenC_StartDate">Start Date</th>
-										<th class="OpenC_EndDate">End Date</th>
-										<th class="OpenC_Register">Register</th>
-
-									</tr>                                   
-							</table> 
-						</div>
+					<div class="tab-pane active" align="left" id="Open">
+					Search: <input ng-model="searchText" placeholder = "    Challenge Type or Name">
 						<div style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden">									
-							<table class="table table-hover" ng-init="list_challenges();">														
-								<tr ng-repeat="challenge in ListAllChallenges" ng-hide = "challenge.description=='archived'">
+							<table class="table table-hover" ng-init="list_challenges();">	
+								<tr>
+									<th class="OpenC_Type">Type</th>
+									<th class="OpenC_Name">Name</th>
+									<th class="OpenC_Location">Location</th>										
+									<th class="OpenC_StartDate">Start Date</th>
+									<th class="OpenC_EndDate">End Date</th>
+									<th class="OpenC_Register">Register</th>
+								</tr>  							
+								<tr ng-repeat="challenge in ListAllChallenges | filter:searchText" ng-hide = "challenge.description=='archived'">
 									<td class="OpenC_Type">{{challenge.challengeType}}</th>
 									<td class="OpenC_Name">{{challenge.name}}</td>
 									<td class="OpenC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
@@ -106,17 +101,25 @@
 									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
 									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
 									<td class="OpenC_Register" ng-show="challenge._playerRegistered==false" ><button class="btn btn-danger" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)"> Register</button></td>
-									<td class="OpenC_Register" ng-show="challenge._playerRegistered==true"><button class="btn btn-info" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)">Resume</button></td>
-
+											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Habit'&&challenge._playerRegistered">
+												<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(challenge.pathID,5)" style="width: 100px" class="btn btn-info">Resume!</button>
+											</td>
+											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Badge'&&challenge._playerRegistered">
+												<button ng-controller = "PathController" id="resume" ng-click="resumeBadgeChallengeGame(challenge.unlockBadgesNotEarned[0],5,'Easy')" style="width: 100px" class="btn btn-info">Resume!</button>
+											</td>
+											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Quest'&&challenge._playerRegistered">
+												<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(challenge.storyID, challenge.pathID, challenge.difficulty)" style="width: 100px" class="btn btn-info">Resume!</button>
+											</td>
 								</tr>           
 							</table>																	
 						</div>
 						
 					</div>
 					
-					<div class="tab-pane" align="center" id="Accepted">
-						<div width="400px"style=" width:98.2%; height:30px;">
-							<table class="table table-condensed">
+					<div class="tab-pane" align="left" id="Accepted">
+						<div  style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >
+								Search: <input ng-model="searchText" placeholder = "    Challenge Type or Name">
+								<table class="table table-hover" ng-init="registered_challenges()">
 									<tr>
 										<th class="AcceptedC_Type">Type</th>
 										<th class="AcceptedC_Name">Name</th>
@@ -127,12 +130,8 @@
 										<th class="AcceptedC_Outcome">Outcome</th>
 										<th class="AcceptedC_Msg">Submitted Message</th>
 
-									</tr>                                   
-							</table> 
-						</div>
-						<div  style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >
-								<table class="table table-hover" ng-init="registered_challenges()">
-									<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges" ng-hide = "Acceptedchallenge.description=='archived'">
+									</tr> 
+									<tr ng-repeat="Acceptedchallenge in playerRegisteredChallenges | filter:searchText" ng-hide = "Acceptedchallenge.description=='archived'">
 										<td class="AcceptedC_Type">{{Acceptedchallenge.challengeType}}</td>
 										<td class="AcceptedC_Name">{{Acceptedchallenge.name}}</td>	
 										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
@@ -159,9 +158,10 @@
 						
 					</div>
 					
-					<div class="tab-pane" align="center" id="Mine">
-						<div width="400px"style="height:30px;">
-							<table class="table table-condensed" >
+					<div class="tab-pane" align="left" id="Mine">
+								Search: <input ng-model="searchText" placeholder = "    Challenge Type or Name">
+							<div style="height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >																					
+							<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
 								<tr>
 									<th class="ChallengesIMade_Type">Type</th>
 									<th class="ChallengesIMade_Name">Name</th>
@@ -170,13 +170,8 @@
 									<th class="ChallengesIMade_EndDate">End Date</th>									
 									<th class="ChallengesIMade_Review">Review</th>
 									<th class="ChallengesIMade_Remove">Share</th>
-								</tr>                                   
-							</table> 
-						</div>
-					 
-						<div style="height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >																					
-							<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
-								<tr ng-repeat="myChallenge in ListMyChallenges" ng-hide = "myChallenge.description=='archived'";>
+								</tr>  
+								<tr ng-repeat="myChallenge in ListMyChallenges | filter:searchText" ng-hide = "myChallenge.description=='archived'";>
 									<td class="ChallengesIMade_Type">{{myChallenge.challengeType}}</td>
 									<td class="ChallengesIMade_Name">{{myChallenge.name}}</td>
 									<td class="ChallengesIMade_Location" ng-show="myChallenge.worldwide==1">World Wide</td>	

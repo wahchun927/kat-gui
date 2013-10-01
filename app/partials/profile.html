@@ -162,7 +162,7 @@
 						<div style="height:200px;overflow-y:auto;overflow-x:hidden;">	
 							<table id="badgesList" class="table table-condensed">
 								<tr ng-repeat = "pathID in badgepathIDs">                               
-									<td class="BadgeName" id="pathHeading">{{badgepathNames[$index]}}</td>
+									<td class="BadgeName" id="pathHeading">{{badgepathNames[badgepathIDs.indexOf(pathID)]}}</td>
 									<td class="BadgeImage">
 										<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges|filter:pathID">
 											<img align="left"  ng-src="{{value.imageURL}}">
