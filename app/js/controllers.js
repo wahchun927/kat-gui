@@ -704,7 +704,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 		$scope.chLocation = "";
 		$scope.chaPathID="";
 		$scope.storyID="";
-		$scope.difficulty="";
+		$scope.difficulty="Easy";
 		$scope.problemsPerDay="";
 		$scope.totalDays="";
 		$scope.chPubMsg="";
@@ -1455,6 +1455,7 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
 									unlockRequiredBadges:$scope.challengeToEdit.challenge.unlockRequiredBadges,
 									unlockRequiredPaths:$scope.challengeToEdit.challenge.unlockRequiredPaths,
 									challengeType:$scope.challengeToEdit.challenge.challengeType,
+									difficulty:'Easy',
 									description:$scope.challengeToEdit.challenge.description,
 									publicMessage:$scope.challengeToEdit.challenge.publicMessage,
 									privateMessage:$scope.challengeToEdit.challenge.privateMessage,
