@@ -653,6 +653,7 @@ function BadgeController($scope,$resource){
 					//Including details=1 returns the nested problemset progress.
 					$scope.PathModel.get({"pathID":$scope.playerBadges[i].pathID}, function(response1){
 					$scope.badgepathNames.push(response1.path.name);
+					
 					});					
 				}
 			}	
