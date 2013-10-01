@@ -3271,6 +3271,8 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		$scope.publishStatus = null;
 		$scope.videos = "";
 		$scope.editOrCreate = "create";
+		$scope.supportedPathNames = [];
+		$scope.supportedPaths = [];		
 	};
 	
 	//delete story
