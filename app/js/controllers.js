@@ -342,7 +342,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.path_filtered = $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID);
 			if($scope.path_filtered[0]){
 				$scope.path_name = $scope.path_filtered[0].name;
-			} else {
+			}else{
 				$scope.mobile_path_filtered = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
 				$scope.path_name = $scope.mobile_path_filtered[0].name;
 			}
@@ -806,7 +806,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     $scope.goToChallengeCreator=function()
     {
       $location.path("challengeCreator");
-
     };
 	
 	//Create Habit Challenge
@@ -3302,13 +3301,28 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	}
 
 	$scope.updateURL=function(storyID,difficulty,path_ID){
+		$scope.update_path_flag = true;
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
 		$scope.storyModel = $resource('/jsonapi/story/:storyID');
 	    $scope.storyModel.get({"storyID":storyID}, function(response){
             $scope.current_story_name = response.name;
+            $scope.supported_paths_story = response.supported_paths;
+            if($scope.supported_paths_story.length == 0){
+            	$scope.update_path_flag = false;
+	    	}
+            for(var i=0;i<$scope.supported_paths_story.length;i++){
+				if($scope.supported_paths_story[i] == path_ID || $scope.update_path_flag == false){
+					$scope.update_path_flag = false;
+					break;
+				}
+			}
 	    });
+	    if($scope.update_path_flag && path_ID){
+	    	$scope.storyid = undefined;
+	    	$scope.current_story_name = undefined;
+	    }
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
@@ -3316,7 +3330,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
 		//alert(path_ID);
-		if(pathCount != 1){
+		if(pathCount != 1 && pathCount != 0){
 			$scope.updatedStoryList = [];
 			for(var i=0;i<$scope.pubStories.length;i++){
 				$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
