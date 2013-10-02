@@ -3309,17 +3309,19 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 	    $scope.storyModel.get({"storyID":storyID}, function(response){
             $scope.current_story_name = response.name;
             $scope.supported_paths_story = response.supported_paths;
+            console.log($scope.supported_paths_story);
             if($scope.supported_paths_story.length == 0){
             	$scope.update_path_flag = false;
 	    	}
             for(var i=0;i<$scope.supported_paths_story.length;i++){
 				if($scope.supported_paths_story[i] == path_ID || $scope.update_path_flag == false){
+					alert("supported!");
 					$scope.update_path_flag = false;
 					break;
 				}
 			}
 	    });
-	    if($scope.update_path_flag && path_ID){
+	    if($scope.update_path_flag){
 	    	$scope.storyid = undefined;
 	    	$scope.current_story_name = undefined;
 	    }
@@ -3330,7 +3332,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
 		//alert(path_ID);
-		if(pathCount != 1 && pathCount != 0){
+		if(pathCount != 1){
 			$scope.updatedStoryList = [];
 			for(var i=0;i<$scope.pubStories.length;i++){
 				$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
