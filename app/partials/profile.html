@@ -118,13 +118,15 @@
 					<div class="span7" style="text-align: left;">
 						<div class="row-fluid">
 						<div class="span12">
-							<div style="text-align: left;" class="span4" id="heading">Gender:</div> &nbsp 
+							<div style="text-align: left;" class="span4" id="heading">Gender:</div> 
+							<div class="span1"></div>
 							<div class="span7" style="text-transform:capitalize;"><span ng-bind="player.gender"></span></div>
 						</div>
 						</div>
 						<div class="row-fluid">
 						<div class="span12">
-							<div style="text-align: left;" class="span4" id="heading">Title:</div>&nbsp
+							<div style="text-align: left;" class="span4" id="heading">Title:</div>
+							<div class="span1"></div>
 							<div class="span7">
 								<span ng-show="player.professional==0">Student</span>
 								<span ng-show="player.professional==1">Professional</span>
@@ -133,23 +135,31 @@
 						</div>
 						<div class="row-fluid">
 						<div class="span12">
-							<div style="text-align: left;" class="span5" id="heading">Location:</div><div class="span7"> &nbsp &nbsp &nbsp <image ng-src="{{player.countryFlagURL}}"; width = 30px; height= 30px;/></div>
+							<div style="text-align: left;" class="span4" id="heading">Location:</div>
+							<div class="span1"></div>
+							<div class="span7"> &nbsp &nbsp &nbsp <image ng-src="{{player.countryFlagURL}}"; width = 30px; height= 30px;/></div>
 						</div>
 						</div>
 						<div class="row-fluid">
 						<div class="span12">
-							<div style="text-align: left;" class="span4" id="heading">About:</div><div class="span8">&nbsp <span ng-bind="player.about"></span></div>
+							<div style="text-align: left;" class="span4" id="heading">About:</div>
+							<div class="span1"></div>
+							<div class="span7">&nbsp <span ng-bind="player.about"></span></div>
 						</div>
 						</div>
 						<div class="row-fluid">
 						<div class="span12">
-							<div style="text-align: left;" class="span4" id="heading">Tags:</div><div class="span8">&nbsp <span class="label label-info" ng-repeat="tag in player.tags"><span ng-bind="tag"></span></span></div> 
+							<div style="text-align: left;" class="span4" id="heading">Tags:</div>
+							<div class="span1"></div>
+							<div class="span7">&nbsp <span class="label label-info" ng-repeat="tag in player.tags"><span ng-bind="tag"></span></span></div> 
 						</div>
 						</div>							
 					</div>
 				</div>
 			</div>
-		</div> 
+		</div> 		
+		
+		
 			
 		<!--Badges-->
 		<div class="span8 well well-small" id="badgesTable">
@@ -162,7 +172,7 @@
 						<div style="height:200px;overflow-y:auto;overflow-x:hidden;">	
 							<table id="badgesList" class="table table-condensed">
 								<tr ng-repeat = "pathID in badgepathIDs">                               
-									<td class="BadgeName" id="pathHeading">{{badgepathNames[$index]}}</td>
+									<td class="BadgeName" id="pathHeading">{{badgepathNames[badgepathIDs.indexOf(pathID)]}}</td>
 									<td class="BadgeImage">
 										<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges|filter:pathID">
 											<img align="left"  ng-src="{{value.imageURL}}">
@@ -374,8 +384,7 @@
 									<td ng-show="story.published==true" class="story_status"><span class="label label-success" >Published</span></td>
 									<td class="story_review"> 
 										<div class="btn-group">
-											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
-											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
+											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>											
 											<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 										</div>
 									</td>
@@ -393,8 +402,7 @@
 									<td ng-show="story.published==true" class="story_review"><span class="label label-success" >Published</span></td>
 									<td class="story_review"> 
 										<div class="btn-group">
-											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
-											<button class="btn btn-warning disabled" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
+											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>											
 											<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 										</div>
 									</td>
@@ -612,8 +620,7 @@
 									<td ng-show="story.published==true" class="story_status"><span class="label label-success" >Published</span></td>
 									<td class="story_review"> 
 										<div class="btn-group">
-											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
-											<button class="btn btn-warning" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
+											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>											
 											<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 										</div>
 									</td>
@@ -631,8 +638,7 @@
 									<td ng-show="story.published==true" class="story_review"><span class="label label-success" >Published</span></td>
 									<td class="story_review"> 
 										<div class="btn-group">
-											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>
-											<button class="btn btn-warning disabled" a data-target="#statsModal" role="button" data-toggle="modal" >Stats</button>
+											<button class="btn btn-success" ng-click="playback($index,player.isAdmin)">Playback</button>											
 											<button class="btn btn-danger" a data-target="#tab2create" ng-click = "goToEditStory(story.id)">Edit</button>
 										</div>
 									</td>
