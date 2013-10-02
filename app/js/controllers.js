@@ -342,7 +342,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			$scope.path_filtered = $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID);
 			if($scope.path_filtered[0]){
 				$scope.path_name = $scope.path_filtered[0].name;
-			} else {
+			}else{
 				$scope.mobile_path_filtered = $filter('filter')($scope.mobile_paths,passed_in_path_ID);
 				$scope.path_name = $scope.mobile_path_filtered[0].name;
 			}
@@ -3321,8 +3321,10 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			}
 	    });
 	    if($scope.update_path_flag){
-	    	$scope.path = undefined;
-	    }   
+	    	$scope.storyid = undefined;
+            $scope.current_story_name = undefined;
+			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
+	    }
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
