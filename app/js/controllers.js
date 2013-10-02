@@ -3320,7 +3320,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				}
 			}
 	    });
-	    if($scope.update_path_flag){
+	    if($scope.update_path_flag && path_ID){
 	    	$scope.storyid = undefined;
             $scope.current_story_name = undefined;
 			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
