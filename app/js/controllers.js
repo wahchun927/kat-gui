@@ -2996,7 +2996,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 						$scope.pubStories.push($scope.stories[i]);
 					}			
 				}
-				if(location.href.indexOf("storyID") > -1){
+				if(location.href.indexOf("storyID") > -1 && location.href.indexOf("storyID=undefined") == -1){
 				  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
 				  	$scope.pushUnpublishedFlag = true;
 				  	$scope.currentURL = location.href;
@@ -3319,7 +3319,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				}
 			}
 	    });
-	    if($scope.update_path_flag && path_ID){
+	    if($scope.update_path_flag){
 	    	$scope.storyid = undefined;
 	    	$scope.current_story_name = undefined;
 	    }
@@ -3330,7 +3330,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
 		//alert(path_ID);
-		if(pathCount != 1 && pathCount != 0){
+		if(pathCount != 1){
 			$scope.updatedStoryList = [];
 			for(var i=0;i<$scope.pubStories.length;i++){
 				$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
