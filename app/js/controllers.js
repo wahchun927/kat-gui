@@ -806,7 +806,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     $scope.goToChallengeCreator=function()
     {
       $location.path("challengeCreator");
-
     };
 	
 	//Create Habit Challenge
@@ -3320,10 +3319,9 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				}
 			}
 	    });
-	    if($scope.update_path_flag){
+	    if($scope.update_path_flag && path_ID){
 	    	$scope.storyid = undefined;
-            $scope.current_story_name = undefined;
-			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
+	    	$scope.current_story_name = undefined;
 	    }
     }
 
@@ -3332,7 +3330,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
 		//alert(path_ID);
-		if(pathCount != 1){
+		if(pathCount != 1 && pathCount != 0){
 			$scope.updatedStoryList = [];
 			for(var i=0;i<$scope.pubStories.length;i++){
 				$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
