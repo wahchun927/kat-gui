@@ -173,11 +173,11 @@
 					<div class="span12 well well-small">
 						<div style="height:180px;overflow-y:auto;overflow-x:hidden;">	
 							<table id="badgesList" class="table table-condensed">
-								<tr ng-repeat = "pathID in badgepathIDs">                               
-									<td class="BadgeName" id="pathHeading">{{badgepathNames[badgepathIDs.indexOf(pathID)]}}</td>
+								<tr ng-repeat = "path in badgesAndName">                               
+									<td class="BadgeName" id="pathHeading">{{path.name}}</td>
 									<td class="BadgeImage">
-										<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges|filter:pathID">
-											<img align="left"  ng-src="{{value.imageURL}}">
+										<div style="margin-left:10px;" ng-repeat="badge in playerBadges|filter:path.id">
+											<img align="left"  ng-src="{{badge.imageURL}}">
 										</div>
 									</td> 
 								</tr>
