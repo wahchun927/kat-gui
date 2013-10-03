@@ -537,8 +537,20 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			}
 		}
 		else{
-			$('#levelBlock').modal('show');
-			//console.log("Please clear previous level problems to unlock this level!");
+			alert("You haven't unlock the previous badges, please continue unlock all the badges!");
+			$cookieStore.put("name", level);
+			$cookieStore.put("num", numProblems);
+			$cookieStore.put("type", "practiceGame");
+			$cookieStore.put("level", $scope.nextLvlNum);		
+			$cookieStore.put("gameDifficulty", $scope.difficulty);			
+			$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+			$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
+			if($scope.difficulty == "Drag-n-Drop"){
+				window.location.href = "practice_play_page.html";
+			}
+			else{
+				window.location.href = "normal_play_page.html";
+			}
 		}
 	};
 	
