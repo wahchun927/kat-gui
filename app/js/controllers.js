@@ -227,7 +227,6 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
     };
 	
 	$scope.resumeHabitChallengeGame = function(chPathID,numPerGame){
-		alert("get");
 		$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
 
 	    //Including details=1 returns the nested problemset progress.
