@@ -3322,7 +3322,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
-		$scope.storyModel = $resource('/jsonapi/story/:storyID');
+	    $scope.storyModel = $resource('/jsonapi/story/:storyID');
 	    $scope.storyModel.get({"storyID":storyID}, function(response){
             $scope.current_story_name = response.name;
             $scope.supported_paths_story = response.supported_paths;
@@ -3338,6 +3338,17 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			if($scope.update_path_flag && path_ID != ""){
 		    	$scope.storyid = undefined;
 		    	$scope.current_story_name = undefined;
+		    	$scope.updatedStoryList = [];
+				for(var i=0;i<$scope.pubStories.length;i++){
+					$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
+					if($scope.pubStories[i].supported_paths.length == 0){
+						$scope.updatedStoryList.push($scope.pubStories[i]);
+					}
+					else if($scope.stringSupportPaths.indexOf(path_ID) >= 0){
+						$scope.updatedStoryList.push($scope.pubStories[i]);
+					}
+				}
+				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		    }
 	    });
 	    $scope.paths = $resource('/jsonapi/get_game_paths').get();
