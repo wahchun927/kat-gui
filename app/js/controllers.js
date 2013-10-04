@@ -3541,7 +3541,7 @@ function TournamentController($scope,$resource,$http,$cookieStore){
     };
 
     $scope.get_seconds_to_start = function(startTime, currentTime){
-    	var diff = (new Date(startTime) - new Date(currentTime))/1000;
+    	var diff = Math.round((new Date(startTime) - new Date(currentTime))/1000);
     	if (diff > 0){
     		return diff;
     	}
@@ -3600,13 +3600,6 @@ function TournamentController($scope,$resource,$http,$cookieStore){
               
     };
 
-	$scope.set_round_countdown = function(roundID,seconds){
-          console.log("Start round not implemented yet.");
-    };
-	
-    $scope.reset_round = function(roundID){
-        console.log("Reset round not implemented yet.");
-    };
     $scope.remove_problem_from_round = function(problemID){
     	$scope.roundDirty = true;
     	var index = $scope.round.problemIDs.indexOf(problemID);
@@ -3818,4 +3811,26 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 			alert("Please fill all options!");		
 		}				
 	};
+}
+
+function CountdownController($scope,$timeout) {
+    $scope.counter = -1;
+    $scope.onTimeout = function(){
+        $scope.counter--;
+        if ($scope.counter > 0) {
+            mytimeout = $timeout($scope.onTimeout,1000);
+        }
+        else {
+        	$scope.counter = 0;
+            //alert("Time is up!");
+        }
+    }
+    $scope.start_timer = function(countdown){
+		$scope.counter = countdown;//countdown;
+		mytimeout = $timeout($scope.onTimeout,1000);
+    }
+    	
+	var mytimeout = null;//$timeout($scope.onTimeout,1000);
+    //$scope.start_timer(5);
+            
 }
