@@ -537,8 +537,20 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			}
 		}
 		else{
-			$('#levelBlock').modal('show');
-			//console.log("Please clear previous level problems to unlock this level!");
+			alert("You haven't unlock the previous badges, please continue unlock all the badges!");
+			$cookieStore.put("name", level);
+			$cookieStore.put("num", numProblems);
+			$cookieStore.put("type", "practiceGame");
+			$cookieStore.put("level", $scope.nextLvlNum);		
+			$cookieStore.put("gameDifficulty", $scope.difficulty);			
+			$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
+			$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
+			if($scope.difficulty == "Drag-n-Drop"){
+				window.location.href = "practice_play_page.html";
+			}
+			else{
+				window.location.href = "normal_play_page.html";
+			}
 		}
 	};
 	
@@ -642,28 +654,33 @@ function BadgeController($scope,$resource){
 	$scope.loadAllBadges = function(){
 		$scope.badgepathNames = [];
 		$scope.badgepathIDs = [];
+		$scope.playerBadges = [];
+		$scope.badgesAndName = [];
+		var badgename = "";
 		$resource('/jsonapi/badges_for_current_player').get({},function(response){
 			$scope.playerBadges = response.badges;
+
 			for( var i=0; i<$scope.playerBadges.length; i++){
 				if($scope.badgepathIDs.indexOf($scope.playerBadges[i].pathID) <= -1 && $scope.playerBadges[i].pathID != null){
 					$scope.badgepathIDs.push($scope.playerBadges[i].pathID);
-					
 					$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
-
+					
 					//Including details=1 returns the nested problemset progress.
 					$scope.PathModel.get({"pathID":$scope.playerBadges[i].pathID}, function(response1){
+					var badge = {name: response1.path.name, id: response1.path.id};						
+					$scope.badgesAndName.push(badge);
 					$scope.badgepathNames.push(response1.path.name);
-					
-					});					
+					});
 				}
-			}	
-			$scope.list_paths= function(){
-				$scope.pathModel = $resource('/jsonapi/get_game_paths');		
-				$scope.pathModel.get({}, function(response){
-					$scope.ListAllPaths = response.paths;			
-				});		
-			};
+			}
 		});
+	};
+	
+	$scope.list_paths= function(){
+		$scope.pathModel = $resource('/jsonapi/get_game_paths');		
+		$scope.pathModel.get({}, function(response){
+			$scope.ListAllPaths = response.paths;			
+		});		
 	};
 }
 

@@ -101,15 +101,9 @@
 									<td class="OpenC_StartDate">{{challenge.startDate}}</td>
 									<td class="OpenC_EndDate">{{challenge.endDate}}</td>
 									<td class="OpenC_Register" ng-show="challenge._playerRegistered==false" ><button class="btn btn-danger" style="width: 100px" ng-click="goToRegistration(challenge.challenge_id)"> Register</button></td>
-											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Habit'&&challenge._playerRegistered">
-												<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(challenge.pathID,5)" style="width: 100px" class="btn btn-info">Resume!</button>
-											</td>
-											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Badge'&&challenge._playerRegistered">
-												<button ng-controller = "PathController" id="resume" ng-click="resumeBadgeChallengeGame(challenge.unlockBadgesNotEarned[0],5,'Easy')" style="width: 100px" class="btn btn-info">Resume!</button>
-											</td>
-											<td class="OpenC_Register"  ng-show = "challenge.challengeType=='Quest'&&challenge._playerRegistered">
-												<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(challenge.storyID, challenge.pathID, challenge.difficulty)" style="width: 100px" class="btn btn-info">Resume!</button>
-											</td>
+									<td class="OpenC_Register"  ng-show = "challenge._playerRegistered">
+										<button ng-controller = "PathController" id="resume" ng-click="goToRegistration(challenge.challenge_id)" style="width: 100px" class="btn btn-info">Resume!</button>
+									</td>
 								</tr>           
 							</table>																	
 						</div>
@@ -141,13 +135,7 @@
 										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
 										<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
 											<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Habit'&&!Acceptedchallenge._playerUnlocked">
-												<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(Acceptedchallenge.pathID,5)" class="btn btn-info">Resume!</button>
-											</td>
-											<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Badge'&&!Acceptedchallenge._playerUnlocked">
-												<button ng-controller = "PathController" id="resume" ng-click="resumeBadgeChallengeGame(Acceptedchallenge.unlockBadgesNotEarned[0],5,'Easy')" class="btn btn-info">Resume!</button>
-											</td>
-											<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Quest'&&!Acceptedchallenge._playerUnlocked">
-												<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(Acceptedchallenge.storyID, Acceptedchallenge.pathID, Acceptedchallenge.difficulty)" class="btn btn-info">Resume!</button>
+												<button ng-controller = "PathController" id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
 											</td>
 										<td class="AcceptedC_Msg" ng-show ="Acceptedchallenge._playerUnlocked">{{Acceptedchallenge.playerFeedback}}</td>
 										<td class="AcceptedC_Msg" ng-hide ="Acceptedchallenge._playerUnlocked">You have not submitted any messages!</td>
