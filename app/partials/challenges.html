@@ -93,7 +93,7 @@
 									<th class="OpenC_EndDate">End Date</th>
 									<th class="OpenC_Register">Register</th>
 								</tr>  							
-								<tr ng-repeat="challenge in ListAllChallenges | filter:searchText" ng-hide = "challenge.description=='archived'">
+								<tr ng-repeat="challenge in ListAllChallenges | filter:searchText" ng-hide = "challenge.description=='archived'" ng-show ="!challenge._playerUnlocked">
 									<td class="OpenC_Type">{{challenge.challengeType}}</th>
 									<td class="OpenC_Name">{{challenge.name}}</td>
 									<td class="OpenC_Location" ng-show="challenge.worldwide==1">Worldwide</td>	
@@ -133,12 +133,12 @@
 										<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
 										<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
 										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
-										<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
-											<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Habit'&&!Acceptedchallenge._playerUnlocked">
+										<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-click="goToRegistration(Acceptedchallenge.challenge_id)"  ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
+											<td class="AcceptedC_Outcome"  ng-show = "!Acceptedchallenge._playerUnlocked">
 												<button ng-controller = "PathController" id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
 											</td>
-										<td class="AcceptedC_Msg" ng-show ="Acceptedchallenge._playerUnlocked">{{Acceptedchallenge.playerFeedback}}</td>
-										<td class="AcceptedC_Msg" ng-hide ="Acceptedchallenge._playerUnlocked">You have not submitted any messages!</td>
+										<td class="AcceptedC_Msg" ng-show ="Acceptedchallenge._playerSubmitted">{{Acceptedchallenge.playerFeedback}}</td>
+										<td class="AcceptedC_Msg" ng-hide ="Acceptedchallenge._playerSubmitted">You have not submitted any messages!</td>
 
 									</tr>  
 								</table>
