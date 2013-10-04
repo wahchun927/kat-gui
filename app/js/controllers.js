@@ -3340,6 +3340,16 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		    	$scope.current_story_name = undefined;
 		    }
 	    });
+	    $scope.paths = $resource('/jsonapi/get_game_paths').get();
+	  	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
+	  	if(difficulty != "" && path_ID != ""){
+	  		if(difficulty == "Drag-n-Drop" && $scope.paths.paths.indexOf(path_ID) > -1){
+		  		$scope.difficulty = undefined;
+		  	}
+		  	else if(difficulty != "Drag-n-Drop" && $scope.mobile_paths.indexOf(path_ID) > -1){
+		  		$scope.difficulty = undefined;
+		  	}
+	  	}
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
