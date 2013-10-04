@@ -106,13 +106,21 @@
             <div class="well well-small" align="center" ng-show="single_challenge.challenge._playerRegistered == false">
                 <p>Remember to register for a challenge to get more information about the challenge and to be notified when you unlock it!</p>
             </div>
-            <div class="well well-small" align="center" ng-show="single_challenge.challenge._playerRegistered == true">
+            <div class="well well-small" align="center" ng-show="single_challenge.challenge._playerRegistered == true&&!player_challenge_details.playerUnlocked">
                 <p>You are already registered for this challenge!!</p>
-                <p><a type = "button" ng-click = "goToGeneratedURL(single_challenge)">Play Challenge Game</a></p>
-            </div>
-            <div align="center" ng-show="single_challenge.challenge._playerRegistered == false">
-                <button type="button" class="btn btn-primary" style="height: 33px; width: 250px" ng-click="register_me(single_challenge.challenge.challenge_id)">Register Me!</button>
-            </div>
+				<div class="AcceptedC_Outcome"  ng-show = "single_challenge.challenge.challengeType=='Habit'&&single_challenge.challenge._playerRegistered == true">
+					<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(single_challenge.challenge.pathID,5)" class="btn btn-info">Play Challenge Game!</button>
+				</div>
+				<div class="AcceptedC_Outcome"  ng-show = "single_challenge.challenge.challengeType=='Badge'&&single_challenge.challenge._playerRegistered == true">
+					<button ng-controller = "PathController" id="resume" ng-click="resumeBadgeChallengeGame(single_challenge.challenge.unlockBadgesNotEarned[0],5,'Easy')" class="btn btn-info">Play Challenge Game!</button>
+				</div>
+				<div class="AcceptedC_Outcome"  ng-show = "single_challenge.challenge.challengeType=='Quest'&&single_challenge.challenge._playerRegistered == true">
+					<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(single_challenge.challenge.storyID, single_challenge.challenge.pathID, single_challenge.challenge.difficulty)" class="btn btn-info">Play Challenge Game!</button>
+				</div>
+			</div>
+				<div align="center" ng-show="single_challenge.challenge._playerRegistered == false">
+					<button type="button" class="btn btn-primary" style="height: 33px; width: 250px" ng-click="register_me(single_challenge.challenge.challenge_id)">Register Me!</button>
+				</div>
             <br>
         </div>
     </div>
