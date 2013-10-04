@@ -3335,11 +3335,11 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					break;
 				}
 			}
+			if($scope.update_path_flag && path_ID != ""){
+		    	$scope.storyid = undefined;
+		    	$scope.current_story_name = undefined;
+		    }
 	    });
-	    if($scope.update_path_flag){
-	    	$scope.storyid = undefined;
-	    	$scope.current_story_name = undefined;
-	    }
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
