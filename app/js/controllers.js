@@ -3338,7 +3338,17 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 			if($scope.update_path_flag && path_ID != ""){
 		    	$scope.storyid = undefined;
 		    	$scope.current_story_name = undefined;
-		    	$scope.questStoryList = $filter('groupBy')($scope.pubStories, 3);
+		    	$scope.updatedStoryList = [];
+				for(var i=0;i<$scope.pubStories.length;i++){
+					$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
+					if($scope.pubStories[i].supported_paths.length == 0){
+						$scope.updatedStoryList.push($scope.pubStories[i]);
+					}
+					else if($scope.stringSupportPaths.indexOf(path_ID) >= 0){
+						$scope.updatedStoryList.push($scope.pubStories[i]);
+					}
+				}
+				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		    }
 	    });
 	    $scope.paths = $resource('/jsonapi/get_game_paths').get();
