@@ -434,17 +434,17 @@
 		<div class="tabbable" ng-controller="PathController" ng-init="update_path_details();get_player_progress();list()">
 		  <ul class="nav nav-tabs">
 			<li class="tabspacing active">
-			  <a data-target="#quest" data-toggle="tab">Quest</a>
+			  <a data-target="#questSmall" data-toggle="tab">Quest</a>
 			</li>
 			<li class="tabspacing">
-			  <a data-target="#practice" data-toggle="tab">Practice</a>
+			  <a data-target="#practiceSmall" data-toggle="tab">Practice</a>
 			</li>
 			<li class="tabspacing">
-			  <a data-target="#challenges" data-toggle="tab">Challenges</a>
+			  <a data-target="#challengesSmall" data-toggle="tab">Challenges</a>
 			</li>    
 		  </ul>
 		  <div class="tab-content">
-			<div class="tab-pane active" id="quest" ng-controller="QuestController" ng-init="list()">
+			<div class="tab-pane active" id="questSmall" ng-controller="QuestController" ng-init="list()">
 			    <div width="400px"style="width:98.7%; height:30px;" ng-model="filter">
 					<table class="table table-condensed">
 						<tr>
@@ -470,7 +470,7 @@
 					</table>		
 				</div>
 			</div>
-			<div class="tab-pane" id="practice">
+			<div class="tab-pane" id="practiceSmall">
 			  <div width="400px"style="width:98.7%; height:30px">
 				<table class="table table-condensed">
 					<tr>
@@ -496,7 +496,7 @@
 					</table>				
 				</div>
 			</div>
-			<div class="tab-pane" id="challenges" ng-controller="ChallengeController">
+			<div class="tab-pane" id="challengesSmall" ng-controller="ChallengeController">
 			    <div width="400px" style="width:98.7%; height:30px;">
 					<table class="table table-condensed">
 						<tr>
@@ -546,14 +546,14 @@
 		<div class="tabbable">
 		    <ul class="nav nav-tabs">
 			    <li class="tabspacing-create active">
-					<a data-target="#myChallenges" data-toggle="tab">Challenges I've Made</a>
+					<a data-target="#myChallengesSmall" data-toggle="tab">Challenges I've Made</a>
 			    </li>
 				<li class="tabspacing-create">
-					<a data-target="#myStories" data-toggle="tab">Stories I've Created</a>
+					<a data-target="#myStoriesSmall" data-toggle="tab">Stories I've Created</a>
 				</li>  
 		    </ul>
 			<div class="tab-content">
-				<div class="tab-pane active" id="myChallenges" ng-controller="ChallengeController">
+				<div class="tab-pane active" id="myChallengesSmall" ng-controller="ChallengeController">
 					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed" >
 							<tr>
@@ -592,7 +592,7 @@
 					</div>
 				</div>
 			
-				<div class="tab-pane" id="myStories" align="center" ng-controller="StoryController" ng-init="list()">
+				<div class="tab-pane" id="myStoriesSmall" align="center" ng-controller="StoryController" ng-init="list()">
 					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed">
 							<tr style="border-top: solid white; border-bottom: solid white;">
@@ -728,3 +728,4 @@
     <button id="btnPlayerUpdate" type="button" ng-click="update_player_profile()" data-dismiss="modal" class="btn btn-primary">Update!</button>
     <a data-target="#" class="btn" data-dismiss="modal">Cancel</a>
   </div>
+
