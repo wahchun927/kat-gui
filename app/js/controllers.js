@@ -3821,26 +3821,21 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 }
 
 function CountdownController($scope,$timeout) {
-    //$scope.counter = 5;
+    $scope.counter = -1;
     $scope.onTimeout = function(){
         $scope.counter--;
         if ($scope.counter > 0) {
             mytimeout = $timeout($scope.onTimeout,1000);
         }
         else {
-            alert("Time is up!");
+            //alert("Time is up!");
         }
     }
     $scope.start_timer = function(countdown){
-		$scope.counter = countdown;
+		$scope.counter = countdown;//countdown;
 		mytimeout = $timeout($scope.onTimeout,1000);
     }
-    
-    $scope.reset= function(countdown){
-        $scope.counter = countdown;
-        mytimeout = $timeout($scope.onTimeout,1000);
-    }
-	
+    	
 	var mytimeout = null;//$timeout($scope.onTimeout,1000);
     //$scope.start_timer(5);
             

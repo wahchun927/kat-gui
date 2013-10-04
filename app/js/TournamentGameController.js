@@ -1,4 +1,4 @@
-function TournamentGameController($scope,$resource,$cookieStore){
+function TournamentGameController($scope,$resource,$cookieStore,$timeout){
     //$scope.currentProblem
     //$scope.game = $resource('test_data/python_game.json').get();
     //$scope.mobile_game = $resource('test_data/mobile_python_game.json').get();
@@ -10,6 +10,8 @@ function TournamentGameController($scope,$resource,$cookieStore){
     3. Call fetch(gameID) to get the updated status of the game after correct solves. 
     4. Redirect the player to the proper page once the game is completed.
     */
+
+
     $scope.skip_problem_count = 0;
     $scope.current_problem_index = 0;
     $scope.permutation = "12345"; 
@@ -244,5 +246,6 @@ function TournamentGameController($scope,$resource,$cookieStore){
         	}
         });
  	},true);
+
 }
 
