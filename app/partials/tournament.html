@@ -25,8 +25,12 @@
     			
     			</li>
     		</ol>
-    		Counter = {{count}}<br>
 
+    		<div ng-controller="CountdownController">
+    		 Staring tournament in <b>{{counter}}</b> seconds
+    		<button ng-click="reset()">Reset</button>    
+
+    		</div>
 
 		</div>
 		<div ng-show="!tournamentID">
