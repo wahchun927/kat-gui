@@ -1653,7 +1653,7 @@ function NormalGameController($scope,$resource,$cookieStore){
       $scope.numProblems = $cookieStore.get("num"); //retrieve quest id from Storyboard page
     }
     if($cookieStore.get("type")){
-      $scope.gameType = $cookieStore.get("type"); //retrieve quest id from Storyboard page
+      $scope.gameType = $cookieStore.get("type"); //retrieve game type
     }
 
     var videos = 0;
@@ -1944,7 +1944,15 @@ function PracticeGameController($scope,$resource,$cookieStore){
     if($cookieStore.get("path_IDD")){
       $scope.path_IDD = $cookieStore.get("path_IDD"); //retrieve name of the path
     }		
-
+	
+	
+	$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+		$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+		$scope.problems_progress = response;
+		$scope.current_level_progress = $scope.problems_progress.currentPlayerProgress;
+		$scope.total_level_progress = $scope.problems_progress.problemsInProblemset;
+	});
+				
     $scope.create_practice_game = function(){
     	$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
 
@@ -1996,15 +2004,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
       }
 
       if($scope.remaining_problems.length == 0){
-			
-			//Add a condition to redirect to the tournament result if this is a tournament game. 
-			if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
-				alert("congrats!");
-				window.location.href="index.html#/practice";
-			}
-			else{
-				$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-			}
+			$scope.create_practice_game($scope.LevelID,$scope.numProblems);
       }
       //Update the current problem index based on remaining problems and items skipped. 
       $scope.move_to_next_unsolved_problem();
@@ -2066,12 +2066,17 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
 				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
 					$scope.problems_progress = response;
+					$scope.current_level_progress = $scope.problems_progress.currentPlayerProgress;
+					$scope.total_level_progress = $scope.problems_progress.problemsInProblemset;
+					if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
+						alert("Congrats! You have successfully complete this level!");
+					window.location.href="index.html#/practice";
+					}
 				});
                 //If you hardcode to the game, this will automatically advance the game to the next problem. 
                 $scope.fetch($scope.game.gameID);
-                $scope.update_quest();
               }
-      });
+		});
     };
 
     $scope.verify_solution = function() {
@@ -2112,20 +2117,11 @@ function PracticeGameController($scope,$resource,$cookieStore){
         }
       }
     };
-    
-    $scope.update_quest = function() {
-
-      $resource('/jsonapi/quest/:questID').get({"questID":$scope.game.questID},
-      function(response){
-        $scope.quest = response;
-        //alert("Retrieved quest. Could check for video unlocks here.");
-      });
-    };
 	
-	$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+$scope.create_practice_game($scope.LevelID,$scope.numProblems);
 	
 	//to retrieve path info to display on path play page
-	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
+/* 		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
         var path_id = $scope.path_IDD;
 		$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id?details=1');
         //Including details=1 returns the nested problemset progress.
@@ -2143,7 +2139,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
         	}
         });
- 	},true);
+ 	},true); */
 
 }
 
