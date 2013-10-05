@@ -613,9 +613,7 @@
                 <li>
                   <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
                 </li>
-                <li>
-                  <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
-                </li>                
+               
                 <li>
                   <a type="button" ng-click="checkRankingLogin()">Rankings</a>
                 </li>   
@@ -627,6 +625,9 @@
                   <a href="" class="dropdown-toggle" data-toggle="dropdown">More... 
                     <b class="caret"></b></a>                  
                   <ul class="dropdown-menu">                    
+                    <li>
+                      <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
+                    </li> 
                     <li>
                       <a href="#tournaments">Tournaments</a>
                     </li>                                                 
@@ -642,7 +643,12 @@
                     <li class="nav-header">Videos</li>                    
                     <li>
                       <a href="#videos">Learn about SingPath</a>
-                    </li>                
+                    </li> 
+                    <li ng-show="player.location=='Singapore'" class="nav-header">Singapore Schools</li>                    
+                    
+                    <li ng-show="player.location=='Singapore'">
+                      <a href="#">Coming Soon</a>
+                    </li>               
                   </ul>                
                 </li>
                 <li>
