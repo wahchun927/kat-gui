@@ -14,57 +14,11 @@ function TournamentGameController($scope,$resource,$cookieStore,$timeout){
 
     $scope.skip_problem_count = 0;
     $scope.current_problem_index = 0;
-    $scope.permutation = "12345"; 
-    
-    if($cookieStore.get("name")){
-      $scope.LevelID = $cookieStore.get("name"); //retrieve level id from practice page
-    }
-    if($cookieStore.get("num")){
-      $scope.numProblems = $cookieStore.get("num"); //retrieve the number of problems per game from practice page
-    }
+
     if($cookieStore.get("type")){
       $scope.gameType = $cookieStore.get("type"); //retrieve game type
     }
-    if($cookieStore.get("level")){
-      $scope.levelNumber = $cookieStore.get("level"); //retrieve the level number
-    }
-    if($cookieStore.get("gameDifficulty")){
-      $scope.gameDifficulty = $cookieStore.get("gameDifficulty"); //retrieve the game difficulty
-    }
-    if($cookieStore.get("nameOfPath")){
-      $scope.nameOfPath = $cookieStore.get("nameOfPath"); //retrieve name of the path
-    }
-    if($cookieStore.get("path_IDD")){
-      $scope.path_IDD = $cookieStore.get("path_IDD"); //retrieve name of the path
-    }		
-
-    $scope.create_practice_game = function(){
-    	$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
-
-		$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
-			$scope.problems_progress = response;
-		});
-    }
-	
-    //alert($scope.qid);
-    $scope.create_practice_game = function(LevelID,numProblems){
-      $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/numProblems/:numProblems');
-      
-      $scope.CreateGameModel.get({"problemsetID":LevelID,"numProblems":numProblems}, function(response){
-        $scope.game = response;
-        $scope.update_remaining_problems();
-		});
-    };
-
-
-    $scope.create_resolve_problemset_game = function(problemsetID){
-      $scope.CreateGameModel = $resource('/jsonapi/create_game/problemsetID/:problemsetID/resolve');
-      
-      $scope.CreateGameModel.get({"problemsetID":problemsetID}, function(response){
-        $scope.game = response;
-        $scope.update_remaining_problems();
-		});
-    };         
+    
     /*
     Create Tournament Game.
     
@@ -89,15 +43,9 @@ function TournamentGameController($scope,$resource,$cookieStore,$timeout){
       }
 
       if($scope.remaining_problems.length == 0){
-			
-			//Add a condition to redirect to the tournament result if this is a tournament game. 
-			if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
-				alert("congrats!");
-				window.location.href="index.html#/practice";
-			}
-			else{
-				$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-			}
+				alert("Congrats! You have solved all the problems in this round.");
+        window.location.href="index.html#/practice";
+
       }
       //Update the current problem index based on remaining problems and items skipped. 
       $scope.move_to_next_unsolved_problem();
@@ -134,6 +82,7 @@ function TournamentGameController($scope,$resource,$cookieStore,$timeout){
         $scope.skip_problem_count += 1;
         $scope.move_to_next_unsolved_problem();
       }
+      console.log("Skipping problem. count="+$scope.skip_problem_count+" remaining "+$scope.remaining_problems.length);
     }
 
 
@@ -151,19 +100,14 @@ function TournamentGameController($scope,$resource,$cookieStore,$timeout){
                         problem_id:$scope.current_problem,
                         game_id:$scope.game.gameID};
       
+      //Post the solution
       var item = new $scope.SaveResource($scope.theData);
       item.$save(function(response) { 
-              $scope.solution_check_result = response;
-              if($scope.solution_check_result.last_solved){
-				$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
-
-				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
-					$scope.problems_progress = response;
-				});
-                //If you hardcode to the game, this will automatically advance the game to the next problem. 
+            $scope.solution_check_result = response;
+            //If solved, update the game.
+            if($scope.solution_check_result.last_solved){
                 $scope.fetch($scope.game.gameID);
-                $scope.update_quest();
-              }
+            }
       });
     };
 
@@ -206,14 +150,6 @@ function TournamentGameController($scope,$resource,$cookieStore,$timeout){
       }
     };
     
-    $scope.update_quest = function() {
-
-      $resource('/jsonapi/quest/:questID').get({"questID":$scope.game.questID},
-      function(response){
-        $scope.quest = response;
-        //alert("Retrieved quest. Could check for video unlocks here.");
-      });
-    };
 	
 	//Check for a roundID to see if this is a tournament game. 
 	if($cookieStore.get("roundID")){
@@ -225,27 +161,9 @@ function TournamentGameController($scope,$resource,$cookieStore,$timeout){
       console.log("Found a gameID in the cache "+$scope.tournamentGameID);//retrieve name of the path
       
     }
-
-	//to retrieve path info to display on path play page
-	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
-        var path_id = $scope.path_IDD;
-		$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id?details=1');
-        //Including details=1 returns the nested problemset progress.
-        $scope.retrieved_path.get({"path_id":path_id}, function(response){
-        	$scope.single_path_info = response;
-
-        	$scope.p_S_order = $scope.single_path_info.currentProblemsetID;
-
-
-        	for( var i=0; i<$scope.single_path_info.details.length;i++){
-        		if($scope.single_path_info.details[i].id == $scope.p_S_order){
-        			$scope.current_level_progress = $scope.single_path_info.details[i].currentPlayerProgress;
-        			$scope.total_level_progress = $scope.single_path_info.details[i].problemsInProblemset;
-        		}
-
-        	}
-        });
- 	},true);
+    else{
+      alert("No roundID passed to TournamentGameController.")
+    }
 
 }
 
