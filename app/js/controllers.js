@@ -336,7 +336,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
 	}
 
-	if(location.href.indexOf("path_ID") > -1){
+	if(location.href.indexOf("path_ID") > -1 && location.href.indexOf("path_ID=undefined") == -1){
 		var passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.path_filtered = $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID);
@@ -486,7 +486,19 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	};
 	
 	//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty = function(difficulty){
+	$scope.changeDifficulty = function(difficulty,pathName){
+		if(difficulty == "Drag-n-Drop" && pathName.indexOf("Beginner") == -1){
+			$scope.path_ID = undefined;
+			$scope.practice_path_name = undefined;
+			$('#myCarousel input:image').removeClass('selected');
+			$('#myCarouselSmall input:image').removeClass('selected');
+		}
+		if(difficulty != "Drag-n-Drop" && pathName.indexOf("Beginner") > -1){
+			$('#myCarouselB input:image').removeClass('selected');
+			$('#myCarouselSmallB input:image').removeClass('selected');
+			$scope.path_ID = undefined;
+			$scope.practice_path_name = undefined;
+		}
 		$scope.difficulty = difficulty;
 		if(difficulty != "" && $scope.path_ID != ""){
 			$location.search({path_ID: $scope.path_ID, difficulty: difficulty});
@@ -3347,16 +3359,38 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
 		    }
 	    });
-	    $scope.paths = $resource('/jsonapi/get_game_paths').get();
-	  	$scope.mobile_paths = $resource('/jsonapi/mobile_paths').query();
-	  	if(difficulty != "" && path_ID != ""){
-	  		if(difficulty == "Drag-n-Drop" && $scope.paths.paths.indexOf(path_ID) > -1){
-		  		$scope.difficulty = undefined;
+	    $resource('/jsonapi/get_game_paths').get(function(response){
+	    	if(difficulty != "" && path_ID != ""){
+		  		if(difficulty == "Drag-n-Drop"){
+		  			for(var i=0;i<response.paths.length;i++){
+						if(response.paths[i].id == path_ID){
+							$('#pathSel input:image').removeClass('selected');
+							$('#small-pathSel input:image').removeClass('selected');   
+							$scope.path_ID = undefined;
+					  		$scope.quest_path_name = undefined;
+			    			$location.search({storyID: storyID,difficulty: difficulty,path_ID: undefined});
+			    			break;
+						}
+					}
+			  	}
 		  	}
-		  	else if(difficulty != "Drag-n-Drop" && $scope.mobile_paths.indexOf(path_ID) > -1){
-		  		$scope.difficulty = undefined;
+	    });
+	    $resource('/jsonapi/mobile_paths').query(function(response){
+	    	if(difficulty != "" && path_ID != ""){
+		  		if(difficulty != "Drag-n-Drop"){
+			  		for(var i=0;i<response.length;i++){
+						if(response[i].path_id == path_ID){
+							$('#pathSel input:image').removeClass('selected');
+							$('#small-pathSel input:image').removeClass('selected');
+							$scope.path_ID = undefined;
+					  		$scope.quest_path_name = undefined;
+			    			$location.search({storyID: storyID,difficulty: difficulty,path_ID: undefined});
+			    			break;
+						}
+					}
+			  	}
 		  	}
-	  	}
+	    });
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){

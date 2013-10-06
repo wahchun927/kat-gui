@@ -156,7 +156,7 @@ li{ list-style:none; }
 							<span ng-repeat="item in levels">
 								<label class="radio">
 								<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
-								<button type="button" ng-click = "changeDifficulty(item.name)" class="btn btn-primary" style="height: 33px; width: 200px"  btn-radio="{{item.name}}">{{item.name}}
+								<button type="button" ng-click = "changeDifficulty(item.name,path_progress.path.name)" class="btn btn-primary" style="height: 33px; width: 200px"  btn-radio="{{item.name}}">{{item.name}}
 								</button></br></br>
 								</label>
 							</span>	
@@ -238,11 +238,11 @@ li{ list-style:none; }
 							<tr><td align="center">
 								</br></br>
 								<!--Continue-->
-								<div  ng-show="!difficulty || !practice_path_name">
+								<div  ng-show="!difficulty || !path_ID">
 									<button class="btn disabled" style="width: 145px"><h5>Continue Path</h5></button>									
 								</div>
 
-								<div  ng-show="difficulty && practice_path_name">
+								<div  ng-show="difficulty && path_ID">
 									<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 145px"><h5>Continue Path</h5></button>									
 								</div>
 								
@@ -412,7 +412,13 @@ li{ list-style:none; }
 							<tr><td align="center">
 								</br></br>
 								<!-- <form action="#storyboard"> -->
-								<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 110px"><H5>Continue Path</H5></button>
+								<div  ng-show="!difficulty || !path_ID">
+									<button class="btn disabled" style="width: 145px"><h5>Continue Path</h5></button>									
+								</div>
+
+								<div  ng-show="difficulty && path_ID">
+									<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 110px"><h5>Continue Path</h5></button>									
+								</div>
 								<span class="label label-info" align="left">
 									<b><i>You are going to play</i></b>
 									</br></br>
