@@ -286,20 +286,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 					}
 				}
 				else{
-					alert("You haven't unlock the previous badges, please continue unlock all the badges!");
-					$cookieStore.put("name", $scope.levelid);
-					$cookieStore.put("num", numPerGame);
-					$cookieStore.put("type", "practiceGame");
-					$cookieStore.put("level", $scope.nextLvlNum);		
-					$cookieStore.put("gameDifficulty", difficulty);			
-					$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
-					$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
-					if(difficulty == "Drag-n-Drop"){
-						window.location.href = "practice_play_page.html";
-					}
-					else{
-						window.location.href = "normal_play_page.html";
-					}
+					alert("Please go to practice game and clear previous level before take this challenge!");
 				}
 			});
 		});
@@ -549,20 +536,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			}
 		}
 		else{
-			alert("You haven't unlock the previous badges, please continue unlock all the badges!");
-			$cookieStore.put("name", level);
-			$cookieStore.put("num", numProblems);
-			$cookieStore.put("type", "practiceGame");
-			$cookieStore.put("level", $scope.nextLvlNum);		
-			$cookieStore.put("gameDifficulty", $scope.difficulty);			
-			$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
-			$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
-			if($scope.difficulty == "Drag-n-Drop"){
-				window.location.href = "practice_play_page.html";
-			}
-			else{
-				window.location.href = "normal_play_page.html";
-			}
+			alert("Please unlock previous level first!");
 		}
 	};
 	
