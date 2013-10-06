@@ -36,13 +36,12 @@
 	
 	<!--All Challenges : Registered Challenge-->
     th.AcceptedC_Type, td.AcceptedC_Type					{width:10%;}
-    th.AcceptedC_Name, td.AcceptedC_Name					{width:15%;}
+    th.AcceptedC_Name, td.AcceptedC_Name					{width:20%;}
 	th.AcceptedC_Location, td.AcceptedC_Location			{width:10%;}
     th.AcceptedC_StartDate, td.AcceptedC_StartDate			{width:10%;}
-    th.AcceptedC_EndDate, td.AcceptedC_EndDate				{width:10%;}
+    th.AcceptedC_EndDate, td.AcceptedC_EndDate				{width:10%;}	
 	th.AcceptedC_Status, td.AcceptedC_Status				{width:10%;}
-	th.AcceptedC_Outcome, td.AcceptedC_Outcome				{width:10%;}
-	th.AcceptedC_Msg, td.AcceptedC_Msg						{width:25%;}	
+	th.AcceptedC_Msg, td.AcceptedC_Msg						{width:30%;}	
 
 	<!--My Creations : Challenges I've Made -->
 	th.ChallengesIMade_Type, td.ChallengesIMade_Type			{width:10%;}
@@ -82,7 +81,7 @@
 				</ul>
 				<div class="tab-content" id="top-content">				
 					<div class="tab-pane active" align="left" id="Open">
-					Search: <input ng-model="searchText" placeholder = "    Challenge Type or Name">
+					Search: <input ng-model="searchText" placeholder = "Challenge Type/Name/Keywords">
 						<div style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden">									
 							<table class="table table-hover" ng-init="list_challenges();">	
 								<tr>
@@ -112,16 +111,15 @@
 					
 					<div class="tab-pane" align="left" id="Accepted">
 						<div  style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >
-								Search: <input ng-model="searchText" placeholder = "    Challenge Type or Name">
+								Search: <input ng-model="searchText" placeholder = "Challenge Type/Name/Keywords">
 								<table class="table table-hover" ng-init="registered_challenges()">
 									<tr>
 										<th class="AcceptedC_Type">Type</th>
 										<th class="AcceptedC_Name">Name</th>
 										<th class="AcceptedC_Location">Location</th>
 										<th class="AcceptedC_StartDate">StartDate</th>
-										<th class="AcceptedC_EndDate">EndDate</th>
+										<th class="AcceptedC_EndDate">EndDate</th>										
 										<th class="AcceptedC_Status">Status</th>
-										<th class="AcceptedC_Outcome">Outcome</th>
 										<th class="AcceptedC_Msg">Submitted Message</th>
 
 									</tr> 
@@ -131,10 +129,9 @@
 										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==1">Worldwide</td>	
 										<td class="AcceptedC_Location" ng-show="Acceptedchallenge.worldwide==0">{{player.country}}</td>									
 										<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
-										<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
-										<td class="AcceptedC_Status"><span class="label label-success">Open</span></td>
-										<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-click="goToRegistration(Acceptedchallenge.challenge_id)"  ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
-											<td class="AcceptedC_Outcome"  ng-show = "!Acceptedchallenge._playerUnlocked">
+										<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>										
+										<td class="AcceptedC_Status" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-click="goToRegistration(Acceptedchallenge.challenge_id)"  ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
+											<td class="AcceptedC_Status"  ng-show = "!Acceptedchallenge._playerUnlocked">
 												<button ng-controller = "PathController" id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
 											</td>
 										<td class="AcceptedC_Msg" ng-show ="Acceptedchallenge._playerSubmitted">{{Acceptedchallenge.playerFeedback}}</td>
@@ -147,7 +144,7 @@
 					</div>
 					
 					<div class="tab-pane" align="left" id="Mine">
-								Search: <input ng-model="searchText" placeholder = "    Challenge Type or Name">
+								Search: <input ng-model="searchText" placeholder = "Challenge Type/Name/Keywords">
 							<div style="height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden" >																					
 							<table class="table table-condensed"  ng-init="list_challenges_I_created(); get_badge();">
 								<tr>
