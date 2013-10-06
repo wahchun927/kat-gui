@@ -588,14 +588,17 @@
                     <div class="span12 well">
                         <div class="row-fluid">
                             <div class="span9">
+                            <!--
                                 <div class="span3" align="left">Level Progress:&nbsp;&nbsp;&nbsp; <span ng-bind="current_level_progress"> </span>/<span ng-bind="total_level_progress"></span>
                                 </div>
+
                                 <div align="left"> 
                                     <div class="progress progress-success" align="left">
-                                        <div class="bar" style="width:{{count = (current_level_progress/total_level_progress)*100 |number:0}}%;">
+                                        <div class="bar" style="width:{{count = (   current_level_progress/total_level_progress)*100 |number:0}}%;">
                                         </div>
                                     </div>
                                 </div>
+                                -->
                             </div>
                             <div class="span3" align="left">
                                 <font>
@@ -617,6 +620,7 @@
                                 </div>
                             </div>
                             <div class="span3" >
+                                <!--
                                 <div class="span12" style="border: 1px solid #DBDACB;">
                                     <font>
                                         &nbsp;&nbsp;Path Name: <span ng-bind="nameOfPath"></span>
@@ -626,6 +630,7 @@
                                             &nbsp;&nbsp;Difficulty: <span ng-bind="gameDifficulty"></span>
                                     </font>
                                 </div>
+                                -->
                                 <div class="span12" align="center" style="padding-top: 5px">
                                     <p> 
                                         <button class="btn btn-primary" ng-click="skip_problem()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
