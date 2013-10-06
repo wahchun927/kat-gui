@@ -1774,6 +1774,7 @@ function NormalGameController($scope,$resource,$cookieStore){
         $scope.solution_check_result = null;
         var editor = ace.edit("editor");
         editor.getSession().setMode("ace/mode/" + $scope.game.problems.problems[$scope.current_problem_index].interface.codeHighlightKey);
+        editor.getSession().removeListener('change', callback);
       }else{
         $scope.current_problem=null;
         $scope.current_problem_index = null;
@@ -2010,6 +2011,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
         $scope.solution_check_result = null;
         var editor = ace.edit("editorPractice");
         editor.getSession().setMode("ace/mode/" + $scope.game.problems.problems[$scope.current_problem_index].interface.codeHighlightKey);
+        editor.getSession().removeListener('change', callback);
       }else{
         $scope.current_problem=null;
         $scope.current_problem_index = null;
