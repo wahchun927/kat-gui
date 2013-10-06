@@ -8,25 +8,21 @@
 		<div ng-show="tournamentID">
 			TournamentID: {{tournament.tournamentID}}<br>
     		description: {{tournament.description}} <br>
-    		smallPicture: {{tournament.smallPicture}}<br>
-    		longTitle: {{tournament.longTitle}}<br>
-    		shortTitle: {{tournament.shortTitle}}<br>
+    		Title: {{tournament.shortTitle}}<br> {{tournament.longTitle}}<br>
     		Status: {{tournament.stats}}<br>
-    		Rounds: {{tournament.rounds.length}}<br>
+    		Number of Rounds: {{tournament.rounds.length}}<br>
     		Registered Players: {{tournament.registeredPlayerIDs.length}}<br>
     		Rounds: 
     		<ol>
     			<li ng-repeat="round in tournament.rounds">
     			{{round.description}} [{{round.roundID}}], Problems {{round.problemIDs.length}}<br>
-    			Heat {{round.heatID}}, start {{round.heats[0].startTime}}, {{round.heats[0].
-    			currentTime}}<br>
-    			Seconds to start: {{get_seconds_to_start(round.heats[0].startTime, round.heats[0].currentTime);}}
-    			<input type="submit" value="Start Round" ng-click="create_tournament_round_game(round.roundID)">
-    			
+    			<div ng-controller="CountdownController" ng-init="start_timer(get_seconds_to_start(round.currentHeatDetails.startTime, round.currentHeatDetails.currentTime))">
+    				<input ng-show="counter==0" type="submit" value="Start Round Now" ng-click="create_tournament_round_game(round.roundID)">
+    		 		Round staring in <b>{{counter}}</b> seconds<br>
+    				<!--<button ng-click="start_timer(10)">Reset</button>-->    
+    			</div>
     			</li>
     		</ol>
-    		Counter = {{count}}<br>
-
 
 		</div>
 		<div ng-show="!tournamentID">
@@ -46,22 +42,5 @@
 
 		</div>
 		
-
-			<div class="span2">
-
-					<p>We are in the process of adding tournament support to the latest user interface. In the meantime, you can use the previous user interface to create and participate in tournaments.</p>
-			</div>
-			<div class="span9">
-
-					<a href="/ender/tournamentBoard.html">
-						<button type="button" class="btn btn-primary">View Tournaments</button>
-					</a>
-					<br>
-					<a href="/ender/createTournaments.html">
-						<button type="button" class="btn btn-primary">Create a New Tournament</button>
-					</a>
-		
-			</div>			
-
 	</div>
 <div>
