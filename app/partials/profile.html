@@ -97,14 +97,16 @@
 	<div class="row-fluid">		
 	<div class="span12">
 		<!-- Player profile-->
-		<div class="span4 well well-small" id="profile" style="overflow:auto;" width="100%">
-			<div class="row-fluid">
-			<div class="span12" id="heading">Profile</div>
+		<div class="span4" id="profile" style="overflow:auto;" width="100%">
+			<div class="row-fluid ">
+			<div class="span12 bootCamp" id="heading">Profile</div>
 			</div>		
 			<div class="row-fluid">
-				<div class="span12" ng-controller="PlayerController" id="playerProfile" ng-init="list()">
+				<div class="span12 well well-small" style="height:200px;overflow:auto;" ng-controller="PlayerController" id="playerProfile" ng-init="list()">
 					<div class="span4" >
-					<image ng-src="{{player.gravatar}}"; class="span12"/> 
+						<div class="span12" align="center" id="profileImage">
+							<image ng-src="{{player.gravatar}}"; /> 
+						</div>
 					
 						<div ng-model="player.nickname"style="text-align: center;" id="heading"> <span ng-bind="player.nickname"></span> </div>
 						<br>
@@ -162,20 +164,20 @@
 		
 			
 		<!--Badges-->
-		<div class="span8 well well-small" id="badgesTable">
+		<div class="span8" id="badgesTable">
 			<div  ng-controller="BadgeController" width="100%" ng-init = "loadAllBadges()">
 				<div class="row-fluid">
-					<div class="span12" id="heading">Badges</div>
+					<div class="span12 bootCamp" id="heading">Badges</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span12">
-						<div style="height:200px;overflow-y:auto;overflow-x:hidden;">	
+					<div class="span12 well well-small">
+						<div style="height:180px;overflow-y:auto;overflow-x:hidden;">	
 							<table id="badgesList" class="table table-condensed">
-								<tr ng-repeat = "pathID in badgepathIDs">                               
-									<td class="BadgeName" id="pathHeading">{{badgepathNames[badgepathIDs.indexOf(pathID)]}}</td>
+								<tr ng-repeat = "path in badgesAndName">                               
+									<td class="BadgeName" id="pathHeading">{{path.name}}</td>
 									<td class="BadgeImage">
-										<div style="margin-left:10px;" ng-repeat="(key,value) in playerBadges|filter:pathID">
-											<img align="left"  ng-src="{{value.imageURL}}">
+										<div style="margin-left:10px;" ng-repeat="badge in playerBadges|filter:path.id">
+											<img align="left"  ng-src="{{badge.imageURL}}">
 										</div>
 									</td> 
 								</tr>
@@ -186,7 +188,6 @@
 			</div>			
 		</div>	
 	</div>
-	
 	<!--Quest,Path,Challenges-->
 	<div class="row-fluid" id="largeSelectPlay">
 	<div class="span12 well well-small">
@@ -279,15 +280,8 @@
 							<td class="AcceptedC_StartDate">{{Acceptedchallenge.startDate}}</td>
 							<td class="AcceptedC_EndDate">{{Acceptedchallenge.endDate}}</td>
 							<td class="AcceptedC_Outcome" ng-show ="Acceptedchallenge._playerUnlocked"><input type="image" ng-src="img/challenge/privateButtonUnlocked_on.png"/></td>
-
-							<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Habit'&&!Acceptedchallenge._playerUnlocked">
-								<button ng-controller = "PathController" id="resume" ng-click="resumeHabitChallengeGame(Acceptedchallenge.pathID,5)" class="btn btn-info">Resume!</button>
-							</td>
-							<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Badge'&&!Acceptedchallenge._playerUnlocked">
-								<button ng-controller = "PathController" id="resume" ng-click="resumeBadgeChallengeGame(Acceptedchallenge.unlockBadgesNotEarned[0],5,'Easy')" class="btn btn-info">Resume!</button>
-							</td>
-							<td class="AcceptedC_Outcome"  ng-show = "Acceptedchallenge.challengeType=='Quest'&&!Acceptedchallenge._playerUnlocked">
-								<button ng-controller = "QuestController" id="resume" ng-click="resumeQuestChallengeGame(Acceptedchallenge.storyID, Acceptedchallenge.pathID, Acceptedchallenge.difficulty)" class="btn btn-info">Resume!</button>
+							<td class="AcceptedC_Outcome"  ng-show = "!Acceptedchallenge._playerUnlocked">
+								<button ng-controller = "PathController" id="resume" ng-click="goToRegistration(Acceptedchallenge.challenge_id)" class="btn btn-info">Resume!</button>
 							</td>
 						</tr>  
 					</table>
@@ -440,17 +434,17 @@
 		<div class="tabbable" ng-controller="PathController" ng-init="update_path_details();get_player_progress();list()">
 		  <ul class="nav nav-tabs">
 			<li class="tabspacing active">
-			  <a data-target="#quest" data-toggle="tab">Quest</a>
+			  <a data-target="#questSmall" data-toggle="tab">Quest</a>
 			</li>
 			<li class="tabspacing">
-			  <a data-target="#practice" data-toggle="tab">Practice</a>
+			  <a data-target="#practiceSmall" data-toggle="tab">Practice</a>
 			</li>
 			<li class="tabspacing">
-			  <a data-target="#challenges" data-toggle="tab">Challenges</a>
+			  <a data-target="#challengesSmall" data-toggle="tab">Challenges</a>
 			</li>    
 		  </ul>
 		  <div class="tab-content">
-			<div class="tab-pane active" id="quest" ng-controller="QuestController" ng-init="list()">
+			<div class="tab-pane active" id="questSmall" ng-controller="QuestController" ng-init="list()">
 			    <div width="400px"style="width:98.7%; height:30px;" ng-model="filter">
 					<table class="table table-condensed">
 						<tr>
@@ -476,7 +470,7 @@
 					</table>		
 				</div>
 			</div>
-			<div class="tab-pane" id="practice">
+			<div class="tab-pane" id="practiceSmall">
 			  <div width="400px"style="width:98.7%; height:30px">
 				<table class="table table-condensed">
 					<tr>
@@ -502,7 +496,7 @@
 					</table>				
 				</div>
 			</div>
-			<div class="tab-pane" id="challenges" ng-controller="ChallengeController">
+			<div class="tab-pane" id="challengesSmall" ng-controller="ChallengeController">
 			    <div width="400px" style="width:98.7%; height:30px;">
 					<table class="table table-condensed">
 						<tr>
@@ -552,14 +546,14 @@
 		<div class="tabbable">
 		    <ul class="nav nav-tabs">
 			    <li class="tabspacing-create active">
-					<a data-target="#myChallenges" data-toggle="tab">Challenges I've Made</a>
+					<a data-target="#myChallengesSmall" data-toggle="tab">Challenges I've Made</a>
 			    </li>
 				<li class="tabspacing-create">
-					<a data-target="#myStories" data-toggle="tab">Stories I've Created</a>
+					<a data-target="#myStoriesSmall" data-toggle="tab">Stories I've Created</a>
 				</li>  
 		    </ul>
 			<div class="tab-content">
-				<div class="tab-pane active" id="myChallenges" ng-controller="ChallengeController">
+				<div class="tab-pane active" id="myChallengesSmall" ng-controller="ChallengeController">
 					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed" >
 							<tr>
@@ -598,7 +592,7 @@
 					</div>
 				</div>
 			
-				<div class="tab-pane" id="myStories" align="center" ng-controller="StoryController" ng-init="list()">
+				<div class="tab-pane" id="myStoriesSmall" align="center" ng-controller="StoryController" ng-init="list()">
 					<div style="width:99.7%; height:30px;">
 						<table class="table table-condensed">
 							<tr style="border-top: solid white; border-bottom: solid white;">
@@ -734,3 +728,4 @@
     <button id="btnPlayerUpdate" type="button" ng-click="update_player_profile()" data-dismiss="modal" class="btn btn-primary">Update!</button>
     <a data-target="#" class="btn" data-dismiss="modal">Cancel</a>
   </div>
+

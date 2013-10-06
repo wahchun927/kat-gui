@@ -286,20 +286,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 					}
 				}
 				else{
-					alert("You haven't unlock the previous badges, please continue unlock all the badges!");
-					$cookieStore.put("name", $scope.levelid);
-					$cookieStore.put("num", numPerGame);
-					$cookieStore.put("type", "practiceGame");
-					$cookieStore.put("level", $scope.nextLvlNum);		
-					$cookieStore.put("gameDifficulty", difficulty);			
-					$cookieStore.put("nameOfPath", $scope.path_progress.path.name);
-					$cookieStore.put("path_IDD", $scope.path_progress.path.id);					
-					if(difficulty == "Drag-n-Drop"){
-						window.location.href = "practice_play_page.html";
-					}
-					else{
-						window.location.href = "normal_play_page.html";
-					}
+					alert("Please go to practice game and clear previous level before take this challenge!");
 				}
 			});
 		});
@@ -336,7 +323,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 		$scope.passed_in_difficulty = location.hash.split('difficulty=')[1].split("&")[0];
 	}
 
-	if(location.href.indexOf("path_ID") > -1){
+	if(location.href.indexOf("path_ID") > -1 && location.href.indexOf("path_ID=undefined") == -1){
 		var passed_in_path_ID = location.hash.split('path_ID=')[1].split("&")[0];
 		setTimeout(function () {
 			$scope.path_filtered = $filter('filter')($scope.paths_unfiltered.paths,passed_in_path_ID);
@@ -486,7 +473,19 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 	};
 	
 	//change the difficulty level as well as the path level detail table
-	$scope.changeDifficulty = function(difficulty){
+	$scope.changeDifficulty = function(difficulty,pathName){
+		if(difficulty == "Drag-n-Drop" && pathName.indexOf("Beginner") == -1){
+			$scope.path_ID = undefined;
+			$scope.practice_path_name = undefined;
+			$('#myCarousel input:image').removeClass('selected');
+			$('#myCarouselSmall input:image').removeClass('selected');
+		}
+		if(difficulty != "Drag-n-Drop" && pathName.indexOf("Beginner") > -1){
+			$('#myCarouselB input:image').removeClass('selected');
+			$('#myCarouselSmallB input:image').removeClass('selected');
+			$scope.path_ID = undefined;
+			$scope.practice_path_name = undefined;
+		}
 		$scope.difficulty = difficulty;
 		if(difficulty != "" && $scope.path_ID != ""){
 			$location.search({path_ID: $scope.path_ID, difficulty: difficulty});
@@ -537,8 +536,7 @@ function PathController($scope,$resource,$cookieStore,$location,$filter){
 			}
 		}
 		else{
-			$('#levelBlock').modal('show');
-			//console.log("Please clear previous level problems to unlock this level!");
+			alert("Please unlock previous level first!");
 		}
 	};
 	
@@ -642,28 +640,33 @@ function BadgeController($scope,$resource){
 	$scope.loadAllBadges = function(){
 		$scope.badgepathNames = [];
 		$scope.badgepathIDs = [];
+		$scope.playerBadges = [];
+		$scope.badgesAndName = [];
+		var badgename = "";
 		$resource('/jsonapi/badges_for_current_player').get({},function(response){
 			$scope.playerBadges = response.badges;
+
 			for( var i=0; i<$scope.playerBadges.length; i++){
 				if($scope.badgepathIDs.indexOf($scope.playerBadges[i].pathID) <= -1 && $scope.playerBadges[i].pathID != null){
 					$scope.badgepathIDs.push($scope.playerBadges[i].pathID);
-					
 					$scope.PathModel = $resource('/jsonapi/get_path_progress/:pathID');
-
+					
 					//Including details=1 returns the nested problemset progress.
 					$scope.PathModel.get({"pathID":$scope.playerBadges[i].pathID}, function(response1){
+					var badge = {name: response1.path.name, id: response1.path.id};						
+					$scope.badgesAndName.push(badge);
 					$scope.badgepathNames.push(response1.path.name);
-					
-					});					
+					});
 				}
-			}	
-			$scope.list_paths= function(){
-				$scope.pathModel = $resource('/jsonapi/get_game_paths');		
-				$scope.pathModel.get({}, function(response){
-					$scope.ListAllPaths = response.paths;			
-				});		
-			};
+			}
 		});
+	};
+	
+	$scope.list_paths= function(){
+		$scope.pathModel = $resource('/jsonapi/get_game_paths');		
+		$scope.pathModel.get({}, function(response){
+			$scope.ListAllPaths = response.paths;			
+		});		
 	};
 }
 
@@ -806,7 +809,6 @@ function ChallengeController($scope,$resource,$location,$cookieStore,$http,$rout
     $scope.goToChallengeCreator=function()
     {
       $location.path("challengeCreator");
-
     };
 	
 	//Create Habit Challenge
@@ -1637,7 +1639,7 @@ function NormalGameController($scope,$resource,$cookieStore){
       $scope.numProblems = $cookieStore.get("num"); //retrieve quest id from Storyboard page
     }
     if($cookieStore.get("type")){
-      $scope.gameType = $cookieStore.get("type"); //retrieve quest id from Storyboard page
+      $scope.gameType = $cookieStore.get("type"); //retrieve game type
     }
 
     var videos = 0;
@@ -1928,7 +1930,15 @@ function PracticeGameController($scope,$resource,$cookieStore){
     if($cookieStore.get("path_IDD")){
       $scope.path_IDD = $cookieStore.get("path_IDD"); //retrieve name of the path
     }		
-
+	
+	
+	$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
+		$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
+		$scope.problems_progress = response;
+		$scope.current_level_progress = $scope.problems_progress.currentPlayerProgress;
+		$scope.total_level_progress = $scope.problems_progress.problemsInProblemset;
+	});
+				
     $scope.create_practice_game = function(){
     	$scope.problemsModel = $resource('/jsonapi/get_problemset_progress/:problemsetID');
 
@@ -1980,15 +1990,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
       }
 
       if($scope.remaining_problems.length == 0){
-			
-			//Add a condition to redirect to the tournament result if this is a tournament game. 
-			if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
-				alert("congrats!");
-				window.location.href="index.html#/practice";
-			}
-			else{
-				$scope.create_practice_game($scope.LevelID,$scope.numProblems);
-			}
+			$scope.create_practice_game($scope.LevelID,$scope.numProblems);
       }
       //Update the current problem index based on remaining problems and items skipped. 
       $scope.move_to_next_unsolved_problem();
@@ -2050,12 +2052,17 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
 				$scope.problemsModel.get({"problemsetID":$scope.LevelID}, function(response){
 					$scope.problems_progress = response;
+					$scope.current_level_progress = $scope.problems_progress.currentPlayerProgress;
+					$scope.total_level_progress = $scope.problems_progress.problemsInProblemset;
+					if($scope.problems_progress.problemsInProblemset<=$scope.problems_progress.currentPlayerProgress){
+						alert("Congrats! You have successfully complete this level!");
+					window.location.href="index.html#/practice";
+					}
 				});
                 //If you hardcode to the game, this will automatically advance the game to the next problem. 
                 $scope.fetch($scope.game.gameID);
-                $scope.update_quest();
               }
-      });
+		});
     };
 
     $scope.verify_solution = function() {
@@ -2096,20 +2103,11 @@ function PracticeGameController($scope,$resource,$cookieStore){
         }
       }
     };
-    
-    $scope.update_quest = function() {
-
-      $resource('/jsonapi/quest/:questID').get({"questID":$scope.game.questID},
-      function(response){
-        $scope.quest = response;
-        //alert("Retrieved quest. Could check for video unlocks here.");
-      });
-    };
 	
-	$scope.create_practice_game($scope.LevelID,$scope.numProblems);
+$scope.create_practice_game($scope.LevelID,$scope.numProblems);
 	
 	//to retrieve path info to display on path play page
-	$scope.$watch('game.problems.problems[current_problem_index].name', function() {
+/* 		$scope.$watch('game.problems.problems[current_problem_index].name', function() {
         var path_id = $scope.path_IDD;
 		$scope.retrieved_path = $resource('/jsonapi/get_path_progress/:path_id?details=1');
         //Including details=1 returns the nested problemset progress.
@@ -2127,7 +2125,7 @@ function PracticeGameController($scope,$resource,$cookieStore){
 
         	}
         });
- 	},true);
+ 	},true); */
 
 }
 
@@ -2997,7 +2995,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 						$scope.pubStories.push($scope.stories[i]);
 					}			
 				}
-				if(location.href.indexOf("storyID") > -1){
+				if(location.href.indexOf("storyID") > -1 && location.href.indexOf("storyID=undefined") == -1){
 				  	var passed_in_storyID = location.hash.split('storyID=')[1].split("&")[0];
 				  	$scope.pushUnpublishedFlag = true;
 				  	$scope.currentURL = location.href;
@@ -3306,7 +3304,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 		if(storyID != "" && difficulty != "" && path_ID != ""){
 			$location.search({storyID: storyID,difficulty: difficulty,path_ID: path_ID});
 		}
-		$scope.storyModel = $resource('/jsonapi/story/:storyID');
+	    $scope.storyModel = $resource('/jsonapi/story/:storyID');
 	    $scope.storyModel.get({"storyID":storyID}, function(response){
             $scope.current_story_name = response.name;
             $scope.supported_paths_story = response.supported_paths;
@@ -3319,12 +3317,54 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					break;
 				}
 			}
+			if($scope.update_path_flag && path_ID != ""){
+		    	$scope.storyid = undefined;
+		    	$scope.current_story_name = undefined;
+		    	$scope.updatedStoryList = [];
+				for(var i=0;i<$scope.pubStories.length;i++){
+					$scope.stringSupportPaths = JSON.stringify($scope.pubStories[i].supported_paths);
+					if($scope.pubStories[i].supported_paths.length == 0){
+						$scope.updatedStoryList.push($scope.pubStories[i]);
+					}
+					else if($scope.stringSupportPaths.indexOf(path_ID) >= 0){
+						$scope.updatedStoryList.push($scope.pubStories[i]);
+					}
+				}
+				$scope.questStoryList = $filter('groupBy')($scope.updatedStoryList, 3);
+		    }
 	    });
-	    if($scope.update_path_flag){
-	    	$scope.storyid = undefined;
-            $scope.current_story_name = undefined;
-			$location.search({storyID: undefined,difficulty: difficulty,path_ID: path_ID});
-	    }
+	    $resource('/jsonapi/get_game_paths').get(function(response){
+	    	if(difficulty != "" && path_ID != ""){
+		  		if(difficulty == "Drag-n-Drop"){
+		  			for(var i=0;i<response.paths.length;i++){
+						if(response.paths[i].id == path_ID){
+							$('#pathSel input:image').removeClass('selected');
+							$('#small-pathSel input:image').removeClass('selected');   
+							$scope.path_ID = undefined;
+					  		$scope.quest_path_name = undefined;
+			    			$location.search({storyID: storyID,difficulty: difficulty,path_ID: undefined});
+			    			break;
+						}
+					}
+			  	}
+		  	}
+	    });
+	    $resource('/jsonapi/mobile_paths').query(function(response){
+	    	if(difficulty != "" && path_ID != ""){
+		  		if(difficulty != "Drag-n-Drop"){
+			  		for(var i=0;i<response.length;i++){
+						if(response[i].path_id == path_ID){
+							$('#pathSel input:image').removeClass('selected');
+							$('#small-pathSel input:image').removeClass('selected');
+							$scope.path_ID = undefined;
+					  		$scope.quest_path_name = undefined;
+			    			$location.search({storyID: storyID,difficulty: difficulty,path_ID: undefined});
+			    			break;
+						}
+					}
+			  	}
+		  	}
+	    });
     }
 
     $scope.updateStroyList=function(storyID,difficulty,path_ID,pathCount){
@@ -3505,7 +3545,7 @@ function TournamentController($scope,$resource,$http,$cookieStore){
     };
 
     $scope.get_seconds_to_start = function(startTime, currentTime){
-    	var diff = (new Date(startTime) - new Date(currentTime))/1000;
+    	var diff = Math.round((new Date(startTime) - new Date(currentTime))/1000);
     	if (diff > 0){
     		return diff;
     	}
@@ -3564,13 +3604,6 @@ function TournamentController($scope,$resource,$http,$cookieStore){
               
     };
 
-	$scope.set_round_countdown = function(roundID,seconds){
-          console.log("Start round not implemented yet.");
-    };
-	
-    $scope.reset_round = function(roundID){
-        console.log("Reset round not implemented yet.");
-    };
     $scope.remove_problem_from_round = function(problemID){
     	$scope.roundDirty = true;
     	var index = $scope.round.problemIDs.indexOf(problemID);
@@ -3782,4 +3815,26 @@ function FeedbackController($scope,$resource,$cookieStore,$location,$http,$filte
 			alert("Please fill all options!");		
 		}				
 	};
+}
+
+function CountdownController($scope,$timeout) {
+    $scope.counter = -1;
+    $scope.onTimeout = function(){
+        $scope.counter--;
+        if ($scope.counter > 0) {
+            mytimeout = $timeout($scope.onTimeout,1000);
+        }
+        else {
+        	$scope.counter = 0;
+            //alert("Time is up!");
+        }
+    }
+    $scope.start_timer = function(countdown){
+		$scope.counter = countdown;//countdown;
+		mytimeout = $timeout($scope.onTimeout,1000);
+    }
+    	
+	var mytimeout = null;//$timeout($scope.onTimeout,1000);
+    //$scope.start_timer(5);
+            
 }

@@ -13,7 +13,7 @@
 }
 .bootCampSmall{
     color: #ffffff;
-    font-size: 14px;
+    font-size: 12px;
     border-bottom-color: #6b808d;
     border-radius: 6px 6px 6px 6px;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
@@ -112,7 +112,7 @@ li{ list-style:none; }
 							<div class="span4"  ng-repeat="path in paths" ng-init="practiceSelection()">
 								<label class="radio">
 									<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-									<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+									<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 									<h6>{{path.name}}</h6>
 								</label>
 							</div>
@@ -132,7 +132,7 @@ li{ list-style:none; }
 							<div class="span4" ng-repeat="path in mobile_path" ng-init="practiceBeginnerSelection()">
 								<label class="radio">
 									<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.path_id}}">
-									<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+									<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 									<h6>{{path.name}}</h6>
 								</label>
 							</div>
@@ -156,7 +156,7 @@ li{ list-style:none; }
 							<span ng-repeat="item in levels">
 								<label class="radio">
 								<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
-								<button type="button" ng-click = "changeDifficulty(item.name)" class="btn btn-primary" style="height: 33px; width: 200px"  btn-radio="{{item.name}}">{{item.name}}
+								<button type="button" ng-click = "changeDifficulty(item.name,path_progress.path.name)" class="btn btn-primary" style="height: 33px; width: 200px"  btn-radio="{{item.name}}">{{item.name}}
 								</button></br></br>
 								</label>
 							</span>	
@@ -238,11 +238,11 @@ li{ list-style:none; }
 							<tr><td align="center">
 								</br></br>
 								<!--Continue-->
-								<div  ng-show="!difficulty || !practice_path_name">
+								<div  ng-show="!difficulty || !path_ID">
 									<button class="btn disabled" style="width: 145px"><h5>Continue Path</h5></button>									
 								</div>
 
-								<div  ng-show="difficulty && practice_path_name">
+								<div  ng-show="difficulty && path_ID">
 									<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 145px"><h5>Continue Path</h5></button>									
 								</div>
 								
@@ -283,7 +283,7 @@ li{ list-style:none; }
 							<div class="span4"  ng-repeat="path in paths" ng-init="practiceSelectionSmall()">
 								<label class="radio">
 									<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.id}}" >
-									<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+									<input class="well well-small"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 									<h6>{{path.name}}</h6>
 								</label>
 							</div>
@@ -303,7 +303,7 @@ li{ list-style:none; }
 							<div class="span4" ng-repeat="path in mobile_path" ng-init="practiceBeginnerSelectionSmall()">
 								<label class="radio">
 									<input style="visibility:hidden" type="radio" ng-click="changePath($parent.pathid)" name="optionsRadios" ng-model="$parent.pathid" id="{{path.id}}" value="{{path.path_id}}">
-									<input class="well"type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
+									<input class="well well-small" type="image" ng-src="img/language/{{path.description.split(' ').join('_')}}.png" alt="" id="pathImg"/>
 									<h6>{{path.name}}</h6>
 								</label>
 							</div>
@@ -320,87 +320,90 @@ li{ list-style:none; }
 			<div class="row-fluid">
 				<div class="span12">
 				
-					<div class="span3 lead well well-small" align="center">
-						<h5 id="gradient1" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</h5>
-						<h5 id="gradient1" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</h5>
-						<hr>
-						<div id="levelsmall" style="height:245px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
-							<span ng-repeat="item in levels">
-								<label class="radio">
-								<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
-								<button type="button" ng-click = "changeDifficulty(item.name,path_progress.path.name)" class="btn btn-primary" style="height: 25px; width: 120px"  btn-radio="{{item.name}}">{{item.name}}
-								</button></br></br>
-								</label>
-							</span>	
+					<div class="span3" align="center">
+						<p class="bootCampSmall" id="gradient1" ng-show="currentURL.indexOf('path_ID') > -1 && currentURL.indexOf('difficulty') > -1">#2. Select {{passed_in_difficulty}}</p>
+						<p class="bootCampSmall" ng-show="currentURL.indexOf('path_ID') == -1">#2. Select a difficulty Level</p>
+						<div class="lead well well-small">
+							<div id="levelsmall" style="height:270px;" class="btn-group" data-toggle="buttons-radio" align="center" ng-init="levels = [{'name':'Drag-n-Drop', 'id':'Drag-n-Drop'},{'name':'Easy','id':'Easy'},{'name':'Medium', 'id':'Medium'},{'name':'Hard','id':'Hard'}]">					
+								<span ng-repeat="item in levels">
+									<label class="radio">
+									<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.difficulty" name="difficultyLevel" value="{{item.name}}"/ >
+									<button type="button" ng-click = "changeDifficulty(item.name,path_progress.path.name)" class="btn btn-primary" style="height: 25px; width: 120px"  btn-radio="{{item.name}}">{{item.name}}
+									</button></br></br>
+									</label>
+								</span>	
+							</div>
 						</div>
 					</div>
 					<!--display the level, topic name & progress of the player when the path is selected by the player-->
-					<div class="span7 well well-small" ng-model="$parent.pathName" >
-						<div align="center" ><h5>#3. Select a Path Level!</h5></div>
-						<div class = "tabbable">                      
-						  <ul id="myTab1" class="nav nav-tabs">                        
-							<li id="path1" class="tabspacing active">
-							<a  data-target="#path1" data-toggle="tab">{{path_progress.path.name}} Path</a>
-							</li>                        
-							<li id="level1" class="tabspacing">
-							<a  data-target="#level1" data-toggle="tab">Level {{lvlName}}</a>
-							</li>                                          
-						  </ul>           					  
-						  <div class="tab-content" style="font-family:verdana">                        
-							<div class="tab-pane fade in active" id="path1">
-								<div style="height:220px;overflow:auto">
-									<div class="span12" align="center" style="font-size:12px;">
-										<div class="span4 pull-left">Level#</div>
-										<div class="span3">Description</div>
-										<div class="span2 pull-left">Progress</div>
+					<div class="span7" ng-model="$parent.pathName" >
+						<div class="bootCampSmall" >#3. Select a Path Level!</div>
+						<div class="well well-small">
+							<div class = "tabbable">                      
+							  <ul id="myTab1" class="nav nav-tabs">                        
+								<li id="path1" class="tabspacing active">
+								<a  data-target="#pathSmall1" data-toggle="tab">{{path_progress.path.name}} Path</a>
+								</li>                        
+								<li id="level1" class="tabspacing">
+								<a  data-target="#levelSmall1" data-toggle="tab">Level {{lvlName}}</a>
+								</li>                                          
+							  </ul>           					  
+							  <div class="tab-content" style="font-family:verdana">                        
+								<div class="tab-pane fade in active" id="pathSmall1">
+									<div style="height:220px;overflow:auto">
+										<div class="span12" align="center" style="font-size:12px;">
+											<div class="span4 pull-left">Level#</div>
+											<div class="span3">Description</div>
+											<div class="span2 pull-left">Progress</div>
+											<div class="span2 pull-left">Solved</div>
+										</div>
+										<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id;setDefaultButton(path_progress.details[0].pathorder,path_progress.details[0].id)">
+										<div class="row-fluid">
+											<div class="span12" align="center" style="font-size:12px;" >
+												<div class="span4">
+													<label class="radio pull-left">
+														<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.$parent.lvl" name="pathLevel" value="{{v.id}}"/ >
+													<button type="button" class="btn btn-primary span3" ng-click="setButton1(v.pathorder,v.id)" style="height: 30px; width: 75px"  btn-radio="{{v.name}}">
+														Level {{v.pathorder}}
+													</button> 											
+													</label>
+												</div>
+												<div class="span3">
+													{{v.description}}
+												</div>
+												
+												<div class="span2">
+													{{v.currentPlayerProgress}}/{{v.problemsInProblemset}}
+												</div>
+												<div class="span2 container" ng-show="v.currentPlayerProgress>=v.problemsInProblemset">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004;
+												</div>
+											</div>
+										</div>
+										</li>		
+									</div>
+								</div>                        
+								<div class="tab-pane fade in " id="levelSmall1" style="height:220px;overflow:auto" >
+									<div class="span12" style="font-size:12px;">
+										<div class="span5 pull-left" >Problem Name</div>
 										<div class="span2 pull-left">Solved</div>
-									</div>
-									<li ng-repeat="v in path_progress.details" ng-init="$parent.$parent.$parent.lvl=path_progress.details[0].id;setDefaultButton(path_progress.details[0].pathorder,path_progress.details[0].id)">
-									<div class="row-fluid">
-										<div class="span12" align="center" style="font-size:12px;" >
-											<div class="span4">
-												<label class="radio pull-left">
-													<input style="visibility:hidden" type="radio" ng-model="$parent.$parent.$parent.lvl" name="pathLevel" value="{{v.id}}"/ >
-												<button type="button" class="btn btn-primary span3" ng-click="setButton1(v.pathorder,v.id)" style="height: 30px; width: 75px"  btn-radio="{{v.name}}">
-													Level {{v.pathorder}}
-												</button> 											
-												</label>
-											</div>
-											<div class="span3">
-												{{v.description}}
-											</div>
-											
-											<div class="span2">
-												{{v.currentPlayerProgress}}/{{v.problemsInProblemset}}
-											</div>
-											<div class="span2 container" ng-show="v.currentPlayerProgress>=v.problemsInProblemset">
-											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004;
+									</div>                     
+										<li ng-repeat="prob in problems.problems">
+										<div class="row-fluid">
+											<div class="span12" style="font-size:12px;">
+												<div class="span5">
+												{{prob.name}}
+												</div>
+												<div class="span2 container" ng-show="prob.solved">	
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004;
+												</div>
 											</div>
 										</div>
-									</div>
-									</li>		
-								</div>
-							</div>                        
-							<div class="tab-pane fade in " id="level" style="height:220px;overflow:auto" >
-								<div class="span12" style="font-size:12px;">
-									<div class="span5 pull-left" >Problem Name</div>
-									<div class="span2 pull-left">Solved</div>
-								</div>                     
-									<li ng-repeat="prob in problems.problems">
-									<div class="row-fluid">
-										<div class="span12" style="font-size:12px;">
-											<div class="span5">
-											{{prob.name}}
-											</div>
-											<div class="span2 container" ng-show="prob.solved">	
-											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004;
-											</div>
-										</div>
-									</div>
-									</li>
-							</div> 								
-						 </div>   
-						</div>					
+										</li>
+								</div> 								
+							 </div>   
+							</div>			
+						</div>		
 					</div>
 							
 					<!-- /.span4 -->
@@ -409,7 +412,13 @@ li{ list-style:none; }
 							<tr><td align="center">
 								</br></br>
 								<!-- <form action="#storyboard"> -->
-								<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 110px"><H5>Continue Path</H5></button>
+								<div  ng-show="!difficulty || !path_ID">
+									<button class="btn disabled" style="width: 145px"><h5>Continue Path</h5></button>									
+								</div>
+
+								<div  ng-show="difficulty && path_ID">
+									<button class="btn btn-primary" ng-click="continuePath(5);" style="width: 110px"><h5>Continue Path</h5></button>									
+								</div>
 								<span class="label label-info" align="left">
 									<b><i>You are going to play</i></b>
 									</br></br>
