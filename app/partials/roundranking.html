@@ -37,7 +37,7 @@
             			<td ng-repeat="i in my_range(player.solved_problems)"><img src="http://www.singpath.com/ender/static/badges/ticks_on.png"></td>
             			<td ng-repeat="i in my_range(player.total_problems - player.solved_problems)"><img src="http://www.singpath.com/ender/static/badges/ticks_off.png"></td>
             			
-            			<td><font ng-click="fetch_heat_with_time(heatID, player.finished)">{{player.finished.split(":")[0]}} hour {{player.finished.split(":")[1]}} min {{player.finished.split(":")[1].split(":")[0]}} sec</font></td>
+            			<td><font ng-click="fetch_heat_with_time(heatID, player.finished)">{{player.finished.split(":")[0]}} hour {{player.finished.split(":")[1]}} min {{player.finished.split(":")[2].split(".")[0]}} sec</font></td>
             		</tr>
             	</tbody>
 
