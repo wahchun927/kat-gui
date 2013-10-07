@@ -3430,7 +3430,7 @@ function TimeAndAttemptsController($scope,$resource){
     $scope.item = $resource('/jsonapi/attempts_and_time_by_day').get();
 }
 
-function TournamentController($scope,$resource,$http,$cookieStore,$location){
+function TournamentController($scope,$resource,$http,$cookieStore,$location,$timeout){
     $scope.TournamentModel = $resource('/jsonapi/list_open_tournaments');
     $scope.TournamentHeatGameModel = $resource('/jsonapi/create_game/heatID/:heatID');
     
@@ -3476,7 +3476,29 @@ function TournamentController($scope,$resource,$http,$cookieStore,$location){
           $scope.TournamentHeatModel.get({"heatID":heatID, "time":time}, function(response){
               $scope.heat = response;
           });
-	}
+	};
+
+    $scope.fetch_current_heat = function(){
+    	  console.log("Fetching latest heat results");
+          $scope.TournamentHeatModel.get({"heatID":$scope.heatID}, function(response){
+              $scope.heat = response;
+          });
+    };
+
+    $scope.mytimeout = false;
+	$scope.continually_update_heat_results = function(){
+		if($scope.mytimeout){
+			$scope.fetch_current_heat();
+        	var temp = $timeout($scope.continually_update_heat_results,20000);
+        }		
+	};
+	$scope.stop_heat_updates = function(){
+		$scope.mytimeout = false;		
+	};
+	$scope.start_heat_updates = function(){
+		$scope.mytimeout = true;
+		$scope.continually_update_heat_results();		
+	};
     $scope.create_heat_game = function(){
           $scope.TournamentHeatGameModel.get({"heatID":$scope.heat.heatID}, function(response){
               $scope.game = response;
