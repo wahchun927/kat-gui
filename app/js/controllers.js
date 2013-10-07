@@ -3319,7 +3319,7 @@ function StoryController($scope,$resource,$cookieStore,$location,$http,$filter,$
 					break;
 				}
 			}
-			if($scope.update_path_flag && path_ID != ""){
+			if($scope.update_path_flag && path_ID != "" && path_ID != undefined){
 		    	$scope.storyid = undefined;
 		    	$scope.current_story_name = undefined;
 		    	$scope.updatedStoryList = [];
