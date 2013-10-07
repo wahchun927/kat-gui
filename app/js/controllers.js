@@ -3430,7 +3430,7 @@ function TimeAndAttemptsController($scope,$resource){
     $scope.item = $resource('/jsonapi/attempts_and_time_by_day').get();
 }
 
-function TournamentController($scope,$resource,$http,$cookieStore){
+function TournamentController($scope,$resource,$http,$cookieStore,$location){
     $scope.TournamentModel = $resource('/jsonapi/list_open_tournaments');
     $scope.TournamentHeatGameModel = $resource('/jsonapi/create_game/heatID/:heatID');
     
@@ -3442,8 +3442,29 @@ function TournamentController($scope,$resource,$http,$cookieStore){
     $scope.round = null;
     $scope.roundDirty = false;
 
+	$scope.my_range = function(n) {
+		var result = [];
+		var counter = 1;
+		for(var i=0;i<n;i++){
+			result.push(counter);
+			counter ++;
+		}
+        return result;
+        //return Array(n);
+    };
     //A method to fetch a generic model and id. 
     //Pass in ID
+    $scope.check_location = function(){
+    	$scope.heatID = $location.search().heatID;
+    	if (!$scope.heatID){
+    		alert("No heat ID passed via URL.");
+    	}
+    	else{
+    		console.log("Fetching heat "+$scope.heatID);
+    		$scope.fetch_heat($scope.heatID);
+    	}
+    }
+
     $scope.fetch_heat = function(heatID){
           $scope.TournamentHeatModel.get({"heatID":heatID}, function(response){
               $scope.heat = response;
@@ -3451,6 +3472,7 @@ function TournamentController($scope,$resource,$http,$cookieStore){
     };
 
 	$scope.fetch_heat_with_time = function(heatID,time){
+		  console.log("Fetching heat with time.");
           $scope.TournamentHeatModel.get({"heatID":heatID, "time":time}, function(response){
               $scope.heat = response;
           });
@@ -3551,8 +3573,26 @@ function TournamentController($scope,$resource,$http,$cookieStore){
     	if (diff > 0){
     		return diff;
     	}
+    	else if (startTime==null){
+    		console.log("Round has not startTime");
+			return -1;	
+    	}
     	else return 0;
-        }
+    };
+
+    $scope.get_time_delta = function(startTime, stopTime){
+    	var start_date = startTime.split(' ')[0];
+    	//console.log("start_date "+start_date)
+    	stopTime = start_date+" "+stopTime;
+    	var diff = Math.round((new Date(stopTime) - new Date(startTime))/1000);
+    	//console.log("start time "+startTime+" "+new Date(startTime));
+    	//console.log("stop time "+stopTime+" "+new Date(stopTime));
+    	var sec = diff % 60;
+    	var min = (diff - sec)/60;
+    	return min+ " min "+sec+ "sec";
+    	//return new Date(stopTime) - new Date(startTime);
+
+    };
 
 	$scope.add_round = function(tournamentID){
           $scope.roundDirty = false;
@@ -3832,8 +3872,14 @@ function CountdownController($scope,$timeout) {
         }
     }
     $scope.start_timer = function(countdown){
-		$scope.counter = countdown;//countdown;
-		mytimeout = $timeout($scope.onTimeout,1000);
+    	//Only start the timer if coundown >=0
+    	if (countdown >= 0){
+			$scope.counter = countdown;//countdown;
+			mytimeout = $timeout($scope.onTimeout,1000);
+		}
+		else{
+			console.log("Negative number passed to start_timer "+countdown);
+		}
     }
     	
 	var mytimeout = null;//$timeout($scope.onTimeout,1000);

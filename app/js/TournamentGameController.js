@@ -44,7 +44,7 @@ function TournamentGameController($scope,$resource,$cookieStore,$timeout){
 
       if($scope.remaining_problems.length == 0){
 				alert("Congrats! You have solved all the problems in this round.");
-        window.location.href="index.html#/practice";
+        window.location.href="index.html#/roundranking?heatID="+$scope.game.heatID;
 
       }
       //Update the current problem index based on remaining problems and items skipped. 
