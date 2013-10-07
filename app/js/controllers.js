@@ -3582,11 +3582,11 @@ function TournamentController($scope,$resource,$http,$cookieStore,$location){
 
     $scope.get_time_delta = function(startTime, stopTime){
     	var start_date = startTime.split(' ')[0];
-    	//console.log("start_date "+start_date)
+    	console.log("start_date "+start_date)
     	stopTime = start_date+" "+stopTime;
     	var diff = Math.round((new Date(stopTime) - new Date(startTime))/1000);
-    	//console.log("start time "+startTime+" "+new Date(startTime));
-    	//console.log("stop time "+stopTime+" "+new Date(stopTime));
+    	console.log("start time "+startTime+" "+new Date(startTime));
+    	console.log("stop time "+stopTime+" "+new Date(stopTime));
     	var sec = diff % 60;
     	var min = (diff - sec)/60;
     	return min+ " min "+sec+ "sec";
