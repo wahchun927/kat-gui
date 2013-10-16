@@ -12,6 +12,30 @@ myApp.run(function($httpBackend) {
       Adding additional mock urls for ViTech testing on July 20th
       */
 
+      //Mocking for Genshyft
+      var schools = {"primary": [{"name":"primary school 1", "id": 1},{"name":"primary school 2", "id": 2}],
+                     "secondary": [{"name":"secondary school 1", "id": 3},{"name":"secondary school 2", "id": 4}],
+                     "tertiary":   [{"name":"poly 1", "id": 5},{"name":"jc 1", "id": 6}],
+                     "university": [{"name":"university 1", "id": 7},{"name":"university 2", "id": 8}]
+                    };
+
+      $httpBackend.whenGET('/jsonapi/schools/SG').respond(schools);
+      
+      
+      var current_player_schools = {"primary": {"name":"primary school 2", "id": 2} };
+      $httpBackend.whenGET('/jsonapi/current_player_schools').respond(current_player_schools);
+      
+      $httpBackend.whenPOST('/jsonapi/add_or_update_school').respond({"result":"School added"});
+
+      var school_statistics = {"primary": [{"name":"primary school 1", "id": 1, "registered":8},{"name":"primary school 2", "id": 2, "registered":8}],
+                     "secondary": [{"name":"secondary school 1", "id": 3},{"name":"secondary school 2", "id": 4}],
+                     "tertiary":   [{"name":"poly 1", "id": 5,"registered":9},{"name":"jc 1", "id": 6,"registered":18}],
+                     "university": [{"name":"university 1", "id": 7,"registered":28},{"name":"university 2", "id": 38,"registered":8}]
+                    };
+      
+      $httpBackend.whenGET('/jsonapi/school_statistics/SG').respond(schools);
+
+      //End Mocking for Genshyft
       $httpBackend.whenGET('/^\/static\/flags/').respond({});
       $httpBackend.whenGET('/jsonapi/tags').respond();
       $httpBackend.whenGET('/jsonapi/list_challenge_players?challenge_id=').respond({"players": [], "challenge": {"startDate": "2013-09-20", "endDate": "2013-10-20", "_playerViewed": false, "unlockRequiredBadges": [], "pathID": 12605566, "_unlockBadgesEarned": false, "publicMessage": "API", "maxUnlocks": null, "registeredRequiredBadges": [], "playerFeedback": null, "isJobListing": "0", "registeredMessage": {"_playerRegisteredRequiredBadges": null, "error": "You need to register for this challenge to see this message"}, "allowedCountries": [893049], "_registeredBadgesEarned": true, "privateMessage": {"error": "You need to unlock this challenge and send a private message to the challenge owner to see this message"}, "_publicBadgesEarned": true, "playerAttachmentID": null, "unlockRequiredPaths": [], "storyID": 14611860, "_playerSubmitted": false, "playerFeedbackDate": null, "unlockRequiredTrials": [], "description": "API", "owner_player_id": 12755628, "_playerUnlocked": false, "challenge_id": 4517196420087808, "problemsPerDay": null, "difficulty": "Drag-n-Drop", "_playerRegistered": false, "_ownerResponded": false, "ownerResponse": null, "totalDays": null, "unlockMessage": {"error": "You need to register for this challenge to see this message"}, "name": "Test", "challengeType": "Quest", "created": "2013-09-20 07:45:37.811720", "publicRequiredBadges": [], "ownerResponseDate": null, "_can_edit": 0}, "type": "challenge_players", "challenge_id": 4517196420087808});
