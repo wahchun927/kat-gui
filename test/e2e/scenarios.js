@@ -12,6 +12,17 @@ describe('Loading all partials defined by routings', function() {
   });
 
 
+    it('should render schoolregistration when user navigates to #schoolregistration', function() {
+      
+      browser().navigateTo('#schoolregistration');
+      
+      expect(browser().location().url()).toBe("/schoolregistration");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('h2').text()).
+      //  toMatch("This is a heading");
+      if (pauseAll) pause();
+  });
+
   it('should render teach when user navigates to #teach', function() {
       
       browser().navigateTo('#teach');
