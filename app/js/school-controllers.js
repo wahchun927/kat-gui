@@ -7,9 +7,9 @@ function SchoolController($scope,$resource){
         $scope.school_statistics = {};
         
         $scope.get_schools = function(){
-          //$scope.schools = $resource('/jsonapi/schools/SG').get(); 
+          $scope.schools = $resource('/jsonapi/schools/SG').get(); 
           //Hardcoding local schools until format stabalizes
-          $scope.schools = $resource('schools.json').get(); 
+          //$scope.schools = $resource('schools.json').get(); 
    
         };
 
@@ -17,13 +17,15 @@ function SchoolController($scope,$resource){
           $scope.current_player_schools = $resource('/jsonapi/current_player_schools').get();        
         };
 
-        $scope.get_school_statistics = function(){
-          $scope.school_statistics = $resource('/jsonapi/school_statistics/SG').get();        
+        $scope.get_school_registrations = function(){
+          //Here is where you might need to aggregate and group for different tables. 
+          //You can fetch by offset to lengthen the list.
+          $scope.school_registrations = $resource('/jsonapi/school_registration').get();        
         };
 
         $scope.add_or_update_school = function(schoolID, year){
           
-          $scope.SchoolResource = $resource('/jsonapi/add_or_update_school');
+          $scope.SchoolResource = $resource('/jsonapi/school_registration');
 
           var data = {"schoolID": schoolID,
                       "year": year};
