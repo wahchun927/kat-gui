@@ -20,7 +20,7 @@ myApp.run(function($httpBackend) {
       $httpBackend.whenGET('/jsonapi/schools/SG').respond(schools);
       
       
-      var current_player_schools = {"Secondary": {"name":"primary school 2", "id": 6731210453680128,"year":2009} };
+      var current_player_schools = {"Secondary": {"name":"primary school 2", "school": 6731210453680128,"year":2009} };
       $httpBackend.whenGET('/jsonapi/current_player_schools').respond(current_player_schools);
       
       $httpBackend.whenPOST('/jsonapi/school_registration').respond({"result":"School added"});

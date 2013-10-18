@@ -29,9 +29,19 @@ function SchoolController($scope,$resource){
           
           $resource('/jsonapi/current_player_schools').get({},function(response){
             $scope.current_player_schools = response;
-            $scope.secondaryID = $scope.current_player_schools.Secondary.id;
-            $scope.secondary_start_year = $scope.current_player_schools.Secondary.year;
-            //Set tertiary and university dropdowns if available
+            if($scope.current_player_schools.Secondary){
+              $scope.secondaryID = $scope.current_player_schools.Secondary.school;
+              $scope.secondary_start_year = $scope.current_player_schools.Secondary.year;
+            }
+            if($scope.current_player_schools.Tertiary){
+              $scope.tertiaryID = $scope.current_player_schools.Tertiary.school;
+              $scope.tertiary_start_year = $scope.current_player_schools.Tertiary.year;
+            }
+            if($scope.current_player_schools.University){
+              $scope.universityID = $scope.current_player_schools.University.school;
+              $scope.university_start_year = $scope.current_player_schools.University.year;
+            }
+            
           });        
         };
 
