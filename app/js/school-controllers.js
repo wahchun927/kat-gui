@@ -5,10 +5,12 @@
 function SchoolController($scope,$resource){
         $scope.schools = {};
         $scope.school_statistics = {};
-
+        
         $scope.get_schools = function(){
-          $scope.schools = $resource('/jsonapi/schools/SG').get(); 
-          //$scope.schools = {"just":"testing"};       
+          //$scope.schools = $resource('/jsonapi/schools/SG').get(); 
+          //Hardcoding local schools until format stabalizes
+          $scope.schools = $resource('schools.json').get(); 
+   
         };
 
         $scope.get_current_player_schools = function(){
