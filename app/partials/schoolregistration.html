@@ -25,10 +25,19 @@
             <input type="submit" value = "Save School Information" ng-click="add_or_update_school(tertiaryID, tertiary_start_year);">
         </div>
 
-        <hr>
-        The school data is {{schools}}<br>
-        <hr>
-        The school statistics {{school_statistics}}
+        
+        <br>
+
+        Please select your university and the year that you started.<br> 
+        <select ng-model="universityID" ng-options="university.id as university.name for university in schools.university"></select>
+
+        <select ng-model="university_start_year" ng-options="year for year in [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015]"></select>
+
+        <div ng-show="universityID && university_start_year">
+            <input type="submit" value = "Save School Information" ng-click="add_or_update_school(universityID, university_start_year);">
+        </div>
+        <br>
+        You can request for additional schools to be added on the <a href="#/feedback">feedback page</a>. 
 
 
 	</div>
