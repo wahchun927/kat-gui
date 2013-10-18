@@ -20,18 +20,14 @@ myApp.run(function($httpBackend) {
       $httpBackend.whenGET('/jsonapi/schools/SG').respond(schools);
       
       
-      var current_player_schools = {"primary": {"name":"primary school 2", "id": 2} };
+      var current_player_schools = {"Secondary": {"name":"primary school 2", "id": 6731210453680128,"year":2009} };
       $httpBackend.whenGET('/jsonapi/current_player_schools').respond(current_player_schools);
       
       $httpBackend.whenPOST('/jsonapi/school_registration').respond({"result":"School added"});
 
       //{"schooltype":"*", "subtype":"*",}
-      var school_registrations = {"primary_schools": [{"name":"ALL", "registered":28},{"name":"primary school 1", "id": 1, "registered":8},{"name":"primary school 2", "id": 2, "registered":8}],
-                     "secondary_schools": [{"name":"ALL","registered":38 },{"name":"secondary school 1", "id": 3},{"name":"secondary school 2", "id": 4}],
-                     "tertiary_schools":   [{"name":"poly 1", "id": 5,"registered":9},{"name":"poly 1", "id": 5,"registered":9},{"name":"jc 1", "id": 6,"registered":18}],
-                     "university_schools": [{"name":"university 1", "id": 7,"registered":28},{"name":"university 2", "id": 38,"registered":8}]
-                    };
-      
+      var school_registrations = [{"school": 5201806154006528, "schooltype": "Secondary", "subtype": "", "created": "2013-10-18T09:51:42.456680", "player": 57754, "year": 2008, "id": 4527977324871680}, {"school": 4838709618802688, "schooltype": "University", "subtype": "Local", "created": "2013-10-18T09:56:58.639700", "player": 57754, "year": 2009, "id": 5469064788967424}, {"school": 4667228754542592, "schooltype": "Tertiary", "subtype": "JC", "created": "2013-10-18T09:54:04.784810", "player": 57754, "year": 2013, "id": 5475129282789376}];
+
       $httpBackend.whenGET('/jsonapi/school_registration').respond(school_registrations);
 
       //End Mocking for Genshyft
