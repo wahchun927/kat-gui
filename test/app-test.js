@@ -26,7 +26,7 @@ myApp.run(function($httpBackend) {
       $httpBackend.whenPOST('/jsonapi/school_registration').respond({"result":"School added"});
 
       //{"schooltype":"*", "subtype":"*",}
-      var school_registrations = [{"school": 5201806154006528, "schooltype": "Secondary", "subtype": "", "created": "2013-10-18T09:51:42.456680", "player": 57754, "year": 2008, "id": 4527977324871680}, {"school": 4838709618802688, "schooltype": "University", "subtype": "Local", "created": "2013-10-18T09:56:58.639700", "player": 57754, "year": 2009, "id": 5469064788967424}, {"school": 4667228754542592, "schooltype": "Tertiary", "subtype": "JC", "created": "2013-10-18T09:54:04.784810", "player": 57754, "year": 2013, "id": 5475129282789376}];
+      var school_registrations = [{"school": 5201806154006528, "schooltype": "Secondary", "subtype": "", "created": "2013-10-18T09:51:42.456680", "player": 50001, "year": 2010, "id": 4527977324871680},{"school": 5201806154006528, "schooltype": "Secondary", "subtype": "", "created": "2013-10-18T09:51:42.456680", "player": 50000, "year": 2008, "id": 4527977324871680},{"school": 5201806154006528, "schooltype": "Secondary", "subtype": "", "created": "2013-10-18T09:51:42.456680", "player": 57754, "year": 2008, "id": 4527977324871680}, {"school": 4838709618802688, "schooltype": "University", "subtype": "Local", "created": "2013-10-18T09:56:58.639700", "player": 57754, "year": 2009, "id": 5469064788967424}, {"school": 4667228754542592, "schooltype": "Tertiary", "subtype": "JC", "created": "2013-10-18T09:54:04.784810", "player": 57754, "year": 2013, "id": 5475129282789376}];
 
       $httpBackend.whenGET('/jsonapi/school_registration').respond(school_registrations);
 
