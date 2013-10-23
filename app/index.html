@@ -546,6 +546,7 @@
         console.log("Current location for login redirect "+document.location.href);
         //Come back to the current page after login. 
         //redirect_url = document.location.href;
+				//edited redirect page to schoolregistration page so every user who logs in will be prompted to fill up their schools.
         redirect_url = "http://"+document.location.host+"/kat-gui/app/index.html#/schoolregistration";
         
         janrain.settings.tokenUrl = auth_url+'?target='+redirect_url;
