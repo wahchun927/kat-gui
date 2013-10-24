@@ -18,7 +18,7 @@ function SchoolController($scope,$resource){
         $scope.supported_schooltypes = ['ALL','Secondary','Tertiary','University'];
         $scope.supported_subtypes = ['ALL','JC','Poly'];
         $scope.supported_schools = [];//[{"id":"ALL","name":"ALL"},{"id":1,"name":"A"},{"id":2,"name":"B"}];
-        
+
         $scope.update_supported = function(){
             //Run this on any select change events.
             $scope.filtered_registrations = [];
