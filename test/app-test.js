@@ -1,7 +1,7 @@
 'use strict';
 
 //var myApp = angular.module('myApp', ['ngResource', 'analytics']);
-var myApp = angular.module('myApp', ['myAppConfig','ngMockE2E']);
+var myApp = angular.module('myApp', ['myAppConfig','ngMockE2E','leaflet-directive']);
 
 myApp.run(function($httpBackend) {
       
