@@ -20,8 +20,7 @@
     <script src="./js/jquery-ui.min.js"></script>
     <script src="./js/fancybox-fire.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
-    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-    
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>    
     <style>    /* GLOBAL STYLES     -------------------------------------------------
     /* GLOBAL STYLES
     -------------------------------------------------- */
@@ -537,8 +536,7 @@
         console.log("Current location for login redirect "+document.location.href);
         //Come back to the current page after login. 
         //redirect_url = document.location.href;
-				//edited redirect page to schoolregistration page so every user who logs in will be prompted to fill up their schools.
-        redirect_url = "http://"+document.location.host+"/kat-gui/app/index.html#/profile";
+        redirect_url = "http://"+document.location.host+"/kat/index.html#/profile";
         
         janrain.settings.tokenUrl = auth_url+'?target='+redirect_url;
 
@@ -604,11 +602,7 @@
                 </li>                
                 <li>
                   <a type="button" ng-click="firstLoad(mobile_paths[0].path_id)">Practice</a>
-                </li>
-               
-                <li>
-                  <a type="button" ng-click="checkRankingLogin()">Rankings</a>
-                </li>   
+                </li>  
                 <li>
                   <a type="button" ng-click="checkFeedbackLogin()">Feedback</a>
                 </li>
@@ -618,10 +612,13 @@
                     <b class="caret"></b></a>                  
                   <ul class="dropdown-menu">                    
                     <li>
+                      <a href="#tournaments">Tournaments</a>
+                    </li> 
+                    <li>
                       <a type="button" ng-click="checkChallengesLogin()">Challenges</a>
                     </li> 
                     <li>
-                      <a href="#tournaments">Tournaments</a>
+                      <a type="button" ng-click="checkRankingLogin()">Rankings</a>
                     </li>                                                 
                     <li class="divider"></li>                    
                     <li class="nav-header">Create</li>
@@ -735,6 +732,7 @@
 <script src="assets/js/bootstrap-typeahead.js"></script>  
 <script src="assets/js/bootstrap-datepicker.js"></script>  
 <script src="./js/jquery.fancybox.js"></script>
+
 <script>
     !function ($) {
       $(function(){
