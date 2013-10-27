@@ -30,6 +30,7 @@ var myAppConfig = angular.module('myAppConfig', ['ngCookies','ngResource', 'anal
     $routeProvider.when('/masterycoaching_quiz', {templateUrl: 'bisa/masterycoaching_quiz.html', controller: IndexController});
     $routeProvider.when('/schoolregistration', {templateUrl: 'partials/schoolregistration.html', controller: IndexController});
     $routeProvider.when('/schoolregistrationstats', {templateUrl: 'partials/schoolregistrationstats.html', controller: IndexController});
+    $routeProvider.when('/schoolsmap', {templateUrl: 'partials/schoolsmap.html', controller: IndexController});
     $routeProvider.otherwise({redirectTo: '/home'});
 }]);
 

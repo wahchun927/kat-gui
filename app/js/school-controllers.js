@@ -14,11 +14,11 @@ function SchoolController($scope,$resource){
         $scope.filter_subtype = "ALL";
         $scope.filter_school = "ALL";
         
-        $scope.supported_years = ["ALL",2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015];
+        $scope.supported_years = ["ALL",2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016];
         $scope.supported_schooltypes = ['ALL','Secondary','Tertiary','University'];
         $scope.supported_subtypes = ['ALL','JC','Poly'];
         $scope.supported_schools = [];//[{"id":"ALL","name":"ALL"},{"id":1,"name":"A"},{"id":2,"name":"B"}];
-        
+
         $scope.update_supported = function(){
             //Run this on any select change events.
             $scope.filtered_registrations = [];
@@ -174,5 +174,44 @@ function SchoolController($scope,$resource){
           }); 
           
         };
+        
+        //settings for map
+        angular.extend($scope,{
+          center: {
+            lat: 1.352083,
+            lng: 103.819836,
+            zoom: 11
+          },
 
+         mainMarker:{
+            lat: 1.2966608,
+            lng: 103.819836,
+            message: "Singapore Management University",
+            draggable: false
+          }
+
+          //sample for multiple markers (not working)
+          /*markers2:{
+            Singapore Management University: {
+              lat:1.2966608
+              lng:103.8498862
+              draggable: false
+            },
+            Nanyang Technological University: {
+              lat:1.344557
+              lng:103.681004
+              draggable: false
+            },
+            National University of Singapore: {
+              lat:1.2933539
+              lng:103.7703561
+              draggable: false
+            },
+            Singapore Polytechnic: {
+              lat:1.3094155
+              lng:103.7796128
+              draggable: false
+            }
+          }*/
+        });
 }

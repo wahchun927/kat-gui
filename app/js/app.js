@@ -1,5 +1,5 @@
 'use strict';
-var myApp = angular.module('myApp', ['myAppConfig']);
+var myApp = angular.module('myApp', ['myAppConfig', 'leaflet-directive']);
 
 myApp.directive('datepicker', function() {
     return {
