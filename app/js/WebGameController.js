@@ -96,15 +96,16 @@ function WebGameController($scope,$resource,$cookieStore,$timeout){
       //$scope.current_problem
       //$scope.game.gameID
 
-      //Update the iFrames when run is clicked. 
+      //Update the iFrames when run is clicked.
+      $scope.theTab=1; 
       $scope.fill_iframe();
       //$scope.fill_example_iframe();
       $scope.fill_test_iframe();
 
-      //$('#t11').removeClass('active');
-      //$('#t21').addClass('active');
-      //$('#ta11').removeClass('active');
-      //$('#ta21').addClass('active');
+      $('#t11').removeClass('active');
+      $('#t21').addClass('active');
+      $('#ta11').removeClass('active');
+      $('#ta21').addClass('active');
       $scope.SaveResource = $resource('/jsonapi/verify_for_game');
       //alert($scope.game.gameID);
       $scope.theData = {user_code:$scope.solution1,

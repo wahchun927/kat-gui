@@ -667,23 +667,23 @@
                         <div id="tab21" class="tabbable">
                             <ul class="nav nav-tabs">
                                 <li id = "ta11" class="tabspacing active">
-                                  <a href="" data-toggle="tab" ng-click="theTab=0">Test</a>
+                                  <a href="" data-toggle="tab" ng-click="theTab=0">Your Code</a>
                                 </li>
                                 <li id = "ta21" class="tabspacing">
-                                  <a href="" data-toggle="tab" ng-click="theTab=1">Your Result</a>
+                                  <a href="" data-toggle="tab" ng-click="theTab=1">Tests</a>
                                 </li>  
                             </ul>
                             <div class="tab-content">
                               <div ng-show="theTab" style="height:317px;">
                                 <input type="submit" value="reload" ng-click="fill_test_iframe()">
                                 
-                                {{issues}} issue(s) to correct. {{counter}}<br>
+                                {{issues}} issue(s) to correct.<br>
                                 <iframe id="testIframe" height="320" width="400" src=""></iframe>
                               </div>
                               <div ng-show="!theTab" style="height:317px;">
                                 
                                 <input type="submit" value="refresh" ng-click="fill_iframe()">
-                                {{counter}}<br>
+                                in {{counter}} seconds<br>
                                 
                                 
                                 <iframe id="anIframe" src=""></iframe><br>
