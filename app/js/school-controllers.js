@@ -8,6 +8,7 @@ function SchoolController($scope,$resource){
         $scope.school_statistics = {};
         $scope.filtered_registrations = [];
         $scope.filtered_count = {};
+        $scope.schoolMarkers = [];
         
         $scope.filter_year = "ALL";
         $scope.filter_schooltype = "ALL";
@@ -174,6 +175,23 @@ function SchoolController($scope,$resource){
           }); 
           
         };
+
+        //function to add markers from schools
+        $scope.get_markers = function(){
+          $resource('/jsonapi/schools/SG').get({},function(response){
+              $scope.schools = response;
+              console.log("test")
+              $scope.supported_schools = $scope.schools.Secondary.concat($scope.schools.Tertiary).concat($scope.schools.University);
+
+              for (var i = 0; i < $scope.supported_schools.length; i++) {
+                //var marker = {$scope.supported_schools[i].id : {"lat":$scope.supported_schools[i].latitude, "lng":$scope.supported_schools[i].longitude, "message":$scope.supported_schools[i].name, "draggable":false},};
+                var marker = {test : {"lat": 1.2966608, "lng": 103.819836, "message": "Singapore Management University", "draggable": false }};
+
+                $scope.schoolMarkers.push(marker);
+              };
+              console.log("Markers are " + angular.toJson($scope.schoolMarkers));
+          }); 
+        };
         
         //settings for map
         angular.extend($scope,{
@@ -188,30 +206,11 @@ function SchoolController($scope,$resource){
             lng: 103.819836,
             message: "Singapore Management University",
             draggable: false
-          }
-
-          //sample for multiple markers (not working)
-          /*markers2:{
-            Singapore Management University: {
-              lat:1.2966608
-              lng:103.8498862
-              draggable: false
-            },
-            Nanyang Technological University: {
-              lat:1.344557
-              lng:103.681004
-              draggable: false
-            },
-            National University of Singapore: {
-              lat:1.2933539
-              lng:103.7703561
-              draggable: false
-            },
-            Singapore Polytechnic: {
-              lat:1.3094155
-              lng:103.7796128
-              draggable: false
-            }
-          }*/
+          },
+        
+          //initialize for multiple markers 
+          markers2:{}
         });
+
+        $scope.markers2 = $scope.schoolMarkers;
 }
