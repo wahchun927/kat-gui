@@ -207,7 +207,31 @@ function SchoolController($scope,$resource){
             message: "Singapore Management University",
             draggable: false
           },
-        
+          
+          //static data for multiple markers
+         /* markers2:{
+            smu: {
+              lat:1.2966608,
+              lng:103.8498862,
+              draggable: false
+            },
+            ntu: {
+              lat:1.344557,
+              lng:103.681004,
+              draggable: false
+            },
+            nus: {
+              lat:1.2933539,
+              lng:103.7703561,
+              draggable: false
+            },
+            sp: {
+              lat:1.3094155,
+              lng:103.7796128,
+              draggable: false
+            }
+          }*/
+
           //initialize for multiple markers 
           markers2:{}
         });
