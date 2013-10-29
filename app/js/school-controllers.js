@@ -8,7 +8,7 @@ function SchoolController($scope,$resource){
         $scope.school_statistics = {};
         $scope.filtered_registrations = [];
         $scope.filtered_count = {};
-        $scope.schoolMarkers = [];
+        $scope.schoolMarkers = {};
         
         $scope.filter_year = "ALL";
         $scope.filter_schooltype = "ALL";
@@ -184,8 +184,8 @@ function SchoolController($scope,$resource){
               $scope.supported_schools = $scope.schools.Secondary.concat($scope.schools.Tertiary).concat($scope.schools.University);
 
               for (var i = 0; i < $scope.supported_schools.length; i++) {
-                //var marker = {$scope.supported_schools[i].id : {"lat":$scope.supported_schools[i].latitude, "lng":$scope.supported_schools[i].longitude, "message":$scope.supported_schools[i].name, "draggable":false},};
-                var marker = {test : {"lat": 1.2966608, "lng": 103.819836, "message": "Singapore Management University", "draggable": false }};
+                var marker = {$scope.supported_schools[i].id : {"lat":$scope.supported_schools[i].latitude, "lng":$scope.supported_schools[i].longitude, "message":$scope.supported_schools[i].name, "draggable":false},};
+                //var marker = {test : {"lat": 1.2966608, "lng": 103.819836, "message": "Singapore Management University", "draggable": false }};
 
                 $scope.schoolMarkers.push(marker);
               };
@@ -201,12 +201,12 @@ function SchoolController($scope,$resource){
             zoom: 11
           },
 
-         mainMarker:{
+         /*mainMarker:{
             lat: 1.2966608,
             lng: 103.819836,
             message: "Singapore Management University",
             draggable: false
-          },
+          },*/
           
           //static data for multiple markers
          /* markers2:{
