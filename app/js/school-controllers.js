@@ -8,7 +8,7 @@ function SchoolController($scope,$resource){
         $scope.school_statistics = {};
         $scope.filtered_registrations = [];
         $scope.filtered_count = {};
-        $scope.schoolMarkers = {};
+        $scope.schoolMarkers = [];
         
         $scope.filter_year = "ALL";
         $scope.filter_schooltype = "ALL";
@@ -25,6 +25,8 @@ function SchoolController($scope,$resource){
             $scope.filtered_registrations = [];
             $scope.filtered_total = 0;
             $scope.filtered_count = {};
+
+            console.log("update_supported");
         
             for(var i=0; i<$scope.school_registrations.length; i++){
               if ($scope.filter_schooltype == "ALL" || $scope.filter_schooltype==$scope.school_registrations[i].schooltype){
@@ -69,7 +71,7 @@ function SchoolController($scope,$resource){
         };
 
         $scope.get_schools = function(){
-          
+          console.log("get_schools");
           $resource('/jsonapi/schools/SG').get({},function(response){
               $scope.schools = response;
 
@@ -176,23 +178,26 @@ function SchoolController($scope,$resource){
           
         };
 
+
         //function to add markers from schools
-        $scope.get_markers = function(){
+        $scope.get_marker = function(){
+          
           $resource('/jsonapi/schools/SG').get({},function(response){
               $scope.schools = response;
-              console.log("test")
               $scope.supported_schools = $scope.schools.Secondary.concat($scope.schools.Tertiary).concat($scope.schools.University);
 
               for (var i = 0; i < $scope.supported_schools.length; i++) {
-                var marker = {$scope.supported_schools[i].id : {"lat":$scope.supported_schools[i].latitude, "lng":$scope.supported_schools[i].longitude, "message":$scope.supported_schools[i].name, "draggable":false},};
+                var temp = $scope.supported_schools[i].id;
+                var marker = { temp : {lat:$scope.supported_schools[i].latitude, lng:$scope.supported_schools[i].longitude, message:$scope.supported_schools[i].name}};
+                //console.log(marker);
                 //var marker = {test : {"lat": 1.2966608, "lng": 103.819836, "message": "Singapore Management University", "draggable": false }};
 
                 $scope.schoolMarkers.push(marker);
               };
-              console.log("Markers are " + angular.toJson($scope.schoolMarkers));
           }); 
         };
-        
+
+
         //settings for map
         angular.extend($scope,{
           center: {
@@ -209,25 +214,29 @@ function SchoolController($scope,$resource){
           },*/
           
           //static data for multiple markers
-         /* markers2:{
+          /*markers2:{
             smu: {
               lat:1.2966608,
               lng:103.8498862,
+              message: "Singapore Management University",
               draggable: false
             },
             ntu: {
               lat:1.344557,
               lng:103.681004,
+              message:"Nanyang Technological University",
               draggable: false
             },
             nus: {
               lat:1.2933539,
               lng:103.7703561,
+              message:"National University of Singapore",
               draggable: false
             },
             sp: {
               lat:1.3094155,
               lng:103.7796128,
+              message:"Singapore Polytechnic",
               draggable: false
             }
           }*/
