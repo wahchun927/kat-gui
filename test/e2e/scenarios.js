@@ -211,6 +211,16 @@ describe('Loading all partials defined by routings', function() {
       if (pauseAll) pause();
   });
 
+  it('should render schoolsmap when user navigates to #schoolsmap', function() {
+      
+      browser().navigateTo('#schoolsmap');
+      
+      expect(browser().location().url()).toBe("/schoolsmap");
+      //You can select all the text from all h5 or any other html element
+      //expect(element('.ng-binding').text()).
+      //  toMatch("Welcome, Ruijun!");
+      if (pauseAll) pause();
+  });
 
 });
 

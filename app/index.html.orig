@@ -20,7 +20,12 @@
     <script src="./js/jquery-ui.min.js"></script>
     <script src="./js/fancybox-fire.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<<<<<<< HEAD
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    
+=======
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>    
+>>>>>>> upstream2/master
     <style>    /* GLOBAL STYLES     -------------------------------------------------
     /* GLOBAL STYLES
     -------------------------------------------------- */
@@ -536,7 +541,12 @@
         console.log("Current location for login redirect "+document.location.href);
         //Come back to the current page after login. 
         //redirect_url = document.location.href;
+<<<<<<< HEAD
+				//edited redirect page to schoolregistration page so every user who logs in will be prompted to fill up their schools.
+        redirect_url = "http://"+document.location.host+"/kat-gui/app/index.html#/profile";
+=======
         redirect_url = "http://"+document.location.host+"/kat/index.html#/profile";
+>>>>>>> upstream2/master
         
         janrain.settings.tokenUrl = auth_url+'?target='+redirect_url;
 
@@ -713,8 +723,6 @@
 <!-- End Deployment Comment -->
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script src="./js/angular-leaflet-directive.min.js"></script>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
-<script src="./js/angular-google-maps.js"></script>
 <script src="js/services.js"></script>    
 <script src="js/filters.js"></script>    
 <script src="js/directives.js"></script>    
