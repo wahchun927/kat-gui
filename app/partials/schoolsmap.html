@@ -1,9 +1,17 @@
 </br>
 </br>
-<div ng-controller="SchoolController" ng-init="get_marker();" class="container" id="registration" style="position:relative;">
+<div ng-controller="SchoolController" ng-init="get_marker()" class="container" id="registration" style="position:relative;">
 	
-	<div class="row-fluid">
-		
-		<leaflet width="100%" height="480px" center="center" marker="mainMarker" markers="markers2"></leaflet>
-	</div>
+	<div class="google-map" 
+                center="position.coords"
+                zoom="zoomProperty" 
+                markers="schoolMarkers"
+                latitude="clickedLatitudeProperty"
+                longitude="clickedLongitudeProperty"
+                mark-click="false"
+                draggable="true"
+                fit="false"
+                events="eventsProperty"
+                style="height: 700px; width: 100%">
+        </div>
 <div>

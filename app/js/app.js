@@ -1,5 +1,5 @@
 'use strict';
-var myApp = angular.module('myApp', ['myAppConfig', 'leaflet-directive']);
+var myApp = angular.module('myApp', ['myAppConfig', 'google-maps']);
 
 myApp.directive('datepicker', function() {
     return {

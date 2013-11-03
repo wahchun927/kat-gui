@@ -188,62 +188,36 @@ function SchoolController($scope,$resource){
 
               for (var i = 0; i < $scope.supported_schools.length; i++) {
                 var temp = $scope.supported_schools[i].id;
-                var marker = { temp : {lat:$scope.supported_schools[i].latitude, lng:$scope.supported_schools[i].longitude, message:$scope.supported_schools[i].name}};
+                var marker = {latitude:$scope.supported_schools[i].latitude, longitude:$scope.supported_schools[i].longitude};
                 //console.log(marker);
                 //var marker = {test : {"lat": 1.2966608, "lng": 103.819836, "message": "Singapore Management University", "draggable": false }};
 
                 $scope.schoolMarkers.push(marker);
               };
+
+              console.log($scope.schoolMarkers);
           }); 
         };
 
 
         //settings for map
         angular.extend($scope,{
-          center: {
-            lat: 1.352083,
-            lng: 103.819836,
-            zoom: 11
-          },
+          position: {
+              coords: {
+                latitude: 1.352083,
+                longitude: 103.819836
+              }
+            },
 
-         /*mainMarker:{
-            lat: 1.2966608,
-            lng: 103.819836,
-            message: "Singapore Management University",
-            draggable: false
-          },*/
-          
-          //static data for multiple markers
-          /*markers2:{
-            smu: {
-              lat:1.2966608,
-              lng:103.8498862,
-              message: "Singapore Management University",
-              draggable: false
-            },
-            ntu: {
-              lat:1.344557,
-              lng:103.681004,
-              message:"Nanyang Technological University",
-              draggable: false
-            },
-            nus: {
-              lat:1.2933539,
-              lng:103.7703561,
-              message:"National University of Singapore",
-              draggable: false
-            },
-            sp: {
-              lat:1.3094155,
-              lng:103.7796128,
-              message:"Singapore Polytechnic",
-              draggable: false
-            }
-          }*/
+          centerProperty: {
+                        latitude: 1.352083,
+                        longitude: 103.819836,
+                },
+          zoomProperty: 12,
 
-          //initialize for multiple markers 
-          markers2:{}
+          clickedLatitudeProperty: null,        
+          clickedLongitudeProperty: null,
+
         });
-
-        $scope.markers2 = $scope.schoolMarkers;
+        
 }
