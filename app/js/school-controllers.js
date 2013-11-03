@@ -9,6 +9,7 @@ function SchoolController($scope,$resource){
         $scope.filtered_registrations = [];
         $scope.filtered_count = {};
         $scope.schoolMarkers = [];
+        $scope.school_registrations = {};
         
         $scope.filter_year = "ALL";
         $scope.filter_schooltype = "ALL";
@@ -181,21 +182,87 @@ function SchoolController($scope,$resource){
 
         //function to add markers from schools
         $scope.get_marker = function(){
+          $scope.schoolMarkers.length = 0;
           
+          $resource('/jsonapi/school_registration').query({}, function(response){
+            $scope.school_registrations = response;
+          });
+
+
           $resource('/jsonapi/schools/SG').get({},function(response){
               $scope.schools = response;
-              $scope.supported_schools = $scope.schools.Secondary.concat($scope.schools.Tertiary).concat($scope.schools.University);
 
-              for (var i = 0; i < $scope.supported_schools.length; i++) {
-                var temp = $scope.supported_schools[i].id;
-                var marker = {latitude:$scope.supported_schools[i].latitude, longitude:$scope.supported_schools[i].longitude};
-                //console.log(marker);
-                //var marker = {test : {"lat": 1.2966608, "lng": 103.819836, "message": "Singapore Management University", "draggable": false }};
+              if($scope.filter_schooltype == "ALL"){
+                $scope.supported_schools = $scope.schools.Secondary.concat($scope.schools.Tertiary).concat($scope.schools.University);
 
-                $scope.schoolMarkers.push(marker);
-              };
+                for (var i = 0; i < $scope.supported_schools.length; i++) {
+                  var temp = $scope.supported_schools[i].id;
+                  var schTotal = 0;
 
-              console.log($scope.schoolMarkers);
+                  for (var j = 0; j < $scope.school_registrations.length; j++) {
+                    if (temp == $scope.school_registrations[j].school){
+                      schTotal++;
+                    }
+                  };
+
+                  var schMsg = $scope.supported_schools[i].name + "<br/> Total registrations: " + schTotal;
+
+                  var marker = {latitude:$scope.supported_schools[i].latitude, longitude:$scope.supported_schools[i].longitude, infoWindow:schMsg};
+                  //console.log(marker);
+                  //var marker = {test : {"lat": 1.2966608, "lng": 103.819836, "message": "Singapore Management University", "draggable": false }};
+
+                  $scope.schoolMarkers.push(marker);
+                };
+              }else if($scope.filter_schooltype == "University"){
+                for (var i = 0; i < $scope.schools.University.length; i++) {
+                  var temp = $scope.schools.University[i].id;
+                  var schTotal = 0;
+
+                  for (var j = 0; j < $scope.school_registrations.length; j++) {
+                    if (temp == $scope.school_registrations[j].school){
+                      schTotal++;
+                    }
+                  };
+
+                  var schMsg = $scope.supported_schools[i].name + "<br/> Total registrations: " + schTotal;
+
+                  var marker = {latitude:$scope.schools.University[i].latitude, longitude:$scope.schools.University[i].longitude, infoWindow:schMsg};
+                  $scope.schoolMarkers.push(marker);
+                };
+              }else if($scope.filter_schooltype == "Tertiary"){
+                for (var i = 0; i < $scope.schools.Tertiary.length; i++) {
+                  var temp = $scope.schools.Tertiary[i].id;
+                  var schTotal = 0;
+
+                  for (var j = 0; j < $scope.school_registrations.length; j++) {
+                    if (temp == $scope.school_registrations[j].school){
+                      schTotal++;
+                    }
+                  };
+
+                  var schMsg = $scope.supported_schools[i].name + "<br/> Total registrations: " + schTotal;
+
+                  var marker = {latitude:$scope.schools.Tertiary[i].latitude, longitude:$scope.schools.Tertiary[i].longitude, infoWindow:schMsg};
+                  $scope.schoolMarkers.push(marker);
+                };
+              }else if($scope.filter_schooltype == "Secondary"){
+                for (var i = 0; i < $scope.schools.Secondary.length; i++) {
+                  var temp = $scope.schools.Secondary[i].id;
+                  var schTotal = 0;
+
+                  for (var j = 0; j < $scope.school_registrations.length; j++) {
+                    if (temp == $scope.school_registrations[j].school){
+                      schTotal++;
+                    }
+                  };
+
+                  var schMsg = $scope.supported_schools[i].name + "<br/> Total registrations: " + schTotal;
+
+                  var marker = {latitude:$scope.schools.Secondary[i].latitude, longitude:$scope.schools.Secondary[i].longitude, infoWindow:schMsg};
+                  $scope.schoolMarkers.push(marker);
+                };
+              }
+              //console.log($scope.schoolMarkers);
           }); 
         };
 
@@ -218,6 +285,9 @@ function SchoolController($scope,$resource){
           clickedLatitudeProperty: null,        
           clickedLongitudeProperty: null,
 
+          markers: {}
+
         });
         
+        $scope.markers = $scope.schoolMarkers;
 }
